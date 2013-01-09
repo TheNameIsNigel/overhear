@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Overhear</string>
+    <string name="albums_str">Albums</string>
+    <string name="artists_str">Artists</string>
+    <string name="songs_str">Songs</string>
+    <string name="genres_str">Genres</string>
+    <string name="bio_str">Bio</string>
+    <string name="failed_load_artist_bio">Error occurred while loading bio</string>
+    <string name="menu_settings">Settings</string>
+    <string name="no_albums">No albums</string>
+    <string name="no_artists">No artists</string>
+    <string name="no_songs">No songs</string>
+    <string name="no_genres">No genres</string>
+    <string name="now_playing">Now playing</string>
+    <string name="play_str">Play</string>
+    <string name="pause_str">Pause</string>
+    <string name="next_str">Next</string>
+    <string name="previous_str">Previous</string>
+	<string name="info_str">Info</string>
+    
+</resources>

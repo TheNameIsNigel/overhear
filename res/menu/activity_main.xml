@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/nowPlayingAction" android:title="@string/now_playing"
+		android:showAsAction="ifRoom" />
+	<item android:id="@+id/previousAction" android:title="@string/previous_str"
+		android:icon="@drawable/previous" android:showAsAction="ifRoom"/>
+	<item android:id="@+id/playPauseAction" android:title="@string/play_str"
+		android:icon="@drawable/play" android:showAsAction="ifRoom" />
+	<item android:id="@+id/nextAction" android:title="@string/next_str" android:icon="@drawable/next" android:showAsAction="ifRoom"></item>
+	<item android:id="@+id/infoAction" android:showAsAction="ifRoom" android:icon="@drawable/about" android:title="@string/info_str"></item>
+</menu>
