@@ -1,25 +1,22 @@
 package com.afollestad.overhear;
 
-import com.afollestad.overhearapi.Song;
+import com.afollestad.overhearapi.Genre;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class SongAdapter extends BaseAdapter {
+public class GenreAdapter extends BaseAdapter {
 
-	public SongAdapter(Context context, String album) {
+	public GenreAdapter(Context context) {
 		this.context = context;
-		this.album = album;
 	}
 
 	private Context context;
-	private Song[] items;
-	private String album;
+	private Genre[] items;
 
 	@Override
 	public int getCount() {
@@ -43,21 +40,20 @@ public class SongAdapter extends BaseAdapter {
 	
 	@Override
 	public void notifyDataSetChanged() {
-		items = Song.getAllSongs(context, album).toArray(new Song[0]);
+		items = Genre.getAllGenres(context).toArray(new Genre[0]);
 		super.notifyDataSetChanged();
 	}
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		RelativeLayout view;
+		TextView view;
 		if (convertView == null) {
-			view = (RelativeLayout)LayoutInflater.from(context).inflate(R.layout.song_item, null);
+			view = (TextView)LayoutInflater.from(context).inflate(R.layout.genre_item, null);
 		} else {
-			view = (RelativeLayout)convertView;
+			view = (TextView)convertView;
 		}
-		Song song = items[position];
-		((TextView)view.findViewById(R.id.title)).setText(song.getTitle());
-		((TextView)view.findViewById(R.id.duration)).setText(song.getDurationString());
+		Genre genre = items[position];
+		view.setText(genre.getName());
 		return view;
 	}
 }

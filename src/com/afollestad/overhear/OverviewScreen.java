@@ -27,7 +27,8 @@ public class OverviewScreen extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayShowTitleEnabled(false);
+		//getActionBar().setDisplayShowTitleEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
 		setContentView(R.layout.activity_main);
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -59,13 +60,15 @@ public class OverviewScreen extends FragmentActivity {
 				return new AlbumListFragment();
 			case 2:
 				return new ArtistListFragment();
+			case 3:
+				return new GenreListFragment();
 			}
 			return null;
 		}
 
 		@Override
 		public int getCount() {
-			return 3;
+			return 4;
 		}
 
 		@Override
@@ -77,6 +80,8 @@ public class OverviewScreen extends FragmentActivity {
 				return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
 			case 2:
 				return getString(R.string.artists_str).toUpperCase(Locale.getDefault());
+			case 3:
+				return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
 			}
 			return null;
 		}
@@ -160,6 +165,32 @@ public class OverviewScreen extends FragmentActivity {
 			getListView().setSmoothScrollbarEnabled(true);
 			getListView().setFastScrollEnabled(true);
 			setEmptyText(getString(R.string.no_songs));
+		}
+	}
+	
+	public static class GenreListFragment extends ListFragment {
+		
+		private GenreAdapter adapter;
+		
+		public GenreListFragment() {  }
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setRetainInstance(true);
+			adapter = new GenreAdapter(getActivity());
+			setListAdapter(adapter);
+			adapter.notifyDataSetChanged();
+		}
+		
+		@Override
+		public void onViewCreated(View view, Bundle savedInstanceState) {
+			super.onViewCreated(view, savedInstanceState);
+			int pad = Utils.convertDpToPx(getActivity(), 20f);
+			getListView().setPadding(pad, 0, pad, 0);
+			getListView().setSmoothScrollbarEnabled(true);
+			getListView().setFastScrollEnabled(true);
+			setEmptyText(getString(R.string.no_genres));
 		}
 	}
 }
