@@ -18,6 +18,6 @@
     <string name="pause_str">Pause</string>
     <string name="next_str">Next</string>
     <string name="previous_str">Previous</string>
-	<string name="info_str">Info</string>
-    
+    <string name="info_str">Info</string>
+
 </resources>

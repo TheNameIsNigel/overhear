@@ -5,6 +5,7 @@ import java.util.Locale;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Utils;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ListView;
 
 public class OverviewScreen extends FragmentActivity {
 
@@ -27,8 +29,6 @@ public class OverviewScreen extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//getActionBar().setDisplayShowTitleEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
 		setContentView(R.layout.activity_main);
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -111,6 +111,14 @@ public class OverviewScreen extends FragmentActivity {
 			getListView().setFastScrollEnabled(true);
 			setEmptyText(getString(R.string.no_albums));
 		}
+	
+		@Override
+		public void onListItemClick(ListView l, View v, int position, long id) {
+			super.onListItemClick(l, v, position, id);
+			Album album = (Album)adapter.getItem(position);
+			startActivity(new Intent(getActivity(), AlbumViewer.class)
+					.putExtra("album", album.getJSON().toString()));
+		}
 	}
 	
 	public static class ArtistListFragment extends Fragment {
@@ -160,7 +168,7 @@ public class OverviewScreen extends FragmentActivity {
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
-			int pad = Utils.convertDpToPx(getActivity(), 20f);
+			int pad = Utils.convertDpToPx(getActivity(), 15f);
 			getListView().setPadding(pad, 0, pad, 0);
 			getListView().setSmoothScrollbarEnabled(true);
 			getListView().setFastScrollEnabled(true);
@@ -186,7 +194,7 @@ public class OverviewScreen extends FragmentActivity {
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
-			int pad = Utils.convertDpToPx(getActivity(), 20f);
+			int pad = Utils.convertDpToPx(getActivity(), 15f);
 			getListView().setPadding(pad, 0, pad, 0);
 			getListView().setSmoothScrollbarEnabled(true);
 			getListView().setFastScrollEnabled(true);
