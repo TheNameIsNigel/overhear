@@ -140,16 +140,7 @@ public class OverviewScreen extends FragmentActivity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
 			View toreturn = inflater.inflate(R.layout.grid_fragment, null);
-			GridView grid = (GridView)toreturn.findViewById(R.id.gridView);
-			grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-					Artist artist = (Artist)adapter.getItem(position);
-					startActivity(new Intent(getActivity(), ArtistViewer.class)
-							.putExtra("artist", artist.getJSON().toString()));
-				}
-			});
-			grid.setAdapter(adapter);
+			((GridView)toreturn.findViewById(R.id.gridView)).setAdapter(adapter);
 			adapter.notifyDataSetChanged();
 			return toreturn;
 		}

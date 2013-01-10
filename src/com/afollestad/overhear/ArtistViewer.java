@@ -6,7 +6,6 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.afollestad.overhear.R.string;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
@@ -24,15 +23,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -162,7 +158,8 @@ public class ArtistViewer extends FragmentActivity {
 						mHandler.post(new Runnable() {
 							public void run() {
 								if(getView() != null) {
-									((TextView)getView().findViewById(R.id.bioAbout)).setText(info.getBioSummary());
+									((TextView)getView().findViewById(R.id.bioAbout)).setText(
+											Html.fromHtml(info.getBioSummary().replace("\n", "<br/>")));
 								}
 							}
 						});

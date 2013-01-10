@@ -8,6 +8,7 @@ import com.afollestad.overhearapi.LastFM;
 import com.afollestad.overhearapi.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
@@ -104,7 +105,7 @@ public class ArtistAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		RelativeLayout view;
 		if (convertView == null) {
 			view = (RelativeLayout)LayoutInflater.from(context).inflate(R.layout.grid_view_item, null);
@@ -114,7 +115,15 @@ public class ArtistAdapter extends BaseAdapter {
 				
 		Artist artist = items[position];
 		((TextView)view.findViewById(R.id.title)).setText(artist.getName());
-		final ImageView cover = (ImageView)view.findViewById(R.id.image); 
+		final ImageView cover = (ImageView)view.findViewById(R.id.image);
+		cover.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Artist artist = items[position];
+				context.startActivity(new Intent(context, ArtistViewer.class)
+						.putExtra("artist", artist.getJSON().toString()));
+			}
+		});
 
 		cover.setImageBitmap(null);
 		loadArtistPicture(context, artist, new WeakReference<ImageView>((ImageView)view.findViewById(R.id.image)), 
