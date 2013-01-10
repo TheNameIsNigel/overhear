@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 public class AlbumAdapter extends BaseAdapter {
 
-	public AlbumAdapter(Context context) {
+	public AlbumAdapter(Context context, String artist) {
 		this.context = context;
 		final int memClass = ((ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
 		// Use 1/8th of the available memory for this memory cache.
@@ -31,12 +31,14 @@ public class AlbumAdapter extends BaseAdapter {
 			}
 		};
 		mHandler = new Handler();
+		this.artist = artist;
 	}
 
 	private Context context;
 	private Handler mHandler;
 	private Album[] items;
 	private LruCache<String, Bitmap> mMemoryCache;
+	private String artist;
 
 	@Override
 	public int getCount() {
@@ -60,7 +62,10 @@ public class AlbumAdapter extends BaseAdapter {
 
 	@Override
 	public void notifyDataSetChanged() {
-		items = Album.getAllAlbums(context).toArray(new Album[0]);
+		if(artist != null)
+			items = Album.getAlbumsForArtist(context, artist).toArray(new Album[0]);
+		else 
+			items = Album.getAllAlbums(context).toArray(new Album[0]);
 		super.notifyDataSetChanged();
 	}
 	
@@ -91,7 +96,7 @@ public class AlbumAdapter extends BaseAdapter {
 		
 		Album album = items[position];
 		((TextView)view.findViewById(R.id.title)).setText(album.getName());
-		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist());
+		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist(context).getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image); 
 		
 		if(mMemoryCache.get(album.getAlbumId() + "") != null) {

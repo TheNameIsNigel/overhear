@@ -19,5 +19,6 @@
     <string name="next_str">Next</string>
     <string name="previous_str">Previous</string>
     <string name="info_str">Info</string>
+    <string name="about_str">About</string>
 
 </resources>

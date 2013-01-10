@@ -3,6 +3,7 @@ package com.afollestad.overhear;
 import java.util.Locale;
 
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Utils;
 
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -97,7 +99,7 @@ public class OverviewScreen extends FragmentActivity {
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
-			adapter = new AlbumAdapter(getActivity());
+			adapter = new AlbumAdapter(getActivity(), null);
 			setListAdapter(adapter);
 			adapter.notifyDataSetChanged();
 		}
@@ -139,6 +141,14 @@ public class OverviewScreen extends FragmentActivity {
 			super.onCreateView(inflater, container, savedInstanceState);
 			View toreturn = inflater.inflate(R.layout.grid_fragment, null);
 			GridView grid = (GridView)toreturn.findViewById(R.id.gridView);
+			grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+					Artist artist = (Artist)adapter.getItem(position);
+					startActivity(new Intent(getActivity(), ArtistViewer.class)
+							.putExtra("artist", artist.getJSON().toString()));
+				}
+			});
 			grid.setAdapter(adapter);
 			adapter.notifyDataSetChanged();
 			return toreturn;

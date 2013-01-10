@@ -1,11 +1,12 @@
 package com.afollestad.overhear;
 
+import java.lang.ref.WeakReference;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.afollestad.overhearapi.Album;
-import com.afollestad.overhearapi.LastFM;
-import com.afollestad.overhearapi.LastFM.ArtistInfo;
+import com.afollestad.overhearapi.Artist;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -18,6 +19,7 @@ import android.graphics.Bitmap;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,7 +28,7 @@ public class AlbumViewer extends Activity {
 
 	private SongAdapter adapter;
 	private Album album;
-	private ArtistInfo artistInfo;
+	private Artist artist;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +53,34 @@ public class AlbumViewer extends Activity {
 	private void load() {
 		try {
 			album = Album.fromJSON(new JSONObject(getIntent().getStringExtra("album")));
+			artist = album.getArtist(this);
 		} catch (JSONException e) {
 			throw new java.lang.Error(e.getMessage());
 		}
+		((TextView)findViewById(R.id.artistName)).setText(artist.getName());
 		adapter = new SongAdapter(this, album.getName());
 		setTitle(album.getName());
+		
+		findViewById(R.id.artistCover).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				startActivity(new Intent(AlbumViewer.this, ArtistViewer.class)
+						.putExtra("artist", artist.getJSON().toString()));
+			}
+		});
+		
+		ArtistAdapter.loadArtistPicture(getApplicationContext(), artist,
+				new WeakReference<ImageView>((ImageView)findViewById(R.id.artistCover)),
+				160f, 160f);
 		
 		final Handler mHandler = new Handler();
 		new Thread(new Runnable() {
 			public void run() {
 				try {
-					artistInfo = LastFM.getArtistInfo(album.getArtist());
 					final Bitmap albumCover = album.getAlbumArt(getApplicationContext(), 160f, 160f);
-					final Bitmap artistCover = artistInfo.getBioImage(getApplicationContext(), 160f, 160f, true);
 					mHandler.post(new Runnable() {
 						public void run() { 
 							((ImageView)findViewById(R.id.albumCover)).setImageBitmap(albumCover);
-							((ImageView)findViewById(R.id.artistCover)).setImageBitmap(artistCover);
-							((TextView)findViewById(R.id.artistName)).setText(artistInfo.getName());
 							invalidateOptionsMenu();
 						}
 					});
