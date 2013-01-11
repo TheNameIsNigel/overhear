@@ -6,6 +6,11 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import twitter4j.ResponseList;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.User;
+
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
@@ -23,10 +28,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -38,10 +45,11 @@ public class ArtistViewer extends FragmentActivity {
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 	public Artist artist;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_artist_viewer);
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -51,6 +59,7 @@ public class ArtistViewer extends FragmentActivity {
 		} catch (JSONException e) {
 			throw new Error(e.getMessage());
 		}
+		setTitle(artist.getName());
 		ArtistAdapter.loadArtistPicture(this, artist, new WeakReference<ImageView>(
 				(ImageView)findViewById(R.id.cover)), 360f, 180f);
 	}
@@ -71,9 +80,9 @@ public class ArtistViewer extends FragmentActivity {
 		public Fragment getItem(int position) {
 			switch(position) {
 			case 0:
-				return new BioListFragment();
-			case 1:
 				return new AlbumListFragment();
+			case 1:
+				return new BioListFragment();
 			}
 			return null;
 		}
@@ -87,18 +96,18 @@ public class ArtistViewer extends FragmentActivity {
 		public CharSequence getPageTitle(int position) {
 			switch (position) {
 			case 0:
-				return getString(R.string.bio_str).toUpperCase(Locale.getDefault());
-			case 1:
 				return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
+			case 1:
+				return getString(R.string.about_str).toUpperCase(Locale.getDefault());
 			}
 			return null;
 		}
 	}
-	
+
 	public static class AlbumListFragment extends ListFragment {
-		
+
 		private AlbumAdapter adapter;
-		
+
 		public AlbumListFragment() {  }
 
 		@Override
@@ -110,7 +119,7 @@ public class ArtistViewer extends FragmentActivity {
 			setListAdapter(adapter);
 			adapter.notifyDataSetChanged();
 		}
-		
+
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
@@ -120,35 +129,35 @@ public class ArtistViewer extends FragmentActivity {
 			getListView().setFastScrollEnabled(true);
 			setEmptyText(getString(R.string.no_albums));
 		}
-	
+
 		@Override
 		public void onListItemClick(ListView l, View v, int position, long id) {
 			super.onListItemClick(l, v, position, id);
 			Album album = (Album)adapter.getItem(position);
 			startActivity(new Intent(getActivity(), AlbumViewer.class)
-					.putExtra("album", album.getJSON().toString()));
+			.putExtra("album", album.getJSON().toString()));
 		}
 	}
-	
+
 	public static class BioListFragment extends Fragment {
-		
+
 		public BioListFragment() {  }
 
 		private Artist artist;
-		
+
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
 			artist = ((ArtistViewer)getActivity()).artist;
 		}
-		
+
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
 			return inflater.inflate(R.layout.bio_fragment, null);
 		}
-		
+
 		private void load() {
 			final Handler mHandler = new Handler();
 			new Thread(new Runnable() {
@@ -159,7 +168,7 @@ public class ArtistViewer extends FragmentActivity {
 							public void run() {
 								if(getView() != null) {
 									((TextView)getView().findViewById(R.id.bioAbout)).setText(
-											Html.fromHtml(info.getBioSummary().replace("\n", "<br/>")));
+											Html.fromHtml(info.getBioSummary()));
 								}
 							}
 						});
@@ -171,14 +180,59 @@ public class ArtistViewer extends FragmentActivity {
 							}
 						});
 					}
+
+					try {
+						Twitter twitter = TwitterFactory.getSingleton();
+						ResponseList<User> possibleUsers = twitter.searchUsers(artist.getName(), 0);
+						if(possibleUsers.size() == 0) {
+							System.out.println("No Twitter users results found!");
+						}
+						for(int i = 0; i < 4; i++) {
+							System.out.println(possibleUsers.get(i).getScreenName() + " is a match?");
+							if(possibleUsers.get(i).isVerified()) {
+								final User user = possibleUsers.get(i);
+								mHandler.post(new Runnable() {
+									public void run() {
+										if(getView() != null) {
+											((TextView)getView().findViewById(R.id.bioUpdates)).setText(
+													user.getStatus().getText());
+											String source = getString(R.string.social_update_source)
+													.replace("{time}", Utils.getFriendlyTime(user.getStatus().getCreatedAt()))
+													.replace("{user}", "@" + user.getScreenName())
+													.replace("{network}", "Twitter");
+											((TextView)getView().findViewById(R.id.bioUpdateSource)).setText(source);
+										}
+									}
+								});
+								break;
+							}
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+						mHandler.post(new Runnable() {
+							public void run() {
+								Crouton.makeText(getActivity(), R.string.failed_load_artist_updates, Style.ALERT);
+							}
+						});
+					}
 				}
 			}).start();
 		}
-		
+
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
 			load();
 		}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case android.R.id.home:
+			NavUtils.navigateUpTo(this, new Intent(this, OverviewScreen.class));
+			return true;
+		}
+		return false;
 	}
 }

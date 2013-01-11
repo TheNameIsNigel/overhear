@@ -52,8 +52,8 @@ public class AlbumViewer extends Activity {
 	
 	private void load() {
 		try {
-			album = Album.fromJSON(new JSONObject(getIntent().getStringExtra("album")));
-			artist = album.getArtist(this);
+			album = Album.fromJSON(this, new JSONObject(getIntent().getStringExtra("album")));
+			artist = album.getArtist();
 		} catch (JSONException e) {
 			throw new java.lang.Error(e.getMessage());
 		}

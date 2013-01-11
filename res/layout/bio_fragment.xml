@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="match_parent"
-	android:padding="20dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:layout_marginLeft="82dp" android:layout_toRightOf="@+id/bioAbout">
 
-	<TextView android:id="@+id/bioHeaderTwo" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="@string/about_str"
-		android:textStyle="bold" style="?android:listSeparatorTextViewStyle"
-		android:textColor="@android:color/holo_blue_light"
-		android:textAppearance="?android:attr/textAppearanceMedium" />
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:padding="20dp">
 
-	<TextView android:id="@+id/bioAbout" android:layout_width="wrap_content"
-	    android:paddingLeft="5dp" android:paddingRight="5dp"
-		android:layout_height="wrap_content" android:layout_marginTop="5dp"
-		android:layout_below="@+id/bioHeaderTwo" android:textAppearance="?android:attr/textAppearanceMedium" />
+		<TextView android:id="@+id/bioHeaderOne" style="?android:listSeparatorTextViewStyle"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:text="@string/updates_str" android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@android:color/holo_blue_light" android:textStyle="bold" />
 
-</RelativeLayout>
+		<TextView android:id="@+id/bioUpdates" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_below="@+id/bioHeaderOne"
+			android:layout_marginTop="5dp" android:paddingLeft="10dp"
+			android:paddingRight="10dp" android:textSize="20sp" />
+		<TextView android:id="@+id/bioUpdateSource"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_below="@+id/bioUpdates" android:layout_marginTop="2dp"
+			android:paddingLeft="10dp" android:textColor="@android:color/darker_gray"
+			android:paddingRight="10dp" android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		<TextView android:id="@+id/bioHeaderTwo" style="?android:listSeparatorTextViewStyle"
+			android:layout_marginTop="5dp" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_below="@+id/bioUpdateSource"
+			android:text="@string/bio_str" android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@android:color/holo_blue_light" android:textStyle="bold" />
+
+		<TextView android:id="@+id/bioAbout" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_below="@+id/bioHeaderTwo"
+			android:layout_marginTop="5dp" android:paddingLeft="10dp"
+			android:paddingRight="10dp" android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	</RelativeLayout>
+
+</ScrollView>

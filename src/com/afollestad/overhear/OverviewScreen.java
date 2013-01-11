@@ -3,11 +3,9 @@ package com.afollestad.overhear;
 import java.util.Locale;
 
 import com.afollestad.overhearapi.Album;
-import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Utils;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,8 +17,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 public class OverviewScreen extends FragmentActivity {
@@ -28,6 +26,11 @@ public class OverviewScreen extends FragmentActivity {
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 
+	private void updateNowPlayingBar() {
+		((ImageView)findViewById(R.id.playing)).setImageBitmap(
+				Album.getAllAlbums(this).get(7).getAlbumArt(this, 35f, 35f));
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,13 +40,13 @@ public class OverviewScreen extends FragmentActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setCurrentItem(1); //Default to albums page
+		
+		updateNowPlayingBar();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
-		menu.findItem(R.id.nowPlayingAction).setIcon(new BitmapDrawable(getResources(), 
-				Album.getAllAlbums(this).get(7).getAlbumArt(this, 56f, 56f)));
 		return true;
 	}
 
@@ -139,8 +142,9 @@ public class OverviewScreen extends FragmentActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
-			View toreturn = inflater.inflate(R.layout.grid_fragment, null);
-			((GridView)toreturn.findViewById(R.id.gridView)).setAdapter(adapter);
+			View toreturn = inflater.inflate(R.layout.grid_fragment, null); 
+			GridView grid = (GridView)toreturn.findViewById(R.id.gridView);
+			grid.setAdapter(adapter);
 			adapter.notifyDataSetChanged();
 			return toreturn;
 		}

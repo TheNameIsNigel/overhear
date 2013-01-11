@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.afollestad.overhear"
-    android:versionCode="1"
-    android:versionName="0.1 Beta" >
+	package="com.afollestad.overhear" android:versionCode="1"
+	android:versionName="0.1 Beta">
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="17" />
+	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="17" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.INTERNET" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo" >
-        <activity
-            android:name="com.afollestad.overhear.OverviewScreen"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/app_name"
-            android:uiOptions="splitActionBarWhenNarrow" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<application android:allowBackup="true" android:icon="@drawable/launcher"
+		android:label="@string/app_name" android:theme="@android:style/Theme.Holo">
+		<activity android:name="com.afollestad.overhear.OverviewScreen"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:label="@string/app_name" android:uiOptions="splitActionBarWhenNarrow">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.afollestad.overhear.AlbumViewer" android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name="com.afollestad.overhear.ArtistViewer" android:configChanges="keyboardHidden|orientation|screenSize">
-        </activity>
-    </application>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name="com.afollestad.overhear.AlbumViewer"
+			android:configChanges="keyboardHidden|orientation|screenSize" />
+		<activity android:name="com.afollestad.overhear.ArtistViewer"
+			android:configChanges="keyboardHidden|orientation|screenSize" />
+
+		<activity android:name="com.afollestad.overhear.LoginHandler"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:hardwareAccelerated="true" android:label="@string/login_str" />
+	</application>
 
 </manifest>

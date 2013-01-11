@@ -3,10 +3,13 @@
 	android:layout_width="fill_parent" android:layout_height="wrap_content">
 
 	<ImageView android:id="@+id/cover" android:layout_width="fill_parent"
-		android:layout_height="140dp" android:scaleType="centerCrop" />
+		android:layout_height="160dp" android:scaleType="centerCrop" />
+	<View android:id="@+id/coverDivider" android:layout_below="@+id/cover"
+		android:background="@android:color/holo_blue_light"
+		android:layout_width="fill_parent" android:layout_height="2dp" />
 
 	<android.support.v4.view.ViewPager
-		android:layout_below="@+id/cover" xmlns:tools="http://schemas.android.com/tools"
+		android:layout_below="@+id/coverDivider" xmlns:tools="http://schemas.android.com/tools"
 		android:id="@+id/pager" android:layout_width="match_parent"
 		android:layout_height="match_parent" tools:context=".ArtistViewer">
 

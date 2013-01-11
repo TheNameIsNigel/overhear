@@ -47,7 +47,7 @@ public class ArtistAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int index) {
-		return items[index].getId();
+		return index;
 	}
 
 	@Override

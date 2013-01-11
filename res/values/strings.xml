@@ -20,5 +20,9 @@
     <string name="previous_str">Previous</string>
     <string name="info_str">Info</string>
     <string name="about_str">About</string>
-
+    <string name="updates_str">Updates</string>
+    <string name="social_update_source">{time} via {user} on {network}</string>
+    <string name="failed_load_artist_updates">Failed to load social updates</string>
+	<string name="login_str">Login</string>
+    
 </resources>

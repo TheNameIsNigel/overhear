@@ -2,6 +2,7 @@ package com.afollestad.overhear;
 
 import java.lang.ref.WeakReference;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -93,10 +94,20 @@ public class AlbumAdapter extends BaseAdapter {
 		} else {
 			view = (RelativeLayout)convertView;
 		}
+
+		int padDef = Utils.convertDpToPx(context, 10f);
+		int pad = Utils.convertDpToPx(context, 15f);
+		if(position == 0) {
+			view.setPadding(0, pad, 0, padDef);
+		} else if(position == getCount() - 1) {
+			view.setPadding(0, padDef, 0, pad);
+		} else {
+			view.setPadding(0, padDef, 0, padDef);
+		}
 		
 		Album album = items[position];
 		((TextView)view.findViewById(R.id.title)).setText(album.getName());
-		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist(context).getName());
+		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image); 
 		
 		if(mMemoryCache.get(album.getAlbumId() + "") != null) {
