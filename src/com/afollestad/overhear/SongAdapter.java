@@ -14,15 +14,17 @@ import android.widget.TextView;
 
 public class SongAdapter extends BaseAdapter {
 
-	public SongAdapter(Context context, String album) {
+	public SongAdapter(Context context, String album, String artist) {
 		this.context = context;
 		this.album = album;
+		this.artist = artist;
 	}
 
 	private Context context;
 	private Song[] items;
 	private String album;
-
+	private String artist;
+	
 	private AnimationDrawable mPeakOneAnimation, mPeakTwoAnimation;
 
 	@Override
@@ -45,9 +47,13 @@ public class SongAdapter extends BaseAdapter {
 		return items[index].getId();
 	}
 
-	@Override
-	public void notifyDataSetChanged() {
-		items = Song.getAllSongs(context, album).toArray(new Song[0]);
+	public void loadSongs() {
+		if(album != null)
+			items = Song.getSongsByAlbum(context, album).toArray(new Song[0]);
+		else if(artist != null)
+			items = Song.getSongsByArtist(context, artist).toArray(new Song[0]);
+		else 
+			items = Song.getAllSongs(context).toArray(new Song[0]);
 		super.notifyDataSetChanged();
 	}
 
@@ -69,7 +75,9 @@ public class SongAdapter extends BaseAdapter {
 		peakTwo.setImageResource(R.anim.peak_meter_2);
 		mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
-		if(position == 0) { //Is playing
+		
+		Song nowPlaying = MusicUtils.getNowPlaying(context);
+		if(nowPlaying != null && song.getId() == nowPlaying.getId()) {
 			peakOne.setVisibility(View.VISIBLE);
 			peakTwo.setVisibility(View.VISIBLE);
 			mPeakOneAnimation.start();

@@ -12,6 +12,7 @@
         android:fastScrollEnabled="true"
         android:gravity="center_horizontal"
         android:numColumns="auto_fit"
-        android:smoothScrollbar="true" />
+        android:smoothScrollbar="true"
+        android:drawSelectorOnTop="true" />
 
 </RelativeLayout>

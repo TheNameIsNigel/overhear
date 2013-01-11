@@ -38,8 +38,7 @@ public class GenreAdapter extends BaseAdapter {
 		return items[index].getId();
 	}
 	
-	@Override
-	public void notifyDataSetChanged() {
+	public void loadGenres() {
 		items = Genre.getAllGenres(context).toArray(new Genre[0]);
 		super.notifyDataSetChanged();
 	}

@@ -2,11 +2,13 @@ package com.afollestad.overhear;
 
 import java.lang.ref.WeakReference;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.util.LruCache;
 import android.view.LayoutInflater;
@@ -40,6 +42,8 @@ public class AlbumAdapter extends BaseAdapter {
 	private Album[] items;
 	private LruCache<String, Bitmap> mMemoryCache;
 	private String artist;
+	
+	private AnimationDrawable mPeakOneAnimation, mPeakTwoAnimation;
 
 	@Override
 	public int getCount() {
@@ -61,8 +65,7 @@ public class AlbumAdapter extends BaseAdapter {
 		return items[index].getAlbumId();
 	}
 
-	@Override
-	public void notifyDataSetChanged() {
+	public void loadAlbums() {
 		if(artist != null)
 			items = Album.getAlbumsForArtist(context, artist).toArray(new Album[0]);
 		else 
@@ -118,6 +121,27 @@ public class AlbumAdapter extends BaseAdapter {
 			cover.setImageBitmap(null);
 			loadAlbumCover(album, new WeakReference<ImageView>((ImageView)view.findViewById(R.id.image)));
 		}
+		
+		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
+		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
+		peakOne.setImageResource(R.anim.peak_meter_1);
+		peakTwo.setImageResource(R.anim.peak_meter_2);
+		mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
+		mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
+		
+		Song nowPlaying = MusicUtils.getNowPlaying(context);
+		if(nowPlaying != null && album.getName().equals(nowPlaying.getAlbum())) {
+			peakOne.setVisibility(View.VISIBLE);
+			peakTwo.setVisibility(View.VISIBLE);
+			mPeakOneAnimation.start();
+			mPeakTwoAnimation.start();
+		} else {
+			peakOne.setVisibility(View.GONE);
+			peakTwo.setVisibility(View.GONE);
+			mPeakOneAnimation.stop();
+			mPeakTwoAnimation.stop();
+		}
+		
 		return view;
 	}
 }

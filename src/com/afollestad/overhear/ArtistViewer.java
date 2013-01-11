@@ -13,6 +13,7 @@ import twitter4j.User;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
+import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.LastFM.ArtistInfo;
 import com.afollestad.overhearapi.Utils;
 
@@ -54,6 +55,7 @@ public class ArtistViewer extends Activity {
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		mViewPager.setCurrentItem(1);
 		try {
 			artist = Artist.fromJSON(new JSONObject(getIntent().getStringExtra("artist")));
 		} catch (JSONException e) {
@@ -80,24 +82,28 @@ public class ArtistViewer extends Activity {
 		public Fragment getItem(int position) {
 			switch(position) {
 			case 0:
-				return new AlbumListFragment();
+				return new SongListFragment();
 			case 1:
-				return new BioListFragment();
+				return new AlbumListFragment();
+			case 2:
+				return new BioListFragment();				
 			}
 			return null;
 		}
 
 		@Override
 		public int getCount() {
-			return 2;
+			return 3;
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
 			switch (position) {
 			case 0:
-				return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
+				return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
 			case 1:
+				return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
+			case 2:
 				return getString(R.string.about_str).toUpperCase(Locale.getDefault());
 			}
 			return null;
@@ -117,9 +123,15 @@ public class ArtistViewer extends Activity {
 			String artist = ((ArtistViewer)getActivity()).artist.getName();
 			adapter = new AlbumAdapter(getActivity(), artist);
 			setListAdapter(adapter);
-			adapter.notifyDataSetChanged();
+			adapter.loadAlbums();
 		}
 
+		@Override
+		public void onResume() {
+			super.onResume();
+			adapter.notifyDataSetChanged();
+		}
+		
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
@@ -138,6 +150,47 @@ public class ArtistViewer extends Activity {
 			.putExtra("album", album.getJSON().toString()));
 		}
 	}
+	
+	public static class SongListFragment extends ListFragment {
+
+		private SongAdapter adapter;
+
+		public SongListFragment() {  }
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setRetainInstance(true);
+			String artist = ((ArtistViewer)getActivity()).artist.getName();
+			adapter = new SongAdapter(getActivity(), null, artist);
+			setListAdapter(adapter);
+			adapter.loadSongs();
+		}
+
+		@Override
+		public void onResume() {
+			super.onResume();
+			adapter.notifyDataSetChanged();
+		}
+		
+		@Override
+		public void onViewCreated(View view, Bundle savedInstanceState) {
+			super.onViewCreated(view, savedInstanceState);
+			int pad = Utils.convertDpToPx(getActivity(), 20f);
+			getListView().setPadding(pad, 0, pad, 0);
+			getListView().setSmoothScrollbarEnabled(true);
+			getListView().setFastScrollEnabled(true);
+			setEmptyText(getString(R.string.no_albums));
+		}
+
+		@Override
+		public void onListItemClick(ListView l, View v, int position, long id) {
+			super.onListItemClick(l, v, position, id);
+			Song song = (Song)adapter.getItem(position);
+			MusicUtils.setNowPlaying(getActivity(), song);
+			adapter.notifyDataSetChanged();
+		}
+	}
 
 	public static class BioListFragment extends Fragment {
 
@@ -153,7 +206,7 @@ public class ArtistViewer extends Activity {
 			setRetainInstance(true);
 			artist = ((ArtistViewer)getActivity()).artist;
 		}
-
+		
 		@Override
 		public void onActivityResult(int requestCode, int resultCode, Intent data) {
 			super.onActivityResult(requestCode, resultCode, data);
@@ -188,11 +241,11 @@ public class ArtistViewer extends Activity {
 						mHandler.post(new Runnable() {
 							public void run() {
 								if(getView() != null) {
-									if(info.getBioSummary() == null || info.getBioSummary().trim().isEmpty()) {
+									if(info.getBioContent() == null || info.getBioContent().trim().isEmpty()) {
 										((TextView)getView().findViewById(R.id.bioAbout)).setText(R.string.no_bio_str);
 									} else {
 										((TextView)getView().findViewById(R.id.bioAbout)).setText(
-												Html.fromHtml(info.getBioSummary()));
+												Html.fromHtml(info.getBioContent()));
 									}
 								}
 							}
@@ -275,6 +328,7 @@ public class ArtistViewer extends Activity {
 							});
 						}
 					} catch(Exception e) {
+						((Button)getView().findViewById(R.id.bioUpdatesAction)).setText(R.string.error_str);
 						e.printStackTrace();
 						mHandler.post(new Runnable() {
 							public void run() {

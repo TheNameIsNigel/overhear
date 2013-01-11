@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
+import com.afollestad.overhearapi.Song;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -19,6 +20,7 @@ import android.graphics.Bitmap;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +39,20 @@ public class AlbumViewer extends Activity {
 		load();
 		ListView list = (ListView)findViewById(R.id.songList);
 		list.setAdapter(adapter);
+		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view, int index, long id) {
+				Song song = (Song)adapter.getItem(index);
+				MusicUtils.setNowPlaying(AlbumViewer.this, song);
+				adapter.notifyDataSetChanged();
+			}
+		});
+		adapter.loadSongs();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
 		adapter.notifyDataSetChanged();
 	}
 	
@@ -57,7 +73,7 @@ public class AlbumViewer extends Activity {
 			throw new java.lang.Error(e.getMessage());
 		}
 		((TextView)findViewById(R.id.artistName)).setText(artist.getName());
-		adapter = new SongAdapter(this, album.getName());
+		adapter = new SongAdapter(this, album.getName(), null);
 		setTitle(album.getName());
 		
 		findViewById(R.id.artistCover).setOnClickListener(new View.OnClickListener() {

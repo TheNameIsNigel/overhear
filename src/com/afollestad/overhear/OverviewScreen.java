@@ -6,6 +6,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 
 import android.app.Activity;
@@ -111,6 +112,12 @@ public class OverviewScreen extends Activity {
 			setRetainInstance(true);
 			adapter = new AlbumAdapter(getActivity(), null);
 			setListAdapter(adapter);
+			adapter.loadAlbums();
+		}
+		
+		@Override
+		public void onResume() {
+			super.onResume();
 			adapter.notifyDataSetChanged();
 		}
 		
@@ -147,12 +154,18 @@ public class OverviewScreen extends Activity {
 		}
 		
 		@Override
+		public void onResume() {
+			super.onResume();
+			adapter.notifyDataSetChanged();
+		}
+		
+		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
 			View toreturn = inflater.inflate(R.layout.grid_fragment, null); 
 			GridView grid = (GridView)toreturn.findViewById(R.id.gridView);
 			grid.setAdapter(adapter);
-			adapter.notifyDataSetChanged();
+			adapter.loadArtists();
 			return toreturn;
 		}
 		
@@ -172,8 +185,14 @@ public class OverviewScreen extends Activity {
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
-			adapter = new SongAdapter(getActivity(), null);
+			adapter = new SongAdapter(getActivity(), null, null);
 			setListAdapter(adapter);
+			adapter.loadSongs();
+		}
+		
+		@Override
+		public void onResume() {
+			super.onResume();
 			adapter.notifyDataSetChanged();
 		}
 		
@@ -185,6 +204,14 @@ public class OverviewScreen extends Activity {
 			getListView().setSmoothScrollbarEnabled(true);
 			getListView().setFastScrollEnabled(true);
 			setEmptyText(getString(R.string.no_songs));
+		}
+
+		@Override
+		public void onListItemClick(ListView l, View v, int position, long id) {
+			super.onListItemClick(l, v, position, id);
+			Song song = (Song)adapter.getItem(position);
+			MusicUtils.setNowPlaying(getActivity(), song);
+			adapter.notifyDataSetChanged();
 		}
 	}
 	
@@ -200,6 +227,12 @@ public class OverviewScreen extends Activity {
 			setRetainInstance(true);
 			adapter = new GenreAdapter(getActivity());
 			setListAdapter(adapter);
+			adapter.loadGenres();
+		}
+		
+		@Override
+		public void onResume() {
+			super.onResume();
 			adapter.notifyDataSetChanged();
 		}
 		

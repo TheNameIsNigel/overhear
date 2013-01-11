@@ -5,12 +5,14 @@ import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
+import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -30,6 +32,8 @@ public class ArtistAdapter extends BaseAdapter {
 	private Context context;
 	private Artist[] items;
 
+	private AnimationDrawable mPeakOneAnimation, mPeakTwoAnimation;
+	
 	@Override
 	public int getCount() {
 		if(items == null)
@@ -50,8 +54,7 @@ public class ArtistAdapter extends BaseAdapter {
 		return index;
 	}
 
-	@Override
-	public void notifyDataSetChanged() {
+	public void loadArtists() {
 		items = Artist.getAllArtists(context).toArray(new Artist[0]);
 		super.notifyDataSetChanged();
 	}
@@ -128,6 +131,26 @@ public class ArtistAdapter extends BaseAdapter {
 		cover.setImageBitmap(null);
 		loadArtistPicture(context, artist, new WeakReference<ImageView>((ImageView)view.findViewById(R.id.image)), 
 				180f, 180f);
+		
+		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
+		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
+		peakOne.setImageResource(R.anim.peak_meter_1);
+		peakTwo.setImageResource(R.anim.peak_meter_2);
+		mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
+		mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
+		
+		Song nowPlaying = MusicUtils.getNowPlaying(context);
+		if(nowPlaying != null && artist.getName().equals(nowPlaying.getArtist())) {
+			peakOne.setVisibility(View.VISIBLE);
+			peakTwo.setVisibility(View.VISIBLE);
+			mPeakOneAnimation.start();
+			mPeakTwoAnimation.start();
+		} else {
+			peakOne.setVisibility(View.GONE);
+			peakTwo.setVisibility(View.GONE);
+			mPeakOneAnimation.stop();
+			mPeakTwoAnimation.stop();
+		}
 		
 		return view;
 	}
