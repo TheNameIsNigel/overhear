@@ -8,7 +8,6 @@ import org.json.JSONObject;
 
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
 import twitter4j.User;
 
 import com.afollestad.overhearapi.Album;
@@ -28,7 +27,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -61,7 +59,7 @@ public class ArtistViewer extends FragmentActivity {
 		}
 		setTitle(artist.getName());
 		ArtistAdapter.loadArtistPicture(this, artist, new WeakReference<ImageView>(
-				(ImageView)findViewById(R.id.cover)), 360f, 180f);
+				(ImageView)findViewById(R.id.cover)), 180f, 180f);
 	}
 
 	@Override
@@ -144,7 +142,8 @@ public class ArtistViewer extends FragmentActivity {
 		public BioListFragment() {  }
 
 		private Artist artist;
-
+		private final int LOGIN_HANDER_RESULT = 600;
+		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
@@ -182,20 +181,34 @@ public class ArtistViewer extends FragmentActivity {
 					}
 
 					try {
-						Twitter twitter = TwitterFactory.getSingleton();
-						ResponseList<User> possibleUsers = twitter.searchUsers(artist.getName(), 0);
-						if(possibleUsers.size() == 0) {
-							System.out.println("No Twitter users results found!");
+						Twitter twitter = LoginHandler.getTwitterInstance(getActivity(), true);
+						if(twitter == null) {
+							mHandler.post(new Runnable() {
+								public void run() {
+									TextView login = (TextView)getView().findViewById(R.id.bioUpdates);
+									login.setText(R.string.login_twiter_for_updates);
+									login.setOnClickListener(new View.OnClickListener() {
+										@Override
+										public void onClick(View arg0) {
+											startActivityForResult(new Intent(getActivity(), LoginHandler.class), LOGIN_HANDER_RESULT);
+										}
+									});
+									((TextView)getView().findViewById(R.id.bioUpdateSource)).setText(null);
+								}
+							});
+							return;
 						}
+						ResponseList<User> possibleUsers = twitter.searchUsers(artist.getName(), 0);
+						boolean found = false;
 						for(int i = 0; i < 4; i++) {
-							System.out.println(possibleUsers.get(i).getScreenName() + " is a match?");
 							if(possibleUsers.get(i).isVerified()) {
 								final User user = possibleUsers.get(i);
 								mHandler.post(new Runnable() {
 									public void run() {
 										if(getView() != null) {
-											((TextView)getView().findViewById(R.id.bioUpdates)).setText(
-													user.getStatus().getText());
+											TextView updates = (TextView)getView().findViewById(R.id.bioUpdates);
+											updates.setText(user.getStatus().getText());
+											updates.setOnClickListener(null);
 											String source = getString(R.string.social_update_source)
 													.replace("{time}", Utils.getFriendlyTime(user.getStatus().getCreatedAt()))
 													.replace("{user}", "@" + user.getScreenName())
@@ -204,8 +217,17 @@ public class ArtistViewer extends FragmentActivity {
 										}
 									}
 								});
+								found = true;
 								break;
 							}
+						}
+						if(!found) {
+							mHandler.post(new Runnable() {
+								public void run() { 
+									((TextView)getView().findViewById(R.id.bioUpdates)).setText(R.string.no_social_profile);
+									((TextView)getView().findViewById(R.id.bioUpdateSource)).setText(null);
+								}
+							});
 						}
 					} catch(Exception e) {
 						e.printStackTrace();
@@ -225,12 +247,12 @@ public class ArtistViewer extends FragmentActivity {
 			load();
 		}
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpTo(this, new Intent(this, OverviewScreen.class));
+			finish();
 			return true;
 		}
 		return false;

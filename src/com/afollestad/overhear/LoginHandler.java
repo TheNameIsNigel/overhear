@@ -24,18 +24,20 @@ public class LoginHandler extends Activity {
 
 	private Twitter twitter;
 	public static Twitter getTwitterInstance(Context context, boolean nullIfNotAuthenticated) {
-		Twitter twitter = TwitterFactory.getSingleton();
-		twitter.setOAuthConsumer("DlG3XT5adlDNRKUkZMMvA", "hDzUkzmge2gHwBP6AWdLNql2q2fdAN61enmfJBooZU");
-
+		Twitter client = TwitterFactory.getSingleton();
 		SharedPreferences prefs = context.getSharedPreferences("twitter_account", 0);
 		String token = prefs.getString("token", null);
 		String secret = prefs.getString("secret", null);
-		if((token == null || secret == null) && nullIfNotAuthenticated) {
-			return null;
+		if(token == null || secret == null) {
+			if(nullIfNotAuthenticated)
+				return null;
+			else
+				client.setOAuthAccessToken(null);
+		} else {
+			client.setOAuthAccessToken(new AccessToken(token, secret));
 		}
-		twitter.setOAuthAccessToken(new AccessToken(token, secret));
 
-		return twitter;
+		return client;
 	}
 
 	@Override
@@ -43,7 +45,7 @@ public class LoginHandler extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_handler);
 
-		WebView view = (WebView)findViewById(R.id.webView);
+		final WebView view = (WebView)findViewById(R.id.webView);
 		view.getSettings().setJavaScriptEnabled(true);
 		view.getSettings().setAppCacheEnabled(false);
 		view.setWebViewClient(new WebViewClient() {
@@ -100,15 +102,22 @@ public class LoginHandler extends Activity {
 			}
 		});
 
-		RequestToken requestToken = null;
 		twitter = getTwitterInstance(this, false);
-		try {
-			requestToken = twitter.getOAuthRequestToken("overhear://callback");
-		} catch (TwitterException e) {
-			e.printStackTrace();
-			Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-			return;
-		}
-		view.loadUrl(requestToken.getAuthenticationURL());
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					final RequestToken requestToken = twitter.getOAuthRequestToken("overhear://callback");
+					runOnUiThread(new Runnable() {
+						public void run() {
+							view.loadUrl(requestToken.getAuthorizationURL());
+						}
+					});
+				} catch (TwitterException e) {
+					e.printStackTrace();
+					Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+					return;
+				}
+			}
+		}).start();
 	}
 }

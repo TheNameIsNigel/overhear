@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,7 +105,7 @@ public class AlbumViewer extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpTo(this, new Intent(this, OverviewScreen.class));
+			finish();
 			return true;
 		}
 		return false;

@@ -2,6 +2,9 @@ package com.afollestad.overhear;
 
 import java.util.Locale;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Utils;
 
@@ -40,6 +43,10 @@ public class OverviewScreen extends FragmentActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setCurrentItem(1); //Default to albums page
+		
+		//The singleton will keep itself in memory
+		Twitter client = TwitterFactory.getSingleton();
+		client.setOAuthConsumer("DlG3XT5adlDNRKUkZMMvA", "hDzUkzmge2gHwBP6AWdLNql2q2fdAN61enmfJBooZU");
 		
 		updateNowPlayingBar();
 	}
