@@ -3,10 +3,12 @@ package com.afollestad.overhear;
 import com.afollestad.overhearapi.Song;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +22,8 @@ public class SongAdapter extends BaseAdapter {
 	private Context context;
 	private Song[] items;
 	private String album;
+
+	private AnimationDrawable mPeakOneAnimation, mPeakTwoAnimation;
 
 	@Override
 	public int getCount() {
@@ -40,13 +44,13 @@ public class SongAdapter extends BaseAdapter {
 	public long getItemId(int index) {
 		return items[index].getId();
 	}
-	
+
 	@Override
 	public void notifyDataSetChanged() {
 		items = Song.getAllSongs(context, album).toArray(new Song[0]);
 		super.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		RelativeLayout view;
@@ -58,6 +62,25 @@ public class SongAdapter extends BaseAdapter {
 		Song song = items[position];
 		((TextView)view.findViewById(R.id.title)).setText(song.getTitle());
 		((TextView)view.findViewById(R.id.duration)).setText(song.getDurationString());
+
+		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
+		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
+		peakOne.setImageResource(R.anim.peak_meter_1);
+		peakTwo.setImageResource(R.anim.peak_meter_2);
+		mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
+		mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
+		if(position == 0) { //Is playing
+			peakOne.setVisibility(View.VISIBLE);
+			peakTwo.setVisibility(View.VISIBLE);
+			mPeakOneAnimation.start();
+			mPeakTwoAnimation.start();
+		} else {
+			peakOne.setVisibility(View.GONE);
+			peakTwo.setVisibility(View.GONE);
+			mPeakOneAnimation.stop();
+			mPeakTwoAnimation.stop();
+		}
+
 		return view;
 	}
 }

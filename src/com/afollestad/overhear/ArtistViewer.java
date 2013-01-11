@@ -19,14 +19,15 @@ import com.afollestad.overhearapi.Utils;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.ListFragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.ListFragment;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -34,11 +35,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ArtistViewer extends FragmentActivity {
+public class ArtistViewer extends Activity {
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
@@ -49,7 +51,7 @@ public class ArtistViewer extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_artist_viewer);
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		try {
@@ -142,8 +144,9 @@ public class ArtistViewer extends FragmentActivity {
 		public BioListFragment() {  }
 
 		private Artist artist;
+		private User twitterUser;
 		private final int LOGIN_HANDER_RESULT = 600;
-		
+
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
@@ -152,12 +155,31 @@ public class ArtistViewer extends FragmentActivity {
 		}
 
 		@Override
+		public void onActivityResult(int requestCode, int resultCode, Intent data) {
+			super.onActivityResult(requestCode, resultCode, data);
+			if(requestCode == LOGIN_HANDER_RESULT && resultCode == RESULT_OK) {
+				loadTwitter();
+			}
+		}
+		
+		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
-			return inflater.inflate(R.layout.bio_fragment, null);
+			View view = inflater.inflate(R.layout.bio_fragment, null);
+			view.findViewById(R.id.socialUpdates).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(twitterUser == null)
+						return;
+					Uri uri = Uri.parse("https://twitter.com/" + twitterUser.getScreenName() +
+							"/status/" + twitterUser.getStatus().getId());
+					startActivity(new Intent(Intent.ACTION_VIEW).setData(uri));
+				}
+			});
+			return view;
 		}
 
-		private void load() {
+		private void loadLastFm() {
 			final Handler mHandler = new Handler();
 			new Thread(new Runnable() {
 				public void run() {
@@ -166,8 +188,12 @@ public class ArtistViewer extends FragmentActivity {
 						mHandler.post(new Runnable() {
 							public void run() {
 								if(getView() != null) {
-									((TextView)getView().findViewById(R.id.bioAbout)).setText(
-											Html.fromHtml(info.getBioSummary()));
+									if(info.getBioSummary() == null || info.getBioSummary().trim().isEmpty()) {
+										((TextView)getView().findViewById(R.id.bioAbout)).setText(R.string.no_bio_str);
+									} else {
+										((TextView)getView().findViewById(R.id.bioAbout)).setText(
+												Html.fromHtml(info.getBioSummary()));
+									}
 								}
 							}
 						});
@@ -176,56 +202,75 @@ public class ArtistViewer extends FragmentActivity {
 						mHandler.post(new Runnable() {
 							public void run() {
 								Crouton.makeText(getActivity(), R.string.failed_load_artist_bio, Style.ALERT);
+								((TextView)getView().findViewById(R.id.bioAbout)).setText(R.string.failed_load_artist_bio);
 							}
 						});
 					}
+				}
+			}).start();
+		}
 
+		private void loadTwitter() {
+			final Handler mHandler = new Handler();
+			new Thread(new Runnable() {
+				public void run() {
 					try {
 						Twitter twitter = LoginHandler.getTwitterInstance(getActivity(), true);
 						if(twitter == null) {
 							mHandler.post(new Runnable() {
 								public void run() {
-									TextView login = (TextView)getView().findViewById(R.id.bioUpdates);
-									login.setText(R.string.login_twiter_for_updates);
-									login.setOnClickListener(new View.OnClickListener() {
+									Button action = (Button)getView().findViewById(R.id.bioUpdatesAction);
+									action.setEnabled(true);
+									action.setVisibility(View.VISIBLE);
+									action.setText(R.string.login_twitter);
+									action.setOnClickListener(new View.OnClickListener() {
 										@Override
 										public void onClick(View arg0) {
 											startActivityForResult(new Intent(getActivity(), LoginHandler.class), LOGIN_HANDER_RESULT);
 										}
 									});
-									((TextView)getView().findViewById(R.id.bioUpdateSource)).setText(null);
+									getView().findViewById(R.id.bioUpdateSource).setVisibility(View.GONE);
+									getView().findViewById(R.id.bioUpdates).findViewById(View.GONE);
 								}
 							});
 							return;
 						}
 						ResponseList<User> possibleUsers = twitter.searchUsers(artist.getName(), 0);
 						boolean found = false;
-						for(int i = 0; i < 4; i++) {
-							if(possibleUsers.get(i).isVerified()) {
-								final User user = possibleUsers.get(i);
-								mHandler.post(new Runnable() {
-									public void run() {
-										if(getView() != null) {
-											TextView updates = (TextView)getView().findViewById(R.id.bioUpdates);
-											updates.setText(user.getStatus().getText());
-											updates.setOnClickListener(null);
-											String source = getString(R.string.social_update_source)
-													.replace("{time}", Utils.getFriendlyTime(user.getStatus().getCreatedAt()))
-													.replace("{user}", "@" + user.getScreenName())
-													.replace("{network}", "Twitter");
-											((TextView)getView().findViewById(R.id.bioUpdateSource)).setText(source);
+						if(possibleUsers.size() > 0) {
+							for(int i = 0; i < possibleUsers.size(); i++) {
+								if(possibleUsers.get(i).isVerified()) {
+									twitterUser = possibleUsers.get(i);
+									mHandler.post(new Runnable() {
+										public void run() {
+											if(getView() != null) {
+												getView().findViewById(R.id.bioUpdatesAction).setVisibility(View.GONE);
+												TextView updates = (TextView)getView().findViewById(R.id.bioUpdates);
+												updates.setText(twitterUser.getStatus().getText());
+												updates.setVisibility(View.VISIBLE);
+												String source = getString(R.string.social_update_source)
+														.replace("{time}", Utils.getFriendlyTime(twitterUser.getStatus().getCreatedAt()))
+														.replace("{user}", "@" + twitterUser.getScreenName())
+														.replace("{network}", "Twitter");
+												TextView sourceTxt = (TextView)getView().findViewById(R.id.bioUpdateSource);
+												sourceTxt.setText(source);
+												sourceTxt.setVisibility(View.VISIBLE);
+											}
 										}
-									}
-								});
-								found = true;
-								break;
+									});
+									found = true;
+									break;
+								}
 							}
 						}
 						if(!found) {
 							mHandler.post(new Runnable() {
 								public void run() { 
-									((TextView)getView().findViewById(R.id.bioUpdates)).setText(R.string.no_social_profile);
-									((TextView)getView().findViewById(R.id.bioUpdateSource)).setText(null);
+									TextView updates = (TextView)getView().findViewById(R.id.bioUpdates); 
+									updates.setText(R.string.no_social_profile);
+									updates.setVisibility(View.VISIBLE);
+									getView().findViewById(R.id.bioUpdateSource).setVisibility(View.GONE);
+									getView().findViewById(R.id.bioUpdatesAction).setVisibility(View.GONE);
 								}
 							});
 						}
@@ -244,7 +289,8 @@ public class ArtistViewer extends FragmentActivity {
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
-			load();
+			loadLastFm();
+			loadTwitter();
 		}
 	}
 

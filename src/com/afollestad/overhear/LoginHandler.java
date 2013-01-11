@@ -48,6 +48,8 @@ public class LoginHandler extends Activity {
 		final WebView view = (WebView)findViewById(R.id.webView);
 		view.getSettings().setJavaScriptEnabled(true);
 		view.getSettings().setAppCacheEnabled(false);
+		view.getSettings().setSaveFormData(false);
+		view.getSettings().setSavePassword(false);
 		view.setWebViewClient(new WebViewClient() {
 			
 			@Override
@@ -109,7 +111,7 @@ public class LoginHandler extends Activity {
 					final RequestToken requestToken = twitter.getOAuthRequestToken("overhear://callback");
 					runOnUiThread(new Runnable() {
 						public void run() {
-							view.loadUrl(requestToken.getAuthorizationURL());
+							view.loadUrl(requestToken.getAuthorizationURL() + "&force_login=true");
 						}
 					});
 				} catch (TwitterException e) {

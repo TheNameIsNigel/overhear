@@ -24,7 +24,10 @@
     <string name="social_update_source">{time} via {user} on {network}</string>
     <string name="failed_load_artist_updates">Failed to load social updates</string>
 	<string name="login_str">Login</string>
-	<string name="login_twiter_for_updates">Login to Twitter to get social updates for artists.</string>
-    <string name="no_social_profile">No Twitter profile was found for this artist!</string>
-	
+	<string name="login_twitter">Login to Twitter</string>
+    <string name="no_social_profile">No social profile was found</string>
+    <string name="no_bio_str">No biography was found</string>
+	<string name="follow_user">Follow {user}</string>
+	<string name="loading_str">Loading…</string>
+    
 </resources>
