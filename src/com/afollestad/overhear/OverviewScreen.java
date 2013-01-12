@@ -5,9 +5,11 @@ import java.util.Locale;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -24,12 +26,20 @@ public class OverviewScreen extends MusicBoundActivity {
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 
-	private void initializeNowPlayingBar() {
+	public void initializeNowPlayingBar() {
 		ImageView play = (ImageView)findViewById(R.id.play); 
 		play.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				updateNowPlayingBar();
+				if(getMusicService().isPlaying()) {
+					getMusicService().pauseTrack(getApplicationContext());
+				} else {
+					try {
+						getMusicService().resumeTrack(getApplicationContext());
+					} catch(Exception e) {
+						Crouton.makeText(OverviewScreen.this, e.getMessage(), Style.ALERT);
+					}
+				}
 			}
 		});
 		findViewById(R.id.playing).setOnClickListener(new View.OnClickListener() {
@@ -41,27 +51,20 @@ public class OverviewScreen extends MusicBoundActivity {
 	}
 	
 	private void updateNowPlayingBar() {
-		Song nowPlaying = null;
-		
-		if(MusicUtils.getNowPlaying(getApplicationContext()) == null) {
+		Song song = null;
+		if(getMusicService().isPlaying()) {
+			song = MusicUtils.getNowPlaying(this);
 			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.pause);
-			//TODO if last playing is null, start at the top of the current list?
-			nowPlaying = MusicUtils.getLastPlaying(getApplicationContext());
-			MusicUtils.setNowPlaying(getApplicationContext(), nowPlaying);
 		} else {
+			song = MusicUtils.getLastPlaying(this);
 			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.play);
-			MusicUtils.setLastPlaying(getApplicationContext(), MusicUtils.getNowPlaying(getApplicationContext()));
-			MusicUtils.setNowPlaying(getApplicationContext(), null);
 		}
-		
-		if(nowPlaying != null) {
-			Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum());
-			((ImageView)findViewById(R.id.playing)).setImageBitmap(album.getAlbumArt(this, 35f, 35f));
-		}
+		Album album = Album.getAlbum(getApplicationContext(), song.getAlbum());
+		((ImageView)findViewById(R.id.playing)).setImageBitmap(album.getAlbumArt(this, 35f, 35f));
 	}
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
@@ -72,13 +75,15 @@ public class OverviewScreen extends MusicBoundActivity {
 		
 		initializeNowPlayingBar();
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		updateNowPlayingBar();
+		if(isServiceBound()) {
+			updateNowPlayingBar();
+		}
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -127,7 +132,7 @@ public class OverviewScreen extends MusicBoundActivity {
 		}
 	}
 
-	public static class AlbumListFragment extends ListFragment {
+	public static class AlbumListFragment extends MusicListFragment {
 		
 		private AlbumAdapter adapter;
 		
@@ -165,9 +170,15 @@ public class OverviewScreen extends MusicBoundActivity {
 			startActivity(new Intent(getActivity(), AlbumViewer.class)
 					.putExtra("album", album.getJSON().toString()));
 		}
+
+		@Override
+		public void update() {
+			if(adapter != null)
+				adapter.notifyDataSetChanged();
+		}
 	}
 	
-	public static class ArtistListFragment extends Fragment {
+	public static class ArtistListFragment extends MusicFragment {
 		
 		private ArtistAdapter adapter;
 		
@@ -200,9 +211,16 @@ public class OverviewScreen extends MusicBoundActivity {
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
 		}
+
+	
+		@Override
+		public void update() {
+			if(adapter != null)
+				adapter.notifyDataSetChanged();
+		}
 	}
 	
-	public static class AllSongsListFragment extends ListFragment {
+	public static class AllSongsListFragment extends MusicListFragment {
 		
 		private SongAdapter adapter;
 		
@@ -237,12 +255,23 @@ public class OverviewScreen extends MusicBoundActivity {
 		public void onListItemClick(ListView l, View v, int position, long id) {
 			super.onListItemClick(l, v, position, id);
 			Song song = (Song)adapter.getItem(position);
-			MusicUtils.setNowPlaying(getActivity(), song);
+			try {
+				((MusicBoundActivity)getActivity()).getMusicService().playTrack(getActivity(), song);
+			} catch(Exception e) {
+				e.printStackTrace();
+				Crouton.makeText(getActivity(), "Failed to play " + song.getTitle(), Style.ALERT);
+			}
 			adapter.notifyDataSetChanged();
+		}
+	
+		@Override
+		public void update() {
+			if(adapter != null)
+				adapter.notifyDataSetChanged();
 		}
 	}
 	
-	public static class GenreListFragment extends ListFragment {
+	public static class GenreListFragment extends MusicListFragment {
 		
 		private GenreAdapter adapter;
 		
@@ -271,6 +300,32 @@ public class OverviewScreen extends MusicBoundActivity {
 			getListView().setSmoothScrollbarEnabled(true);
 			getListView().setFastScrollEnabled(true);
 			setEmptyText(getString(R.string.no_genres));
+		}
+
+		@Override
+		public void update() {
+			if(adapter != null)
+				adapter.notifyDataSetChanged();
+		}
+	}
+
+	
+	@Override
+	public void onBound() {
+		updateNowPlayingBar();
+	}
+
+
+	@Override
+	public void onServiceUpdate() {
+		updateNowPlayingBar();
+		for(int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+			Fragment frag = mSectionsPagerAdapter.getItem(i);
+			if(frag instanceof MusicFragment) {
+				((MusicFragment)frag).update();
+			} else if(frag instanceof MusicListFragment) {
+				((MusicListFragment)frag).update();
+			}
 		}
 	}
 }

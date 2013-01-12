@@ -48,6 +48,8 @@ public class ArtistViewer extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode == LOGIN_HANDER_RESULT && resultCode == RESULT_OK) {
+			mViewPager.setCurrentItem(2);
+			//TODO
 			BioListFragment bio = (BioListFragment)mSectionsPagerAdapter.getItem(2);
 			bio.loadTwitter();
 		}
@@ -78,7 +80,7 @@ public class ArtistViewer extends Activity {
 		getMenuInflater().inflate(R.menu.activity_artist_viewer, menu);
 		return true;
 	}
-
+	
 	public class SectionsPagerAdapter extends TaggedFragmentAdapter {
 
 		public SectionsPagerAdapter(FragmentManager fm) {

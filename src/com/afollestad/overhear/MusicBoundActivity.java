@@ -1,5 +1,6 @@
 package com.afollestad.overhear;
 
+import com.afollestad.overhear.MusicService.MusicActivityCallback;
 import com.afollestad.overhear.MusicService.MusicBinder;
 
 import android.app.Activity;
@@ -7,9 +8,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.IBinder;
 
-public class MusicBoundActivity extends Activity {
+public abstract class MusicBoundActivity extends Activity implements MusicActivityCallback {
 
 	MusicService mService;
 	boolean mBound;
@@ -22,16 +24,21 @@ public class MusicBoundActivity extends Activity {
 		return mBound;
 	}
 	
+	public abstract void onBound();
+	
+	public abstract void onServiceUpdate();
+	
 	@Override
-	public void onStart() {
-		super.onStart();
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		Intent intent = new Intent(this, MusicService.class);
+		startService(intent);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 	}
 	
 	@Override
-	public void onStop() {
-		super.onStop();
+	public void onDestroy() {
+		super.onDestroy();
 		unbindService(mConnection);
 	}
 	
@@ -39,8 +46,9 @@ public class MusicBoundActivity extends Activity {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
         	MusicBinder binder = (MusicBinder)service;
-            mService = binder.getService();
+            mService = binder.getService(MusicBoundActivity.this);
             mBound = true;
+            onBound();
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
