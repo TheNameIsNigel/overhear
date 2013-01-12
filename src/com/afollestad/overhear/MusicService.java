@@ -34,7 +34,7 @@ public class MusicService extends Service {
 	
 	public void playTrack(Context context, Song song) throws Exception {
 		nowPlaying = song;
-		MusicUtils.setLastPlaying(context, null);
+		MusicUtils.setLastPlaying(context, song);
 		if(player != null) {
 			player.stop();
 			player.release();
@@ -59,17 +59,14 @@ public class MusicService extends Service {
 	}
 	
 	public void resumeTrack(Context context) throws Exception {
+		Song last = MusicUtils.getLastPlaying(context);
 		if(preparedPlayer) {
 			player.start();
-			Song last = MusicUtils.getLastPlaying(context);
 			nowPlaying = last;
-			MusicUtils.setLastPlaying(context, null);
 			if(mCallback != null)
 				mCallback.onServiceUpdate();
-		} else {
-			Song last = MusicUtils.getLastPlaying(context);
-			if(last != null)
-				playTrack(context, last);
+		} else if(last != null) {
+			playTrack(context, last);
 		}
 	}
 	

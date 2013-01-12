@@ -56,10 +56,8 @@ public class OverviewScreen extends MusicBoundActivity {
 	private void updateNowPlayingBar() {
 		Song song = getMusicService().getNowPlaying();
 		if(song != null) {
-			Toast.makeText(getApplicationContext(), song.getTitle(), Toast.LENGTH_LONG).show();
 			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.pause);
 		} else {
-			Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_LONG).show();
 			song = MusicService.MusicUtils.getLastPlaying(this);
 			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.play);
 		}
@@ -91,7 +89,7 @@ public class OverviewScreen extends MusicBoundActivity {
 			getMusicService().setCallback(this);
 			updateNowPlayingBar();
 		}
-	}
+	}	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
