@@ -51,9 +51,8 @@ public class OverviewScreen extends MusicBoundActivity {
 	}
 	
 	private void updateNowPlayingBar() {
-		Song song = null;
-		if(getMusicService().isPlaying()) {
-			song = MusicUtils.getNowPlaying(this);
+		Song song = MusicUtils.getNowPlaying(this);
+		if(song != null) {
 			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.pause);
 		} else {
 			song = MusicUtils.getLastPlaying(this);

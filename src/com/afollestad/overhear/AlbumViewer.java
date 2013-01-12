@@ -14,7 +14,6 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.Menu;
@@ -25,14 +24,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class AlbumViewer extends Activity {
+public class AlbumViewer extends MusicBoundActivity {
 
 	private SongAdapter adapter;
 	private Album album;
 	private Artist artist;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_album_viewer);
@@ -43,7 +42,12 @@ public class AlbumViewer extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int index, long id) {
 				Song song = (Song)adapter.getItem(index);
-				MusicUtils.setNowPlaying(AlbumViewer.this, song);
+				try {
+					getMusicService().playTrack(getApplicationContext(), song);
+				} catch(Exception e) {
+					e.printStackTrace();
+					Crouton.makeText(AlbumViewer.this, "Failed to play " + song.getTitle(), Style.ALERT);
+				}
 				adapter.notifyDataSetChanged();
 			}
 		});
@@ -125,5 +129,15 @@ public class AlbumViewer extends Activity {
 			return true;
 		}
 		return false;
+	}
+
+
+	@Override
+	public void onBound() { }
+	
+
+	@Override
+	public void onServiceUpdate() {
+		adapter.notifyDataSetChanged();
 	}
 }

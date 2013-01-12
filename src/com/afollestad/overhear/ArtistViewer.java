@@ -17,10 +17,11 @@ import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.LastFM.ArtistInfo;
 import com.afollestad.overhearapi.Utils;
 
-import android.app.Activity;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.ListFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ArtistViewer extends Activity {
+public class ArtistViewer extends MusicBoundActivity {
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
@@ -56,7 +57,7 @@ public class ArtistViewer extends Activity {
 	}
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_artist_viewer);
@@ -119,7 +120,7 @@ public class ArtistViewer extends Activity {
 		}
 	}
 
-	public static class AlbumListFragment extends ListFragment {
+	public static class AlbumListFragment extends MusicListFragment {
 
 		private AlbumAdapter adapter;
 
@@ -158,9 +159,15 @@ public class ArtistViewer extends Activity {
 			startActivity(new Intent(getActivity(), AlbumViewer.class)
 			.putExtra("album", album.getJSON().toString()));
 		}
+	
+		@Override
+		public void update() {
+			if(adapter != null)
+				adapter.notifyDataSetChanged();
+		}
 	}
 	
-	public static class SongListFragment extends ListFragment {
+	public static class SongListFragment extends MusicListFragment {
 
 		private SongAdapter adapter;
 
@@ -196,8 +203,19 @@ public class ArtistViewer extends Activity {
 		public void onListItemClick(ListView l, View v, int position, long id) {
 			super.onListItemClick(l, v, position, id);
 			Song song = (Song)adapter.getItem(position);
-			MusicUtils.setNowPlaying(getActivity(), song);
+			try {
+				((MusicBoundActivity)getActivity()).getMusicService().playTrack(getActivity(), song);
+			} catch(Exception e) {
+				e.printStackTrace();
+				Crouton.makeText(getActivity(), "Failed to play " + song.getTitle(), Style.ALERT);
+			}
 			adapter.notifyDataSetChanged();
+		}
+	
+		@Override
+		public void update() {
+			if(adapter != null)
+				adapter.notifyDataSetChanged();
 		}
 	}
 
@@ -356,4 +374,20 @@ public class ArtistViewer extends Activity {
 		}
 		return false;
 	}
+
+	@Override
+	public void onBound() { }
+
+	@Override
+	public void onServiceUpdate() {
+		for(int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+			Fragment frag = mSectionsPagerAdapter.getItem(i);
+			if(frag instanceof MusicFragment) {
+				((MusicFragment)frag).update();
+			} else if(frag instanceof MusicListFragment) {
+				((MusicListFragment)frag).update();
+			}
+		}
+	}
+
 }
