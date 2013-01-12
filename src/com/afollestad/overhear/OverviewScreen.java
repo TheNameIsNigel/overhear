@@ -2,20 +2,14 @@ package com.afollestad.overhear;
 
 import java.util.Locale;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
-
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,14 +19,45 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-public class OverviewScreen extends Activity {
+public class OverviewScreen extends MusicBoundActivity {
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 
+	private void initializeNowPlayingBar() {
+		ImageView play = (ImageView)findViewById(R.id.play); 
+		play.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				updateNowPlayingBar();
+			}
+		});
+		findViewById(R.id.playing).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				//TODO open now playing screen 
+			}
+		});
+	}
+	
 	private void updateNowPlayingBar() {
-		((ImageView)findViewById(R.id.playing)).setImageBitmap(
-				Album.getAllAlbums(this).get(7).getAlbumArt(this, 35f, 35f));
+		Song nowPlaying = null;
+		
+		if(MusicUtils.getNowPlaying(getApplicationContext()) == null) {
+			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.pause);
+			//TODO if last playing is null, start at the top of the current list?
+			nowPlaying = MusicUtils.getLastPlaying(getApplicationContext());
+			MusicUtils.setNowPlaying(getApplicationContext(), nowPlaying);
+		} else {
+			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.play);
+			MusicUtils.setLastPlaying(getApplicationContext(), MusicUtils.getNowPlaying(getApplicationContext()));
+			MusicUtils.setNowPlaying(getApplicationContext(), null);
+		}
+		
+		if(nowPlaying != null) {
+			Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum());
+			((ImageView)findViewById(R.id.playing)).setImageBitmap(album.getAlbumArt(this, 35f, 35f));
+		}
 	}
 	
 	@Override
@@ -45,10 +70,12 @@ public class OverviewScreen extends Activity {
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setCurrentItem(1); //Default to albums page
 		
-		//The singleton will keep itself in memory, so set the consumer key and secret when app starts
-		Twitter client = TwitterFactory.getSingleton();
-		client.setOAuthConsumer("DlG3XT5adlDNRKUkZMMvA", "hDzUkzmge2gHwBP6AWdLNql2q2fdAN61enmfJBooZU");
-		
+		initializeNowPlayingBar();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
 		updateNowPlayingBar();
 	}
 
@@ -58,7 +85,7 @@ public class OverviewScreen extends Activity {
 		return true;
 	}
 
-	public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+	public class SectionsPagerAdapter extends TaggedFragmentAdapter {
 
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);

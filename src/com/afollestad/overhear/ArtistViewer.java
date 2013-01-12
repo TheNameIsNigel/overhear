@@ -17,9 +17,6 @@ import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.LastFM.ArtistInfo;
 import com.afollestad.overhearapi.Utils;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -28,9 +25,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +41,18 @@ public class ArtistViewer extends Activity {
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 	public Artist artist;
+	
+	public final static int LOGIN_HANDER_RESULT = 600;
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == LOGIN_HANDER_RESULT && resultCode == RESULT_OK) {
+			BioListFragment bio = (BioListFragment)mSectionsPagerAdapter.getItem(2);
+			bio.loadTwitter();
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,6 +61,7 @@ public class ArtistViewer extends Activity {
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		mViewPager.setOffscreenPageLimit(2);
 		mViewPager.setCurrentItem(1);
 		try {
 			artist = Artist.fromJSON(new JSONObject(getIntent().getStringExtra("artist")));
@@ -72,7 +79,7 @@ public class ArtistViewer extends Activity {
 		return true;
 	}
 
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+	public class SectionsPagerAdapter extends TaggedFragmentAdapter {
 
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
@@ -198,21 +205,12 @@ public class ArtistViewer extends Activity {
 
 		private Artist artist;
 		private User twitterUser;
-		private final int LOGIN_HANDER_RESULT = 600;
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
 			artist = ((ArtistViewer)getActivity()).artist;
-		}
-		
-		@Override
-		public void onActivityResult(int requestCode, int resultCode, Intent data) {
-			super.onActivityResult(requestCode, resultCode, data);
-			if(requestCode == LOGIN_HANDER_RESULT && resultCode == RESULT_OK) {
-				loadTwitter();
-			}
 		}
 		
 		@Override
@@ -241,11 +239,10 @@ public class ArtistViewer extends Activity {
 						mHandler.post(new Runnable() {
 							public void run() {
 								if(getView() != null) {
-									if(info.getBioContent() == null || info.getBioContent().trim().isEmpty()) {
+									if(info.getBioContent() == null) {
 										((TextView)getView().findViewById(R.id.bioAbout)).setText(R.string.no_bio_str);
 									} else {
-										((TextView)getView().findViewById(R.id.bioAbout)).setText(
-												Html.fromHtml(info.getBioContent()));
+										((TextView)getView().findViewById(R.id.bioAbout)).setText(info.getBioContent());
 									}
 								}
 							}
@@ -254,7 +251,6 @@ public class ArtistViewer extends Activity {
 						e.printStackTrace();
 						mHandler.post(new Runnable() {
 							public void run() {
-								Crouton.makeText(getActivity(), R.string.failed_load_artist_bio, Style.ALERT);
 								((TextView)getView().findViewById(R.id.bioAbout)).setText(R.string.failed_load_artist_bio);
 							}
 						});
@@ -279,7 +275,9 @@ public class ArtistViewer extends Activity {
 									action.setOnClickListener(new View.OnClickListener() {
 										@Override
 										public void onClick(View arg0) {
-											startActivityForResult(new Intent(getActivity(), LoginHandler.class), LOGIN_HANDER_RESULT);
+											getActivity().startActivityForResult(
+													new Intent(getActivity(), LoginHandler.class), 
+													ArtistViewer.LOGIN_HANDER_RESULT);
 										}
 									});
 									getView().findViewById(R.id.bioUpdateSource).setVisibility(View.GONE);
@@ -328,11 +326,10 @@ public class ArtistViewer extends Activity {
 							});
 						}
 					} catch(Exception e) {
-						((Button)getView().findViewById(R.id.bioUpdatesAction)).setText(R.string.error_str);
 						e.printStackTrace();
 						mHandler.post(new Runnable() {
 							public void run() {
-								Crouton.makeText(getActivity(), R.string.failed_load_artist_updates, Style.ALERT);
+								((Button)getView().findViewById(R.id.bioUpdatesAction)).setText(R.string.error_str);
 							}
 						});
 					}

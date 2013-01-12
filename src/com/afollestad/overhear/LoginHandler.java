@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,7 +25,8 @@ public class LoginHandler extends Activity {
 
 	private Twitter twitter;
 	public static Twitter getTwitterInstance(Context context, boolean nullIfNotAuthenticated) {
-		Twitter client = TwitterFactory.getSingleton();
+		Twitter client = new TwitterFactory().getInstance();
+		client.setOAuthConsumer("DlG3XT5adlDNRKUkZMMvA", "hDzUkzmge2gHwBP6AWdLNql2q2fdAN61enmfJBooZU");
 		SharedPreferences prefs = context.getSharedPreferences("twitter_account", 0);
 		String token = prefs.getString("token", null);
 		String secret = prefs.getString("secret", null);
@@ -43,6 +45,7 @@ public class LoginHandler extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.login_handler);
 
 		final WebView view = (WebView)findViewById(R.id.webView);
@@ -67,6 +70,7 @@ public class LoginHandler extends Activity {
 											.putString("token", access.getToken())
 											.putString("secret", access.getTokenSecret())
 											.commit();
+										setResult(RESULT_OK);
 										finish();
 									}
 								});
@@ -80,7 +84,6 @@ public class LoginHandler extends Activity {
 								});
 							}
 						}
-
 					}).start();
 					return true;
 				} else return false;
@@ -121,5 +124,15 @@ public class LoginHandler extends Activity {
 				}
 			}
 		}).start();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		}
+		return false;
 	}
 }
