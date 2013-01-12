@@ -27,7 +27,11 @@ public class MusicService extends Service {
 	private boolean preparedPlayer;
 	private final IBinder mBinder = new MusicBinder();
 	private MusicActivityCallback mCallback;
-		
+	
+	public void setCallback(MusicActivityCallback cb) {
+		mCallback = cb;
+	}
+	
 	public void playTrack(Context context, Song song) throws Exception {
 		nowPlaying = song;
 		MusicUtils.setLastPlaying(context, null);
@@ -60,13 +64,13 @@ public class MusicService extends Service {
 			Song last = MusicUtils.getLastPlaying(context);
 			nowPlaying = last;
 			MusicUtils.setLastPlaying(context, null);
+			if(mCallback != null)
+				mCallback.onServiceUpdate();
 		} else {
 			Song last = MusicUtils.getLastPlaying(context);
 			if(last != null)
 				playTrack(context, last);
 		}
-		if(mCallback != null)
-			mCallback.onServiceUpdate();
 	}
 	
 	public Song getNowPlaying() {
@@ -86,8 +90,7 @@ public class MusicService extends Service {
 	}
 	
 	public class MusicBinder extends Binder {
-        MusicService getService(MusicActivityCallback cb) {
-        	mCallback = cb;
+        MusicService getService() {
             return MusicService.this;
         }
     }

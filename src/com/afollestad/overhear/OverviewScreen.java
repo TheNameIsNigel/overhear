@@ -56,8 +56,10 @@ public class OverviewScreen extends MusicBoundActivity {
 	private void updateNowPlayingBar() {
 		Song song = getMusicService().getNowPlaying();
 		if(song != null) {
+			Toast.makeText(getApplicationContext(), song.getTitle(), Toast.LENGTH_LONG).show();
 			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.pause);
 		} else {
+			Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_LONG).show();
 			song = MusicService.MusicUtils.getLastPlaying(this);
 			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.play);
 		}
@@ -86,6 +88,7 @@ public class OverviewScreen extends MusicBoundActivity {
 	public void onResume() {
 		super.onResume();
 		if(isServiceBound()) {
+			getMusicService().setCallback(this);
 			updateNowPlayingBar();
 		}
 	}
@@ -323,6 +326,7 @@ public class OverviewScreen extends MusicBoundActivity {
 	
 	@Override
 	public void onBound() {
+		getMusicService().setCallback(this);
 		updateNowPlayingBar();
 	}
 
@@ -335,8 +339,6 @@ public class OverviewScreen extends MusicBoundActivity {
 				((MusicFragment)frag).update();
 			} else if(frag instanceof MusicListFragment) {
 				((MusicListFragment)frag).update();
-			} else {
-				Toast.makeText(getApplicationContext(), "Unrecognized fragment at " + i, Toast.LENGTH_LONG).show();
 			}
 		}
 	}

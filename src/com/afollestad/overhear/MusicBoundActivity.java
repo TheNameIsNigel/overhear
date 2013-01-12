@@ -47,7 +47,7 @@ public abstract class MusicBoundActivity extends Activity implements MusicActivi
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
         	MusicBinder binder = (MusicBinder)service;
-            mService = binder.getService(MusicBoundActivity.this);
+            mService = binder.getService();
             mBound = true;
             onBound();
         }

@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SongAdapter extends BaseAdapter {
 

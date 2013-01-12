@@ -43,19 +43,6 @@ public class ArtistViewer extends MusicBoundActivity {
 	ViewPager mViewPager;
 	public Artist artist;
 	
-	public final static int LOGIN_HANDER_RESULT = 600;
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == LOGIN_HANDER_RESULT && resultCode == RESULT_OK) {
-			mViewPager.setCurrentItem(2);
-			//TODO
-			BioListFragment bio = (BioListFragment)mSectionsPagerAdapter.getItem(2);
-			bio.loadTwitter();
-		}
-	}
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -219,17 +206,17 @@ public class ArtistViewer extends MusicBoundActivity {
 		}
 	}
 
-	public static class BioListFragment extends Fragment {
+	public static class BioListFragment extends MusicFragment {
 
 		public BioListFragment() {  }
 
 		private Artist artist;
 		private User twitterUser;
-
+		public final static int LOGIN_HANDER_RESULT = 600;
+		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			setRetainInstance(true);
 			artist = ((ArtistViewer)getActivity()).artist;
 		}
 		
@@ -295,9 +282,9 @@ public class ArtistViewer extends MusicBoundActivity {
 									action.setOnClickListener(new View.OnClickListener() {
 										@Override
 										public void onClick(View arg0) {
-											getActivity().startActivityForResult(
+											startActivityForResult(
 													new Intent(getActivity(), LoginHandler.class), 
-													ArtistViewer.LOGIN_HANDER_RESULT);
+													LOGIN_HANDER_RESULT);
 										}
 									});
 									getView().findViewById(R.id.bioUpdateSource).setVisibility(View.GONE);
@@ -358,10 +345,28 @@ public class ArtistViewer extends MusicBoundActivity {
 		}
 
 		@Override
+		public void onActivityResult(int requestCode, int resultCode, Intent data) {
+			super.onActivityResult(requestCode, resultCode, data);
+			if(requestCode == LOGIN_HANDER_RESULT && resultCode == RESULT_OK) {
+				update();
+			}
+		}
+		
+		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
 			loadLastFm();
 			loadTwitter();
+		}
+
+
+		@Override
+		public void update() {
+			if(getActivity() != null && getView() != null) {
+				loadTwitter();
+			} else {
+				twitterUser = null;
+			}
 		}
 	}
 
@@ -389,5 +394,4 @@ public class ArtistViewer extends MusicBoundActivity {
 			}
 		}
 	}
-
 }
