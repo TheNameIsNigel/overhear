@@ -26,7 +26,8 @@ public abstract class MusicBoundActivity extends Activity implements MusicActivi
 	
 	public abstract void onBound();
 	
-	public abstract void onServiceUpdate();
+	public void onServiceUpdate() {
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

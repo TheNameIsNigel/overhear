@@ -3,6 +3,7 @@ package com.afollestad.overhear;
 import java.util.Locale;
 
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 
@@ -17,9 +18,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class OverviewScreen extends MusicBoundActivity {
 
@@ -51,15 +54,19 @@ public class OverviewScreen extends MusicBoundActivity {
 	}
 	
 	private void updateNowPlayingBar() {
-		Song song = MusicUtils.getNowPlaying(this);
+		Song song = getMusicService().getNowPlaying();
 		if(song != null) {
 			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.pause);
 		} else {
-			song = MusicUtils.getLastPlaying(this);
+			song = MusicService.MusicUtils.getLastPlaying(this);
 			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.play);
 		}
-		Album album = Album.getAlbum(getApplicationContext(), song.getAlbum());
-		((ImageView)findViewById(R.id.playing)).setImageBitmap(album.getAlbumArt(this, 35f, 35f));
+		if(song != null) {
+			Album album = Album.getAlbum(getApplicationContext(), song.getAlbum());
+			((ImageView)findViewById(R.id.playing)).setImageBitmap(album.getAlbumArt(this, 35f, 35f));
+		} else {
+			//TODO default now playing image
+		}
 	}
 	
 	@Override
@@ -141,7 +148,7 @@ public class OverviewScreen extends MusicBoundActivity {
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
-			adapter = new AlbumAdapter(getActivity(), null);
+			adapter = new AlbumAdapter((MusicBoundActivity)getActivity(), null);
 			setListAdapter(adapter);
 			adapter.loadAlbums();
 		}
@@ -187,7 +194,7 @@ public class OverviewScreen extends MusicBoundActivity {
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
-			adapter = new ArtistAdapter(getActivity());
+			adapter = new ArtistAdapter((MusicBoundActivity)getActivity());
 		}
 		
 		@Override
@@ -199,11 +206,18 @@ public class OverviewScreen extends MusicBoundActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
-			View toreturn = inflater.inflate(R.layout.grid_fragment, null); 
-			GridView grid = (GridView)toreturn.findViewById(R.id.gridView);
+			GridView grid = (GridView)inflater.inflate(R.layout.grid_fragment, null);
 			grid.setAdapter(adapter);
+			grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View view, int index, long id) {
+					Artist artist = (Artist)adapter.getItem(index);
+					startActivity(new Intent(getActivity(), ArtistViewer.class)
+							.putExtra("artist", artist.getJSON().toString()));
+				}
+			});
 			adapter.loadArtists();
-			return toreturn;
+			return grid;
 		}
 		
 		@Override
@@ -211,7 +225,6 @@ public class OverviewScreen extends MusicBoundActivity {
 			super.onViewCreated(view, savedInstanceState);
 		}
 
-	
 		@Override
 		public void update() {
 			if(adapter != null)
@@ -229,7 +242,7 @@ public class OverviewScreen extends MusicBoundActivity {
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
-			adapter = new SongAdapter(getActivity(), null, null);
+			adapter = new SongAdapter((MusicBoundActivity)getActivity(), null, null);
 			setListAdapter(adapter);
 			adapter.loadSongs();
 		}
@@ -307,13 +320,11 @@ public class OverviewScreen extends MusicBoundActivity {
 				adapter.notifyDataSetChanged();
 		}
 	}
-
 	
 	@Override
 	public void onBound() {
 		updateNowPlayingBar();
 	}
-
 
 	@Override
 	public void onServiceUpdate() {
@@ -324,6 +335,8 @@ public class OverviewScreen extends MusicBoundActivity {
 				((MusicFragment)frag).update();
 			} else if(frag instanceof MusicListFragment) {
 				((MusicListFragment)frag).update();
+			} else {
+				Toast.makeText(getApplicationContext(), "Unrecognized fragment at " + i, Toast.LENGTH_LONG).show();
 			}
 		}
 	}

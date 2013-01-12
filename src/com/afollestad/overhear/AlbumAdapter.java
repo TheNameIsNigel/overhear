@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 public class AlbumAdapter extends BaseAdapter {
 
-	public AlbumAdapter(Context context, String artist) {
+	public AlbumAdapter(MusicBoundActivity context, String artist) {
 		this.context = context;
 		final int memClass = ((ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
 		// Use 1/8th of the available memory for this memory cache.
@@ -37,12 +37,12 @@ public class AlbumAdapter extends BaseAdapter {
 		this.artist = artist;
 	}
 
-	private Context context;
+	private MusicBoundActivity context;
 	private Handler mHandler;
 	private Album[] items;
 	private LruCache<String, Bitmap> mMemoryCache;
 	private String artist;
-	
+
 	private AnimationDrawable mPeakOneAnimation, mPeakTwoAnimation;
 
 	@Override
@@ -72,7 +72,7 @@ public class AlbumAdapter extends BaseAdapter {
 			items = Album.getAllAlbums(context).toArray(new Album[0]);
 		super.notifyDataSetChanged();
 	}
-	
+
 	private void loadAlbumCover(final Album album, final WeakReference<ImageView> view) {
 		new Thread(new Runnable() {
 			public void run() {
@@ -107,41 +107,50 @@ public class AlbumAdapter extends BaseAdapter {
 		} else {
 			view.setPadding(0, padDef, 0, padDef);
 		}
-		
+
 		Album album = items[position];
 		((TextView)view.findViewById(R.id.title)).setText(album.getName());
 		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image); 
-		
+
 		if(mMemoryCache.get(album.getAlbumId() + "") != null) {
 			final Bitmap image = mMemoryCache.get(album.getAlbumId() + "");
 			cover.setImageBitmap(image);
-			
+
 		} else {
 			cover.setImageBitmap(null);
 			loadAlbumCover(album, new WeakReference<ImageView>((ImageView)view.findViewById(R.id.image)));
 		}
-		
+
 		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
 		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
 		peakOne.setImageResource(R.anim.peak_meter_1);
 		peakTwo.setImageResource(R.anim.peak_meter_2);
 		mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
-		
-		Song nowPlaying = MusicUtils.getNowPlaying(context);
-		if(nowPlaying != null && album.getName().equals(nowPlaying.getAlbum())) {
-			peakOne.setVisibility(View.VISIBLE);
-			peakTwo.setVisibility(View.VISIBLE);
-			mPeakOneAnimation.start();
-			mPeakTwoAnimation.start();
+
+		if(context.getMusicService() != null) {
+			Song nowPlaying = context.getMusicService().getNowPlaying();
+			if(nowPlaying != null && album.getName().equals(nowPlaying.getAlbum())) {
+				peakOne.setVisibility(View.VISIBLE);
+				peakTwo.setVisibility(View.VISIBLE);
+				if(!mPeakOneAnimation.isRunning()) {
+					mPeakOneAnimation.start();
+					mPeakTwoAnimation.start();
+				}
+			} else {
+				peakOne.setVisibility(View.GONE);
+				peakTwo.setVisibility(View.GONE);
+				if(mPeakOneAnimation.isRunning()) {
+					mPeakOneAnimation.stop();
+					mPeakTwoAnimation.stop();
+				}
+			}
 		} else {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
-			mPeakOneAnimation.stop();
-			mPeakTwoAnimation.stop();
 		}
-		
+
 		return view;
 	}
 }

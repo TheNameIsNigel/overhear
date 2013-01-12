@@ -131,7 +131,7 @@ public class ArtistViewer extends MusicBoundActivity {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
 			String artist = ((ArtistViewer)getActivity()).artist.getName();
-			adapter = new AlbumAdapter(getActivity(), artist);
+			adapter = new AlbumAdapter((MusicBoundActivity)getActivity(), artist);
 			setListAdapter(adapter);
 			adapter.loadAlbums();
 		}
@@ -178,7 +178,7 @@ public class ArtistViewer extends MusicBoundActivity {
 			super.onCreate(savedInstanceState);
 			setRetainInstance(true);
 			String artist = ((ArtistViewer)getActivity()).artist.getName();
-			adapter = new SongAdapter(getActivity(), null, artist);
+			adapter = new SongAdapter((MusicBoundActivity)getActivity(), null, artist);
 			setListAdapter(adapter);
 			adapter.loadSongs();
 		}

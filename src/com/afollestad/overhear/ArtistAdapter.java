@@ -9,7 +9,6 @@ import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.AnimationDrawable;
@@ -25,13 +24,12 @@ import android.widget.TextView;
 
 public class ArtistAdapter extends BaseAdapter {
 
-	public ArtistAdapter(Context context) {
+	public ArtistAdapter(MusicBoundActivity context) {
 		this.context = context;
 	}
 
-	private Context context;
+	private MusicBoundActivity context;
 	private Artist[] items;
-
 	private AnimationDrawable mPeakOneAnimation, mPeakTwoAnimation;
 	
 	@Override
@@ -119,17 +117,8 @@ public class ArtistAdapter extends BaseAdapter {
 		Artist artist = items[position];
 		((TextView)view.findViewById(R.id.title)).setText(artist.getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image);
-		cover.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Artist artist = items[position];
-				context.startActivity(new Intent(context, ArtistViewer.class)
-						.putExtra("artist", artist.getJSON().toString()));
-			}
-		});
-
 		cover.setImageBitmap(null);
-		loadArtistPicture(context, artist, new WeakReference<ImageView>((ImageView)view.findViewById(R.id.image)), 
+		loadArtistPicture(context, artist, new WeakReference<ImageView>(cover), 
 				180f, 180f);
 		
 		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
@@ -139,17 +128,26 @@ public class ArtistAdapter extends BaseAdapter {
 		mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 		
-		Song nowPlaying = MusicUtils.getNowPlaying(context);
-		if(nowPlaying != null && artist.getName().equals(nowPlaying.getArtist())) {
-			peakOne.setVisibility(View.VISIBLE);
-			peakTwo.setVisibility(View.VISIBLE);
-			mPeakOneAnimation.start();
-			mPeakTwoAnimation.start();
+		if(context.getMusicService() != null) {
+			Song nowPlaying = context.getMusicService().getNowPlaying();
+			if(nowPlaying != null && artist.getName().equals(nowPlaying.getArtist())) {
+				peakOne.setVisibility(View.VISIBLE);
+				peakTwo.setVisibility(View.VISIBLE);
+				if(!mPeakOneAnimation.isRunning()) {
+					mPeakOneAnimation.start();
+					mPeakTwoAnimation.start();
+				}
+			} else {
+				peakOne.setVisibility(View.GONE);
+				peakTwo.setVisibility(View.GONE);
+				if(mPeakOneAnimation.isRunning()) {
+					mPeakOneAnimation.stop();
+					mPeakTwoAnimation.stop();
+				}
+			}
 		} else {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
-			mPeakOneAnimation.stop();
-			mPeakTwoAnimation.stop();
 		}
 		
 		return view;

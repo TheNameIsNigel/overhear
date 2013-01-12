@@ -2,7 +2,6 @@ package com.afollestad.overhear;
 
 import com.afollestad.overhearapi.Song;
 
-import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,22 +10,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SongAdapter extends BaseAdapter {
 
-	public SongAdapter(Context context, String album, String artist) {
+	public SongAdapter(MusicBoundActivity context, String album, String artist) {
 		this.context = context;
 		this.album = album;
 		this.artist = artist;
 	}
 
-	private Context context;
+	private MusicBoundActivity context;
 	private Song[] items;
 	private String album;
 	private String artist;
 	
 	private AnimationDrawable mPeakOneAnimation, mPeakTwoAnimation;
-
+	
 	@Override
 	public int getCount() {
 		if(items == null)
@@ -65,6 +65,7 @@ public class SongAdapter extends BaseAdapter {
 		} else {
 			view = (RelativeLayout)convertView;
 		}
+		
 		Song song = items[position];
 		((TextView)view.findViewById(R.id.title)).setText(song.getTitle());
 		((TextView)view.findViewById(R.id.duration)).setText(song.getDurationString());
@@ -76,17 +77,26 @@ public class SongAdapter extends BaseAdapter {
 		mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 		
-		Song nowPlaying = MusicUtils.getNowPlaying(context);
-		if(nowPlaying != null && song.getId() == nowPlaying.getId()) {
-			peakOne.setVisibility(View.VISIBLE);
-			peakTwo.setVisibility(View.VISIBLE);
-			mPeakOneAnimation.start();
-			mPeakTwoAnimation.start();
+		if(context.getMusicService() != null) {
+			Song nowPlaying = context.getMusicService().getNowPlaying();
+			if(nowPlaying != null && song.getId() == nowPlaying.getId()) {
+				peakOne.setVisibility(View.VISIBLE);
+				peakTwo.setVisibility(View.VISIBLE);
+				if(!mPeakOneAnimation.isRunning()) {
+					mPeakOneAnimation.start();
+					mPeakTwoAnimation.start();
+				}
+			} else {
+				peakOne.setVisibility(View.GONE);
+				peakTwo.setVisibility(View.GONE);
+				if(mPeakOneAnimation.isRunning()) {
+					mPeakOneAnimation.stop();
+					mPeakTwoAnimation.stop();
+				}
+			}
 		} else {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
-			mPeakOneAnimation.stop();
-			mPeakTwoAnimation.stop();
 		}
 
 		return view;
