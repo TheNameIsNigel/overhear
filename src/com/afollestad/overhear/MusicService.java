@@ -1,7 +1,11 @@
 package com.afollestad.overhear;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
 import android.app.Service;
@@ -24,6 +28,7 @@ public class MusicService extends Service {
 
 	private MediaPlayer player;
 	private Song nowPlaying;
+	private ArrayList<Album> recents;
 	private boolean preparedPlayer;
 	private final IBinder mBinder = new MusicBinder();
 	private MusicActivityCallback mCallback;
@@ -44,6 +49,7 @@ public class MusicService extends Service {
 		player.prepare();
 		preparedPlayer = true;
 		player.start();
+		appendRecent(Album.getAlbum(context, song.getAlbum()));
 		if(mCallback != null)
 			mCallback.onServiceUpdate();
 	}
@@ -78,6 +84,22 @@ public class MusicService extends Service {
 		return player;
 	}
 	
+	public ArrayList<Album> getRecents() {
+		return recents;
+	}
+	
+	public void appendRecent(Album album) {
+		for(int i = 0; i < recents.size(); i++) {
+			if(recents.get(i).getAlbumId() == album.getAlbumId()) {
+				recents.remove(i);
+			}
+		}
+		if(recents.size() == 10) {
+			recents.remove(9);
+		}
+		recents.add(0, album);
+	}
+	
 	public boolean isPlaying() {
 		if(player != null && preparedPlayer) {
 			return player.isPlaying();
@@ -91,10 +113,11 @@ public class MusicService extends Service {
             return MusicService.this;
         }
     }
-	
+		
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		recents = MusicUtils.getRecents(getApplicationContext());
 		player = new MediaPlayer();
 	}
 	
@@ -112,6 +135,7 @@ public class MusicService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		MusicUtils.setRecents(getApplicationContext(), recents);
 		player.release();
 	}
 	
@@ -137,6 +161,36 @@ public class MusicService extends Service {
 			} catch(Exception e) {
 				throw new Error(e.getMessage());
 			}
+		}
+
+		public static void setRecents(Context context, ArrayList<Album> recents) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+			try {
+				JSONArray json = new JSONArray();
+				for(Album album : recents) {
+					json.put(album.getJSON());
+				}
+				prefs.edit().putString("recents", json.toString()).commit();
+			} catch(Exception e) {
+				throw new Error(e.getMessage());
+			}
+		}
+		
+		public static ArrayList<Album> getRecents(Context context) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+			ArrayList<Album> recents = new ArrayList<Album>();
+			if(!prefs.contains("recents")) {
+				return recents;
+			}
+			try {
+				JSONArray json = new JSONArray(prefs.getString("recents", null));
+				for(int i = 0; i < json.length(); i++) {
+					recents.add(Album.fromJSON(context, json.getJSONObject(i)));
+				}
+			} catch(Exception e) {
+				throw new Error(e.getMessage());
+			}
+			return recents;
 		}
 	}
 }

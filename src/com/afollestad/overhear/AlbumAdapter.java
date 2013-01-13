@@ -1,6 +1,9 @@
 package com.afollestad.overhear;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
@@ -35,11 +38,12 @@ public class AlbumAdapter extends BaseAdapter {
 		};
 		mHandler = new Handler();
 		this.artist = artist;
+		items = new ArrayList<Album>();
 	}
 
 	private MusicBoundActivity context;
 	private Handler mHandler;
-	private Album[] items;
+	private List<Album> items;
 	private LruCache<String, Bitmap> mMemoryCache;
 	private String artist;
 
@@ -47,29 +51,30 @@ public class AlbumAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if(items == null)
-			return 0;
-		else
-			return items.length;
+		return items.size();
 	}
 
 	@Override
 	public Object getItem(int index) {
-		if(items == null)
-			return null;
-		return items[index];
+		return items.get(index);
 	}
 
 	@Override
 	public long getItemId(int index) {
-		return items[index].getAlbumId();
+		return items.get(index).getAlbumId();
 	}
 
-	public void loadAlbums() {
-		if(artist != null)
-			items = Album.getAlbumsForArtist(context, artist).toArray(new Album[0]);
-		else 
-			items = Album.getAllAlbums(context).toArray(new Album[0]);
+	public void loadAlbums(boolean recents) {
+		if(recents) {
+			if(context.getMusicService() == null) 
+				return;
+			items = context.getMusicService().getRecents();
+		} else {
+			if(artist != null)
+				items = Album.getAlbumsForArtist(context, artist);
+			else 
+				items = Album.getAllAlbums(context);
+		}
 		super.notifyDataSetChanged();
 	}
 
@@ -98,17 +103,16 @@ public class AlbumAdapter extends BaseAdapter {
 			view = (RelativeLayout)convertView;
 		}
 
-		int padDef = Utils.convertDpToPx(context, 10f);
 		int pad = Utils.convertDpToPx(context, 15f);
 		if(position == 0) {
-			view.setPadding(0, pad, 0, padDef);
+			view.setPadding(0, pad, 0, 0);
 		} else if(position == getCount() - 1) {
-			view.setPadding(0, padDef, 0, pad);
+			view.setPadding(0, 0, 0, pad);
 		} else {
-			view.setPadding(0, padDef, 0, padDef);
+			view.setPadding(0, 0, 0, 0);
 		}
 
-		Album album = items[position];
+		Album album = items.get(position);
 		((TextView)view.findViewById(R.id.title)).setText(album.getName());
 		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image); 

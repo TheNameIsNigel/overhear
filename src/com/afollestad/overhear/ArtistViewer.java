@@ -120,7 +120,7 @@ public class ArtistViewer extends MusicBoundActivity {
 			String artist = ((ArtistViewer)getActivity()).artist.getName();
 			adapter = new AlbumAdapter((MusicBoundActivity)getActivity(), artist);
 			setListAdapter(adapter);
-			adapter.loadAlbums();
+			adapter.loadAlbums(false);
 		}
 
 		@Override

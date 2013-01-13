@@ -22,7 +22,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class OverviewScreen extends MusicBoundActivity {
 
@@ -52,7 +51,7 @@ public class OverviewScreen extends MusicBoundActivity {
 			}
 		});
 	}
-	
+
 	private void updateNowPlayingBar() {
 		Song song = getMusicService().getNowPlaying();
 		if(song != null) {
@@ -63,12 +62,12 @@ public class OverviewScreen extends MusicBoundActivity {
 		}
 		if(song != null) {
 			Album album = Album.getAlbum(getApplicationContext(), song.getAlbum());
-			((ImageView)findViewById(R.id.playing)).setImageBitmap(album.getAlbumArt(this, 35f, 35f));
+			((ImageView)findViewById(R.id.playing)).setImageBitmap(album.getAlbumArt(this, 42f, 42f));
 		} else {
 			//TODO default now playing image
 		}
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,8 +76,8 @@ public class OverviewScreen extends MusicBoundActivity {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOffscreenPageLimit(3);
-		mViewPager.setCurrentItem(1); //Default to albums page
-		
+		mViewPager.setCurrentItem(1);
+
 		initializeNowPlayingBar();
 	}
 
@@ -90,7 +89,7 @@ public class OverviewScreen extends MusicBoundActivity {
 			updateNowPlayingBar();
 		}
 	}	
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -107,12 +106,14 @@ public class OverviewScreen extends MusicBoundActivity {
 		public Fragment getItem(int position) {
 			switch(position) {
 			case 0:
-				return new AllSongsListFragment();
+				return new RecentsListFragment();
 			case 1:
-				return new AlbumListFragment();
-			case 2:
 				return new ArtistListFragment();
+			case 2:
+				return new AlbumListFragment();
 			case 3:
+				return new AllSongsListFragment();
+			case 4:
 				return new GenreListFragment();
 			}
 			return null;
@@ -120,29 +121,81 @@ public class OverviewScreen extends MusicBoundActivity {
 
 		@Override
 		public int getCount() {
-			return 4;
+			return 5;
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
 			switch (position) {
 			case 0:
-				return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
+				return getString(R.string.recent_str).toUpperCase(Locale.getDefault());
 			case 1:
-				return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
-			case 2:
 				return getString(R.string.artists_str).toUpperCase(Locale.getDefault());
+			case 2:
+				return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
 			case 3:
+				return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
+			case 4:
 				return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
 			}
 			return null;
 		}
 	}
 
-	public static class AlbumListFragment extends MusicListFragment {
-		
+	public static class RecentsListFragment extends MusicListFragment {
+
 		private AlbumAdapter adapter;
-		
+
+		public RecentsListFragment() {  }
+
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setRetainInstance(true);
+			adapter = new AlbumAdapter((MusicBoundActivity)getActivity(), null);
+			setListAdapter(adapter);
+			adapter.loadAlbums(true);
+		}
+
+		@Override
+		public void onResume() {
+			super.onResume();
+			adapter.notifyDataSetChanged();
+		}
+
+		@Override
+		public void onViewCreated(View view, Bundle savedInstanceState) {
+			super.onViewCreated(view, savedInstanceState);
+			int pad = Utils.convertDpToPx(getActivity(), 20f);
+			getListView().setPadding(pad, 0, pad, 0);
+			getListView().setSmoothScrollbarEnabled(true);
+			getListView().setFastScrollEnabled(true);
+			setEmptyText(getString(R.string.no_recents));
+		}
+
+		@Override
+		public void onListItemClick(ListView l, View v, int position, long id) {
+			super.onListItemClick(l, v, position, id);
+			Album album = (Album)adapter.getItem(position);
+			startActivity(new Intent(getActivity(), AlbumViewer.class)
+			.putExtra("album", album.getJSON().toString()));
+		}
+
+		@Override
+		public void update() {
+			if(adapter != null) {
+				if(adapter.isEmpty())
+					adapter.loadAlbums(true);
+				else
+					adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
+	public static class AlbumListFragment extends MusicListFragment {
+
+		private AlbumAdapter adapter;
+
 		public AlbumListFragment() {  }
 
 		@Override
@@ -151,15 +204,15 @@ public class OverviewScreen extends MusicBoundActivity {
 			setRetainInstance(true);
 			adapter = new AlbumAdapter((MusicBoundActivity)getActivity(), null);
 			setListAdapter(adapter);
-			adapter.loadAlbums();
+			adapter.loadAlbums(false);
 		}
-		
+
 		@Override
 		public void onResume() {
 			super.onResume();
 			adapter.notifyDataSetChanged();
 		}
-		
+
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
@@ -169,13 +222,13 @@ public class OverviewScreen extends MusicBoundActivity {
 			getListView().setFastScrollEnabled(true);
 			setEmptyText(getString(R.string.no_albums));
 		}
-	
+
 		@Override
 		public void onListItemClick(ListView l, View v, int position, long id) {
 			super.onListItemClick(l, v, position, id);
 			Album album = (Album)adapter.getItem(position);
 			startActivity(new Intent(getActivity(), AlbumViewer.class)
-					.putExtra("album", album.getJSON().toString()));
+			.putExtra("album", album.getJSON().toString()));
 		}
 
 		@Override
@@ -184,11 +237,11 @@ public class OverviewScreen extends MusicBoundActivity {
 				adapter.notifyDataSetChanged();
 		}
 	}
-	
+
 	public static class ArtistListFragment extends MusicFragment {
-		
+
 		private ArtistAdapter adapter;
-		
+
 		public ArtistListFragment() {  }
 
 		@Override
@@ -197,13 +250,13 @@ public class OverviewScreen extends MusicBoundActivity {
 			setRetainInstance(true);
 			adapter = new ArtistAdapter((MusicBoundActivity)getActivity());
 		}
-		
+
 		@Override
 		public void onResume() {
 			super.onResume();
 			adapter.notifyDataSetChanged();
 		}
-		
+
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
@@ -214,13 +267,13 @@ public class OverviewScreen extends MusicBoundActivity {
 				public void onItemClick(AdapterView<?> arg0, View view, int index, long id) {
 					Artist artist = (Artist)adapter.getItem(index);
 					startActivity(new Intent(getActivity(), ArtistViewer.class)
-							.putExtra("artist", artist.getJSON().toString()));
+					.putExtra("artist", artist.getJSON().toString()));
 				}
 			});
 			adapter.loadArtists();
 			return grid;
 		}
-		
+
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
@@ -232,11 +285,11 @@ public class OverviewScreen extends MusicBoundActivity {
 				adapter.notifyDataSetChanged();
 		}
 	}
-	
+
 	public static class AllSongsListFragment extends MusicListFragment {
-		
+
 		private SongAdapter adapter;
-		
+
 		public AllSongsListFragment() {  }
 
 		@Override
@@ -247,17 +300,17 @@ public class OverviewScreen extends MusicBoundActivity {
 			setListAdapter(adapter);
 			adapter.loadSongs();
 		}
-		
+
 		@Override
 		public void onResume() {
 			super.onResume();
 			adapter.notifyDataSetChanged();
 		}
-		
+
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
-			int pad = Utils.convertDpToPx(getActivity(), 15f);
+			int pad = Utils.convertDpToPx(getActivity(), 20f);
 			getListView().setPadding(pad, 0, pad, 0);
 			getListView().setSmoothScrollbarEnabled(true);
 			getListView().setFastScrollEnabled(true);
@@ -276,18 +329,18 @@ public class OverviewScreen extends MusicBoundActivity {
 			}
 			adapter.notifyDataSetChanged();
 		}
-	
+
 		@Override
 		public void update() {
 			if(adapter != null)
 				adapter.notifyDataSetChanged();
 		}
 	}
-	
+
 	public static class GenreListFragment extends MusicListFragment {
-		
+
 		private GenreAdapter adapter;
-		
+
 		public GenreListFragment() {  }
 
 		@Override
@@ -298,17 +351,17 @@ public class OverviewScreen extends MusicBoundActivity {
 			setListAdapter(adapter);
 			adapter.loadGenres();
 		}
-		
+
 		@Override
 		public void onResume() {
 			super.onResume();
 			adapter.notifyDataSetChanged();
 		}
-		
+
 		@Override
 		public void onViewCreated(View view, Bundle savedInstanceState) {
 			super.onViewCreated(view, savedInstanceState);
-			int pad = Utils.convertDpToPx(getActivity(), 15f);
+			int pad = Utils.convertDpToPx(getActivity(), 20f);
 			getListView().setPadding(pad, 0, pad, 0);
 			getListView().setSmoothScrollbarEnabled(true);
 			getListView().setFastScrollEnabled(true);
@@ -321,16 +374,21 @@ public class OverviewScreen extends MusicBoundActivity {
 				adapter.notifyDataSetChanged();
 		}
 	}
-	
+
 	@Override
 	public void onBound() {
 		getMusicService().setCallback(this);
 		updateNowPlayingBar();
+		updateFragments();
 	}
 
 	@Override
 	public void onServiceUpdate() {
 		updateNowPlayingBar();
+		updateFragments();
+	}
+	
+	private void updateFragments() {
 		for(int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			Fragment frag = mSectionsPagerAdapter.getItem(i);
 			if(frag instanceof MusicFragment) {
