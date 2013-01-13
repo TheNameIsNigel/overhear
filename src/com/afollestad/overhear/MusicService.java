@@ -26,7 +26,7 @@ public class MusicService extends Service {
 		public abstract void onServiceUpdate();
 	}
 
-	private MediaPlayer player;
+	private MediaPlayer player;	
 	private Song nowPlaying;
 	private ArrayList<Album> recents;
 	private boolean preparedPlayer;
@@ -37,9 +37,9 @@ public class MusicService extends Service {
 		mCallback = cb;
 	}
 	
-	public void playTrack(Context context, Song song) throws Exception {
+	public void playTrack(Song song) throws Exception {
 		nowPlaying = song;
-		MusicUtils.setLastPlaying(context, song);
+		MusicUtils.setLastPlaying(getApplicationContext(), song);
 		if(player != null) {
 			player.stop();
 			player.release();
@@ -49,30 +49,30 @@ public class MusicService extends Service {
 		player.prepare();
 		preparedPlayer = true;
 		player.start();
-		appendRecent(Album.getAlbum(context, song.getAlbum()));
+		appendRecent(Album.getAlbum(getApplicationContext(), song.getAlbum()));
 		if(mCallback != null)
 			mCallback.onServiceUpdate();
 	}
 	
-	public void pauseTrack(Context context) {
+	public void pauseTrack() {
 		if(player != null && preparedPlayer && player.isPlaying()) {
 			player.pause();
-			MusicUtils.setLastPlaying(context, nowPlaying);
+			MusicUtils.setLastPlaying(getApplicationContext(), nowPlaying);
 			nowPlaying = null;
 		}
 		if(mCallback != null)
 			mCallback.onServiceUpdate();
 	}
 	
-	public void resumeTrack(Context context) throws Exception {
-		Song last = MusicUtils.getLastPlaying(context);
+	public void resumeTrack() throws Exception {
+		Song last = MusicUtils.getLastPlaying(getApplicationContext());
 		if(preparedPlayer) {
 			player.start();
 			nowPlaying = last;
 			if(mCallback != null)
 				mCallback.onServiceUpdate();
 		} else if(last != null) {
-			playTrack(context, last);
+			playTrack(last);
 		}
 	}
 	
@@ -100,6 +100,10 @@ public class MusicService extends Service {
 		recents.add(0, album);
 	}
 	
+	public void saveRecents() {
+		MusicUtils.setRecents(getApplicationContext(), recents);
+	}
+	
 	public boolean isPlaying() {
 		if(player != null && preparedPlayer) {
 			return player.isPlaying();
@@ -125,7 +129,7 @@ public class MusicService extends Service {
 	public IBinder onBind(Intent intent) {
 		return mBinder;
 	}
-	
+		
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
@@ -135,7 +139,6 @@ public class MusicService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		MusicUtils.setRecents(getApplicationContext(), recents);
 		player.release();
 	}
 	

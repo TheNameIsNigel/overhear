@@ -34,10 +34,10 @@ public class OverviewScreen extends MusicBoundActivity {
 			@Override
 			public void onClick(View view) {
 				if(getMusicService().isPlaying()) {
-					getMusicService().pauseTrack(getApplicationContext());
+					getMusicService().pauseTrack();
 				} else {
 					try {
-						getMusicService().resumeTrack(getApplicationContext());
+						getMusicService().resumeTrack();
 					} catch(Exception e) {
 						Crouton.makeText(OverviewScreen.this, e.getMessage(), Style.ALERT);
 					}
@@ -90,6 +90,14 @@ public class OverviewScreen extends MusicBoundActivity {
 		}
 	}	
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		if(isServiceBound()) {  
+			getMusicService().saveRecents();
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
@@ -322,7 +330,7 @@ public class OverviewScreen extends MusicBoundActivity {
 			super.onListItemClick(l, v, position, id);
 			Song song = (Song)adapter.getItem(position);
 			try {
-				((MusicBoundActivity)getActivity()).getMusicService().playTrack(getActivity(), song);
+				((MusicBoundActivity)getActivity()).getMusicService().playTrack(song);
 			} catch(Exception e) {
 				e.printStackTrace();
 				Crouton.makeText(getActivity(), "Failed to play " + song.getTitle(), Style.ALERT);
@@ -343,6 +351,8 @@ public class OverviewScreen extends MusicBoundActivity {
 
 		public GenreListFragment() {  }
 
+		//TODO
+		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);

@@ -191,7 +191,7 @@ public class ArtistViewer extends MusicBoundActivity {
 			super.onListItemClick(l, v, position, id);
 			Song song = (Song)adapter.getItem(position);
 			try {
-				((MusicBoundActivity)getActivity()).getMusicService().playTrack(getActivity(), song);
+				((MusicBoundActivity)getActivity()).getMusicService().playTrack(song);
 			} catch(Exception e) {
 				e.printStackTrace();
 				Crouton.makeText(getActivity(), "Failed to play " + song.getTitle(), Style.ALERT);

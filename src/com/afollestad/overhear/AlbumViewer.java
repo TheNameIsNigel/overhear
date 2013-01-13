@@ -43,7 +43,7 @@ public class AlbumViewer extends MusicBoundActivity {
 			public void onItemClick(AdapterView<?> arg0, View view, int index, long id) {
 				Song song = (Song)adapter.getItem(index);
 				try {
-					getMusicService().playTrack(getApplicationContext(), song);
+					getMusicService().playTrack(song);
 				} catch(Exception e) {
 					e.printStackTrace();
 					Crouton.makeText(AlbumViewer.this, "Failed to play " + song.getTitle(), Style.ALERT);
