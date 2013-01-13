@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
+import com.afollestad.overhearapi.LoadedCallback;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 
@@ -53,8 +54,13 @@ public class ArtistAdapter extends BaseAdapter {
 	}
 
 	public void loadArtists() {
-		items = Artist.getAllArtists(context).toArray(new Artist[0]);
-		super.notifyDataSetChanged();
+		Artist.getAllArtists(context, new LoadedCallback<Artist[]>() {
+			@Override
+			public void onLoaded(Artist[] result) {
+				items = result;
+				notifyDataSetChanged();
+			}
+		});
 	}
 
 	public static void loadArtistPicture(final Context context, final Artist artist, 

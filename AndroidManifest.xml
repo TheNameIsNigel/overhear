@@ -43,6 +43,11 @@
             android:enabled="true"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name="com.afollestad.overhear.GenreViewer"
+            android:configChanges="keyboardHidden|orientation|screenSize" >
+        </activity>
     </application>
 
 </manifest>

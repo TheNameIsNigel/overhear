@@ -1,5 +1,6 @@
 package com.afollestad.overhear;
 
+import com.afollestad.overhearapi.LoadedCallback;
 import com.afollestad.overhearapi.Song;
 
 import android.graphics.drawable.AnimationDrawable;
@@ -47,13 +48,31 @@ public class SongAdapter extends BaseAdapter {
 	}
 
 	public void loadSongs() {
-		if(album != null)
-			items = Song.getSongsByAlbum(context, album).toArray(new Song[0]);
-		else if(artist != null)
-			items = Song.getSongsByArtist(context, artist).toArray(new Song[0]);
-		else 
-			items = Song.getAllSongs(context).toArray(new Song[0]);
-		super.notifyDataSetChanged();
+		if(album != null) {
+			Song.getSongsByAlbum(context, album, new LoadedCallback<Song[]>() {
+				@Override
+				public void onLoaded(Song[] result) {
+					items = result;
+					notifyDataSetChanged();
+				}
+			});
+		} else if(artist != null) {
+			Song.getSongsByArtist(context, artist, new LoadedCallback<Song[]>() {
+				@Override
+				public void onLoaded(Song[] result) {
+					items = result;
+					notifyDataSetChanged();
+				}
+			});
+		} else { 
+			Song.getAllSongs(context, new LoadedCallback<Song[]>() {
+				@Override
+				public void onLoaded(Song[] result) {
+					items = result;
+					notifyDataSetChanged();
+				}
+			});
+		}
 	}
 
 	@Override

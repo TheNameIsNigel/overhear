@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Overhear</string>
-    
     <string name="recent_str">Recent</string>
     <string name="artists_str">Artists</string>
     <string name="albums_str">Albums</string>
@@ -13,7 +12,6 @@
     <string name="no_albums">No albums</string>
     <string name="no_songs">No songs</string>
     <string name="no_genres">No genres</string>
-    
     <string name="bio_str">Bio</string>
     <string name="failed_load_artist_bio">Error occurred while loading bio</string>
     <string name="menu_settings">Settings</string>
@@ -27,11 +25,11 @@
     <string name="updates_str">Updates</string>
     <string name="social_update_source">{time} via {user} on {network}</string>
     <string name="failed_load_artist_updates">Failed to load social updates</string>
-	<string name="login_str">Login</string>
-	<string name="login_twitter">Login to Twitter</string>
+    <string name="login_str">Login</string>
+    <string name="login_twitter">Login to Twitter</string>
     <string name="no_social_profile">No social profile was found</string>
     <string name="no_bio_str">No biography was found</string>
-	<string name="loading_str">Loading…</string>
-	<string name="error_str">Error</string>
-    
+    <string name="loading_str">Loading…</string>
+    <string name="error_str">Error</string>
+
 </resources>

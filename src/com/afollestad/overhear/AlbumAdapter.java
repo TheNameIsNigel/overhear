@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Genre;
+import com.afollestad.overhearapi.LoadedCallback;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 
@@ -38,12 +40,11 @@ public class AlbumAdapter extends BaseAdapter {
 		};
 		mHandler = new Handler();
 		this.artist = artist;
-		items = new ArrayList<Album>();
 	}
 
 	private MusicBoundActivity context;
 	private Handler mHandler;
-	private List<Album> items;
+	private Album[] items;
 	private LruCache<String, Bitmap> mMemoryCache;
 	private String artist;
 
@@ -51,31 +52,66 @@ public class AlbumAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return items.size();
+		if(items == null)
+			return 0;
+		return items.length;
 	}
 
 	@Override
 	public Object getItem(int index) {
-		return items.get(index);
+		return items[index];
 	}
 
 	@Override
 	public long getItemId(int index) {
-		return items.get(index).getAlbumId();
+		return items[index].getAlbumId();
 	}
 
-	public void loadAlbums(boolean recents) {
-		if(recents) {
-			if(context.getMusicService() == null) 
-				return;
-			items = context.getMusicService().getRecents();
-		} else {
-			if(artist != null)
-				items = Album.getAlbumsForArtist(context, artist);
-			else 
-				items = Album.getAllAlbums(context);
+	public void loadAlbums() {
+		if(artist != null) {
+			Album.getAlbumsForArtist(context, artist, new LoadedCallback<Album[]>() {
+				@Override
+				public void onLoaded(Album[] result) {
+					items = result;
+					notifyDataSetChanged();
+				}	
+			});
+		} else { 
+			Album.getAllAlbums(context, new LoadedCallback<Album[]>() {
+				@Override
+				public void onLoaded(Album[] result) {
+					items = result;
+					notifyDataSetChanged();
+				}
+			});
 		}
+	}
+
+	public void loadRecents() {
+		if(context.getMusicService() == null) 
+			return;
+		items = context.getMusicService().getRecents().toArray(new Album[0]);
 		super.notifyDataSetChanged();
+	}
+	
+	public void loadGenreAsync(final Genre genre, final LoadedCallback<Object> cb) {
+		new Thread(new Runnable() {
+			public void run() {
+				List<Song> songs = genre.getAllSongs(context);
+				final List<Album> albums = new ArrayList<Album>();
+				for(Song s : songs) {
+					albums.add(Album.getAlbum(context, s.getAlbum()));
+				}
+				mHandler.post(new Runnable() {
+					public void run() {
+						items = albums.toArray(new Album[0]);
+						notifyDataSetChanged();
+						if(cb != null)
+							cb.onLoaded(null);
+					}
+				});
+			}
+		}).start();
 	}
 
 	private void loadAlbumCover(final Album album, final WeakReference<ImageView> view) {
@@ -105,14 +141,18 @@ public class AlbumAdapter extends BaseAdapter {
 
 		int pad = Utils.convertDpToPx(context, 15f);
 		if(position == 0) {
-			view.setPadding(0, pad, 0, 0);
+			if(getCount() == 1) {
+				view.setPadding(0, pad, 0, pad);
+			} else {
+				view.setPadding(0, pad, 0, 0);
+			}
 		} else if(position == getCount() - 1) {
 			view.setPadding(0, 0, 0, pad);
 		} else {
 			view.setPadding(0, 0, 0, 0);
 		}
 
-		Album album = items.get(position);
+		Album album = items[position];
 		((TextView)view.findViewById(R.id.title)).setText(album.getName());
 		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image); 

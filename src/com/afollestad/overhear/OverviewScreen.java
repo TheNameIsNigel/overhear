@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
+import com.afollestad.overhearapi.Genre;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 
@@ -97,12 +98,6 @@ public class OverviewScreen extends MusicBoundActivity {
 			getMusicService().saveRecents();
 		}
 	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
 
 	public class SectionsPagerAdapter extends TaggedFragmentAdapter {
 
@@ -162,7 +157,7 @@ public class OverviewScreen extends MusicBoundActivity {
 			setRetainInstance(true);
 			adapter = new AlbumAdapter((MusicBoundActivity)getActivity(), null);
 			setListAdapter(adapter);
-			adapter.loadAlbums(true);
+			adapter.loadRecents();
 		}
 
 		@Override
@@ -193,7 +188,7 @@ public class OverviewScreen extends MusicBoundActivity {
 		public void update() {
 			if(adapter != null) {
 				if(adapter.isEmpty())
-					adapter.loadAlbums(true);
+					adapter.loadRecents();
 				else
 					adapter.notifyDataSetChanged();
 			}
@@ -212,7 +207,7 @@ public class OverviewScreen extends MusicBoundActivity {
 			setRetainInstance(true);
 			adapter = new AlbumAdapter((MusicBoundActivity)getActivity(), null);
 			setListAdapter(adapter);
-			adapter.loadAlbums(false);
+			adapter.loadAlbums();
 		}
 
 		@Override
@@ -349,9 +344,7 @@ public class OverviewScreen extends MusicBoundActivity {
 
 		private GenreAdapter adapter;
 
-		public GenreListFragment() {  }
-
-		//TODO
+		public GenreListFragment() { }
 		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -378,6 +371,13 @@ public class OverviewScreen extends MusicBoundActivity {
 			setEmptyText(getString(R.string.no_genres));
 		}
 
+		@Override
+		public void onListItemClick(ListView l, View v, int position, long id) {
+			super.onListItemClick(l, v, position, id);
+			startActivity(new Intent(getActivity(), GenreViewer.class)
+					.putExtra("genre", ((Genre)adapter.getItem(position)).getJSON().toString()));
+		}
+		
 		@Override
 		public void update() {
 			if(adapter != null)

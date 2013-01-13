@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -116,12 +115,6 @@ public class AlbumViewer extends MusicBoundActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_album_viewer, menu);
-		return true;
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case android.R.id.home:
@@ -130,7 +123,6 @@ public class AlbumViewer extends MusicBoundActivity {
 		}
 		return false;
 	}
-
 
 	@Override
 	public void onBound() { }

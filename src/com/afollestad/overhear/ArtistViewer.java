@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,12 +60,6 @@ public class ArtistViewer extends MusicBoundActivity {
 		setTitle(artist.getName());
 		ArtistAdapter.loadArtistPicture(this, artist, new WeakReference<ImageView>(
 				(ImageView)findViewById(R.id.cover)), 180f, 180f);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_artist_viewer, menu);
-		return true;
 	}
 	
 	public class SectionsPagerAdapter extends TaggedFragmentAdapter {
@@ -120,7 +113,7 @@ public class ArtistViewer extends MusicBoundActivity {
 			String artist = ((ArtistViewer)getActivity()).artist.getName();
 			adapter = new AlbumAdapter((MusicBoundActivity)getActivity(), artist);
 			setListAdapter(adapter);
-			adapter.loadAlbums(false);
+			adapter.loadAlbums();
 		}
 
 		@Override
