@@ -2,6 +2,10 @@ package com.afollestad.overhear;
 
 import java.util.Locale;
 
+import com.afollestad.overhear.adapters.AlbumAdapter;
+import com.afollestad.overhear.adapters.ArtistAdapter;
+import com.afollestad.overhear.adapters.GenreAdapter;
+import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Genre;
@@ -20,53 +24,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 public class OverviewScreen extends MusicBoundActivity {
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
-
-	public void initializeNowPlayingBar() {
-		ImageView play = (ImageView)findViewById(R.id.play); 
-		play.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if(getMusicService().isPlaying()) {
-					getMusicService().pauseTrack();
-				} else {
-					try {
-						getMusicService().resumeTrack();
-					} catch(Exception e) {
-						Crouton.makeText(OverviewScreen.this, e.getMessage(), Style.ALERT);
-					}
-				}
-			}
-		});
-		findViewById(R.id.playing).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				//TODO open now playing screen 
-			}
-		});
-	}
-
-	private void updateNowPlayingBar() {
-		Song song = getMusicService().getNowPlaying();
-		if(song != null) {
-			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.pause);
-		} else {
-			song = MusicService.MusicUtils.getLastPlaying(this);
-			((ImageView)findViewById(R.id.play)).setImageResource(R.drawable.play);
-		}
-		if(song != null) {
-			Album album = Album.getAlbum(getApplicationContext(), song.getAlbum());
-			((ImageView)findViewById(R.id.playing)).setImageBitmap(album.getAlbumArt(this, 42f, 42f));
-		} else {
-			//TODO default now playing image
-		}
-	}
+	NowPlayingBar nowPlaying;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +41,6 @@ public class OverviewScreen extends MusicBoundActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setCurrentItem(1);
-		initializeNowPlayingBar();
 	}
 
 	@Override
@@ -376,14 +339,7 @@ public class OverviewScreen extends MusicBoundActivity {
 
 	@Override
 	public void onBound() {
-		getMusicService().setCallback(this);
-		updateNowPlayingBar();
-		updateFragments();
-	}
-
-	@Override
-	public void onServiceUpdate() {
-		updateNowPlayingBar();
+		nowPlaying = NowPlayingBar.get(this);
 		updateFragments();
 	}
 	
@@ -396,5 +352,11 @@ public class OverviewScreen extends MusicBoundActivity {
 				((MusicListFragment)frag).update();
 			}
 		}
+	}
+
+	
+	@Override
+	public void onNowPlayingUpdate() {
+		updateFragments();
 	}
 }

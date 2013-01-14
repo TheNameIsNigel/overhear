@@ -1,6 +1,5 @@
 package com.afollestad.overhear;
 
-import com.afollestad.overhear.MusicService.MusicActivityCallback;
 import com.afollestad.overhear.MusicService.MusicBinder;
 
 import android.app.Activity;
@@ -10,7 +9,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-public abstract class MusicBoundActivity extends Activity implements MusicActivityCallback {
+public abstract class MusicBoundActivity extends Activity {
 
 	MusicService mService;
 	boolean mBound;
@@ -25,9 +24,6 @@ public abstract class MusicBoundActivity extends Activity implements MusicActivi
 	
 	public abstract void onBound();
 	
-	public void onServiceUpdate() {
-	}
-	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -41,6 +37,11 @@ public abstract class MusicBoundActivity extends Activity implements MusicActivi
 		super.onPause();
 		unbindService(mConnection);
 	}
+
+	/**
+	 * Invoked by the NowPlayingBar when its state is changed (e.g. playing or paused).
+	 */
+	public abstract void onNowPlayingUpdate();
 	
 	private ServiceConnection mConnection = new ServiceConnection() {
         @Override

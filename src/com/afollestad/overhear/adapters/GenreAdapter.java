@@ -1,5 +1,7 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.adapters;
 
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.R.layout;
 import com.afollestad.overhearapi.Genre;
 
 import android.content.Context;

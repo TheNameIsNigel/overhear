@@ -11,6 +11,7 @@
 	<android.support.v4.view.ViewPager
 		android:layout_below="@+id/coverDivider" xmlns:tools="http://schemas.android.com/tools"
 		android:id="@+id/pager" android:layout_width="match_parent"
+		android:layout_above="@+id/nowPlaying"
 		android:layout_height="match_parent" tools:context=".ArtistViewer">
 
 		<android.support.v4.view.PagerTitleStrip
@@ -21,4 +22,6 @@
 
 	</android.support.v4.view.ViewPager>
 
+	<include android:id="@+id/nowPlaying" layout="@layout/now_playing_bar" />
+	
 </RelativeLayout>

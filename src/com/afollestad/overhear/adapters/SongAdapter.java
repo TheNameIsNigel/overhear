@@ -1,5 +1,10 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.adapters;
 
+import com.afollestad.overhear.MusicBoundActivity;
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.R.anim;
+import com.afollestad.overhear.R.id;
+import com.afollestad.overhear.R.layout;
 import com.afollestad.overhearapi.LoadedCallback;
 import com.afollestad.overhearapi.Song;
 

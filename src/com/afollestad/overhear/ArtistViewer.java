@@ -10,6 +10,9 @@ import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
 
+import com.afollestad.overhear.adapters.AlbumAdapter;
+import com.afollestad.overhear.adapters.ArtistAdapter;
+import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
@@ -41,6 +44,7 @@ public class ArtistViewer extends MusicBoundActivity {
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 	public Artist artist;
+	NowPlayingBar nowPlaying;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -374,12 +378,18 @@ public class ArtistViewer extends MusicBoundActivity {
 	}
 
 	@Override
-	public void onBound() { }
+	public void onBound() { 
+		nowPlaying = NowPlayingBar.get(this);
+	}
 
 	@Override
-	public void onServiceUpdate() {
+	public void onNowPlayingUpdate() {
+		updateFragments();
+	}
+	
+	private void updateFragments() {
 		for(int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			Fragment frag = mSectionsPagerAdapter.getItem(i);
+			Fragment frag = getFragmentManager().findFragmentByTag("page:" + i);
 			if(frag instanceof MusicFragment) {
 				((MusicFragment)frag).update();
 			} else if(frag instanceof MusicListFragment) {

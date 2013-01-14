@@ -5,6 +5,8 @@ import java.lang.ref.WeakReference;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.afollestad.overhear.adapters.ArtistAdapter;
+import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Song;
@@ -28,6 +30,7 @@ public class AlbumViewer extends MusicBoundActivity {
 	private SongAdapter adapter;
 	private Album album;
 	private Artist artist;
+	NowPlayingBar nowPlaying;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -125,11 +128,12 @@ public class AlbumViewer extends MusicBoundActivity {
 	}
 
 	@Override
-	public void onBound() { }
+	public void onBound() { 
+		nowPlaying = NowPlayingBar.get(this);
+	}
 	
-
 	@Override
-	public void onServiceUpdate() {
+	public void onNowPlayingUpdate() {
 		adapter.notifyDataSetChanged();
 	}
 }

@@ -2,6 +2,7 @@ package com.afollestad.overhear;
 
 import org.json.JSONObject;
 
+import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Genre;
 import com.afollestad.overhearapi.LoadedCallback;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 public class GenreViewer extends MusicBoundActivity {
 
 	AlbumAdapter adapter;
+	NowPlayingBar nowPlaying;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,12 @@ public class GenreViewer extends MusicBoundActivity {
 	}
 	
 	@Override
-	public void onBound() {		
+	public void onBound() { 
+		nowPlaying = NowPlayingBar.get(this);
+	}
+
+	@Override
+	public void onNowPlayingUpdate() {
+		adapter.notifyDataSetChanged();
 	}
 }
