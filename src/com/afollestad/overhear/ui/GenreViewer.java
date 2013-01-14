@@ -1,7 +1,10 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.ui;
 
 import org.json.JSONObject;
 
+import com.afollestad.overhear.MusicBoundActivity;
+import com.afollestad.overhear.NowPlayingBar;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Genre;

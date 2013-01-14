@@ -9,6 +9,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class NowPlayingBar {
 
@@ -63,6 +64,18 @@ public class NowPlayingBar {
 			@Override
 			public void onClick(View arg0) {
 				//TODO open now playing screen 
+			}
+		});
+		next.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Crouton.makeText(context, "Not implemented yet", Style.INFO); 
+			}
+		});
+		previous.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Crouton.makeText(context, "Not implemented yet", Style.INFO); 
 			}
 		});
 	}

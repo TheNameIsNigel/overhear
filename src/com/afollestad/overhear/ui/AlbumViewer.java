@@ -1,10 +1,13 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.ui;
 
 import java.lang.ref.WeakReference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.afollestad.overhear.MusicBoundActivity;
+import com.afollestad.overhear.NowPlayingBar;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhearapi.Album;

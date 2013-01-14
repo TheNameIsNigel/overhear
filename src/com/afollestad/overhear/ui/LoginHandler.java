@@ -1,4 +1,8 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.ui;
+
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.R.id;
+import com.afollestad.overhear.R.layout;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

@@ -1,4 +1,4 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.ui;
 
 import java.lang.ref.WeakReference;
 import java.util.Locale;
@@ -10,6 +10,12 @@ import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
 
+import com.afollestad.overhear.MusicBoundActivity;
+import com.afollestad.overhear.MusicFragment;
+import com.afollestad.overhear.MusicListFragment;
+import com.afollestad.overhear.NowPlayingBar;
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.TaggedFragmentAdapter;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.adapters.SongAdapter;
