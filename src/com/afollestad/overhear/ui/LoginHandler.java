@@ -1,8 +1,6 @@
 package com.afollestad.overhear.ui;
 
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.R.id;
-import com.afollestad.overhear.R.layout;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -83,7 +81,7 @@ public class LoginHandler extends Activity {
 								runOnUiThread(new Runnable() {
 									@Override
 									public void run() {
-										Crouton.makeText(LoginHandler.this, e.getMessage(), Style.ALERT);
+										Crouton.makeText(LoginHandler.this, e.getMessage(), Style.ALERT).show();
 									}
 								});
 							}
@@ -95,7 +93,7 @@ public class LoginHandler extends Activity {
 
 			@Override
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-				Crouton.makeText(LoginHandler.this, description, Style.ALERT);
+				Crouton.makeText(LoginHandler.this, description, Style.ALERT).show();
 			}
 
 			@Override

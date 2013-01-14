@@ -53,6 +53,7 @@ public abstract class MusicBoundActivity extends Activity {
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
+        	mService = null;
             mBound = false;
         }
     };

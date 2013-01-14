@@ -10,6 +10,13 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import android.view.View;
 import android.widget.ImageView;
 
+
+/**
+ * Wraps around the now_playing_bar layout that's included in any screen with music conrols, and
+ * automatically handles user interaction and notifications from the MusicService.
+ * 
+ * @author Aidan Follestad
+ */
 public class NowPlayingBar {
 
 	private NowPlayingBar() { }
@@ -68,13 +75,13 @@ public class NowPlayingBar {
 		next.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Crouton.makeText(context, "Not implemented yet", Style.INFO); 
+				Crouton.makeText(context, "Not implemented yet", Style.ALERT).show();
 			}
 		});
 		previous.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Crouton.makeText(context, "Not implemented yet", Style.INFO); 
+				Crouton.makeText(context, "Not implemented yet", Style.ALERT).show();
 			}
 		});
 	}

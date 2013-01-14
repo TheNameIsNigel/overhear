@@ -6,9 +6,6 @@ import java.util.List;
 
 import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.R.anim;
-import com.afollestad.overhear.R.id;
-import com.afollestad.overhear.R.layout;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Genre;
 import com.afollestad.overhearapi.LoadedCallback;

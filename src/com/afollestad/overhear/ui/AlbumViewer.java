@@ -51,7 +51,7 @@ public class AlbumViewer extends MusicBoundActivity {
 					getMusicService().playTrack(song);
 				} catch(Exception e) {
 					e.printStackTrace();
-					Crouton.makeText(AlbumViewer.this, "Failed to play " + song.getTitle(), Style.ALERT);
+					Crouton.makeText(AlbumViewer.this, "Failed to play " + song.getTitle(), Style.ALERT).show();
 				}
 				adapter.notifyDataSetChanged();
 			}
@@ -112,7 +112,7 @@ public class AlbumViewer extends MusicBoundActivity {
 					e.printStackTrace();
 					mHandler.post(new Runnable() {
 						public void run() {
-							Crouton.makeText(AlbumViewer.this, R.string.failed_load_artist_bio, Style.ALERT);
+							Crouton.makeText(AlbumViewer.this, R.string.failed_load_artist_bio, Style.ALERT).show();
 						}
 					});
 				}
