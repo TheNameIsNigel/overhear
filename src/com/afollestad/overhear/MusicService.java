@@ -37,6 +37,9 @@ public class MusicService extends Service {
 		mCallback = cb;
 	}
 	
+	/**
+	 * Requests that the service plays a song.
+	 */
 	public void playTrack(Song song) throws Exception {
 		nowPlaying = song;
 		MusicUtils.setLastPlaying(getApplicationContext(), song);
@@ -45,6 +48,15 @@ public class MusicService extends Service {
 			player.release();
 		}
 		player = new MediaPlayer();
+		player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				//TODO verify that this works
+				nowPlaying = null;
+				if(mCallback != null)
+					mCallback.onServiceUpdate();
+			}
+		});
 		player.setDataSource(song.getData());
 		player.prepare();
 		preparedPlayer = true;
@@ -54,6 +66,9 @@ public class MusicService extends Service {
 			mCallback.onServiceUpdate();
 	}
 	
+	/**
+	 * Pauses the currently playing song.
+	 */
 	public void pauseTrack() {
 		if(player != null && preparedPlayer && player.isPlaying()) {
 			player.pause();
@@ -64,6 +79,10 @@ public class MusicService extends Service {
 			mCallback.onServiceUpdate();
 	}
 	
+	/**
+	 * Resumes the last playing song, or restart it if it's position was lost.
+	 * @throws Exception
+	 */
 	public void resumeTrack() throws Exception {
 		Song last = MusicUtils.getLastPlaying(getApplicationContext());
 		if(preparedPlayer) {
@@ -76,18 +95,31 @@ public class MusicService extends Service {
 		}
 	}
 	
+	/**
+	 * Gets the currently playing song, if any.
+	 */
 	public Song getNowPlaying() {
 		return nowPlaying;
 	}
 	
+	/**
+	 * Gets an instance of the media player.
+	 */
 	public MediaPlayer getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Gets the recently played history.
+	 * @return
+	 */
 	public ArrayList<Album> getRecents() {
 		return recents;
 	}
 	
+	/**
+	 * Adds a song to the recent history.
+	 */
 	public void appendRecent(Album album) {
 		for(int i = 0; i < recents.size(); i++) {
 			if(recents.get(i).getAlbumId() == album.getAlbumId()) {
