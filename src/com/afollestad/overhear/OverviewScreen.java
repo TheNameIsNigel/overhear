@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -78,18 +77,8 @@ public class OverviewScreen extends MusicBoundActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setCurrentItem(1);
-
 		initializeNowPlayingBar();
 	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		if(isServiceBound()) {
-			getMusicService().setCallback(this);
-			updateNowPlayingBar();
-		}
-	}	
 
 	@Override
 	public void onPause() {
@@ -400,7 +389,7 @@ public class OverviewScreen extends MusicBoundActivity {
 	
 	private void updateFragments() {
 		for(int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			Fragment frag = mSectionsPagerAdapter.getItem(i);
+			Fragment frag = getFragmentManager().findFragmentByTag("page:" + i);
 			if(frag instanceof MusicFragment) {
 				((MusicFragment)frag).update();
 			} else if(frag instanceof MusicListFragment) {

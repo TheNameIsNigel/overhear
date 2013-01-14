@@ -8,7 +8,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.IBinder;
 
 public abstract class MusicBoundActivity extends Activity implements MusicActivityCallback {
@@ -30,16 +29,16 @@ public abstract class MusicBoundActivity extends Activity implements MusicActivi
 	}
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onResume() {
+		super.onResume();
 		Intent intent = new Intent(this, MusicService.class);
 		startService(intent);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 	}
 	
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void onPause() {
+		super.onPause();
 		unbindService(mConnection);
 	}
 	
