@@ -87,7 +87,7 @@ public class AlbumListFragment extends ListFragment implements LoaderCallbacks<C
 		String where = null;
 		if(getArguments() != null && getArguments().containsKey("artist_name")) {
 			String name = getArguments().getString("artist_name").replace("'", "''");
-			where = MediaStore.Audio.AlbumColumns.ARTIST + " = " + name;
+			where = MediaStore.Audio.AlbumColumns.ARTIST + " = '" + name + "'";
 		}
 		return new CursorLoader(getActivity(), 
 				uri, 

@@ -101,7 +101,7 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 			} else if(getArguments().containsKey("album_id")) {
 				where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + getArguments().getInt("album_id");
 			} else if(getArguments().containsKey("artist_name")) {
-				where += " AND " + MediaStore.Audio.Media.ARTIST + " = " + getArguments().getString("artist_name").replace("'", "''");
+				where += " AND " + MediaStore.Audio.Media.ARTIST + " = '" + getArguments().getString("artist_name").replace("'", "''") + "'";
 			}
 		}
 		return new CursorLoader(getActivity(), 
