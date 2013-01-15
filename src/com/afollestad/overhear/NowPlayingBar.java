@@ -1,15 +1,17 @@
 package com.afollestad.overhear;
 
-import com.afollestad.overhear.MusicService.MusicActivityCallback;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.View;
 import android.widget.ImageView;
-
 
 /**
  * Wraps around the now_playing_bar layout that's included in any screen with music conrols, and
@@ -27,6 +29,13 @@ public class NowPlayingBar {
 	private ImageView previous;
 	private ImageView next;
 	
+	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+        	update();
+        }
+    };
+	
 	public static NowPlayingBar get(MusicBoundActivity context) {
 		NowPlayingBar bar = new NowPlayingBar();
 		bar.context = context;
@@ -40,15 +49,10 @@ public class NowPlayingBar {
 	}
 	
 	private void initialize() {
-		//Hook the now playing bar to the service so that it will automatically update itself whenever the service wants it to.
-		if(context != null && context.getMusicService() != null) {
-			context.getMusicService().setCallback(new MusicActivityCallback() {
-				@Override
-				public void onServiceUpdate() {
-					update();
-				}
-			});
-		}
+		IntentFilter filter = new IntentFilter();
+        filter.addAction(MusicService.PLAYING_STATE_CHANGED);
+		context.registerReceiver(mStatusReceiver, filter);
+		
 		playPause.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -105,6 +109,5 @@ public class NowPlayingBar {
 				//TODO default now playing image
 			}
 		}
-		context.onNowPlayingUpdate();
 	}
 }

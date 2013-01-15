@@ -30,10 +30,9 @@
 		android:background="@android:color/holo_blue_light"
 		android:layout_width="fill_parent" android:layout_height="2dp" />
 
-	<ListView android:id="@+id/songList" android:layout_width="fill_parent"
+	<FrameLayout android:id="@+id/songList" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:layout_below="@+id/headerDivider"
-		android:layout_above="@+id/nowPlaying" android:paddingLeft="20dp"
-		android:paddingRight="20dp" />
+		android:layout_above="@+id/nowPlaying" />
 
 	<include android:id="@+id/nowPlaying" layout="@layout/now_playing_bar" />
 

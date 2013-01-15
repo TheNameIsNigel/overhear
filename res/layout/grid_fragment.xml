@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/gridView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:columnWidth="160dp"
-        android:fastScrollEnabled="true"
-        android:gravity="center_horizontal"
-        android:numColumns="auto_fit"
-        android:smoothScrollbar="true"
-        android:drawSelectorOnTop="true" />
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gridView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:drawSelectorOnTop="true"
+    android:fastScrollEnabled="true"
+    android:gravity="center_horizontal"
+    android:numColumns="@integer/cols"
+    android:smoothScrollbar="true" />

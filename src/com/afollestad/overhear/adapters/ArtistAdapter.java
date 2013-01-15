@@ -8,11 +8,11 @@ import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
-import com.afollestad.overhearapi.LoadedCallback;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.AnimationDrawable;
@@ -21,51 +21,19 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class ArtistAdapter extends BaseAdapter {
+public class ArtistAdapter extends CursorAdapter {
 
-	public ArtistAdapter(MusicBoundActivity context) {
-		this.context = context;
+	public ArtistAdapter(Context context, Cursor c, int flags) {
+		super(context, c, flags);
+		this.musicContext = (MusicBoundActivity)context;
 	}
 
-	private MusicBoundActivity context;
-	private Artist[] items;
-	private AnimationDrawable mPeakOneAnimation, mPeakTwoAnimation;
+	private MusicBoundActivity musicContext;
 	
-	@Override
-	public int getCount() {
-		if(items == null)
-			return 0;
-		else
-			return items.length;
-	}
-
-	@Override
-	public Object getItem(int index) {
-		if(items == null)
-			return null;
-		return items[index];
-	}
-
-	@Override
-	public long getItemId(int index) {
-		return index;
-	}
-
-	public void loadArtists() {
-		Artist.getAllArtists(context, new LoadedCallback<Artist[]>() {
-			@Override
-			public void onLoaded(Artist[] result) {
-				items = result;
-				notifyDataSetChanged();
-			}
-		});
-	}
-
 	public static void loadArtistPicture(final Context context, final Artist artist, 
 			final WeakReference<ImageView> view, final float widthDp, final float heightDp) {
 			
@@ -115,17 +83,11 @@ public class ArtistAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
-		RelativeLayout view;
-		if (convertView == null) {
-			view = (RelativeLayout)LayoutInflater.from(context).inflate(R.layout.grid_view_item, null);
-		} else {
-			view = (RelativeLayout)convertView;
-		}
-				
-		Artist artist = items[position];
+	public void bindView(View view, Context context, Cursor cursor) {
+		Artist artist = Artist.fromCursor(cursor);
 		((TextView)view.findViewById(R.id.title)).setText(artist.getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image);
+		
 		cover.setImageBitmap(null);
 		loadArtistPicture(context, artist, new WeakReference<ImageView>(cover), 
 				180f, 180f);
@@ -134,11 +96,11 @@ public class ArtistAdapter extends BaseAdapter {
 		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
 		peakOne.setImageResource(R.anim.peak_meter_1);
 		peakTwo.setImageResource(R.anim.peak_meter_2);
-		mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
-		mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
+		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
+		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 		
-		if(context.getMusicService() != null) {
-			Song nowPlaying = context.getMusicService().getNowPlaying();
+		if(musicContext.getMusicService() != null) {
+			Song nowPlaying = musicContext.getMusicService().getNowPlaying();
 			if(nowPlaying != null && artist.getName().equals(nowPlaying.getArtist())) {
 				peakOne.setVisibility(View.VISIBLE);
 				peakTwo.setVisibility(View.VISIBLE);
@@ -158,7 +120,10 @@ public class ArtistAdapter extends BaseAdapter {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
 		}
-		
-		return view;
+	}
+ 
+	@Override
+	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+		return LayoutInflater.from(context).inflate(R.layout.grid_view_item, null);
 	}
 }

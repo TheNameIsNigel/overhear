@@ -2,91 +2,35 @@ package com.afollestad.overhear.adapters;
 
 import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.R;
-import com.afollestad.overhearapi.LoadedCallback;
 import com.afollestad.overhearapi.Song;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class SongAdapter extends BaseAdapter {
+public class SongAdapter extends CursorAdapter {
 
-	public SongAdapter(MusicBoundActivity context, String album, String artist) {
-		this.context = context;
-		this.album = album;
-		this.artist = artist;
+	public SongAdapter(Context context, Cursor c, int flags) {
+		super(context, c, flags);
+		this.musicContext = (MusicBoundActivity)context;
 	}
 
-	private MusicBoundActivity context;
-	private Song[] items;
-	private String album;
-	private String artist;
+	private MusicBoundActivity musicContext;
+
+	@Override
+	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+		return LayoutInflater.from(context).inflate(R.layout.song_item, null);
+	}
 	
-	private AnimationDrawable mPeakOneAnimation, mPeakTwoAnimation;
-	
 	@Override
-	public int getCount() {
-		if(items == null)
-			return 0;
-		else
-			return items.length;
-	}
-
-	@Override
-	public Object getItem(int index) {
-		if(items == null)
-			return null;
-		return items[index];
-	}
-
-	@Override
-	public long getItemId(int index) {
-		return items[index].getId();
-	}
-
-	public void loadSongs() {
-		if(album != null) {
-			Song.getSongsByAlbum(context, album, new LoadedCallback<Song[]>() {
-				@Override
-				public void onLoaded(Song[] result) {
-					items = result;
-					notifyDataSetChanged();
-				}
-			});
-		} else if(artist != null) {
-			Song.getSongsByArtist(context, artist, new LoadedCallback<Song[]>() {
-				@Override
-				public void onLoaded(Song[] result) {
-					items = result;
-					notifyDataSetChanged();
-				}
-			});
-		} else { 
-			Song.getAllSongs(context, new LoadedCallback<Song[]>() {
-				@Override
-				public void onLoaded(Song[] result) {
-					items = result;
-					notifyDataSetChanged();
-				}
-			});
-		}
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		RelativeLayout view;
-		if (convertView == null) {
-			view = (RelativeLayout)LayoutInflater.from(context).inflate(R.layout.song_item, null);
-		} else {
-			view = (RelativeLayout)convertView;
-		}
-		
-		Song song = items[position];
+	public void bindView(View view, Context context, Cursor cursor) {
+		Song song = Song.fromCursor(cursor);
 		((TextView)view.findViewById(R.id.title)).setText(song.getTitle());
 		((TextView)view.findViewById(R.id.duration)).setText(song.getDurationString());
 
@@ -94,11 +38,11 @@ public class SongAdapter extends BaseAdapter {
 		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
 		peakOne.setImageResource(R.anim.peak_meter_1);
 		peakTwo.setImageResource(R.anim.peak_meter_2);
-		mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
-		mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
+		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
+		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 		
-		if(context.getMusicService() != null) {
-			Song nowPlaying = context.getMusicService().getNowPlaying();
+		if(musicContext.getMusicService() != null) {
+			Song nowPlaying = musicContext.getMusicService().getNowPlaying();
 			if(nowPlaying != null && song.getId() == nowPlaying.getId()) {
 				peakOne.setVisibility(View.VISIBLE);
 				peakTwo.setVisibility(View.VISIBLE);
@@ -118,7 +62,5 @@ public class SongAdapter extends BaseAdapter {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
 		}
-
-		return view;
 	}
 }

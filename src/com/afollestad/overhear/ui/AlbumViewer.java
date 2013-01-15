@@ -9,28 +9,25 @@ import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.NowPlayingBar;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.ArtistAdapter;
-import com.afollestad.overhear.adapters.SongAdapter;
+import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
-import com.afollestad.overhearapi.Song;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class AlbumViewer extends MusicBoundActivity {
 
-	private SongAdapter adapter;
 	private Album album;
 	private Artist artist;
 	NowPlayingBar nowPlaying;
@@ -41,28 +38,17 @@ public class AlbumViewer extends MusicBoundActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_album_viewer);
 		load();
-		ListView list = (ListView)findViewById(R.id.songList);
-		list.setAdapter(adapter);
-		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int index, long id) {
-				Song song = (Song)adapter.getItem(index);
-				try {
-					getMusicService().playTrack(song);
-				} catch(Exception e) {
-					e.printStackTrace();
-					Crouton.makeText(AlbumViewer.this, "Failed to play " + song.getTitle(), Style.ALERT).show();
-				}
-				adapter.notifyDataSetChanged();
-			}
-		});
-		adapter.loadSongs();
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		adapter.notifyDataSetChanged();
+		
+		if (savedInstanceState == null) {
+	        // First-time init; create fragment to embed in activity.
+	        FragmentTransaction ft = getFragmentManager().beginTransaction();
+	        Fragment newFragment = new SongListFragment();
+	        Bundle args = new Bundle();
+	        args.putInt("album_id", album.getAlbumId());
+	        newFragment.setArguments(args);
+	        ft.add(R.id.songList, newFragment);
+	        ft.commit();
+	    }
 	}
 	
 	@Override
@@ -82,7 +68,6 @@ public class AlbumViewer extends MusicBoundActivity {
 			throw new java.lang.Error(e.getMessage());
 		}
 		((TextView)findViewById(R.id.artistName)).setText(artist.getName());
-		adapter = new SongAdapter(this, album.getName(), null);
 		setTitle(album.getName());
 		
 		findViewById(R.id.artistCover).setOnClickListener(new View.OnClickListener() {
@@ -133,10 +118,5 @@ public class AlbumViewer extends MusicBoundActivity {
 	@Override
 	public void onBound() { 
 		nowPlaying = NowPlayingBar.get(this);
-	}
-	
-	@Override
-	public void onNowPlayingUpdate() {
-		adapter.notifyDataSetChanged();
 	}
 }

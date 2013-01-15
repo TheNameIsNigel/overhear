@@ -21,21 +21,14 @@ public class MusicService extends Service {
 	
 	public MusicService() {
 	}
-	
-	public static interface MusicActivityCallback {
-		public abstract void onServiceUpdate();
-	}
 
 	private MediaPlayer player;	
 	private Song nowPlaying;
 	private ArrayList<Album> recents;
 	private boolean preparedPlayer;
 	private final IBinder mBinder = new MusicBinder();
-	private MusicActivityCallback mCallback;
 	
-	public void setCallback(MusicActivityCallback cb) {
-		mCallback = cb;
-	}
+	public final static String PLAYING_STATE_CHANGED = "com.afollestad.overhear.PLAY_STATE_CHANGED";
 	
 	/**
 	 * Requests that the service plays a song.
@@ -53,8 +46,7 @@ public class MusicService extends Service {
 			public void onCompletion(MediaPlayer mp) {
 				//TODO verify that this works
 				nowPlaying = null;
-				if(mCallback != null)
-					mCallback.onServiceUpdate();
+				sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 			}
 		});
 		player.setDataSource(song.getData());
@@ -62,8 +54,7 @@ public class MusicService extends Service {
 		preparedPlayer = true;
 		player.start();
 		appendRecent(Album.getAlbum(getApplicationContext(), song.getAlbum()));
-		if(mCallback != null)
-			mCallback.onServiceUpdate();
+		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 	}
 	
 	/**
@@ -75,8 +66,7 @@ public class MusicService extends Service {
 			MusicUtils.setLastPlaying(getApplicationContext(), nowPlaying);
 			nowPlaying = null;
 		}
-		if(mCallback != null)
-			mCallback.onServiceUpdate();
+		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 	}
 	
 	/**
@@ -88,8 +78,7 @@ public class MusicService extends Service {
 		if(preparedPlayer) {
 			player.start();
 			nowPlaying = last;
-			if(mCallback != null)
-				mCallback.onServiceUpdate();
+			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		} else if(last != null) {
 			playTrack(last);
 		}
@@ -100,13 +89,6 @@ public class MusicService extends Service {
 	 */
 	public Song getNowPlaying() {
 		return nowPlaying;
-	}
-	
-	/**
-	 * Gets an instance of the media player.
-	 */
-	public MediaPlayer getPlayer() {
-		return player;
 	}
 	
 	/**
@@ -132,6 +114,9 @@ public class MusicService extends Service {
 		recents.add(0, album);
 	}
 	
+	/**
+	 * Saves the recent history to the local preferences for loading later.
+	 */
 	public void saveRecents() {
 		MusicUtils.setRecents(getApplicationContext(), recents);
 	}
@@ -153,7 +138,6 @@ public class MusicService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		recents = MusicUtils.getRecents(getApplicationContext());
 		player = new MediaPlayer();
 	}
 	
@@ -165,6 +149,7 @@ public class MusicService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
+		recents = MusicUtils.getRecents(getApplicationContext());
 		return START_STICKY;
 	}
 	
