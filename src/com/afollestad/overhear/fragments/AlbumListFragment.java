@@ -5,7 +5,6 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhearapi.Album;
-import com.afollestad.overhearapi.Utils;
 
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -65,7 +64,7 @@ public class AlbumListFragment extends ListFragment implements LoaderCallbacks<C
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		int pad = Utils.convertDpToPx(getActivity(), 20f);
+		int pad = getResources().getDimensionPixelSize(R.dimen.list_side_padding);
 		getListView().setPadding(pad, 0, pad, 0);
 		getListView().setSmoothScrollbarEnabled(true);
 		getListView().setFastScrollEnabled(true);

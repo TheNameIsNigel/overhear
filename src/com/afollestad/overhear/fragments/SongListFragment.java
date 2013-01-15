@@ -5,7 +5,6 @@ import com.afollestad.overhear.MusicService;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhearapi.Song;
-import com.afollestad.overhearapi.Utils;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -68,7 +67,7 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		int pad = Utils.convertDpToPx(getActivity(), 20f);
+		int pad = getResources().getDimensionPixelSize(R.dimen.list_side_padding);
 		getListView().setPadding(pad, 0, pad, 0);
 		getListView().setSmoothScrollbarEnabled(true);
 		getListView().setFastScrollEnabled(true);

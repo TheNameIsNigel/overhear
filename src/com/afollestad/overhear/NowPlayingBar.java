@@ -104,7 +104,8 @@ public class NowPlayingBar {
 			}
 			if(song != null) {
 				Album album = Album.getAlbum(context, song.getAlbum());
-				playing.setImageBitmap(album.getAlbumArt(context, 42f, 42f));
+				int dimen = context.getResources().getDimensionPixelSize(R.dimen.now_playing_bar_cover);
+				playing.setImageBitmap(album.getAlbumArt(context, dimen, dimen));
 			} else {
 				//TODO default now playing image
 			}

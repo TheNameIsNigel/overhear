@@ -1,26 +1,21 @@
 package com.afollestad.overhear.ui;
 
-import java.lang.ref.WeakReference;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.NowPlayingBar;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.SongListFragment;
+import com.afollestad.overhear.tasks.AlbumImageLoader;
+import com.afollestad.overhear.tasks.ArtistImageLoader;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -78,31 +73,11 @@ public class AlbumViewer extends MusicBoundActivity {
 			}
 		});
 		
-		ArtistAdapter.loadArtistPicture(getApplicationContext(), artist,
-				new WeakReference<ImageView>((ImageView)findViewById(R.id.artistCover)),
-				160f, 160f);
+		int dimen = getResources().getDimensionPixelSize(R.dimen.split_view_image);
+		new ArtistImageLoader(getApplicationContext(), (ImageView)findViewById(R.id.artistCover), 
+				dimen, dimen).execute(artist);
 		
-		final Handler mHandler = new Handler();
-		new Thread(new Runnable() {
-			public void run() {
-				try {
-					final Bitmap albumCover = album.getAlbumArt(getApplicationContext(), 160f, 160f);
-					mHandler.post(new Runnable() {
-						public void run() { 
-							((ImageView)findViewById(R.id.albumCover)).setImageBitmap(albumCover);
-							invalidateOptionsMenu();
-						}
-					});
-				} catch(Exception e) {
-					e.printStackTrace();
-					mHandler.post(new Runnable() {
-						public void run() {
-							Crouton.makeText(AlbumViewer.this, R.string.failed_load_artist_bio, Style.ALERT).show();
-						}
-					});
-				}
-			}
-		}).start();
+		new AlbumImageLoader(this, (ImageView)findViewById(R.id.albumCover), dimen, dimen).execute(album);
 	}
 
 	@Override

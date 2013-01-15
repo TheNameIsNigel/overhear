@@ -1,6 +1,5 @@
 package com.afollestad.overhear.ui;
 
-import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import org.json.JSONException;
@@ -10,10 +9,10 @@ import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.NowPlayingBar;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
-import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
+import com.afollestad.overhear.tasks.ArtistImageLoader;
 import com.afollestad.overhearapi.Artist;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -46,8 +45,8 @@ public class ArtistViewer extends MusicBoundActivity {
 			//throw new Error(e.getMessage());
 		}
 		setTitle(artist.getName());
-		ArtistAdapter.loadArtistPicture(this, artist, new WeakReference<ImageView>(
-				(ImageView)findViewById(R.id.cover)), 180f, 180f);
+		int dimen = getResources().getDimensionPixelSize(R.dimen.gridview_image);
+		new ArtistImageLoader(this, (ImageView)findViewById(R.id.cover), dimen, dimen).execute(artist);
 	}
 	
 	public class SectionsPagerAdapter extends TaggedFragmentAdapter {
