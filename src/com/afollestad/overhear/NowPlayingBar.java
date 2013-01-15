@@ -1,5 +1,6 @@
 package com.afollestad.overhear;
 
+import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
@@ -104,8 +105,10 @@ public class NowPlayingBar {
 			}
 			if(song != null) {
 				Album album = Album.getAlbum(context, song.getAlbum());
-				int dimen = context.getResources().getDimensionPixelSize(R.dimen.now_playing_bar_cover);
-				//TODO playing.setImageBitmap(album.getAlbumArt(context, dimen, dimen));
+//        		TODO Un-comment to re-enable scaling of images (if out of memory errors ever occur)
+//				int dimen = context.getResources().getDimensionPixelSize(R.dimen.now_playing_bar_cover);
+				int dimen = -1;
+				AlbumAdapter.startAlbumArtTask(context, album, playing, dimen);
 			} else {
 				//TODO default now playing image
 			}
