@@ -1,37 +1,68 @@
 package com.afollestad.overhear.adapters;
 
 import com.afollestad.overhear.MusicBoundActivity;
+import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.tasks.AlbumImageLoader;
+import com.afollestad.overhear.tasks.ArtistOrAlbumImage;
+import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
+import com.androidquery.AQuery;
+
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-public class AlbumAdapter extends CursorAdapter {
+public class AlbumAdapter extends SimpleCursorAdapter {
 
-	public AlbumAdapter(Context context, Cursor c, int flags) {
-		super(context, c, flags);
-		this.musicContext = (MusicBoundActivity)context;	}
+	public AlbumAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+		super(context, layout, c, from, to, flags);
+		this.musicContext = (MusicBoundActivity)context;	
+	}
 
 	private MusicBoundActivity musicContext;
+	public final static String ALBUM_IMAGE = "album_image";
 	
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		return LayoutInflater.from(context).inflate(R.layout.album_item, null);
 	}
 	
+	public static void startAlbumArtTask(Activity context, Album album, ImageView cover, int dimen) {
+		if (MusicUtils.getImageURL(context, album.getName() + ":" + album.getArtist().getName(), ALBUM_IMAGE) == null) {
+            new LastfmGetAlbumImage(context, cover).executeOnExecutor(
+                    AsyncTask.THREAD_POOL_EXECUTOR, album);
+        } else {
+//        	TODO Un-comment to re-enable scaling of images (if out of memory errors ever occur)
+//        	if(dimen == 0) {
+//        		dimen = context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
+//        	}
+        	dimen = -1;
+            new ArtistOrAlbumImage(cover, ALBUM_IMAGE, dimen).executeOnExecutor(
+                    AsyncTask.THREAD_POOL_EXECUTOR, album.getName() + ":" + album.getArtist().getName());
+        }
+	}
+	
 	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-		int position = cursor.getPosition();
-		int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+		View view = super.getView(position, convertView, parent);
+		if(view == null) {
+			if(convertView != null) {
+				view = convertView;
+			} else {
+				view = newView(musicContext, getCursor(), parent);
+			}
+		}
+		
+		int pad = musicContext.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
 		if(position == 0) {
 			if(getCount() == 1) {
 				view.setPadding(0, pad, 0, pad);
@@ -44,13 +75,17 @@ public class AlbumAdapter extends CursorAdapter {
 			view.setPadding(0, 0, 0, 0);
 		}
 
-		Album album = Album.fromCursor(context, cursor);
+		Album album = Album.fromCursor(musicContext, getCursor());
 		((TextView)view.findViewById(R.id.title)).setText(album.getName());
 		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image); 
 
-		int dimen = context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
-		new AlbumImageLoader(context, cover, dimen, dimen).execute(album);
+		final AQuery aq = new AQuery(view);
+		if (aq.shouldDelay(position, view, parent, "")) {
+            cover.setImageDrawable(null);
+        } else {
+            startAlbumArtTask(musicContext, album, cover, 0);
+        }
 	
 		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
 		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
@@ -80,5 +115,7 @@ public class AlbumAdapter extends CursorAdapter {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
 		}
+		
+		return view;
 	}
 }

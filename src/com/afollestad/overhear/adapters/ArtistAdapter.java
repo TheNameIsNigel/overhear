@@ -1,37 +1,72 @@
 package com.afollestad.overhear.adapters;
 
 import com.afollestad.overhear.MusicBoundActivity;
+import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.tasks.ArtistImageLoader;
+import com.afollestad.overhear.tasks.ArtistOrAlbumImage;
+import com.afollestad.overhear.tasks.LastfmGetArtistImage;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Song;
+import com.androidquery.AQuery;
+
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-public class ArtistAdapter extends CursorAdapter {
+public class ArtistAdapter extends SimpleCursorAdapter {
 
-	public ArtistAdapter(Context context, Cursor c, int flags) {
-		super(context, c, flags);
+	public ArtistAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+		super(context, layout, c, from, to, flags);
 		this.musicContext = (MusicBoundActivity)context;
 	}
 
 	private MusicBoundActivity musicContext;
+	public final static String ARTIST_IMAGE = "artist_image";
+	
+	public static void startArtistArtTask(Activity context, Artist artist, ImageView cover, int dimen) {
+		if (MusicUtils.getImageURL(context, artist.getName(), ARTIST_IMAGE) == null) {
+            new LastfmGetArtistImage(context, cover).executeOnExecutor(
+                    AsyncTask.THREAD_POOL_EXECUTOR, artist);
+        } else {
+//        	TODO Un-comment to re-enable scaling of images (if out of memory errors ever occur)
+//        	if(dimen == 0) {
+//        		dimen = context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
+//        	}
+        	dimen = -1;
+            new ArtistOrAlbumImage(cover, ARTIST_IMAGE, dimen).executeOnExecutor(
+                    AsyncTask.THREAD_POOL_EXECUTOR, artist.getName());
+        }
+	}
 	
 	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-		Artist artist = Artist.fromCursor(cursor);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+		View view = super.getView(position, convertView, parent);
+		if(view == null) {
+			if(convertView != null) {
+				view = convertView;
+			} else {
+				view = newView(musicContext, getCursor(), parent);
+			}
+		}
+		
+		Artist artist = Artist.fromCursor(getCursor());
 		((TextView)view.findViewById(R.id.title)).setText(artist.getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image);
 			
-		int dimen = context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
-		new ArtistImageLoader(context, cover, dimen, dimen).execute(artist);
+		final AQuery aq = new AQuery(view);
+		if (aq.shouldDelay(position, view, parent, "")) {
+            cover.setImageDrawable(null);
+        } else {
+            startArtistArtTask(musicContext, artist, cover, 0);
+        }
 		
 		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
 		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
@@ -61,6 +96,8 @@ public class ArtistAdapter extends CursorAdapter {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
 		}
+		
+		return view;
 	}
  
 	@Override

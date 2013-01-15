@@ -9,10 +9,10 @@ import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.NowPlayingBar;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
+import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
-import com.afollestad.overhear.tasks.ArtistImageLoader;
 import com.afollestad.overhearapi.Artist;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -45,8 +45,9 @@ public class ArtistViewer extends MusicBoundActivity {
 			//throw new Error(e.getMessage());
 		}
 		setTitle(artist.getName());
-		int dimen = getResources().getDimensionPixelSize(R.dimen.gridview_image);
-		new ArtistImageLoader(this, (ImageView)findViewById(R.id.cover), dimen, dimen).execute(artist);
+		//int dimen = getResources().getDimensionPixelSize(R.dimen.artist_viewer_header);
+		int dimen = -1;
+		ArtistAdapter.startArtistArtTask(this, artist, (ImageView)findViewById(R.id.cover), dimen);
 	}
 	
 	@Override

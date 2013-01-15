@@ -76,6 +76,8 @@ public class ArtistListFragment extends Fragment implements LoaderCallbacks<Curs
 					.putExtra("artist", artist.getJSON().toString()));
 			}
 		});
+		adapter = new ArtistAdapter(getActivity(), 0, null, new String[] { }, new int[] { }, 0);
+		view.setAdapter(adapter);
 		return view;
 	}
 	
@@ -100,8 +102,7 @@ public class ArtistListFragment extends Fragment implements LoaderCallbacks<Curs
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
 		if(data == null)
 			return;
-		adapter = new ArtistAdapter(getActivity(), data, 0);
-        getGridView().setAdapter(adapter);
+		adapter.changeCursor(data);
 	}
 
 	@Override

@@ -6,9 +6,9 @@ import org.json.JSONObject;
 import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.NowPlayingBar;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.adapters.AlbumAdapter;
+import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.SongListFragment;
-import com.afollestad.overhear.tasks.AlbumImageLoader;
-import com.afollestad.overhear.tasks.ArtistImageLoader;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 
@@ -80,10 +80,8 @@ public class AlbumViewer extends MusicBoundActivity {
 		});
 		
 		int dimen = getResources().getDimensionPixelSize(R.dimen.split_view_image);
-		new ArtistImageLoader(getApplicationContext(), (ImageView)findViewById(R.id.artistCover), 
-				dimen, dimen).execute(artist);
-		
-		new AlbumImageLoader(this, (ImageView)findViewById(R.id.albumCover), dimen, dimen).execute(album);
+		ArtistAdapter.startArtistArtTask(this, artist, (ImageView)findViewById(R.id.artistCover), dimen);
+		AlbumAdapter.startAlbumArtTask(this, album, (ImageView)findViewById(R.id.albumCover), dimen);
 	}
 
 	@Override

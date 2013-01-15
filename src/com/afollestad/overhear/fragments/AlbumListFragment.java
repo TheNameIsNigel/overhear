@@ -58,6 +58,8 @@ public class AlbumListFragment extends ListFragment implements LoaderCallbacks<C
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        adapter = new AlbumAdapter(getActivity(), 0, null, new String[] { }, new int[] { }, 0);
+        setListAdapter(adapter);
         getLoaderManager().initLoader(0, null, this);
     }
 	
@@ -100,8 +102,7 @@ public class AlbumListFragment extends ListFragment implements LoaderCallbacks<C
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
 		if(data == null)
 			return;
-		adapter = new AlbumAdapter(getActivity(), data, 0);
-        setListAdapter(adapter);
+		adapter.changeCursor(data);
 	}
 
 	@Override

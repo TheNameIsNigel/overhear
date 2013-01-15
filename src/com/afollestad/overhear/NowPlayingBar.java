@@ -99,13 +99,13 @@ public class NowPlayingBar {
 			if(song != null) {
 				playPause.setImageResource(R.drawable.pause);
 			} else {
-				song = MusicService.MusicUtils.getLastPlaying(context);
+				song = MusicUtils.getLastPlaying(context);
 				playPause.setImageResource(R.drawable.play);
 			}
 			if(song != null) {
 				Album album = Album.getAlbum(context, song.getAlbum());
 				int dimen = context.getResources().getDimensionPixelSize(R.dimen.now_playing_bar_cover);
-				playing.setImageBitmap(album.getAlbumArt(context, dimen, dimen));
+				//TODO playing.setImageBitmap(album.getAlbumArt(context, dimen, dimen));
 			} else {
 				//TODO default now playing image
 			}

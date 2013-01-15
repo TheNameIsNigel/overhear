@@ -2,20 +2,14 @@ package com.afollestad.overhear;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 
 public class MusicService extends Service {
 	
@@ -157,60 +151,5 @@ public class MusicService extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		player.release();
-	}
-	
-	
-	public static class MusicUtils {
-				
-		public static void setLastPlaying(Context context, Song song) {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			if(song == null) {
-				prefs.edit().remove("last_playing").commit();
-			} else { 
-				prefs.edit().putString("last_playing", song.getJSON().toString()).commit();
-			}
-		}
-		
-		public static Song getLastPlaying(Context context) {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			if(!prefs.contains("last_playing")) {
-				return null;
-			}
-			try {
-				return Song.fromJSON(new JSONObject(prefs.getString("last_playing", null)));
-			} catch(Exception e) {
-				throw new Error(e.getMessage());
-			}
-		}
-
-		public static void setRecents(Context context, ArrayList<Album> recents) {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			try {
-				JSONArray json = new JSONArray();
-				for(Album album : recents) {
-					json.put(album.getJSON());
-				}
-				prefs.edit().putString("recents", json.toString()).commit();
-			} catch(Exception e) {
-				throw new Error(e.getMessage());
-			}
-		}
-		
-		public static ArrayList<Album> getRecents(Context context) {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			ArrayList<Album> recents = new ArrayList<Album>();
-			if(!prefs.contains("recents")) {
-				return recents;
-			}
-			try {
-				JSONArray json = new JSONArray(prefs.getString("recents", null));
-				for(int i = 0; i < json.length(); i++) {
-					recents.add(Album.fromJSON(context, json.getJSONObject(i)));
-				}
-			} catch(Exception e) {
-				throw new Error(e.getMessage());
-			}
-			return recents;
-		}
 	}
 }

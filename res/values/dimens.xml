@@ -6,4 +6,5 @@
     <dimen name="album_list_cover">75dp</dimen>
     <dimen name="now_playing_bar_cover">42dp</dimen>
     <dimen name="split_view_image">160dp</dimen>
+    <dimen name="artist_viewer_header">180dp</dimen>
 </resources>
