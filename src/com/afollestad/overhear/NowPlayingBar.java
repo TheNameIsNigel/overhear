@@ -111,4 +111,8 @@ public class NowPlayingBar {
 			}
 		}
 	}
+
+	public void release() {
+		context.unregisterReceiver(mStatusReceiver);
+	}
 }

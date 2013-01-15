@@ -38,6 +38,7 @@ public class OverviewScreen extends MusicBoundActivity {
 		if(isServiceBound()) {  
 			getMusicService().saveRecents();
 		}
+		nowPlaying.release();
 	}
 
 	public class SectionsPagerAdapter extends TaggedFragmentAdapter {

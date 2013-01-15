@@ -75,7 +75,8 @@ public class BioListFragment extends Fragment {
 					e.printStackTrace();
 					mHandler.post(new Runnable() {
 						public void run() {
-							((TextView)getView().findViewById(R.id.bioAbout)).setText(R.string.failed_load_artist_bio);
+							if(getView() != null)
+								((TextView)getView().findViewById(R.id.bioAbout)).setText(R.string.failed_load_artist_bio);
 						}
 					});
 				}

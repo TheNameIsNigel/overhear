@@ -45,6 +45,12 @@ public class AlbumViewer extends MusicBoundActivity {
 	        ft.commit();
 	    }
 	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		nowPlaying.release();
+	}
 	
 	@Override
 	public void onNewIntent(Intent intent) {

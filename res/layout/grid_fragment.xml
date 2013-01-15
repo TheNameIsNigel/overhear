@@ -7,4 +7,5 @@
     android:fastScrollEnabled="true"
     android:gravity="center_horizontal"
     android:numColumns="@integer/cols"
-    android:smoothScrollbar="true" />
+    android:smoothScrollbar="true"
+    android:scrollingCache="true" />

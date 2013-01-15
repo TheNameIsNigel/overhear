@@ -49,6 +49,12 @@ public class ArtistViewer extends MusicBoundActivity {
 		new ArtistImageLoader(this, (ImageView)findViewById(R.id.cover), dimen, dimen).execute(artist);
 	}
 	
+	@Override
+	public void onPause() {
+		super.onPause();
+		nowPlaying.release();
+	}
+	
 	public class SectionsPagerAdapter extends TaggedFragmentAdapter {
 
 		public SectionsPagerAdapter(FragmentManager fm) {
