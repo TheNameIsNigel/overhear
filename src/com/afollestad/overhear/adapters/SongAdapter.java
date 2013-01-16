@@ -1,5 +1,7 @@
 package com.afollestad.overhear.adapters;
 
+import java.util.ArrayList;
+
 import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Song;
@@ -22,7 +24,17 @@ public class SongAdapter extends CursorAdapter {
 	}
 
 	private MusicBoundActivity musicContext;
-
+	
+	public ArrayList<Song> getSongs() {
+		ArrayList<Song> songs = new ArrayList<Song>();
+		getCursor().moveToFirst();
+		songs.add(Song.fromCursor(getCursor()));
+		while(getCursor().moveToNext()) {
+			songs.add(Song.fromCursor(getCursor()));
+		}
+		return songs;
+	}
+	
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		return LayoutInflater.from(context).inflate(R.layout.song_item, null);

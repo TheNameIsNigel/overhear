@@ -77,15 +77,15 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		adapter.getCursor().moveToPosition(position);
+		MusicService service = ((MusicBoundActivity)getActivity()).getMusicService();
 		Song song = Song.fromCursor(adapter.getCursor());
 		try {
-			((MusicBoundActivity)getActivity()).getMusicService().playTrack(song);
+			service.playAll(position, adapter.getSongs());
+			adapter.notifyDataSetChanged();
 		} catch(Exception e) {
 			e.printStackTrace();
 			Crouton.makeText(getActivity(), "Failed to play " + song.getTitle(), Style.ALERT).show();
 		}
-		adapter.notifyDataSetChanged();
 	}
 
 	@Override

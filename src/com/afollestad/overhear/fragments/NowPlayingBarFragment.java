@@ -102,13 +102,13 @@ public class NowPlayingBarFragment extends Fragment {
 		next.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Crouton.makeText(getActivity(), "Not implemented yet", Style.ALERT).show();
+				getMusicService().nextTrack();
 			}
 		});
 		previous.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Crouton.makeText(getActivity(), "Not implemented yet", Style.ALERT).show();
+				getMusicService().previousTrack();
 			}
 		});
 		update();

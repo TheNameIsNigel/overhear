@@ -9,7 +9,6 @@ import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.ArtistListFragment;
 import com.afollestad.overhear.fragments.GenreListFragment;
 import com.afollestad.overhear.fragments.NowPlayingBarFragment;
-import com.afollestad.overhear.fragments.SongListFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -53,8 +52,6 @@ public class OverviewScreen extends MusicBoundActivity {
 			case 1:
 				return new AlbumListFragment();
 			case 2:
-				return new SongListFragment();
-			case 3:
 				return new GenreListFragment();
 			}
 			return null;
@@ -62,7 +59,7 @@ public class OverviewScreen extends MusicBoundActivity {
 
 		@Override
 		public int getCount() {
-			return 4;
+			return 3;
 		}
 
 		@Override
@@ -73,8 +70,6 @@ public class OverviewScreen extends MusicBoundActivity {
 			case 1:
 				return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
 			case 2:
-				return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
-			case 3:
 				return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
 			}
 			return null;

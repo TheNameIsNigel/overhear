@@ -44,6 +44,9 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
             url = MusicUtils.getImageURL(contextReference.get(), als[0].getName() + ":" + 
             		als[0].getArtist().getName(), AlbumAdapter.ALBUM_IMAGE);
         }
+        if(url == null) {
+        	url = als[0].getAlbumArtUri(contextReference.get()).toString();
+        }
         return url;
     }
 

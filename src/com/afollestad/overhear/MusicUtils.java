@@ -22,7 +22,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 
-import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
 public class MusicUtils {
@@ -48,12 +47,12 @@ public class MusicUtils {
 		}
 	}
 
-	public static void setRecents(Context context, ArrayList<Album> recents) {
+	public static void setRecents(Context context, ArrayList<Song> recents) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		try {
 			JSONArray json = new JSONArray();
-			for(Album album : recents) {
-				json.put(album.getJSON());
+			for(Song song : recents) {
+				json.put(song.getJSON());
 			}
 			prefs.edit().putString("recents", json.toString()).commit();
 		} catch(Exception e) {
@@ -61,16 +60,16 @@ public class MusicUtils {
 		}
 	}
 	
-	public static ArrayList<Album> getRecents(Context context) {
+	public static ArrayList<Song> getRecents(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		ArrayList<Album> recents = new ArrayList<Album>();
+		ArrayList<Song> recents = new ArrayList<Song>();
 		if(!prefs.contains("recents")) {
 			return recents;
 		}
 		try {
 			JSONArray json = new JSONArray(prefs.getString("recents", null));
 			for(int i = 0; i < json.length(); i++) {
-				recents.add(Album.fromJSON(context, json.getJSONObject(i)));
+				recents.add(Song.fromJSON(json.getJSONObject(i)));
 			}
 		} catch(Exception e) {
 			throw new Error(e.getMessage());
