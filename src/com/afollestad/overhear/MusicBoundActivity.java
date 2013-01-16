@@ -2,14 +2,14 @@ package com.afollestad.overhear;
 
 import com.afollestad.overhear.MusicService.MusicBinder;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.v4.app.FragmentActivity;
 
-public abstract class MusicBoundActivity extends FragmentActivity {
+public abstract class MusicBoundActivity extends Activity {
 
 	MusicService mService;
 	boolean mBound;

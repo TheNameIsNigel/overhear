@@ -2,20 +2,24 @@ package com.afollestad.overhear;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.afollestad.overhearapi.Album;
@@ -132,5 +136,15 @@ public class MusicUtils {
             state = activeNetwork.isConnectedOrConnecting();
         }
         return state;
+    }
+    
+    public static void browseArtist(Context context, String artistName) {
+    	try {
+    		Uri uri = Uri.parse("https://play.google.com/store/search?q=" +
+    				URLEncoder.encode(artistName, "UTF-8") + "&c=music");
+			context.startActivity(new Intent(Intent.ACTION_VIEW).setData(uri).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
     }
 }

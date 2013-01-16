@@ -31,5 +31,6 @@
     <string name="no_bio_str">No biography was found</string>
     <string name="loading_str">Loading…</string>
     <string name="error_str">Error</string>
+    <string name="shop_artist_str">Shop Artist</string>
 
 </resources>

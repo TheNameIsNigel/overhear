@@ -6,18 +6,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.afollestad.overhear.MusicBoundActivity;
-import com.afollestad.overhear.NowPlayingBar;
+import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
+import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Artist;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
@@ -26,7 +28,6 @@ public class ArtistViewer extends MusicBoundActivity {
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 	public Artist artist;
-	NowPlayingBar nowPlaying;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,11 +50,11 @@ public class ArtistViewer extends MusicBoundActivity {
 		int dimen = -1;
 		ArtistAdapter.startArtistArtTask(this, artist, (ImageView)findViewById(R.id.cover), dimen);
 	}
-	
+		
 	@Override
-	public void onPause() {
-		super.onPause();
-		nowPlaying.release();
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.artist_viewer, menu);
+		return true;
 	}
 	
 	public class SectionsPagerAdapter extends TaggedFragmentAdapter {
@@ -111,12 +112,16 @@ public class ArtistViewer extends MusicBoundActivity {
 		case android.R.id.home:
 			finish();
 			return true;
+		case R.id.shopArtist:
+			MusicUtils.browseArtist(getApplicationContext(), artist.getName());
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public void onBound() { 
-		nowPlaying = NowPlayingBar.get(this);
+		NowPlayingBarFragment frag = (NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying);
+		frag.update();
 	}
 }

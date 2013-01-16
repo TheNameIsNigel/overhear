@@ -4,10 +4,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.afollestad.overhear.MusicBoundActivity;
-import com.afollestad.overhear.NowPlayingBar;
+import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
+import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,7 +27,6 @@ public class AlbumViewer extends MusicBoundActivity {
 
 	private Album album;
 	private Artist artist;
-	NowPlayingBar nowPlaying;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,11 +46,11 @@ public class AlbumViewer extends MusicBoundActivity {
 	        ft.commit();
 	    }
 	}
-
+	
 	@Override
-	public void onPause() {
-		super.onPause();
-		nowPlaying.release();
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.album_viewer, menu);
+		return true;
 	}
 	
 	@Override
@@ -90,12 +91,16 @@ public class AlbumViewer extends MusicBoundActivity {
 		case android.R.id.home:
 			finish();
 			return true;
+		case R.id.shopArtist:
+			MusicUtils.browseArtist(getApplicationContext(), artist.getName());
+			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void onBound() { 
-		nowPlaying = NowPlayingBar.get(this);
+	public void onBound() {
+		NowPlayingBarFragment frag = (NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying);
+		frag.update();
 	}
 }

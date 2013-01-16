@@ -11,5 +11,7 @@
 		style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
 		android:indeterminateOnly="true" android:layout_centerHorizontal="true"
 		android:layout_centerVertical="true" />
-	<include android:id="@+id/nowPlaying" layout="@layout/now_playing_bar" />
+	<fragment android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
+            android:id="@+id/nowPlaying" android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignParentBottom="true" />
 </RelativeLayout>

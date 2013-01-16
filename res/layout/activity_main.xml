@@ -15,6 +15,8 @@
 
 	</android.support.v4.view.ViewPager>
 
-	<include android:id="@+id/nowPlaying" layout="@layout/now_playing_bar" />
+	<fragment android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
+            android:id="@+id/nowPlaying" android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
