@@ -93,7 +93,7 @@ public class MusicService extends Service {
 	
 	public void nextTrack() {
 		queuePos++;
-		if(queuePos > queue.size()) {
+		if(queuePos > queue.size() - 1) {
 			nowPlaying = null;
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 			return;
