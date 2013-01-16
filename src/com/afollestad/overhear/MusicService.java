@@ -93,6 +93,8 @@ public class MusicService extends Service {
 	
 	public void nextTrack() {
 		queuePos++;
+		//TODO load next album if the queue was initialized from the artist viewer or from the album list and there's still albums left.
+		//TODO load the next artist's first album 
 		if(queuePos > queue.size() - 1) {
 			nowPlaying = null;
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
