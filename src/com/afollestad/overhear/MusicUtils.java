@@ -6,9 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -68,36 +66,6 @@ public class MusicUtils {
 		}
 	}
 	
-	public static void setRecents(Context context, ArrayList<Song> recents) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		try {
-			JSONArray json = new JSONArray();
-			for(Song song : recents) {
-				json.put(song.getJSON());
-			}
-			prefs.edit().putString("recents", json.toString()).commit();
-		} catch(Exception e) {
-			throw new Error(e.getMessage());
-		}
-	}
-	
-	public static ArrayList<Song> getRecents(Context context) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		ArrayList<Song> recents = new ArrayList<Song>();
-		if(!prefs.contains("recents")) {
-			return recents;
-		}
-		try {
-			JSONArray json = new JSONArray(prefs.getString("recents", null));
-			for(int i = 0; i < json.length(); i++) {
-				recents.add(Song.fromJSON(json.getJSONObject(i)));
-			}
-		} catch(Exception e) {
-			throw new Error(e.getMessage());
-		}
-		return recents;
-	}
-
 	public static void setImageURL(Context context, String name, String url, String key) {
         context.getSharedPreferences(key, 0).edit()
         	.putString(name, url).commit();

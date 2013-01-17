@@ -116,7 +116,7 @@ public class NowPlayingBarFragment extends Fragment {
 			playPause.setImageResource(R.drawable.play);
 		}
 		if(nowPlaying != null) {
-			Album album = Album.getAlbum(getActivity(), nowPlaying.getAlbum());
+			Album album = Album.getAlbum(getActivity(), nowPlaying.getAlbum(), nowPlaying.getArtist());
 			//        		TODO Un-comment to re-enable scaling of images (if out of memory errors ever occur)
 			//				int dimen = context.getResources().getDimensionPixelSize(R.dimen.now_playing_bar_cover);
 			int dimen = -1;

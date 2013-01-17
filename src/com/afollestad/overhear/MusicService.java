@@ -19,6 +19,7 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
 import android.media.RemoteControlClient.MetadataEditor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -30,7 +31,6 @@ public class MusicService extends Service {
 	public MusicService() {
 	}
 
-	private ArrayList<Song> recents;
 	private ArrayList<Song> queue;
 	private int queuePos;
 	private boolean preparedPlayer;
@@ -75,8 +75,8 @@ public class MusicService extends Service {
 	public static final String ACTION_STOP = "com.afollestad.overhear.action.STOP";
 	public static final String ACTION_SKIP = "com.afollestad.overhear.action.SKIP";
 	public static final String ACTION_REWIND = "com.afollestad.overhear.action.REWIND";
-
-
+	
+	
 	private boolean requestAudioFocus() {
 		if(mAudioManager == null) {
 			mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -115,7 +115,7 @@ public class MusicService extends Service {
 				.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
 				.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, nowPlaying.getTitle())
 				.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
-		Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum());
+		Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
 		try {
 			Bitmap art = new ArtistOrAlbumImage(getApplicationContext(), null, null, -1).executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR, album.getName() + ":" + album.getArtist().getName()).get();
@@ -193,7 +193,8 @@ public class MusicService extends Service {
 		MusicUtils.setLastPlaying(getApplicationContext(), null);
 		initializeMediaPlayer(song.getData());
 		player.start();
-		appendRecent(song);
+		getContentResolver().insert(Uri.parse("content://com.afollestad.overhear.recentsprovider"), 
+				Album.getAlbum(getApplicationContext(), song.getAlbum(), song.getArtist()).getContentValues());
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
 	}
@@ -300,29 +301,8 @@ public class MusicService extends Service {
 		playTrack(previous, true, false);
 	}
 
-
-	public ArrayList<Song> getRecents() {
-		return recents;
-	}
-
-	private void appendRecent(Song song) {
-		for(int i = 0; i < recents.size(); i++) {
-			if(recents.get(i).getId() == song.getId()) {
-				recents.remove(i);
-			}
-		}
-		if(recents.size() == 10) {
-			recents.remove(9);
-		}
-		recents.add(0, song);
-	}
-
 	public void clearQueue() {
 		queue.clear();
-	}
-
-	public void saveRecents() {
-		MusicUtils.setRecents(getApplicationContext(), recents);
 	}
 
 	public boolean isPlaying() {
@@ -365,7 +345,6 @@ public class MusicService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
-		recents = MusicUtils.getRecents(getApplicationContext());
 		if(intent == null || intent.getAction() == null) {
 			return START_STICKY;
 		}
