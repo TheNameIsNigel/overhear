@@ -53,7 +53,7 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
 
             if (command != null) {
                 if (action == KeyEvent.ACTION_DOWN) {
-                    if (mDown && (buttonId == 0)) {
+                    if (mDown && command.equals(MusicService.ACTION_PLAY)) {
                         //TODO long press action
                     	Toast.makeText(context, "Headset long pressed", Toast.LENGTH_LONG).show();
                     } else if (event.getRepeatCount() == 0) {

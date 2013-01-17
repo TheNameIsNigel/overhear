@@ -36,6 +36,7 @@ public class MusicService extends Service {
 	private boolean preparedPlayer;
 	private final IBinder mBinder = new MusicBinder();
 	private boolean hasAudioFocus;
+	private boolean wasPlayingBeforeLoss;
 
 	private MediaPlayer player;	
 	private AudioManager mAudioManager;
@@ -48,6 +49,8 @@ public class MusicService extends Service {
 			case AudioManager.AUDIOFOCUS_LOSS:
 				hasAudioFocus = false;
 				mAudioManager.unregisterRemoteControlClient(mRemoteControlClient);
+				mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
+				wasPlayingBeforeLoss = isPlaying(); 
 				pauseTrack();
 				break;
 			case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
@@ -57,7 +60,8 @@ public class MusicService extends Service {
 			case AudioManager.AUDIOFOCUS_GAIN:
 				hasAudioFocus = true;
 				player.setVolume(1.0f, 1.0f);
-				resumeTrack();
+				if(wasPlayingBeforeLoss)
+					resumeTrack();
 				break;
 			}
 		}
@@ -90,7 +94,9 @@ public class MusicService extends Service {
 		boolean focused = requestAudioFocus();
 		if(focused) {
 			Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-			intent.setComponent(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
+			ComponentName component = new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class);
+			mAudioManager.registerMediaButtonEventReceiver(component);
+			intent.setComponent(component);
 			mRemoteControlClient = new RemoteControlClient(PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0));
 			mRemoteControlClient.setTransportControlFlags(
 					RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
@@ -233,17 +239,15 @@ public class MusicService extends Service {
 	private void pauseTrack() {
 		Log.i("OVERHEAR SERVICE", "pauseTrack()");
 		Song nowPlaying = MusicUtils.getNowPlaying(getApplicationContext());
+		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
 		if(player != null && preparedPlayer && player.isPlaying()) {
 			player.pause();
 		} else {
 			stopTrack();
-			return;
 		}
 		MusicUtils.setNowPlaying(getApplicationContext(), null);
 		MusicUtils.setLastPlaying(getApplicationContext(), nowPlaying);
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
-		mAudioManager.abandonAudioFocus(afl);
 	}
 
 	private void stopTrack() {
@@ -395,7 +399,9 @@ public class MusicService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		unregisterReceiver(receiver);
 		player.release();
+		unregisterReceiver(receiver);
+		mAudioManager.unregisterRemoteControlClient(mRemoteControlClient);
+		mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
 	}
 }
