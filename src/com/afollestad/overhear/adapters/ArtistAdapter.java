@@ -1,6 +1,5 @@
 package com.afollestad.overhear.adapters;
 
-import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.tasks.ArtistOrAlbumImage;
@@ -25,10 +24,10 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 
 	public ArtistAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
 		super(context, layout, c, from, to, flags);
-		this.musicContext = (MusicBoundActivity)context;
+		this.context = (Activity)context;
 	}
 
-	private MusicBoundActivity musicContext;
+	private Activity context;
 	public final static String ARTIST_IMAGE = "artist_image";
 	
 	public static void startArtistArtTask(Activity context, Artist artist, ImageView cover, int dimen) {
@@ -41,7 +40,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 //        		dimen = context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
 //        	}
         	dimen = -1;
-            new ArtistOrAlbumImage(cover, ARTIST_IMAGE, dimen).executeOnExecutor(
+            new ArtistOrAlbumImage(context, cover, ARTIST_IMAGE, dimen).executeOnExecutor(
                     AsyncTask.THREAD_POOL_EXECUTOR, artist.getName());
         }
 	}
@@ -53,7 +52,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 			if(convertView != null) {
 				view = convertView;
 			} else {
-				view = newView(musicContext, getCursor(), parent);
+				view = newView(context, getCursor(), parent);
 			}
 		}
 		
@@ -65,7 +64,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 		if (aq.shouldDelay(position, view, parent, "")) {
             cover.setImageDrawable(null);
         } else {
-            startArtistArtTask(musicContext, artist, cover, 0);
+            startArtistArtTask(context, artist, cover, 0);
         }
 		
 		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
@@ -75,26 +74,21 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 		
-		if(musicContext.getMusicService() != null) {
-			Song nowPlaying = musicContext.getMusicService().getNowPlaying();
-			if(nowPlaying != null && artist.getName().equals(nowPlaying.getArtist())) {
-				peakOne.setVisibility(View.VISIBLE);
-				peakTwo.setVisibility(View.VISIBLE);
-				if(!mPeakOneAnimation.isRunning()) {
-					mPeakOneAnimation.start();
-					mPeakTwoAnimation.start();
-				}
-			} else {
-				peakOne.setVisibility(View.GONE);
-				peakTwo.setVisibility(View.GONE);
-				if(mPeakOneAnimation.isRunning()) {
-					mPeakOneAnimation.stop();
-					mPeakTwoAnimation.stop();
-				}
+		Song nowPlaying = MusicUtils.getNowPlaying(context);
+		if(nowPlaying != null && artist.getName().equals(nowPlaying.getArtist())) {
+			peakOne.setVisibility(View.VISIBLE);
+			peakTwo.setVisibility(View.VISIBLE);
+			if(!mPeakOneAnimation.isRunning()) {
+				mPeakOneAnimation.start();
+				mPeakTwoAnimation.start();
 			}
 		} else {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
+			if(mPeakOneAnimation.isRunning()) {
+				mPeakOneAnimation.stop();
+				mPeakTwoAnimation.stop();
+			}
 		}
 		
 		return view;

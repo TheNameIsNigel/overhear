@@ -1,6 +1,5 @@
 package com.afollestad.overhear.fragments;
 
-import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.MusicService;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.RecentsAdapter;
@@ -34,7 +33,7 @@ public class RecentsListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
-		adapter = new RecentsAdapter((MusicBoundActivity)getActivity());
+		adapter = new RecentsAdapter(getActivity());
 	}
 
 	@Override

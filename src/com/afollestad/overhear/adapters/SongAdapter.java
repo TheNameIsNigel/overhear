@@ -2,7 +2,7 @@ package com.afollestad.overhear.adapters;
 
 import java.util.ArrayList;
 
-import com.afollestad.overhear.MusicBoundActivity;
+import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Song;
 
@@ -20,10 +20,7 @@ public class SongAdapter extends CursorAdapter {
 
 	public SongAdapter(Context context, Cursor c, int flags) {
 		super(context, c, flags);
-		this.musicContext = (MusicBoundActivity)context;
 	}
-
-	private MusicBoundActivity musicContext;
 	
 	public ArrayList<Song> getSongs() {
 		ArrayList<Song> songs = new ArrayList<Song>();
@@ -53,26 +50,21 @@ public class SongAdapter extends CursorAdapter {
 		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 		
-		if(musicContext.getMusicService() != null) {
-			Song nowPlaying = musicContext.getMusicService().getNowPlaying();
-			if(nowPlaying != null && song.getId() == nowPlaying.getId()) {
-				peakOne.setVisibility(View.VISIBLE);
-				peakTwo.setVisibility(View.VISIBLE);
-				if(!mPeakOneAnimation.isRunning()) {
-					mPeakOneAnimation.start();
-					mPeakTwoAnimation.start();
-				}
-			} else {
-				peakOne.setVisibility(View.GONE);
-				peakTwo.setVisibility(View.GONE);
-				if(mPeakOneAnimation.isRunning()) {
-					mPeakOneAnimation.stop();
-					mPeakTwoAnimation.stop();
-				}
+		Song nowPlaying = MusicUtils.getNowPlaying(context);
+		if(nowPlaying != null && song.getId() == nowPlaying.getId()) {
+			peakOne.setVisibility(View.VISIBLE);
+			peakTwo.setVisibility(View.VISIBLE);
+			if(!mPeakOneAnimation.isRunning()) {
+				mPeakOneAnimation.start();
+				mPeakTwoAnimation.start();
 			}
 		} else {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
+			if(mPeakOneAnimation.isRunning()) {
+				mPeakOneAnimation.stop();
+				mPeakTwoAnimation.stop();
+			}
 		}
 	}
 }

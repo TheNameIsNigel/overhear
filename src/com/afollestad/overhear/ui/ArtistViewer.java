@@ -5,16 +5,16 @@ import java.util.Locale;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
-import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Artist;
+
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-public class ArtistViewer extends MusicBoundActivity {
+public class ArtistViewer extends Activity {
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
@@ -117,11 +117,5 @@ public class ArtistViewer extends MusicBoundActivity {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void onBound() { 
-		NowPlayingBarFragment frag = (NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying);
-		frag.update();
 	}
 }

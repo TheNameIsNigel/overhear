@@ -1,13 +1,9 @@
 package com.afollestad.overhear.fragments;
 
-import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.MusicService;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhearapi.Song;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -77,15 +73,10 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		MusicService service = ((MusicBoundActivity)getActivity()).getMusicService();
+		adapter.getCursor().moveToPosition(position);
 		Song song = Song.fromCursor(adapter.getCursor());
-		try {
-			service.playAll(position, adapter.getSongs());
-			adapter.notifyDataSetChanged();
-		} catch(Exception e) {
-			e.printStackTrace();
-			Crouton.makeText(getActivity(), "Failed to play " + song.getTitle(), Style.ALERT).show();
-		}
+		getActivity().startService(new Intent(getActivity(), MusicService.class)
+			.setAction(MusicService.ACTION_PLAY_ALL).putExtra("song", song.getJSON().toString()));
 	}
 
 	@Override

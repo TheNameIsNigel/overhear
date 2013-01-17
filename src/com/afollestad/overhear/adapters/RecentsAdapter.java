@@ -2,12 +2,13 @@ package com.afollestad.overhear.adapters;
 
 import java.util.ArrayList;
 
-import com.afollestad.overhear.MusicBoundActivity;
+import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 import com.androidquery.AQuery;
 
+import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +19,11 @@ import android.widget.TextView;
 
 public class RecentsAdapter extends BaseAdapter {
 
-	public RecentsAdapter(MusicBoundActivity context) {
+	public RecentsAdapter(Activity context) {
 		this.context = context;
 	}
 	
-	private MusicBoundActivity context;
+	private Activity context;
 	
 	@Override
 	public int getCount() {
@@ -40,10 +41,7 @@ public class RecentsAdapter extends BaseAdapter {
 	}
 
 	public ArrayList<Song> getRecents() {
-		if(context.getMusicService() == null) {
-			return new ArrayList<Song>();
-		}
-		return context.getMusicService().getRecents();
+		return MusicUtils.getRecents(context);
 	}
 	
 	@Override
@@ -87,26 +85,22 @@ public class RecentsAdapter extends BaseAdapter {
 		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 
-		if(context.getMusicService() != null) {
-			Song nowPlaying = context.getMusicService().getNowPlaying();
-			if(nowPlaying != null && album.getName().equals(nowPlaying.getAlbum())) {
-				peakOne.setVisibility(View.VISIBLE);
-				peakTwo.setVisibility(View.VISIBLE);
-				if(!mPeakOneAnimation.isRunning()) {
-					mPeakOneAnimation.start();
-					mPeakTwoAnimation.start();
-				}
-			} else {
-				peakOne.setVisibility(View.GONE);
-				peakTwo.setVisibility(View.GONE);
-				if(mPeakOneAnimation.isRunning()) {
-					mPeakOneAnimation.stop();
-					mPeakTwoAnimation.stop();
-				}
+		Song nowPlaying = MusicUtils.getNowPlaying(context);
+		if(nowPlaying != null && album.getName().equals(nowPlaying.getAlbum()) &&
+				album.getArtist().equals(nowPlaying.getArtist())) {
+			peakOne.setVisibility(View.VISIBLE);
+			peakTwo.setVisibility(View.VISIBLE);
+			if(!mPeakOneAnimation.isRunning()) {
+				mPeakOneAnimation.start();
+				mPeakTwoAnimation.start();
 			}
 		} else {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
+			if(mPeakOneAnimation.isRunning()) {
+				mPeakOneAnimation.stop();
+				mPeakTwoAnimation.stop();
+			}
 		}
 		
 		return view;

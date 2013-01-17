@@ -47,6 +47,27 @@ public class MusicUtils {
 		}
 	}
 
+	public static void setNowPlaying(Context context, Song song) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		if(song == null) {
+			prefs.edit().remove("now_playing").commit();
+		} else { 
+			prefs.edit().putString("now_playing", song.getJSON().toString()).commit();
+		}
+	}
+	
+	public static Song getNowPlaying(Context context) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		if(!prefs.contains("now_playing")) {
+			return null;
+		}
+		try {
+			return Song.fromJSON(new JSONObject(prefs.getString("now_playing", null)));
+		} catch(Exception e) {
+			throw new Error(e.getMessage());
+		}
+	}
+	
 	public static void setRecents(Context context, ArrayList<Song> recents) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		try {
@@ -145,5 +166,20 @@ public class MusicUtils {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    public static Bitmap getLocalAlbumArt(Context context, Uri uri) {
+    	InputStream input = null;
+	    try {
+	        input = context.getContentResolver().openInputStream(uri);
+	        if (input == null)
+	            return null;
+	        Bitmap toreturn = BitmapFactory.decodeStream(input);
+	        input.close();
+	        return toreturn;
+	    } catch(Exception e) {
+	    	e.printStackTrace();
+	    }
+	    return null;
     }
 }

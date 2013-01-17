@@ -2,21 +2,20 @@ package com.afollestad.overhear.ui;
 
 import java.util.Locale;
 
-import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
 import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.ArtistListFragment;
 import com.afollestad.overhear.fragments.GenreListFragment;
-import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.RecentsListFragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
-public class OverviewScreen extends MusicBoundActivity {
+public class OverviewScreen extends Activity {
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
@@ -30,14 +29,6 @@ public class OverviewScreen extends MusicBoundActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setCurrentItem(1);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		if(isServiceBound()) {  
-			getMusicService().saveRecents();
-		}
 	}
 
 	public class SectionsPagerAdapter extends TaggedFragmentAdapter {
@@ -79,16 +70,6 @@ public class OverviewScreen extends MusicBoundActivity {
 				return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
 			}
 			return null;
-		}
-	}
-
-	@Override
-	public void onBound() {
-		for(int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			Fragment frag = getFragmentManager().findFragmentByTag("page:" + i);
-			if(frag instanceof NowPlayingBarFragment) {
-				((NowPlayingBarFragment)frag).update();
-			}
 		}
 	}
 }

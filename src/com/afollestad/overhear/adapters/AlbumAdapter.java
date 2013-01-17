@@ -1,6 +1,5 @@
 package com.afollestad.overhear.adapters;
 
-import com.afollestad.overhear.MusicBoundActivity;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.tasks.ArtistOrAlbumImage;
@@ -25,44 +24,44 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 
 	public AlbumAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
 		super(context, layout, c, from, to, flags);
-		this.musicContext = (MusicBoundActivity)context;	
+		this.context = (Activity)context;
 	}
 
-	private MusicBoundActivity musicContext;
+	private Activity context;
 	public final static String ALBUM_IMAGE = "album_image";
-	
+
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		return LayoutInflater.from(context).inflate(R.layout.album_item, null);
 	}
-	
+
 	public static void startAlbumArtTask(Activity context, Album album, ImageView cover, int dimen) {
 		if (MusicUtils.getImageURL(context, album.getName() + ":" + album.getArtist().getName(), ALBUM_IMAGE) == null) {
-            new LastfmGetAlbumImage(context, cover).executeOnExecutor(
-                    AsyncTask.THREAD_POOL_EXECUTOR, album);
-        } else {
-//        	TODO Un-comment to re-enable scaling of images (if out of memory errors ever occur)
-//        	if(dimen == 0) {
-//        		dimen = context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
-//        	}
-        	dimen = -1;
-            new ArtistOrAlbumImage(cover, ALBUM_IMAGE, dimen).executeOnExecutor(
-                    AsyncTask.THREAD_POOL_EXECUTOR, album.getName() + ":" + album.getArtist().getName());
-        }
+			new LastfmGetAlbumImage(context, cover).executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, album);
+		} else {
+			//        	TODO Un-comment to re-enable scaling of images (if out of memory errors ever occur)
+			//        	if(dimen == 0) {
+			//        		dimen = context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
+			//        	}
+			dimen = -1;
+			new ArtistOrAlbumImage(context, cover, ALBUM_IMAGE, dimen).executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR, album.getName() + ":" + album.getArtist().getName());
+		}
 	}
-	
+
 	@Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = super.getView(position, convertView, parent);
 		if(view == null) {
 			if(convertView != null) {
 				view = convertView;
 			} else {
-				view = newView(musicContext, getCursor(), parent);
+				view = newView(context, getCursor(), parent);
 			}
 		}
-		
-		int pad = musicContext.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
+
+		int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
 		if(position == 0) {
 			if(getCount() == 1) {
 				view.setPadding(0, pad, 0, pad);
@@ -75,18 +74,18 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 			view.setPadding(0, 0, 0, 0);
 		}
 
-		Album album = Album.fromCursor(musicContext, getCursor());
+		Album album = Album.fromCursor(context, getCursor());
 		((TextView)view.findViewById(R.id.title)).setText(album.getName());
 		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 		final ImageView cover = (ImageView)view.findViewById(R.id.image); 
 
 		final AQuery aq = new AQuery(view);
 		if (aq.shouldDelay(position, view, parent, "")) {
-            cover.setImageDrawable(null);
-        } else {
-            startAlbumArtTask(musicContext, album, cover, 0);
-        }
-	
+			cover.setImageDrawable(null);
+		} else {
+			startAlbumArtTask(context, album, cover, 0);
+		}
+
 		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
 		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
 		peakOne.setImageResource(R.anim.peak_meter_1);
@@ -94,28 +93,24 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 
-		if(musicContext.getMusicService() != null) {
-			Song nowPlaying = musicContext.getMusicService().getNowPlaying();
-			if(nowPlaying != null && album.getName().equals(nowPlaying.getAlbum())) {
-				peakOne.setVisibility(View.VISIBLE);
-				peakTwo.setVisibility(View.VISIBLE);
-				if(!mPeakOneAnimation.isRunning()) {
-					mPeakOneAnimation.start();
-					mPeakTwoAnimation.start();
-				}
-			} else {
-				peakOne.setVisibility(View.GONE);
-				peakTwo.setVisibility(View.GONE);
-				if(mPeakOneAnimation.isRunning()) {
-					mPeakOneAnimation.stop();
-					mPeakTwoAnimation.stop();
-				}
+		Song nowPlaying = MusicUtils.getNowPlaying(context);
+		if(nowPlaying != null && album.getName().equals(nowPlaying.getAlbum()) &&
+				album.getArtist().equals(nowPlaying.getArtist())) {
+			peakOne.setVisibility(View.VISIBLE);
+			peakTwo.setVisibility(View.VISIBLE);
+			if(!mPeakOneAnimation.isRunning()) {
+				mPeakOneAnimation.start();
+				mPeakTwoAnimation.start();
 			}
 		} else {
 			peakOne.setVisibility(View.GONE);
 			peakTwo.setVisibility(View.GONE);
+			if(mPeakOneAnimation.isRunning()) {
+				mPeakOneAnimation.stop();
+				mPeakTwoAnimation.stop();
+			}
 		}
-		
+
 		return view;
 	}
 }
