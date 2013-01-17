@@ -39,10 +39,6 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
-		
-		Album album = Album.getAlbum(getActivity(), "Believe", "Justin Bieber");
-		getActivity().getContentResolver().insert(Uri.parse("content://com.afollestad.overhear.recentsprovider"), 
-				album.getContentValues());
 	}
 
 	@Override
