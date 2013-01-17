@@ -31,9 +31,9 @@
 		<activity android:name="com.afollestad.overhear.ui.GenreViewer"
 			android:configChanges="keyboardHidden|orientation|screenSize" />
 
-		<service android:name="com.afollestad.overhear.MusicService"
+		<service android:name="com.afollestad.overhear.service.MusicService"
 			android:enabled="true" android:exported="false" />
-		<receiver android:name="com.afollestad.overhear.MediaButtonIntentReceiver">
+		<receiver android:name="com.afollestad.overhear.service.MediaButtonIntentReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.MEDIA_BUTTON" />
 			</intent-filter>

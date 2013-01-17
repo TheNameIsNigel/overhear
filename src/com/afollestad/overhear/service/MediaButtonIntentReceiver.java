@@ -1,4 +1,4 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

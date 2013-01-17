@@ -1,8 +1,8 @@
 package com.afollestad.overhear.fragments;
 
-import com.afollestad.overhear.MusicService;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SongAdapter;
+import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Song;
 
 import android.app.ListFragment;

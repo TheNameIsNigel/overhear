@@ -1,9 +1,9 @@
 package com.afollestad.overhear.fragments;
 
-import com.afollestad.overhear.MusicService;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
+import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 

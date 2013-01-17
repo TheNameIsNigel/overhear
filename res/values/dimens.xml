@@ -8,4 +8,7 @@
     <dimen name="split_view_image">160dp</dimen>
     <dimen name="artist_viewer_header">180dp</dimen>
     <dimen name="now_playing_bar_height">42dp</dimen>
+    <dimen name="status_bar_button_width_height">48dp</dimen>
+    <dimen name="status_bar_album_art">64dp</dimen>
+    <dimen name="status_bar_album_art_big">120dp</dimen>
 </resources>

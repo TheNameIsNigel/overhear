@@ -1,11 +1,14 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.service;
 
 import java.util.ArrayList;
 
-import com.afollestad.overhear.tasks.ArtistOrAlbumImage;
+import com.afollestad.overhear.MusicUtils;
+import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
+import com.androidquery.AQuery;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -20,7 +23,6 @@ import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
 import android.media.RemoteControlClient.MetadataEditor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -38,6 +40,7 @@ public class MusicService extends Service {
 	private boolean hasAudioFocus;
 	private boolean wasPlayingBeforeLoss;
 
+	private Notification status;
 	private MediaPlayer player;	
 	private AudioManager mAudioManager;
 	private RemoteControlClient mRemoteControlClient;
@@ -117,8 +120,9 @@ public class MusicService extends Service {
 				.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
 		Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
 		try {
-			Bitmap art = new ArtistOrAlbumImage(getApplicationContext(), null, null, -1).executeOnExecutor(
-					AsyncTask.THREAD_POOL_EXECUTOR, album.getName() + ":" + album.getArtist().getName()).get();
+			AQuery aq = new AQuery(this);
+	        Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, 
+	        		album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE));
 			metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, art);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -173,6 +177,20 @@ public class MusicService extends Service {
 		}
 	}
 
+	private void initializeNotification() {
+		Song nowPlaying = null;
+		if(isPlaying()) {
+			nowPlaying = MusicUtils.getNowPlaying(getApplicationContext());
+		} else {
+			nowPlaying = MusicUtils.getLastPlaying(getApplicationContext());
+		}
+		AQuery aq = new AQuery(this);
+        Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, nowPlaying.getAlbum() + ":" + 
+        		nowPlaying.getArtist(), AlbumAdapter.ALBUM_IMAGE));
+        status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, true);
+        startForeground(100, status);
+	}
+	
 	
 	private void playTrack(Song song) {
 		playTrack(song, false, false);
@@ -197,6 +215,7 @@ public class MusicService extends Service {
 				Album.getAlbum(getApplicationContext(), song.getAlbum(), song.getArtist()).getContentValues());
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
+		initializeNotification();
 	}
 
 	private void playAll(Song song) {
