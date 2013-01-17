@@ -167,6 +167,7 @@ public class MusicService extends Service {
 		}
 	}
 
+	
 	private void playTrack(Song song) {
 		playTrack(song, false, false);
 	}
@@ -207,6 +208,28 @@ public class MusicService extends Service {
 		playTrack(queue.get(queuePos));
 	}
 
+	private void resumeTrack() {
+		Log.i("OVERHEAR SERVICE", "resumeTrack()");
+		boolean focused = requestAudioFocus();
+		if(!focused) {
+			return;
+		}
+		Song last = MusicUtils.getLastPlaying(getApplicationContext());
+		if(player != null && preparedPlayer) {
+			if(!initializeRemoteControl()) {
+				return;
+			}
+			player.start();
+			MusicUtils.setNowPlaying(getApplicationContext(), last);
+			MusicUtils.setLastPlaying(getApplicationContext(), null);
+			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);			
+		} else if(last != null) {
+			Log.i("OVERHEAR SERVICE", "No paused state found");
+			playTrack(last);
+		}
+	}
+	
 	private void pauseTrack() {
 		Log.i("OVERHEAR SERVICE", "pauseTrack()");
 		Song nowPlaying = MusicUtils.getNowPlaying(getApplicationContext());
@@ -236,28 +259,6 @@ public class MusicService extends Service {
 		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
 		mAudioManager.abandonAudioFocus(afl);
 		stopSelf();
-	}
-
-	private void resumeTrack() {
-		Log.i("OVERHEAR SERVICE", "resumeTrack()");
-		boolean focused = requestAudioFocus();
-		if(!focused) {
-			return;
-		}
-		Song last = MusicUtils.getLastPlaying(getApplicationContext());
-		if(player != null && preparedPlayer) {
-			if(!initializeRemoteControl()) {
-				return;
-			}
-			player.start();
-			MusicUtils.setNowPlaying(getApplicationContext(), last);
-			MusicUtils.setLastPlaying(getApplicationContext(), null);
-			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);			
-		} else if(last != null) {
-			Log.i("OVERHEAR SERVICE", "No paused state found");
-			playTrack(last);
-		}
 	}
 
 	private boolean nextTrack() {
