@@ -132,9 +132,10 @@ public class NowPlayingBarFragment extends Fragment {
 			next.get().setEnabled(true);
 			playPause.get().setEnabled(true);
 
-			if(lastPlayed == null || (lastPlayed != null && 
-					lastPlayed.get().getAlbum().equals(nowPlaying.getAlbum()) &&
+			if(lastPlayed == null || lastPlayed.get() == null || 
+					(lastPlayed.get().getAlbum().equals(nowPlaying.getAlbum()) &&
 					lastPlayed.get().getArtist().equals(nowPlaying.getArtist()))) {
+				
 				Album album = Album.getAlbum(getActivity(), nowPlaying.getAlbum(), nowPlaying.getArtist());
 				int dimen = getResources().getDimensionPixelSize(R.dimen.status_bar_album_art);
 				AQuery aq = new AQuery(getActivity());
