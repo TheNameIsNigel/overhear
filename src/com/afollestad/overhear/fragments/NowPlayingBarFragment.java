@@ -133,15 +133,14 @@ public class NowPlayingBarFragment extends Fragment {
 			playPause.get().setEnabled(true);
 
 			if(lastPlayed == null || lastPlayed.get() == null || 
-					(lastPlayed.get().getAlbum().equals(nowPlaying.getAlbum()) &&
-					lastPlayed.get().getArtist().equals(nowPlaying.getArtist()))) {
+					(!lastPlayed.get().getAlbum().equals(nowPlaying.getAlbum()) ||
+					!lastPlayed.get().getArtist().equals(nowPlaying.getArtist()))) {
 				
 				Album album = Album.getAlbum(getActivity(), nowPlaying.getAlbum(), nowPlaying.getArtist());
-				int dimen = getResources().getDimensionPixelSize(R.dimen.status_bar_album_art);
 				AQuery aq = new AQuery(getActivity());
 				Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(getActivity(), 
 						album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE));
-				playing.get().setImageBitmap(MusicUtils.getResizedBitmap(art, dimen, dimen));
+				playing.get().setImageBitmap(art);
 			}
 
 			track.get().setText(nowPlaying.getTitle());
