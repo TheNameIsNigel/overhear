@@ -8,12 +8,14 @@ import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
+import com.androidquery.AQuery;
 
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,7 @@ public class NowPlayingBarFragment extends Fragment {
 	private WeakReference<ImageView> next;
 	private WeakReference<TextView> track;
 	private WeakReference<TextView> artist;
+	private WeakReference<Song> lastPlayed;
 
 	@Override
 	public void onCreate(Bundle sis) {
@@ -128,12 +131,23 @@ public class NowPlayingBarFragment extends Fragment {
 			previous.get().setEnabled(true);
 			next.get().setEnabled(true);
 			playPause.get().setEnabled(true);
-			Album album = Album.getAlbum(getActivity(), nowPlaying.getAlbum(), nowPlaying.getArtist());
-			int dimen = getResources().getDimensionPixelSize(R.dimen.status_bar_album_art);
-			AlbumAdapter.startAlbumArtTask(getActivity(), album, playing.get(), dimen);
+
+			if(lastPlayed == null || (lastPlayed != null && 
+					lastPlayed.get().getAlbum().equals(nowPlaying.getAlbum()) &&
+					lastPlayed.get().getArtist().equals(nowPlaying.getArtist()))) {
+				Album album = Album.getAlbum(getActivity(), nowPlaying.getAlbum(), nowPlaying.getArtist());
+				int dimen = getResources().getDimensionPixelSize(R.dimen.status_bar_album_art);
+				AQuery aq = new AQuery(getActivity());
+				Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(getActivity(), 
+						album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE));
+				playing.get().setImageBitmap(MusicUtils.getResizedBitmap(art, dimen, dimen));
+			}
+
 			track.get().setText(nowPlaying.getTitle());
 			artist.get().setText(nowPlaying.getArtist());
+			lastPlayed = new WeakReference<Song>(nowPlaying);
 		} else {
+			lastPlayed = null;
 			previous.get().setEnabled(false);
 			next.get().setEnabled(false);
 			playPause.get().setEnabled(false);
