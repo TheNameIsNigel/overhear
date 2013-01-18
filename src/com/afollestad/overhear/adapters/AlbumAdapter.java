@@ -40,11 +40,10 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 			new LastfmGetAlbumImage(context, cover).executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR, album);
 		} else {
-			//        	TODO Un-comment to re-enable scaling of images (if out of memory errors ever occur)
-			//        	if(dimen == 0) {
-			//        		dimen = context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
-			//        	}
-			dimen = -1;
+			if(dimen == 0) {
+				dimen = context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
+			}
+			//dimen = -1;
 			new ArtistOrAlbumImage(context, cover, ALBUM_IMAGE, dimen).executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR, album.getName() + ":" + album.getArtist().getName());
 		}

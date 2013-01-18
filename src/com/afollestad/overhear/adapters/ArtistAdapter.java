@@ -35,11 +35,10 @@ public class ArtistAdapter extends SimpleCursorAdapter {
             new LastfmGetArtistImage(context, cover).executeOnExecutor(
                     AsyncTask.THREAD_POOL_EXECUTOR, artist);
         } else {
-//        	TODO Un-comment to re-enable scaling of images (if out of memory errors ever occur)
-//        	if(dimen == 0) {
-//        		dimen = context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
-//        	}
-        	dimen = -1;
+        	if(dimen == 0) {
+        		dimen = context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
+        	}
+        	//dimen = -1;
             new ArtistOrAlbumImage(context, cover, ARTIST_IMAGE, dimen).executeOnExecutor(
                     AsyncTask.THREAD_POOL_EXECUTOR, artist.getName());
         }

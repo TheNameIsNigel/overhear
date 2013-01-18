@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -92,16 +91,9 @@ public class MusicUtils {
     }
     
     public static Bitmap getResizedBitmap(Bitmap bitmap, int newHeight, int newWidth) {
-        if (bitmap == null)
-            return null;
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        float scaleWidth = ((float)newWidth) / width;
-        float scaleHeight = ((float)newHeight) / height;
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false);
-        return resizedBitmap;
+    	if(bitmap == null)
+    		return null;
+    	return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false);
     }
 
     public static boolean isOnline(Context context) {
