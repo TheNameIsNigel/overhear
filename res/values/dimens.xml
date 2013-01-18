@@ -4,11 +4,12 @@
     <dimen name="list_side_padding">20dp</dimen>
     <dimen name="list_top_padding">15dp</dimen>
     <dimen name="album_list_cover">75dp</dimen>
-    <dimen name="now_playing_bar_cover">42dp</dimen>
     <dimen name="split_view_image">160dp</dimen>
     <dimen name="artist_viewer_header">180dp</dimen>
-    <dimen name="now_playing_bar_height">42dp</dimen>
     <dimen name="status_bar_button_width_height">48dp</dimen>
     <dimen name="status_bar_album_art">64dp</dimen>
     <dimen name="status_bar_album_art_big">130dp</dimen>
+    
+    <dimen name="now_playing_bar">50dp</dimen>
+    <dimen name="now_playing_button">45dp</dimen>
 </resources>

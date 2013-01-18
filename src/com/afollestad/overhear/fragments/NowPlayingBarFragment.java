@@ -1,5 +1,7 @@
 package com.afollestad.overhear.fragments;
 
+import java.lang.ref.WeakReference;
+
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
@@ -17,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * A completely self-sufficient now playing bar, displayed on the bottom of any activity that has music controls.
@@ -32,10 +35,13 @@ public class NowPlayingBarFragment extends Fragment {
 		}
 	};
 
-	private ImageView playing;
-	private ImageView playPause;
-	private ImageView previous;
-	private ImageView next;
+	private WeakReference<View> viewPlaying;
+	private WeakReference<ImageView> playing;
+	private WeakReference<ImageView> playPause;
+	private WeakReference<ImageView> previous;
+	private WeakReference<ImageView> next;
+	private WeakReference<TextView> track;
+	private WeakReference<TextView> artist;
 
 	@Override
 	public void onCreate(Bundle sis) {
@@ -66,35 +72,38 @@ public class NowPlayingBarFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		playing = (ImageView)view.findViewById(R.id.playing);
-		playPause = (ImageView)view.findViewById(R.id.play);
-		previous = (ImageView)view.findViewById(R.id.previous);
-		next = (ImageView)view.findViewById(R.id.next);
+		viewPlaying = new WeakReference<View>(view.findViewById(R.id.viewPlaying));
+		playing = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.playing));
+		playPause = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.play));
+		previous = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.previous));
+		next = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.next));
+		track = new WeakReference<TextView>((TextView)view.findViewById(R.id.playingTrack));
+		artist = new WeakReference<TextView>((TextView)view.findViewById(R.id.playingArtist));
 		initialize();
 	}
 
 	private void initialize() {
-		playPause.setOnClickListener(new View.OnClickListener() {
+		playPause.get().setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				getActivity().startService(new Intent(getActivity(), MusicService.class)
 				.setAction(MusicService.ACTION_TOGGLE_PLAYBACK));
 			}
 		});
-		playing.setOnClickListener(new View.OnClickListener() {
+		viewPlaying.get().setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				//TODO open now playing screen 
 			}
 		});
-		next.setOnClickListener(new View.OnClickListener() {
+		next.get().setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				getActivity().startService(new Intent(getActivity(), MusicService.class)
 				.setAction(MusicService.ACTION_SKIP));
 			}
 		});
-		previous.setOnClickListener(new View.OnClickListener() {
+		previous.get().setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				getActivity().startService(new Intent(getActivity(), MusicService.class)
@@ -110,17 +119,17 @@ public class NowPlayingBarFragment extends Fragment {
 		}
 		Song nowPlaying = MusicUtils.getNowPlaying(getActivity());
 		if(nowPlaying != null) {
-			playPause.setImageResource(R.drawable.pause);
+			playPause.get().setImageResource(R.drawable.pause);
 		} else {
 			nowPlaying = MusicUtils.getLastPlaying(getActivity());
-			playPause.setImageResource(R.drawable.play);
+			playPause.get().setImageResource(R.drawable.play);
 		}
 		if(nowPlaying != null) {
 			Album album = Album.getAlbum(getActivity(), nowPlaying.getAlbum(), nowPlaying.getArtist());
-			//        		TODO Un-comment to re-enable scaling of images (if out of memory errors ever occur)
-			//				int dimen = context.getResources().getDimensionPixelSize(R.dimen.now_playing_bar_cover);
-			int dimen = -1;
-			AlbumAdapter.startAlbumArtTask(getActivity(), album, playing, dimen);
+			int dimen = getResources().getDimensionPixelSize(R.dimen.status_bar_album_art);
+			AlbumAdapter.startAlbumArtTask(getActivity(), album, playing.get(), dimen);
+			track.get().setText(nowPlaying.getTitle());
+			artist.get().setText(nowPlaying.getArtist());
 		} else {
 			//TODO default now playing image
 		}
