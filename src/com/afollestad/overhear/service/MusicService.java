@@ -179,13 +179,7 @@ public class MusicService extends Service {
 		}
 	}
 
-	private void initializeNotification() {
-		Song nowPlaying = null;
-		if(isPlaying()) {
-			nowPlaying = MusicUtils.getNowPlaying(getApplicationContext());
-		} else {
-			nowPlaying = MusicUtils.getLastPlaying(getApplicationContext());
-		}
+	private void initializeNotification(Song nowPlaying) {
 		AQuery aq = new AQuery(this);
         Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, nowPlaying.getAlbum() + ":" + 
         		nowPlaying.getArtist(), AlbumAdapter.ALBUM_IMAGE));
@@ -217,11 +211,11 @@ public class MusicService extends Service {
 		MusicUtils.setLastPlaying(getApplicationContext(), null);
 		initializeMediaPlayer(song.getData());
 		player.start();
+		initializeNotification(song);
 		getContentResolver().insert(Uri.parse("content://com.afollestad.overhear.recentsprovider"), 
 				Album.getAlbum(getApplicationContext(), song.getAlbum(), song.getArtist()).getContentValues());
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
-		initializeNotification();
 	}
 
 	private void playAll(Song song) {
@@ -252,11 +246,11 @@ public class MusicService extends Service {
 				return;
 			}
 			player.start();
+			initializeNotification(last);
 			MusicUtils.setNowPlaying(getApplicationContext(), last);
 			MusicUtils.setLastPlaying(getApplicationContext(), null);
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
-			initializeNotification();
 		} else if(last != null) {
 			Log.i("OVERHEAR SERVICE", "No paused state found");
 			playTrack(last);
@@ -269,13 +263,13 @@ public class MusicService extends Service {
 		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
 		if(player != null && preparedPlayer && player.isPlaying()) {
 			player.pause();
+			initializeNotification(nowPlaying);
 		} else {
 			stopTrack();
 		}
 		MusicUtils.setNowPlaying(getApplicationContext(), null);
 		MusicUtils.setLastPlaying(getApplicationContext(), nowPlaying);
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-		initializeNotification();
 	}
 
 	private void stopTrack() {
