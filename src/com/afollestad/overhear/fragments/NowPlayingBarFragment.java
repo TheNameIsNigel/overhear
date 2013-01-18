@@ -125,12 +125,18 @@ public class NowPlayingBarFragment extends Fragment {
 			playPause.get().setImageResource(R.drawable.play);
 		}
 		if(nowPlaying != null) {
+			previous.get().setEnabled(true);
+			next.get().setEnabled(true);
+			playPause.get().setEnabled(true);
 			Album album = Album.getAlbum(getActivity(), nowPlaying.getAlbum(), nowPlaying.getArtist());
 			int dimen = getResources().getDimensionPixelSize(R.dimen.status_bar_album_art);
 			AlbumAdapter.startAlbumArtTask(getActivity(), album, playing.get(), dimen);
 			track.get().setText(nowPlaying.getTitle());
 			artist.get().setText(nowPlaying.getArtist());
 		} else {
+			previous.get().setEnabled(false);
+			next.get().setEnabled(false);
+			playPause.get().setEnabled(false);
 			//TODO default now playing image
 		}
 	}
