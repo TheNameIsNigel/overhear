@@ -32,5 +32,6 @@
     <string name="loading_str">Loading…</string>
     <string name="error_str">Error</string>
     <string name="shop_artist_str">Shop Artist</string>
+    <string name="no_audio_focus">Another app currently has audio focus.</string>
 
 </resources>

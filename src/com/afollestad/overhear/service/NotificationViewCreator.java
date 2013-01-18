@@ -46,9 +46,15 @@ public class NotificationViewCreator {
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
         mediaButtonIntent.setComponent(rec);
         
-        KeyEvent mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+        KeyEvent mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
         mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
         PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(context,
+                4, mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.status_bar_previous, mediaPendingIntent);
+        
+        mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
+        mediaPendingIntent = PendingIntent.getBroadcast(context,
                 1, mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_play, mediaPendingIntent);
         
@@ -58,18 +64,22 @@ public class NotificationViewCreator {
                 mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_next, mediaPendingIntent);
         
-//        mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_STOP);
-//        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
-//        mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 3,
-//                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        views.setOnClickPendingIntent(R.id.status_bar_collapse, mediaPendingIntent);
+        mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_STOP);
+        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
+        mediaPendingIntent = PendingIntent.getBroadcast(context, 3,
+                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.status_bar_collapse, mediaPendingIntent);
         
         if(playing)
         	views.setImageViewResource(R.id.status_bar_play, R.drawable.pause);
         else
         	views.setImageViewResource(R.id.status_bar_play, R.drawable.play);
+        
         views.setTextViewText(R.id.status_bar_track_name, nowPlaying.getTitle());
         views.setTextViewText(R.id.status_bar_artist_name, nowPlaying.getArtist());
+        if(big) {
+        	views.setTextViewText(R.id.status_bar_album_name, nowPlaying.getAlbum());	
+        }
         
         return views;
 	}

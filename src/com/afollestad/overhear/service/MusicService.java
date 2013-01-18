@@ -3,6 +3,7 @@ package com.afollestad.overhear.service;
 import java.util.ArrayList;
 
 import com.afollestad.overhear.MusicUtils;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
@@ -39,6 +40,7 @@ public class MusicService extends Service {
 	private final IBinder mBinder = new MusicBinder();
 	private boolean hasAudioFocus;
 	private boolean wasPlayingBeforeLoss;
+	private Toast toast;
 
 	private Notification status;
 	private MediaPlayer player;	
@@ -187,7 +189,7 @@ public class MusicService extends Service {
 		AQuery aq = new AQuery(this);
         Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, nowPlaying.getAlbum() + ":" + 
         		nowPlaying.getArtist(), AlbumAdapter.ALBUM_IMAGE));
-        status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, true);
+        status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
         startForeground(100, status);
 	}
 	
@@ -199,6 +201,10 @@ public class MusicService extends Service {
 	private void playTrack(Song song, boolean isFromQueue, boolean forward) {
 		Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
 		if(!initializeRemoteControl()) {
+			if(toast != null)
+				toast.cancel(); 
+			toast = Toast.makeText(getApplicationContext(), R.string.no_audio_focus, Toast.LENGTH_SHORT);
+			toast.show();
 			return;
 		}
 		if(isFromQueue) {
@@ -249,7 +255,8 @@ public class MusicService extends Service {
 			MusicUtils.setNowPlaying(getApplicationContext(), last);
 			MusicUtils.setLastPlaying(getApplicationContext(), null);
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);			
+			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+			initializeNotification();
 		} else if(last != null) {
 			Log.i("OVERHEAR SERVICE", "No paused state found");
 			playTrack(last);
@@ -268,6 +275,7 @@ public class MusicService extends Service {
 		MusicUtils.setNowPlaying(getApplicationContext(), null);
 		MusicUtils.setLastPlaying(getApplicationContext(), nowPlaying);
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+		initializeNotification();
 	}
 
 	private void stopTrack() {
@@ -282,6 +290,7 @@ public class MusicService extends Service {
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
 		mAudioManager.abandonAudioFocus(afl);
+		stopForeground(true);
 		stopSelf();
 	}
 

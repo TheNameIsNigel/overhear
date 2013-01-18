@@ -14,18 +14,19 @@
 		android:paddingLeft="10dp">
 
 		<TextView android:id="@+id/status_bar_track_name" style="@style/StatusBarText"
-			android:textColor="@color/white" android:textSize="16sp"
-			android:textStyle="bold" android:text="Track" />
+			android:textColor="@color/white" android:textSize="16sp" />
 
-		<TextView android:id="@+id/status_bar_artist_name" style="@style/StatusBarText"
-			android:text="Artist" />
+		<TextView android:id="@+id/status_bar_artist_name" style="@style/StatusBarText" />
 
 	</LinearLayout>
-	
+
 	<ImageButton android:id="@+id/status_bar_play" style="@style/StatusBarButton"
 		android:src="@drawable/play" />
 
 	<ImageButton android:id="@+id/status_bar_next" style="@style/StatusBarButton"
 		android:src="@drawable/next" />
+
+	<ImageButton android:id="@+id/status_bar_collapse" style="@style/StatusBarButton"
+		android:src="@drawable/collapse" />
 
 </LinearLayout>

@@ -8,37 +8,39 @@
 		android:gravity="center" />
 
 	<LinearLayout android:id="@+id/status_bar_meta"
-		android:layout_width="wrap_content" android:layout_marginTop="5dp"
-		android:layout_height="wrap_content" android:layout_gravity="center_vertical"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical" android:layout_marginTop="7dp"
 		android:layout_toRightOf="@+id/status_bar_album_art"
-		android:orientation="vertical" android:paddingLeft="15dp">
+		android:orientation="vertical" android:paddingLeft="10dp">
 
 		<TextView android:id="@+id/status_bar_track_name" style="@style/StatusBarText"
-			android:textColor="@color/white" android:textSize="18sp"
-			android:textStyle="bold" android:text="Track" />
+			android:textColor="@color/white" android:textSize="18sp" />
 
 		<TextView android:id="@+id/status_bar_artist_name" style="@style/StatusBarText"
-			android:text="Album" />
+			android:paddingTop="2dp" />
 
-		<TextView android:id="@+id/status_bar_artist_name" style="@style/StatusBarText"
-			android:text="Artistf" />
+		<TextView android:id="@+id/status_bar_album_name" style="@style/StatusBarText"
+			android:paddingTop="2dp" />
 
 	</LinearLayout>
 
 	<LinearLayout android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_gravity="center_vertical"
-		android:layout_toRightOf="@+id/status_bar_album_art"
-		android:orientation="horizontal" android:layout_below="@+id/status_bar_meta"
-		android:paddingLeft="15dp">
+		android:layout_alignBottom="@+id/status_bar_album_art"
+		android:layout_height="wrap_content" android:layout_below="@+id/status_bar_meta"
+		android:layout_gravity="center_vertical" android:layout_toRightOf="@+id/status_bar_album_art"
+		android:orientation="horizontal" android:paddingLeft="6dp">
+
+		<ImageButton android:id="@+id/status_bar_previous" style="@style/StatusBarButton"
+			android:layout_weight="1" android:src="@drawable/previous" />
 
 		<ImageButton android:id="@+id/status_bar_play" style="@style/StatusBarButton"
-			android:src="@drawable/previous" android:layout_weight="1" />
-
-		<ImageButton android:id="@+id/status_bar_play" style="@style/StatusBarButton"
-			android:src="@drawable/play" android:layout_weight="1" />
+			android:layout_weight="1" android:src="@drawable/play" />
 
 		<ImageButton android:id="@+id/status_bar_next" style="@style/StatusBarButton"
-			android:src="@drawable/next" android:layout_weight="1" />
+			android:layout_weight="1" android:src="@drawable/next" />
+
+		<ImageButton android:id="@+id/status_bar_collapse" style="@style/StatusBarButton"
+			android:layout_weight="1" android:src="@drawable/collapse" />
 
 	</LinearLayout>
 
