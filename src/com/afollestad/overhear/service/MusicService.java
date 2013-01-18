@@ -281,11 +281,11 @@ public class MusicService extends Service {
 		}
 		MusicUtils.setNowPlaying(getApplicationContext(), null);
 		MusicUtils.setLastPlaying(getApplicationContext(), nowPlaying);
-		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
 		mAudioManager.abandonAudioFocus(afl);
 		stopForeground(true);
 		stopSelf();
+		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 	}
 
 	private boolean nextTrack() {

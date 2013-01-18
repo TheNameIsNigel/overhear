@@ -130,7 +130,6 @@ public class NowPlayingBarFragment extends Fragment {
 		if(nowPlaying != null) {
 			previous.get().setEnabled(true);
 			next.get().setEnabled(true);
-			playPause.get().setEnabled(true);
 
 			if(lastPlayed == null || lastPlayed.get() == null || 
 					(!lastPlayed.get().getAlbum().equals(nowPlaying.getAlbum()) ||
@@ -150,7 +149,6 @@ public class NowPlayingBarFragment extends Fragment {
 			lastPlayed = null;
 			previous.get().setEnabled(false);
 			next.get().setEnabled(false);
-			playPause.get().setEnabled(false);
 			//TODO default now playing image
 		}
 	}
