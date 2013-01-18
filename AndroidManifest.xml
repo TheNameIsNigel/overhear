@@ -38,8 +38,11 @@
 				<action android:name="android.intent.action.MEDIA_BUTTON" />
 			</intent-filter>
 		</receiver>
+		
 		<provider android:name="com.afollestad.overhear.providers.RecentsProvider"
 			android:exported="true" android:authorities="com.afollestad.overhear.recentsprovider" />
+		<provider android:name="com.afollestad.overhear.providers.QueueProvider"
+			android:exported="true" android:authorities="com.afollestad.overhear.queueprovider" />
 
 	</application>
 

@@ -3,6 +3,7 @@ package com.afollestad.overhear.fragments;
 import java.lang.ref.WeakReference;
 
 import com.afollestad.overhear.MusicUtils;
+import com.afollestad.overhear.QueueUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
@@ -124,7 +125,7 @@ public class NowPlayingBarFragment extends Fragment {
 		if(nowPlaying != null) {
 			playPause.get().setImageResource(R.drawable.pause);
 		} else {
-			nowPlaying = MusicUtils.getLastPlaying(getActivity());
+			nowPlaying = QueueUtils.poll(getActivity());
 			playPause.get().setImageResource(R.drawable.play);
 		}
 		if(nowPlaying != null) {

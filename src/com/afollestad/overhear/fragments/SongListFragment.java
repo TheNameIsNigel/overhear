@@ -76,7 +76,9 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 		adapter.getCursor().moveToPosition(position);
 		Song song = Song.fromCursor(adapter.getCursor());
 		getActivity().startService(new Intent(getActivity(), MusicService.class)
-			.setAction(MusicService.ACTION_PLAY_ALL).putExtra("song", song.getJSON().toString()));
+			.setAction(MusicService.ACTION_PLAY_ALL)
+			.putExtra("song", song.getJSON().toString())
+			.putExtra("position", position));
 	}
 
 	@Override
