@@ -290,19 +290,14 @@ public class MusicService extends Service {
 
 	private boolean nextTrack() {
 		Log.i("OVERHEAR SERVICE", "nextTrack()");
-		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_SKIPPING_FORWARDS);
-		Song nowPlaying = MusicUtils.getNowPlaying(getApplicationContext()); 
+		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_SKIPPING_FORWARDS); 
 		if((queuePos + 1) > (queue.size() - 1)) {
-			MusicUtils.setNowPlaying(getApplicationContext(), null);
-			MusicUtils.setLastPlaying(getApplicationContext(), nowPlaying);
-			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+			stopTrack();
 			return false;
 		}
 		Song queued = queue.get(queuePos + 1);
 		if(queued == null) {
-			MusicUtils.setNowPlaying(getApplicationContext(), null);
-			MusicUtils.setLastPlaying(getApplicationContext(), nowPlaying);
-			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+			stopTrack();
 			return false;
 		}
 		playTrack(queued, true, true);
@@ -312,11 +307,8 @@ public class MusicService extends Service {
 	private void previousTrack() {
 		Log.i("OVERHEAR SERVICE", "previousTrack()");
 		mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_SKIPPING_BACKWARDS);
-		Song nowPlaying = MusicUtils.getNowPlaying(getApplicationContext());
 		if((queuePos - 1) < 0) {
-			MusicUtils.setNowPlaying(getApplicationContext(), null);
-			MusicUtils.setLastPlaying(getApplicationContext(), nowPlaying);
-			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+			stopTrack();
 			return;
 		}
 		Song previous = queue.get(queuePos - 1);
