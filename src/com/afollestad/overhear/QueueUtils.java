@@ -18,7 +18,7 @@ import com.afollestad.overhearapi.Song;
  */
 public class QueueUtils {
 	
-	private static int position = -1;
+	public static int position = -1;
 	private static int getPosition(Context context) {
 		if(position == -1) {
 			position = PreferenceManager.getDefaultSharedPreferences(context).getInt("queue_pos", 0);
@@ -109,10 +109,6 @@ public class QueueUtils {
 	 * Persists the queue position for when the app is closed.
 	 */
 	public static void saveQueuePosition(Context context) {
-		PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("queue_pos", position).commit();
-	}
-	
-	public static void setQueuePosition(Context context, int position) {
 		PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("queue_pos", position).commit();
 	}
 	

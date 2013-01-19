@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/shopArtist" android:title="@string/shop_artist_str"></item>
-    
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/tweetPlaying" android:title="@string/tweet_now_playing" />
+    <item android:id="@+id/shopArtist" android:title="@string/shop_artist_str" />
 </menu>

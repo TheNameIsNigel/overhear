@@ -27,6 +27,15 @@ public class AlbumViewer extends Activity {
 	private Album album;
 	private Artist artist;
 	
+	public final static int TWEET_PLAYING_LOGIN = 400;
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == TWEET_PLAYING_LOGIN && resultCode == Activity.RESULT_OK) {
+			startActivity(new Intent(this, TweetNowPlaying.class));
+		}
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,6 +101,12 @@ public class AlbumViewer extends Activity {
 			return true;
 		case R.id.shopArtist:
 			MusicUtils.browseArtist(getApplicationContext(), artist.getName());
+			return true;
+		case R.id.tweetPlaying:
+			if(LoginHandler.getTwitterInstance(getApplicationContext(), true) == null)
+				startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
+			else
+				startActivity(new Intent(this, TweetNowPlaying.class));
 			return true;
 		}
 		return false;

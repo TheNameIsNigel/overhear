@@ -1,6 +1,6 @@
 package com.afollestad.overhear.providers;
 
-import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Song;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -34,7 +34,7 @@ public class QueueProvider extends ContentProvider {
 			}
     	};
     	db = mOpenHelper.getWritableDatabase();
-    	db.execSQL(Album.getCreateTableStatement(TABLE_QUEUE));
+    	db.execSQL(Song.getCreateTableStatement(TABLE_QUEUE));
     	return true;
 	}
 

@@ -224,7 +224,7 @@ public class MusicService extends Service {
 			queue = Song.getAllFromAlbum(getApplicationContext(), song.getAlbum(), song.getArtist());
 			QueueUtils.setQueue(this, queue);
 		}
-		QueueUtils.setQueuePosition(this, currentPosition);
+		QueueUtils.position = currentPosition;
 		Log.i("OVERHEAR SERVICE", "Queue size: " + queue.size() + ", position: " + currentPosition);
 		playTrack(queue.get(currentPosition));
 	}
