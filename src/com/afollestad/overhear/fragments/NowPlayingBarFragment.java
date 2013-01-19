@@ -121,8 +121,8 @@ public class NowPlayingBarFragment extends Fragment {
 		if(getActivity() == null) {
 			return;
 		}
-		Song nowPlaying = MusicUtils.getNowPlaying(getActivity());
-		if(nowPlaying != null) {
+		Song nowPlaying = QueueUtils.poll(getActivity());
+		if(nowPlaying != null && nowPlaying.isPlaying()) {
 			playPause.get().setImageResource(R.drawable.pause);
 		} else {
 			nowPlaying = QueueUtils.poll(getActivity());

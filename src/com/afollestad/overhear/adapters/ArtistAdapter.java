@@ -1,6 +1,7 @@
 package com.afollestad.overhear.adapters;
 
 import com.afollestad.overhear.MusicUtils;
+import com.afollestad.overhear.QueueUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.tasks.ArtistOrAlbumImage;
 import com.afollestad.overhear.tasks.LastfmGetArtistImage;
@@ -73,7 +74,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 		
-		Song nowPlaying = MusicUtils.getNowPlaying(context);
+		Song nowPlaying = QueueUtils.getNowPlaying(context);
 		if(nowPlaying != null && artist.getName().equals(nowPlaying.getArtist())) {
 			peakOne.setVisibility(View.VISIBLE);
 			peakTwo.setVisibility(View.VISIBLE);
