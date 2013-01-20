@@ -205,6 +205,8 @@ public class MusicService extends Service {
 				Queue.increment(this, true);
 			else
 				Queue.decrement(this, true);
+		} else {
+			Queue.setFocused(this, song, true);
 		}
 		initializeMediaPlayer(song.getData());
 		player.start();

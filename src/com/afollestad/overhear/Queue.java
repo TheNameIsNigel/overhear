@@ -93,6 +93,7 @@ public class Queue {
 	}
 
 	public static void setFocused(Context context, Song song, boolean playing) {
+		clearFocused(context);
 		song.setIsPlaying(playing);
 		song.setHasFocus(true);
 		ContentValues values = new ContentValues();
