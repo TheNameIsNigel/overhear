@@ -10,9 +10,17 @@
 		<requestFocus />
 	</EditText>
 
-	<Button android:id="@+id/tweetBtn" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_alignRight="@+id/tweetText"
-		android:layout_below="@+id/tweetText" android:layout_marginTop="3dp"
-		android:text="@string/tweet_str" android:enabled="false" />
+	<LinearLayout style="?android:attr/buttonBarStyle"
+		android:layout_below="@+id/tweetText" android:layout_marginTop="2dp"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:paddingLeft="2dip"
+		android:paddingRight="2dip" android:measureWithLargestChild="true">
+		<Button android:id="@+id/cancel" style="?android:attr/buttonBarButtonStyle"
+			android:layout_width="0dip" android:layout_height="wrap_content"
+			android:layout_weight="1" android:text="@string/cancel_str" />
+		<Button android:id="@+id/tweetBtn" style="?android:attr/buttonBarButtonStyle"
+			android:layout_width="0dip" android:layout_height="wrap_content"
+			android:layout_weight="1" android:text="@string/tweet_str" />
+	</LinearLayout>
 
 </RelativeLayout>

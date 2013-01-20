@@ -41,7 +41,7 @@ public class LoginHandler extends Activity {
 
 		return client;
 	}
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

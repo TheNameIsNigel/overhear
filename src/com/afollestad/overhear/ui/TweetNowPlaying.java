@@ -34,6 +34,12 @@ public class TweetNowPlaying extends Activity {
 				send();
 			}
 		});
+		findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 
 	private void send() {

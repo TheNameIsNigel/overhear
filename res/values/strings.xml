@@ -35,6 +35,7 @@
     <string name="no_audio_focus">Another app currently has audio focus.</string>
     <string name="tweet_now_playing">Tweet #NowPlaying</string>
     <string name="tweet_str">Tweet</string>
+    <string name="cancel_str">Cancel</string>
     <string name="tweeted_str">Tweeted!</string>
     <string name="failed_tweet_str">Failed to send your tweet… {error}</string>
     <string name="now_playing_hash">#NowPlaying</string>
