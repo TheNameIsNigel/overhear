@@ -44,10 +44,9 @@ public class Queue {
 		while(cursor.moveToNext()) {
 			boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
 			if(hasFocus) {
-				int id = cursor.getInt(cursor.getColumnIndex("_id"));
 				clearFocused(context);
 				if(cursor.moveToNext()) {
-					id = cursor.getInt(cursor.getColumnIndex("_id"));
+					int id = cursor.getInt(cursor.getColumnIndex("_id"));
 					ContentValues values = new ContentValues();
 					values.put(Song.QUEUE_FOCUS, 1);
 					values.put(Song.NOW_PLAYING, playing ? 1 : 0);

@@ -51,7 +51,7 @@ public class SongAdapter extends CursorAdapter {
 		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 		
 		Song focused = Queue.getFocused(context);
-		if(focused != null && song.getId() == focused.getId()) {
+		if(focused != null && focused.isPlaying() && song.getId() == focused.getId()) {
 			peakOne.setVisibility(View.VISIBLE);
 			peakTwo.setVisibility(View.VISIBLE);
 			if(!mPeakOneAnimation.isRunning()) {
