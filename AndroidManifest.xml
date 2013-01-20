@@ -49,7 +49,7 @@
         <activity
             android:name="com.afollestad.overhear.ui.NowPlayingViewer"
             android:label="@string/title_activity_now_playing_viewer"
-            android:configChanges="keyboardHidden|orientation|screenSize" >
+            android:configChanges="keyboardHidden|orientation|screenSize" android:launchMode="singleInstance">
         </activity>
 
         <service
