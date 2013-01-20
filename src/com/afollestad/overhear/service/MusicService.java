@@ -39,6 +39,7 @@ public class MusicService extends Service {
 	private boolean hasAudioFocus;
 	private boolean wasPlayingBeforeLoss;
 	private Toast toast;
+	private boolean paused;
 
 	private Notification status;
 	private static MediaPlayer player;	
@@ -196,6 +197,7 @@ public class MusicService extends Service {
 
 	private void playTrack(Song song) {
 		Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
+		paused = false;
 		if(!initializeRemoteControl()) {
 			if(toast != null)
 				toast.cancel(); 
@@ -230,12 +232,19 @@ public class MusicService extends Service {
 			return;
 		}
 		Song last = Queue.getFocused(this);
-		if(player != null && last != null) {
+		if(player != null && last != null && paused) {
 			if(!initializeRemoteControl()) {
 				return;
 			}
 			Queue.setFocused(this, last, true);
-			player.start();
+			paused = false;
+			try {
+				player.start();
+			} catch(IllegalStateException e) {
+				e.printStackTrace();
+				playTrack(last);
+				return;
+			}
 			initializeNotification(last);
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
@@ -254,6 +263,7 @@ public class MusicService extends Service {
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
 		Queue.setFocused(this, focused, false);
 		if(player != null && player.isPlaying()) {
+			paused = true;
 			player.pause();
 			initializeNotification(focused);
 		} else {
@@ -291,7 +301,7 @@ public class MusicService extends Service {
 
 	private void previousOrRewind() {
 		Log.i("OVERHEAR SERVICE", "previousTrack()");
-		if(player != null && player.getCurrentPosition() > 0) {
+		if(player != null && player.getCurrentPosition() > 2000) {
 			player.seekTo(0);
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		} else {
