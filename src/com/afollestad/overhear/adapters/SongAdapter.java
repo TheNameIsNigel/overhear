@@ -2,7 +2,7 @@ package com.afollestad.overhear.adapters;
 
 import java.util.ArrayList;
 
-import com.afollestad.overhear.QueueUtils;
+import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Song;
 
@@ -50,8 +50,8 @@ public class SongAdapter extends CursorAdapter {
 		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
 		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 		
-		Song nowPlaying = QueueUtils.getNowPlaying(context);
-		if(nowPlaying != null && song.getId() == nowPlaying.getId()) {
+		Song focused = Queue.getFocused(context);
+		if(focused != null && song.getId() == focused.getId()) {
 			peakOne.setVisibility(View.VISIBLE);
 			peakTwo.setVisibility(View.VISIBLE);
 			if(!mPeakOneAnimation.isRunning()) {

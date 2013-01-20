@@ -6,7 +6,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-import com.afollestad.overhear.QueueUtils;
+import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Song;
 
@@ -69,7 +69,7 @@ public class TweetNowPlaying extends Activity {
 	private void loadInitialText() {
 		final TextView text = (TextView)findViewById(R.id.tweetText);
 		final Button send = (Button)findViewById(R.id.tweetBtn);
-		final Song last = QueueUtils.getNowPlaying(this);
+		final Song last = Queue.getFocused(this);
 		
 		text.setText(R.string.loading_str);
 		text.setEnabled(false);

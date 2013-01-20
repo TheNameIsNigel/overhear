@@ -7,8 +7,6 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -81,7 +79,7 @@ public class LoginHandler extends Activity {
 								runOnUiThread(new Runnable() {
 									@Override
 									public void run() {
-										Crouton.makeText(LoginHandler.this, e.getMessage(), Style.ALERT).show();
+										Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 									}
 								});
 							}
@@ -93,7 +91,7 @@ public class LoginHandler extends Activity {
 
 			@Override
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-				Crouton.makeText(LoginHandler.this, description, Style.ALERT).show();
+				Toast.makeText(getApplicationContext(), description, Toast.LENGTH_LONG).show();
 			}
 
 			@Override

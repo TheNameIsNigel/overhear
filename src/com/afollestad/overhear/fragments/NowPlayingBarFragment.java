@@ -3,7 +3,7 @@ package com.afollestad.overhear.fragments;
 import java.lang.ref.WeakReference;
 
 import com.afollestad.overhear.MusicUtils;
-import com.afollestad.overhear.QueueUtils;
+import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
@@ -121,31 +121,30 @@ public class NowPlayingBarFragment extends Fragment {
 		if(getActivity() == null) {
 			return;
 		}
-		Song nowPlaying = QueueUtils.poll(getActivity());
-		if(nowPlaying != null && nowPlaying.isPlaying()) {
+		Song focused = Queue.getFocused(getActivity());
+		if(focused != null && focused.isPlaying()) {
 			playPause.get().setImageResource(R.drawable.pause);
 		} else {
-			nowPlaying = QueueUtils.poll(getActivity());
 			playPause.get().setImageResource(R.drawable.play);
 		}
-		if(nowPlaying != null) {
+		if(focused != null) {
 			previous.get().setEnabled(true);
 			next.get().setEnabled(true);
 
 			if(lastPlayed == null || lastPlayed.get() == null || 
-					(!lastPlayed.get().getAlbum().equals(nowPlaying.getAlbum()) ||
-					!lastPlayed.get().getArtist().equals(nowPlaying.getArtist()))) {
+					(!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
+					!lastPlayed.get().getArtist().equals(focused.getArtist()))) {
 				
-				Album album = Album.getAlbum(getActivity(), nowPlaying.getAlbum(), nowPlaying.getArtist());
+				Album album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
 				AQuery aq = new AQuery(getActivity());
 				Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(getActivity(), 
 						album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE));
 				playing.get().setImageBitmap(art);
 			}
 
-			track.get().setText(nowPlaying.getTitle());
-			artist.get().setText(nowPlaying.getArtist());
-			lastPlayed = new WeakReference<Song>(nowPlaying);
+			track.get().setText(focused.getTitle());
+			artist.get().setText(focused.getArtist());
+			lastPlayed = new WeakReference<Song>(focused);
 		} else {
 			lastPlayed = null;
 			previous.get().setEnabled(false);

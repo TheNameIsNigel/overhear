@@ -78,30 +78,31 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 		getActivity().startService(new Intent(getActivity(), MusicService.class)
 			.setAction(MusicService.ACTION_PLAY_ALL)
 			.putExtra("song", song.getJSON().toString())
-			.putExtra("position", position));
+			.putExtra("position", position)
+			.putExtra("scope", getScope()));
+	}
+	
+	private String[] getScope() {
+		String sort = MediaStore.Audio.Media.TITLE;
+		if(getArguments() != null) {
+			sort = MediaStore.Audio.Media.TRACK;
+		}
+		String where = MediaStore.Audio.Media.IS_MUSIC + " = 1"; 
+		if(getArguments().containsKey("artist_id")) {
+			where += " AND " + MediaStore.Audio.Media.ARTIST_ID + " = " + getArguments().getInt("artist_id"); 			
+		} else if(getArguments().containsKey("album_id")) {
+			where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + getArguments().getInt("album_id");
+		} else if(getArguments().containsKey("artist_name")) {
+			where += " AND " + MediaStore.Audio.Media.ARTIST + " = '" + getArguments().getString("artist_name").replace("'", "''") + "'";
+		}
+		return new String[] { where, sort };
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-		String where = MediaStore.Audio.Media.IS_MUSIC + " = 1";
-		String sort = MediaStore.Audio.Media.TITLE;
-		if(getArguments() != null) {
-			sort = MediaStore.Audio.Media.TRACK;
-			if(getArguments().containsKey("artist_id")) {
-				where += " AND " + MediaStore.Audio.Media.ARTIST_ID + " = " + getArguments().getInt("artist_id"); 			
-			} else if(getArguments().containsKey("album_id")) {
-				where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + getArguments().getInt("album_id");
-			} else if(getArguments().containsKey("artist_name")) {
-				where += " AND " + MediaStore.Audio.Media.ARTIST + " = '" + getArguments().getString("artist_name").replace("'", "''") + "'";
-			}
-		}
-		return new CursorLoader(getActivity(), 
-				uri, 
-				null, 
-				where, 
-				null, 
-				sort);
+		String[] scope = getScope();
+		return new CursorLoader(getActivity(), uri, null, scope[0], null, scope[1]);
 	}
 
 	@Override
