@@ -30,12 +30,8 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
 
     @Override
     protected String doInBackground(Album... als) {
-    	url = als[0].getAlbumArtUri(contextReference.get()).toString();
-    	if(url == null) {
-    		url = MusicUtils.getImageURL(contextReference.get(), als[0].getName() + ":" + 
-            		als[0].getArtist().getName(), AlbumAdapter.ALBUM_IMAGE);
-    		aq.cache(url, 0);
-    	}
+    	url = MusicUtils.getImageURL(contextReference.get(), als[0].getName() + ":" + 
+            	als[0].getArtist().getName(), AlbumAdapter.ALBUM_IMAGE);
         if (url == null && MusicUtils.isOnline(contextReference.get())) {
             try {
                 url = LastFM.getAlbumInfo(als[0].getArtist().getName(), als[0].getName()).getCoverImageURL();
@@ -46,6 +42,11 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
             } catch (Exception e) {
             	return als[0].getAlbumArtUri(contextReference.get()).toString();
             }
+        }
+        if(url == null) {
+        	url = als[0].getAlbumArtUri(contextReference.get()).toString();
+        } else {
+        	aq.cache(url, 0);
         }
         return url;
     }
