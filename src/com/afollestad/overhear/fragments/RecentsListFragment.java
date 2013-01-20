@@ -27,8 +27,7 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-        	if(adapter != null)
-    			adapter.notifyDataSetChanged();
+        	getLoaderManager().initLoader(0, null, RecentsListFragment.this);
         }
     };
 	
@@ -45,7 +44,7 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 	public void onStart() {
 		super.onStart();
 		IntentFilter filter = new IntentFilter();
-        filter.addAction(MusicService.PLAYING_STATE_CHANGED);
+        filter.addAction(MusicService.RECENTS_UPDATED);
         getActivity().registerReceiver(mStatusReceiver, filter);
 	}
 	

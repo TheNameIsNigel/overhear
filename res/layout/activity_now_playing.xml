@@ -11,11 +11,11 @@
 	<TextView android:id="@+id/track" android:layout_width="wrap_content"
 		android:layout_marginTop="10dp" android:layout_height="wrap_content"
 		android:layout_above="@+id/artistAlbum" android:layout_marginLeft="15dp"
-		android:textAppearance="?android:attr/textAppearanceMedium" />
+		android:textAppearance="?android:attr/textAppearanceMedium" style="@style/StatusBarText" />
 
 	<TextView android:id="@+id/artistAlbum" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_above="@+id/meta"
-		android:layout_marginLeft="15dp" />
+		android:layout_marginLeft="15dp" style="@style/StatusBarText" />
 
 	<RelativeLayout android:id="@+id/meta"
 		android:layout_width="fill_parent" android:paddingTop="10dp"

@@ -82,6 +82,7 @@ public class MusicService extends Service {
 	};
 
 	public final static String PLAYING_STATE_CHANGED = "com.afollestad.overhear.PLAY_STATE_CHANGED";
+	public final static String RECENTS_UPDATED = "com.afollestad.overhear.RECENTS_UPDATED";
 
 	public static final String ACTION_TOGGLE_PLAYBACK = "com.afollestad.overhear.action.TOGGLE_PLAYBACK";
 	public static final String ACTION_PLAY = "com.afollestad.overhear.action.PLAY";
@@ -209,6 +210,7 @@ public class MusicService extends Service {
 		player.start();
 		initializeNotification(song);
 		Recents.add(getApplicationContext(), song);
+		sendBroadcast(new Intent(RECENTS_UPDATED));
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
 	}
