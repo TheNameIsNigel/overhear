@@ -8,27 +8,25 @@
 		android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
 		android:scaleType="fitXY" android:layout_above="@+id/meta" />
 
-	<LinearLayout android:id="@+id/meta" android:layout_width="fill_parent"
-		android:padding="5dp" android:layout_height="wrap_content"
-		android:orientation="vertical" android:layout_above="@+id/seekMeta"
+	<RelativeLayout android:id="@+id/meta"
+		android:layout_width="fill_parent" android:padding="5dp"
+		android:layout_height="wrap_content" android:layout_above="@+id/seekMeta"
 		android:background="?android:attr/listChoiceBackgroundIndicator">
 
 		<TextView android:id="@+id/track" android:layout_width="wrap_content"
-			android:layout_marginTop="5dp" android:layout_height="wrap_content"
-			android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-			android:textAppearance="?android:attr/textAppearanceMedium" style="@style/StatusBarText" />
+			android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
+			style="@style/StatusBarText" android:layout_centerHorizontal="true" />
 
 		<TextView android:id="@+id/artistAlbum" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_marginLeft="10dp"
-			style="@style/StatusBarText" />
+			android:layout_height="wrap_content" style="@style/StatusBarText"
+			android:layout_centerHorizontal="true" android:layout_below="@+id/track" />
 
-	</LinearLayout>
+	</RelativeLayout>
 
 	<RelativeLayout android:id="@+id/seekMeta"
 		android:layout_width="fill_parent" android:paddingTop="5dp"
-		android:paddingBottom="10dp" android:paddingLeft="15dp"
-		android:paddingRight="15dp" android:layout_height="wrap_content"
-		android:layout_above="@+id/divider">
+		android:paddingLeft="15dp" android:paddingRight="15dp"
+		android:layout_height="wrap_content" android:layout_above="@+id/controls">
 
 		<TextView android:id="@+id/progress" android:layout_width="wrap_content"
 			android:layout_centerVertical="true" android:layout_alignParentLeft="true"
@@ -47,12 +45,9 @@
 
 	</RelativeLayout>
 
-	<View android:id="@+id/divider" android:background="@android:color/holo_blue_light"
-		android:layout_above="@+id/controls" android:layout_width="fill_parent"
-		android:layout_height="2dp" />
-
 	<LinearLayout android:id="@+id/controls"
-		android:layout_centerHorizontal="true" android:layout_width="@dimen/now_playing_screen_controls"
+		android:layout_centerHorizontal="true"
+		android:layout_width="@dimen/now_playing_screen_controls_width"
 		android:layout_height="wrap_content" android:gravity="center_horizontal"
 		android:orientation="horizontal" android:layout_alignParentBottom="true">
 
