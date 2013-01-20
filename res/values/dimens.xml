@@ -16,5 +16,5 @@
     
     <dimen name="now_playing_screen_cover">340dp</dimen>
     <dimen name="now_playing_screen_control">60dp</dimen>
-    <dimen name="now_playing_screen_controls">220dp</dimen>
+    <dimen name="now_playing_screen_controls">200dp</dimen>
 </resources>

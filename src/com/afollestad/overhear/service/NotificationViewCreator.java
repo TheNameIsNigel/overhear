@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.widget.RemoteViews;
 
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhearapi.Song;
 
 public class NotificationViewCreator {
@@ -22,7 +23,7 @@ public class NotificationViewCreator {
 		builder.setOngoing(true);
 		builder.setSmallIcon(R.drawable.stat_notify_music);
 		builder.setContentIntent(PendingIntent.getActivity(context, 0, 
-        		new Intent("com.andrew.apollo.PLAYBACK_VIEWER").
+        		new Intent(context, NowPlayingViewer.class).
         		addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), 0));
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			return NotificationViewCreator16.createNotification(context, builder, nowPlaying, art, playing);
