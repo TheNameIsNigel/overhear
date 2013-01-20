@@ -43,8 +43,15 @@ public class MusicService extends Service {
 
 	private Notification status;
 	private MediaPlayer player;	
-	private AudioManager mAudioManager;
+	private AudioManager audioManager;
 	private RemoteControlClient mRemoteControlClient;
+	
+	public AudioManager getAudioManager() {
+		if(audioManager == null) {
+			audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+		}
+		return audioManager;
+	}
 	
 	private AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {
 		@Override
@@ -52,8 +59,8 @@ public class MusicService extends Service {
 			switch(focusChange) {
 			case AudioManager.AUDIOFOCUS_LOSS:
 				hasAudioFocus = false;
-				mAudioManager.unregisterRemoteControlClient(mRemoteControlClient);
-				mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
+				getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
+				getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
 				wasPlayingBeforeLoss = isPlaying(); 
 				pauseTrack();
 				break;
@@ -72,6 +79,7 @@ public class MusicService extends Service {
 	};
 
 	public final static String PLAYING_STATE_CHANGED = "com.afollestad.overhear.PLAY_STATE_CHANGED";
+
 	public static final String ACTION_TOGGLE_PLAYBACK = "com.afollestad.overhear.action.TOGGLE_PLAYBACK";
 	public static final String ACTION_PLAY = "com.afollestad.overhear.action.PLAY";
 	public static final String ACTION_PLAY_ALL = "com.afollestad.overhear.action.PLAY_ALL";
@@ -82,13 +90,10 @@ public class MusicService extends Service {
 	
 	
 	private boolean requestAudioFocus() {
-		if(mAudioManager == null) {
-			mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-		}
 		if(hasAudioFocus) {
 			return true;
 		}
-		int result = mAudioManager.requestAudioFocus(afl, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+		int result = getAudioManager().requestAudioFocus(afl, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 		boolean hasFocus = (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
 		Log.i("OVERHEAR SERVICE", "requestAudioFocus() = " + hasFocus);
 		return hasFocus;
@@ -99,7 +104,7 @@ public class MusicService extends Service {
 		if(focused) {
 			Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 			ComponentName component = new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class);
-			mAudioManager.registerMediaButtonEventReceiver(component);
+			getAudioManager().registerMediaButtonEventReceiver(component);
 			intent.setComponent(component);
 			mRemoteControlClient = new RemoteControlClient(PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0));
 			mRemoteControlClient.setTransportControlFlags(
@@ -107,7 +112,7 @@ public class MusicService extends Service {
 					RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
 					RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
 					RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS);
-			mAudioManager.registerRemoteControlClient(mRemoteControlClient);
+			getAudioManager().registerRemoteControlClient(mRemoteControlClient);
 		}
 		return focused;
 	}
@@ -143,8 +148,8 @@ public class MusicService extends Service {
 		player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 			@Override
 			public void onCompletion(MediaPlayer mp) {
-				if(!nextTrack() && mAudioManager != null) {
-					mAudioManager.abandonAudioFocus(afl);
+				if(!nextTrack()) {
+					getAudioManager().abandonAudioFocus(afl);
 				}
 			}
 		});
@@ -274,7 +279,7 @@ public class MusicService extends Service {
 		}
 		if(mRemoteControlClient != null)
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
-		mAudioManager.abandonAudioFocus(afl);
+		getAudioManager().abandonAudioFocus(afl);
 		Queue.clearFocused(this);
 		stopForeground(true);
 		stopSelf();
@@ -378,7 +383,7 @@ public class MusicService extends Service {
 		super.onDestroy();
 		player.release();
 		unregisterReceiver(receiver);
-		mAudioManager.unregisterRemoteControlClient(mRemoteControlClient);
-		mAudioManager.unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
+		getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
+		getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
 	}
 }
