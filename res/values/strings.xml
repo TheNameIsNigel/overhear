@@ -38,5 +38,7 @@
     <string name="tweeted_str">Tweeted!</string>
     <string name="failed_tweet_str">Failed to send your tweet… {error}</string>
     <string name="now_playing_hash">#NowPlaying</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_now_playing_viewer">Now Playing</string>
 
 </resources>

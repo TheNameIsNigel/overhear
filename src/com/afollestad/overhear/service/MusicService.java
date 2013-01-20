@@ -42,7 +42,7 @@ public class MusicService extends Service {
 	private Toast toast;
 
 	private Notification status;
-	private MediaPlayer player;	
+	private static MediaPlayer player;	
 	private AudioManager audioManager;
 	private RemoteControlClient mRemoteControlClient;
 	
@@ -51,6 +51,9 @@ public class MusicService extends Service {
 			audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 		}
 		return audioManager;
+	}
+	public static MediaPlayer getPlayer() {
+		return player;
 	}
 	
 	private AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {

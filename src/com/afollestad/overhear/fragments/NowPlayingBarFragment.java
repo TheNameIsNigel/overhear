@@ -7,6 +7,7 @@ import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
+import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 import com.androidquery.AQuery;
@@ -97,7 +98,8 @@ public class NowPlayingBarFragment extends Fragment {
 		viewPlaying.get().setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				//TODO open now playing screen 
+				//TODO open now playing screen
+				startActivity(new Intent(getActivity(), NowPlayingViewer.class));
 			}
 		});
 		next.get().setOnClickListener(new View.OnClickListener() {
