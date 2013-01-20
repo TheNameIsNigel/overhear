@@ -1,4 +1,4 @@
-package com.afollestad.overhear.ui;
+gpackage com.afollestad.overhear.ui;
 
 import java.util.Timer;
 import java.util.TimerTask;
