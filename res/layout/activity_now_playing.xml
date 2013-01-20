@@ -8,9 +8,9 @@
 		android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
 		android:scaleType="fitXY" android:layout_above="@+id/meta" />
 
-	<RelativeLayout android:id="@+id/meta"
+	<RelativeLayout android:id="@+id/meta" android:layout_marginTop="5dp"
 		android:layout_width="fill_parent" android:padding="5dp"
-		android:layout_height="wrap_content" android:layout_above="@+id/seekMeta"
+		android:layout_height="wrap_content" android:layout_below="@+id/cover"
 		android:background="?android:attr/listChoiceBackgroundIndicator">
 
 		<TextView android:id="@+id/track" android:layout_width="wrap_content"

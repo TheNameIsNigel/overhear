@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,16 +47,20 @@ public class NowPlayingViewer extends Activity {
     private Song song;
     private Album album;
 	private Timer timer;
+	private AnimationDrawable seekThumb;
 	private Handler mHandler = new Handler();
+
 	private View.OnTouchListener disappearListener = new View.OnTouchListener() {
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			fadeIn(findViewById(R.id.progress));
 			fadeIn(findViewById(R.id.remaining));
+			resetSeekBarThumb((SeekBar)findViewById(R.id.seek));
 			mHandler.postDelayed(new Runnable() {
 				public void run() {
 					fadeOut(findViewById(R.id.progress));
 					fadeOut(findViewById(R.id.remaining));
+					seekThumb.start();
 				}
 			}, 2000);
 			return false;
@@ -77,7 +82,9 @@ public class NowPlayingViewer extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		setContentView(R.layout.activity_now_playing); 
+		setContentView(R.layout.activity_now_playing);
+		seekThumb = (AnimationDrawable)getResources().getDrawable(R.drawable.seekbar_thumb_fade_out);
+		((SeekBar)findViewById(R.id.seek)).setThumb(seekThumb);
 		IntentFilter filter = new IntentFilter();
         filter.addAction(MusicService.PLAYING_STATE_CHANGED);
         registerReceiver(mStatusReceiver, filter);
@@ -172,7 +179,13 @@ public class NowPlayingViewer extends Activity {
 		});
 		v.startAnimation(a);
 	}
-
+	
+	private void resetSeekBarThumb(SeekBar bar) { 
+		seekThumb = (AnimationDrawable)getResources().getDrawable(R.drawable.seekbar_thumb_fade_out);
+		bar.setThumb(seekThumb);
+		bar.invalidate();
+	}
+	
 	
 	/**
 	 * Hooks UI elements to the music service media player.
@@ -239,6 +252,7 @@ public class NowPlayingViewer extends Activity {
 			public boolean onDrag(View v, DragEvent event) {
 				resetFade(findViewById(R.id.progress));
 				resetFade(findViewById(R.id.remaining));
+				resetSeekBarThumb(seek);
 				return false;
 			}
 		});
