@@ -14,7 +14,7 @@
     <dimen name="now_playing_bar">50dp</dimen>
     <dimen name="now_playing_button">45dp</dimen>
     
-    <dimen name="now_playing_screen_cover">300dp</dimen>
+    <dimen name="now_playing_screen_cover">340dp</dimen>
     <dimen name="now_playing_screen_control">50dp</dimen>
     <dimen name="now_playing_screen_controls_width">200dp</dimen>
 </resources>

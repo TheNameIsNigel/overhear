@@ -1,65 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-	android:layout_height="match_parent" tools:context=".NowPlayingViewer">
+	android:layout_height="fill_parent" android:orientation="vertical"
+	tools:context=".NowPlayingViewer">
 
-	<ImageView android:id="@+id/cover" android:layout_width="fill_parent"
+	<ImageView android:id="@+id/cover"
+		android:layout_alignParentTop="true" android:layout_width="fill_parent"
 		android:layout_height="@dimen/now_playing_screen_cover"
-		android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
 		android:scaleType="fitXY" />
 
-	<RelativeLayout android:id="@+id/meta"
-		android:layout_marginTop="5dp" android:layout_width="fill_parent"
-		android:padding="5dp" android:layout_height="wrap_content"
-		android:layout_below="@+id/cover" android:background="?android:attr/listChoiceBackgroundIndicator">
+	<LinearLayout android:id="@+id/nonControls"
+		android:layout_below="@+id/cover" android:layout_alignParentBottom="true"
+		android:layout_above="@+id/controls" android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:orientation="vertical">
 
-		<TextView android:id="@+id/track" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
-			style="@style/StatusBarText" android:layout_centerHorizontal="true" />
+		<LinearLayout android:id="@+id/meta"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:background="?android:attr/listChoiceBackgroundIndicator"
+			android:gravity="center_horizontal" android:orientation="vertical"
+			android:padding="5dp">
 
-		<TextView android:id="@+id/artistAlbum" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" style="@style/StatusBarText"
-			android:layout_centerHorizontal="true" android:layout_below="@+id/track" />
+			<TextView android:id="@+id/track" style="@style/StatusBarText"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:gravity="center_horizontal" android:textAppearance="?android:attr/textAppearanceMedium" />
 
-	</RelativeLayout>
+			<TextView android:id="@+id/artistAlbum" style="@style/StatusBarText"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:gravity="center_horizontal" />
+			
+		</LinearLayout>
 
-	<RelativeLayout android:id="@+id/seekMeta"
-		android:layout_width="fill_parent" android:paddingTop="5dp"
-		android:paddingLeft="15dp" android:paddingRight="15dp"
-		android:layout_height="wrap_content" android:layout_above="@+id/controls">
+		<RelativeLayout android:id="@+id/seekMeta"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:paddingLeft="15dp" android:paddingRight="15dp"
+			android:paddingTop="5dp">
 
-		<TextView android:id="@+id/progress" android:layout_width="wrap_content"
-			android:layout_centerVertical="true" android:layout_alignParentLeft="true"
-			android:textColor="@color/white" android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceSmall" />
+			<TextView android:id="@+id/progress" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:layout_alignParentLeft="true"
+				android:layout_centerVertical="true" android:textAppearance="?android:attr/textAppearanceSmall"
+				android:textColor="@color/white" />
 
-		<SeekBar android:id="@+id/seek" android:layout_width="match_parent"
-			android:layout_marginLeft="4dp" android:layout_marginRight="4dp"
-			android:layout_height="wrap_content" android:layout_toRightOf="@+id/progress"
-			android:layout_toLeftOf="@+id/remaining" />
+			<SeekBar android:id="@+id/seek" android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:layout_marginLeft="4dp"
+				android:layout_marginRight="4dp" android:layout_toLeftOf="@+id/remaining"
+				android:layout_toRightOf="@+id/progress" />
 
-		<TextView android:id="@+id/remaining" android:layout_width="wrap_content"
-			android:layout_centerVertical="true" android:layout_alignParentRight="true"
-			android:textColor="@color/white" android:layout_height="wrap_content"
-			android:textAppearance="?android:attr/textAppearanceSmall" />
-
-	</RelativeLayout>
+			<TextView android:id="@+id/remaining" android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true" android:textAppearance="?android:attr/textAppearanceSmall"
+				android:textColor="@color/white" />
+		</RelativeLayout>
+		
+	</LinearLayout>
 
 	<LinearLayout android:id="@+id/controls"
-		android:layout_centerHorizontal="true"
 		android:layout_width="@dimen/now_playing_screen_controls_width"
-		android:layout_height="wrap_content" android:gravity="center_horizontal"
-		android:orientation="horizontal" android:layout_alignParentBottom="true">
+		android:layout_height="wrap_content" android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true">
 
 		<ImageButton android:id="@+id/previous" style="@style/NowPlayingViewerButton"
-			android:src="@drawable/previous" android:layout_weight="1" />
+			android:layout_weight="1" android:src="@drawable/previous" />
 
 		<ImageButton android:id="@+id/play" style="@style/NowPlayingViewerButton"
-			android:src="@drawable/play" android:layout_weight="1" />
+			android:layout_weight="1" android:src="@drawable/play" />
 
 		<ImageButton android:id="@+id/next" style="@style/NowPlayingViewerButton"
-			android:src="@drawable/next" android:layout_weight="1" />
-
+			android:layout_weight="1" android:src="@drawable/next" />
+		
 	</LinearLayout>
 
 </RelativeLayout>

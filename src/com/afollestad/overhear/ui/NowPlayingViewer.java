@@ -36,16 +36,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NowPlayingViewer extends Activity {
-	
+
 	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-        	load();
-        }
-    };
-	
-    private Song song;
-    private Album album;
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			load();
+		}
+	};
+
+	private Song song;
+	private Album album;
 	private Timer timer;
 	private AnimationDrawable seekThumb;
 	private Handler mHandler = new Handler();
@@ -56,18 +56,21 @@ public class NowPlayingViewer extends Activity {
 			fadeIn(findViewById(R.id.progress));
 			fadeIn(findViewById(R.id.remaining));
 			resetSeekBarThumb((SeekBar)findViewById(R.id.seek));
-			mHandler.postDelayed(new Runnable() {
-				public void run() {
-					fadeOut(findViewById(R.id.progress));
-					fadeOut(findViewById(R.id.remaining));
-					seekThumb.start();
-				}
-			}, 2000);
+			mHandler.removeCallbacks(disappearRunner);
+			mHandler.postDelayed(disappearRunner, 2000);
 			return false;
 		}
 	};
-	
-	
+	private Runnable disappearRunner = new Runnable() {
+		@Override
+		public void run() {
+			fadeOut(findViewById(R.id.progress));
+			fadeOut(findViewById(R.id.remaining));
+			seekThumb.start();
+		}
+	};
+
+
 	public final static int TWEET_PLAYING_LOGIN = 400;
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -76,8 +79,8 @@ public class NowPlayingViewer extends Activity {
 			startActivity(new Intent(this, TweetNowPlaying.class));
 		}
 	}
-	
-	
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,27 +89,27 @@ public class NowPlayingViewer extends Activity {
 		seekThumb = (AnimationDrawable)getResources().getDrawable(R.drawable.seekbar_thumb_fade_out);
 		((SeekBar)findViewById(R.id.seek)).setThumb(seekThumb);
 		IntentFilter filter = new IntentFilter();
-        filter.addAction(MusicService.PLAYING_STATE_CHANGED);
-        registerReceiver(mStatusReceiver, filter);
+		filter.addAction(MusicService.PLAYING_STATE_CHANGED);
+		registerReceiver(mStatusReceiver, filter);
 	}
-	
+
 	public void onResume() {
 		super.onResume();
 		hookToPlayer();
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() { 
-	        public void run() {
-	        	runOnUiThread(new Runnable() {
+			public void run() {
+				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						update();
 					}
 				});
-	        } 
-	    }, 250, 250);
+			} 
+		}, 250, 250);
 		load();
 	}
-	
+
 	public void onPause() {
 		super.onPause();
 		timer.cancel();
@@ -119,7 +122,7 @@ public class NowPlayingViewer extends Activity {
 		getMenuInflater().inflate(R.menu.activity_now_playing, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
@@ -138,55 +141,65 @@ public class NowPlayingViewer extends Activity {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		unregisterReceiver(mStatusReceiver);
 	}
 
-	
+
 	private void resetFade(final View v) {
 		v.setAlpha(1.0f);
 		v.setVisibility(View.VISIBLE);
 		v.clearAnimation();
 	}
-	
+
 	private void fadeIn(final View v) {
-		Animation a = new AlphaAnimation(0.00f, 1.00f);
-		a.setDuration(300);
-		a.setAnimationListener(new AnimationListener() {
-			public void onAnimationStart(Animation animation) { }
-			public void onAnimationRepeat(Animation animation) { }
-			public void onAnimationEnd(Animation animation) {
-				v.setVisibility(View.VISIBLE);
-				v.setAlpha(1);
-			}
-		});
-		v.startAnimation(a);
+		if(v.getAlpha() == 1) {
+			Animation a = new AlphaAnimation(0.00f, 1.00f);
+			a.setDuration(300);
+			a.setAnimationListener(new AnimationListener() {
+				public void onAnimationStart(Animation animation) { }
+				public void onAnimationRepeat(Animation animation) { }
+				public void onAnimationEnd(Animation animation) {
+					v.setVisibility(View.VISIBLE);
+					v.setAlpha(1);
+				}
+			});
+			v.startAnimation(a);
+		} else {
+			v.setVisibility(View.VISIBLE);
+			v.setAlpha(1);
+		}
 	}
-	
+
 	private void fadeOut(final View v) {
-		Animation a = new AlphaAnimation(1.00f, 0.00f);
-		a.setDuration(700);
-		a.setAnimationListener(new AnimationListener() {
-			public void onAnimationStart(Animation animation) { }
-			public void onAnimationRepeat(Animation animation) { }
-			public void onAnimationEnd(Animation animation) {
-				v.setVisibility(View.INVISIBLE);
-				v.setAlpha(0);
-			}
-		});
-		v.startAnimation(a);
+		if(v.getAlpha() == 0) {
+			Animation a = new AlphaAnimation(1.00f, 0.00f);
+			a.setDuration(700);
+			a.setAnimationListener(new AnimationListener() {
+				public void onAnimationStart(Animation animation) { }
+				public void onAnimationRepeat(Animation animation) { }
+				public void onAnimationEnd(Animation animation) {
+					v.setVisibility(View.INVISIBLE);
+					v.setAlpha(0);
+				}
+			});
+			v.startAnimation(a);
+		} else {
+			v.setVisibility(View.INVISIBLE);
+			v.setAlpha(0);
+		}
 	}
-	
+
 	private void resetSeekBarThumb(SeekBar bar) { 
 		seekThumb = (AnimationDrawable)getResources().getDrawable(R.drawable.seekbar_thumb_fade_out);
 		bar.setThumb(seekThumb);
 		bar.invalidate();
 	}
-	
-	
+
+
 	/**
 	 * Hooks UI elements to the music service media player.
 	 */
@@ -220,21 +233,21 @@ public class NowPlayingViewer extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				startService(new Intent(getApplicationContext(), MusicService.class)
-					.setAction(MusicService.ACTION_REWIND));
+				.setAction(MusicService.ACTION_REWIND));
 			}
 		});
 		findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				startService(new Intent(getApplicationContext(), MusicService.class)
-					.setAction(MusicService.ACTION_TOGGLE_PLAYBACK));
+				.setAction(MusicService.ACTION_TOGGLE_PLAYBACK));
 			}
 		});
 		findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startService(new Intent(getApplicationContext(), MusicService.class)
-					.setAction(MusicService.ACTION_SKIP));
+				.setAction(MusicService.ACTION_SKIP));
 			}
 		});
 		findViewById(R.id.meta).setOnClickListener(new View.OnClickListener() {
@@ -242,7 +255,7 @@ public class NowPlayingViewer extends Activity {
 			public void onClick(View v) {
 				if(album != null) {
 					startActivity(new Intent(getApplicationContext(), AlbumViewer.class)
-						.putExtra("album", album.getJSON().toString()));
+					.putExtra("album", album.getJSON().toString()));
 				}
 			}
 		});
@@ -265,7 +278,7 @@ public class NowPlayingViewer extends Activity {
 		});
 		disappearListener.onTouch(null, null);
 	}
-	
+
 	/**
 	 * Loads song/album/artist info and album art
 	 */
@@ -276,7 +289,7 @@ public class NowPlayingViewer extends Activity {
 		((TextView)findViewById(R.id.track)).setText(song.getTitle());
 		((TextView)findViewById(R.id.artistAlbum)).setText(song.getArtist() + " - " + album.getName());
 	}
-	
+
 	/**
 	 * Updates the play button, seek bar, and position indicators.
 	 */
