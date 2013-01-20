@@ -6,12 +6,12 @@
 	<ImageView android:id="@+id/cover" android:layout_width="fill_parent"
 		android:layout_height="@dimen/now_playing_screen_cover"
 		android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
-		android:scaleType="fitXY" android:layout_above="@+id/meta" />
+		android:scaleType="fitXY" />
 
-	<RelativeLayout android:id="@+id/meta" android:layout_marginTop="5dp"
-		android:layout_width="fill_parent" android:padding="5dp"
-		android:layout_height="wrap_content" android:layout_below="@+id/cover"
-		android:background="?android:attr/listChoiceBackgroundIndicator">
+	<RelativeLayout android:id="@+id/meta"
+		android:layout_marginTop="5dp" android:layout_width="fill_parent"
+		android:padding="5dp" android:layout_height="wrap_content"
+		android:layout_below="@+id/cover" android:background="?android:attr/listChoiceBackgroundIndicator">
 
 		<TextView android:id="@+id/track" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
