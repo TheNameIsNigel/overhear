@@ -28,7 +28,7 @@
 			<TextView android:id="@+id/artistAlbum" style="@style/StatusBarText"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:gravity="center_horizontal" />
-			
+
 		</LinearLayout>
 
 		<RelativeLayout android:id="@+id/seekMeta"
@@ -52,13 +52,13 @@
 				android:layout_centerVertical="true" android:textAppearance="?android:attr/textAppearanceSmall"
 				android:textColor="@color/white" />
 		</RelativeLayout>
-		
+
 	</LinearLayout>
 
 	<LinearLayout android:id="@+id/controls"
 		android:layout_width="@dimen/now_playing_screen_controls_width"
 		android:layout_height="wrap_content" android:layout_alignParentBottom="true"
-		android:layout_centerHorizontal="true">
+		android:layout_centerHorizontal="true" android:layout_marginBottom="5dp">
 
 		<ImageButton android:id="@+id/previous" style="@style/NowPlayingViewerButton"
 			android:layout_weight="1" android:src="@drawable/previous" />
@@ -68,7 +68,7 @@
 
 		<ImageButton android:id="@+id/next" style="@style/NowPlayingViewerButton"
 			android:layout_weight="1" android:src="@drawable/next" />
-		
+
 	</LinearLayout>
 
 </RelativeLayout>
