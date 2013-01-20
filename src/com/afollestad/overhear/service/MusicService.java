@@ -35,7 +35,6 @@ public class MusicService extends Service {
 	public MusicService() {
 	}
 
-	private boolean preparedPlayer;
 	private final IBinder mBinder = new MusicBinder();
 	private boolean hasAudioFocus;
 	private boolean wasPlayingBeforeLoss;
@@ -45,17 +44,50 @@ public class MusicService extends Service {
 	private static MediaPlayer player;	
 	private AudioManager audioManager;
 	private RemoteControlClient mRemoteControlClient;
-	
+
 	public AudioManager getAudioManager() {
 		if(audioManager == null) {
 			audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 		}
 		return audioManager;
 	}
-	public static MediaPlayer getPlayer() {
+	public MediaPlayer getPlayer() {
+		if(player == null) {
+			player = new MediaPlayer();
+			player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+			player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+					if(!nextTrack()) {
+						getAudioManager().abandonAudioFocus(afl);
+					}
+				}
+			});
+			player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+				@Override
+				public boolean onError(MediaPlayer mp, int what, int extra) {
+					switch(what) {
+					case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
+						mp.release();
+						Toast.makeText(getApplicationContext(), "Media server died", Toast.LENGTH_LONG).show();
+						break;
+					default:
+						if(extra == MediaPlayer.MEDIA_ERROR_IO) {
+							Toast.makeText(getApplicationContext(), "Media player IO error", Toast.LENGTH_LONG).show();
+						} else if(extra == MediaPlayer.MEDIA_ERROR_MALFORMED || extra == MediaPlayer.MEDIA_ERROR_UNSUPPORTED) {
+							Toast.makeText(getApplicationContext(), "Media player malformed or supported error", Toast.LENGTH_LONG).show();
+						} else if(extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT) {
+							Toast.makeText(getApplicationContext(), "Media player timed out", Toast.LENGTH_LONG).show();
+						}
+						break;
+					}
+					return true;
+				}
+			});
+		}
 		return player;
 	}
-	
+
 	private AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {
 		@Override
 		public void onAudioFocusChange(int focusChange) {
@@ -91,8 +123,8 @@ public class MusicService extends Service {
 	public static final String ACTION_STOP = "com.afollestad.overhear.action.STOP";
 	public static final String ACTION_SKIP = "com.afollestad.overhear.action.SKIP";
 	public static final String ACTION_REWIND = "com.afollestad.overhear.action.REWIND";
-	
-	
+
+
 	private boolean requestAudioFocus() {
 		if(hasAudioFocus) {
 			return true;
@@ -131,8 +163,8 @@ public class MusicService extends Service {
 		Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
 		try {
 			AQuery aq = new AQuery(this);
-	        Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, 
-	        		album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE));
+			Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, 
+					album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE));
 			metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, art);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -142,46 +174,12 @@ public class MusicService extends Service {
 	}
 
 	private void initializeMediaPlayer(String source) {
-		if(player != null) {
-			if(player.isPlaying())
-				player.stop();
-			player.release();
-		}
-		player = new MediaPlayer();
-		player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				if(!nextTrack()) {
-					getAudioManager().abandonAudioFocus(afl);
-				}
-			}
-		});
-		player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-			@Override
-			public boolean onError(MediaPlayer mp, int what, int extra) {
-				switch(what) {
-				case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
-					mp.release();
-					Toast.makeText(getApplicationContext(), "Media server died", Toast.LENGTH_LONG).show();
-					break;
-				default:
-					if(extra == MediaPlayer.MEDIA_ERROR_IO) {
-						Toast.makeText(getApplicationContext(), "Media player IO error", Toast.LENGTH_LONG).show();
-					} else if(extra == MediaPlayer.MEDIA_ERROR_MALFORMED || extra == MediaPlayer.MEDIA_ERROR_UNSUPPORTED) {
-						Toast.makeText(getApplicationContext(), "Media player malformed or supported error", Toast.LENGTH_LONG).show();
-					} else if(extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT) {
-						Toast.makeText(getApplicationContext(), "Media player timed out", Toast.LENGTH_LONG).show();
-					}
-					break;
-				}
-				return true;
-			}
-		});
+		MediaPlayer player = getPlayer();
 		try {
-			player.setDataSource(source);
-			player.prepare();
-			preparedPlayer = true;
+			player.reset();
+	        player.setDataSource(source);
+	        player.prepare();
+	        player.start();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -189,13 +187,13 @@ public class MusicService extends Service {
 
 	private void initializeNotification(Song nowPlaying) {
 		AQuery aq = new AQuery(this);
-        Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, nowPlaying.getAlbum() + ":" + 
-        		nowPlaying.getArtist(), AlbumAdapter.ALBUM_IMAGE));
-        status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
-        startForeground(100, status);
+		Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, nowPlaying.getAlbum() + ":" + 
+				nowPlaying.getArtist(), AlbumAdapter.ALBUM_IMAGE));
+		status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
+		startForeground(100, status);
 	}
-	
-	
+
+
 	private void playTrack(Song song) {
 		Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
 		if(!initializeRemoteControl()) {
@@ -206,10 +204,9 @@ public class MusicService extends Service {
 			return;
 		}
 		Queue.setFocused(this, song, true);
-		initializeMediaPlayer(song.getData());
-		player.start();
-		initializeNotification(song);
 		Recents.add(getApplicationContext(), song);
+		initializeMediaPlayer(song.getData());
+		initializeNotification(song);
 		sendBroadcast(new Intent(RECENTS_UPDATED));
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
@@ -233,7 +230,7 @@ public class MusicService extends Service {
 			return;
 		}
 		Song last = Queue.getFocused(this);
-		if(player != null && preparedPlayer && last != null) {
+		if(player != null && last != null) {
 			if(!initializeRemoteControl()) {
 				return;
 			}
@@ -249,14 +246,14 @@ public class MusicService extends Service {
 			Log.i("OVERHEAR SERVICE", "No song to resume");
 		}
 	}
-	
+
 	private void pauseTrack() {
 		Log.i("OVERHEAR SERVICE", "pauseTrack()");
 		Song focused = Queue.getFocused(this);
 		if(mRemoteControlClient != null)
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
 		Queue.setFocused(this, focused, false);
-		if(player != null && preparedPlayer && player.isPlaying()) {
+		if(player != null && player.isPlaying()) {
 			player.pause();
 			initializeNotification(focused);
 		} else {
@@ -267,9 +264,10 @@ public class MusicService extends Service {
 
 	private void stopTrack() {
 		Log.i("OVERHEAR SERVICE", "stopTrack()");
-		if(player != null && preparedPlayer && player.isPlaying()) {
+		if(player != null && player.isPlaying()) {
 			player.stop();
 			player.release();
+			player = null;
 		}
 		if(mRemoteControlClient != null)
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
@@ -291,27 +289,28 @@ public class MusicService extends Service {
 		return true;
 	}
 
-	private void previousTrack() {
+	private void previousOrRewind() {
 		Log.i("OVERHEAR SERVICE", "previousTrack()");
-		if(Queue.decrement(this, true)) {
-			playTrack(Queue.getFocused(this));
+		if(player != null && player.getCurrentPosition() > 0) {
+			player.seekTo(0);
+			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		} else {
-			stopTrack();
-			return;
+			if(Queue.decrement(this, true)) {
+				playTrack(Queue.getFocused(this));
+			} else {
+				stopTrack();
+				return;
+			}
 		}
 	}
 
 	public boolean isPlaying() {
-		if(player != null && preparedPlayer) {
-			return player.isPlaying();
-		} else {
-			return false;
-		}
+		return player != null && player.isPlaying();
 	}
 
 
 	public class MusicBinder extends Binder {
-		MusicService getService() {
+		public MusicService getService() {
 			return MusicService.this;
 		}
 	}
@@ -359,7 +358,7 @@ public class MusicService extends Service {
 		} else if(action.equals(ACTION_SKIP)) {
 			nextTrack();
 		} else if(action.equals(ACTION_REWIND)) {
-			previousTrack();
+			previousOrRewind();
 		} else if(action.equals(ACTION_STOP)) {
 			stopTrack();
 		} else if(action.equals(ACTION_TOGGLE_PLAYBACK)) {
@@ -375,6 +374,8 @@ public class MusicService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		if(player != null && player.isPlaying())
+			player.stop();
 		player.release();
 		unregisterReceiver(receiver);
 		getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);

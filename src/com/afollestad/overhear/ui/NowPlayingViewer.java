@@ -8,6 +8,7 @@ import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
+import com.afollestad.overhear.service.MusicService.MusicBinder;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
@@ -15,11 +16,14 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.DragEvent;
 import android.view.Menu;
@@ -49,6 +53,7 @@ public class NowPlayingViewer extends Activity {
 	private Timer timer;
 	private AnimationDrawable seekThumb;
 	private Handler mHandler = new Handler();
+	private MusicService mService;
 
 	private View.OnTouchListener disappearListener = new View.OnTouchListener() {
 		@Override
@@ -95,7 +100,7 @@ public class NowPlayingViewer extends Activity {
 
 	public void onResume() {
 		super.onResume();
-		hookToPlayer();
+		bindService(new Intent(this, MusicService.class), mConnection, Context.BIND_AUTO_CREATE);
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() { 
 			public void run() {
@@ -112,6 +117,8 @@ public class NowPlayingViewer extends Activity {
 
 	public void onPause() {
 		super.onPause();
+		if(mService != null)
+			unbindService(mConnection);
 		timer.cancel();
 		timer.purge();
 		timer = null;
@@ -204,11 +211,11 @@ public class NowPlayingViewer extends Activity {
 	 * Hooks UI elements to the music service media player.
 	 */
 	public void hookToPlayer() {
-		final MediaPlayer player = MusicService.getPlayer();
-		if(player == null) {
+		if(mService == null) {
 			Toast.makeText(getApplicationContext(), "Unable to hook to the music player.", Toast.LENGTH_LONG).show();
 			return;
 		}
+		final MediaPlayer player = mService.getPlayer();
 		player.setOnSeekCompleteListener(new OnSeekCompleteListener() {
 			@Override
 			public void onSeekComplete(MediaPlayer arg0) {
@@ -294,11 +301,11 @@ public class NowPlayingViewer extends Activity {
 	 * Updates the play button, seek bar, and position indicators.
 	 */
 	public void update() {
-		MediaPlayer player = MusicService.getPlayer();
-		if(player == null) {
+		if(mService == null) {
 			Toast.makeText(getApplicationContext(), "Unable to hook to the music player.", Toast.LENGTH_LONG).show();
 			return;
 		}
+		MediaPlayer player = mService.getPlayer();
 		if(player.isPlaying()) {
 			((ImageButton)findViewById(R.id.play)).setImageResource(R.drawable.pause);
 		} else {
@@ -314,4 +321,18 @@ public class NowPlayingViewer extends Activity {
 		progress.setText(Song.getDurationString(current));
 		remaining.setText("-" + Song.getDurationString(max - current));
 	}
+
+
+	private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+        	MusicBinder binder = (MusicBinder)service;
+            mService = binder.getService();
+            hookToPlayer();
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) { 
+        	mService = null;
+        }
+    };
 }
