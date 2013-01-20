@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.Recents;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
@@ -24,7 +25,6 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
 import android.media.RemoteControlClient.MetadataEditor;
-import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -211,8 +211,7 @@ public class MusicService extends Service {
 		initializeMediaPlayer(song.getData());
 		player.start();
 		initializeNotification(song);
-		getContentResolver().insert(Uri.parse("content://com.afollestad.overhear.recentsprovider"), 
-				Album.getAlbum(getApplicationContext(), song.getAlbum(), song.getArtist()).getContentValues());
+		Recents.add(getApplicationContext(), song);
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
 	}
