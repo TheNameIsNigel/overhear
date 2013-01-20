@@ -52,6 +52,8 @@ public class Queue {
 					values.put(Song.NOW_PLAYING, playing ? 1 : 0);
 					context.getContentResolver().update(PROVIDER_URI, values, "_id = " + id, null);
 					found = true;
+				} else {
+					clearPlaying(context);
 				}
 				break;
 			}
@@ -75,6 +77,8 @@ public class Queue {
 					values.put(Song.NOW_PLAYING, playing ? 1 : 0);
 					context.getContentResolver().update(PROVIDER_URI, values, "_id = " + id, null);
 					found = true;
+				} else {
+					clearPlaying(context);
 				}
 				break;
 			}
