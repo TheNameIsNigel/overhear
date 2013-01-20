@@ -44,8 +44,8 @@ public class Queue {
 		while(cursor.moveToNext()) {
 			boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
 			if(hasFocus) {
-				clearFocused(context);
 				if(cursor.moveToNext()) {
+					clearFocused(context);
 					int id = cursor.getInt(cursor.getColumnIndex("_id"));
 					ContentValues values = new ContentValues();
 					values.put(Song.QUEUE_FOCUS, 1);
@@ -67,8 +67,8 @@ public class Queue {
 			boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
 			if(hasFocus) {
 				int id = cursor.getInt(cursor.getColumnIndex("_id"));
-				clearFocused(context);
 				if(cursor.moveToPrevious()) {
+					clearFocused(context);
 					id = cursor.getInt(cursor.getColumnIndex("_id"));
 					ContentValues values = new ContentValues();
 					values.put(Song.QUEUE_FOCUS, 1);
@@ -112,6 +112,12 @@ public class Queue {
 		}
 		cursor.close();
 		return toreturn;
+	}
+	
+	public static void clearPlaying(Context context) {
+		ContentValues values = new ContentValues();
+		values.put(Song.NOW_PLAYING, 0);
+		context.getContentResolver().update(PROVIDER_URI, values, Song.NOW_PLAYING + " = 1", null);
 	}
 	
 	public static void clearFocused(Context context) {

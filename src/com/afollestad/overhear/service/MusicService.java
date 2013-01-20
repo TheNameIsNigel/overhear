@@ -274,7 +274,7 @@ public class MusicService extends Service {
 		if(mRemoteControlClient != null)
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
 		getAudioManager().abandonAudioFocus(afl);
-		Queue.clearFocused(this);
+		Queue.clearPlaying(this);
 		stopForeground(true);
 		stopSelf();
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));

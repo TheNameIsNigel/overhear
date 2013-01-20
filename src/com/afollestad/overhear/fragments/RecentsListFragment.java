@@ -92,6 +92,7 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 		if(data == null)
 			return;
 		adapter.changeCursor(data);
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
