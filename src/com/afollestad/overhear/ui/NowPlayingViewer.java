@@ -158,6 +158,15 @@ public class NowPlayingViewer extends Activity {
 					.setAction(MusicService.ACTION_SKIP));
 			}
 		});
+		findViewById(R.id.meta).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(album != null) {
+					startActivity(new Intent(getApplicationContext(), AlbumViewer.class)
+						.putExtra("album", album.getJSON().toString()));
+				}
+			}
+		});
 	}
 	
 	/**
