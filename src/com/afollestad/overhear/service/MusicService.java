@@ -193,10 +193,6 @@ public class MusicService extends Service {
 	
 	
 	private void playTrack(Song song) {
-		playTrack(song, false, false);
-	}
-
-	private void playTrack(Song song, boolean isFromQueue, boolean forward) {
 		Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
 		if(!initializeRemoteControl()) {
 			if(toast != null)
@@ -205,14 +201,7 @@ public class MusicService extends Service {
 			toast.show();
 			return;
 		}
-		if(isFromQueue) {
-			if(forward)
-				Queue.increment(this, true);
-			else
-				Queue.decrement(this, true);
-		} else {
-			Queue.setFocused(this, song, true);
-		}
+		Queue.setFocused(this, song, true);
 		initializeMediaPlayer(song.getData());
 		player.start();
 		initializeNotification(song);
@@ -289,7 +278,7 @@ public class MusicService extends Service {
 	private boolean nextTrack() {
 		Log.i("OVERHEAR SERVICE", "nextTrack()"); 
 		if(Queue.increment(this, true)) {
-			playTrack(Queue.getFocused(this), true, true);
+			playTrack(Queue.getFocused(this));
 		} else {
 			stopTrack();
 			return false;
@@ -300,7 +289,7 @@ public class MusicService extends Service {
 	private void previousTrack() {
 		Log.i("OVERHEAR SERVICE", "previousTrack()");
 		if(Queue.decrement(this, true)) {
-			playTrack(Queue.getFocused(this), true, false);
+			playTrack(Queue.getFocused(this));
 		} else {
 			stopTrack();
 			return;

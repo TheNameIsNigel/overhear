@@ -6,6 +6,7 @@ import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Song;
 
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -17,7 +18,6 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ListView;
 
@@ -85,7 +85,7 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		return new CursorLoader(getActivity(), Recents.PROVIDER_URI, 
-				null, null, null, MediaStore.Audio.Albums.ALBUM);
+				null, null, null, Song.DATE_QUEUED + " DESC");
 	}
 
 	@Override
