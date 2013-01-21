@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <ListView android:id="@android:id/list" android:layout_width="fill_parent" android:layout_height="fill_parent"
-              android:layout_alignParentTop="true" android:layout_above="@+id/nowPlaying"
-              android:fastScrollEnabled="true" android:smoothScrollbar="true" />
-
-    <fragment android:id="@+id/nowPlaying"
-              android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
-              android:layout_width="fill_parent" android:layout_height="wrap_content"
-              android:layout_alignParentBottom="true" tools:layout="@layout/now_playing_bar" />
+    <ListView android:id="@android:id/list" android:layout_width="fill_parent" android:layout_height="fill_parent"/>
+    <TextView android:id="@android:id/empty" android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:layout_centerInParent="true" android:textColor="@color/white" android:textSize="18sp"
+              android:text="@string/no_results_str"/>
 
 </RelativeLayout>

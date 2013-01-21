@@ -1,8 +1,10 @@
 package com.afollestad.overhear.ui;
 
 import android.app.ListActivity;
-import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,10 +12,13 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SearchAdapter;
+import com.afollestad.overhear.fragments.SongListFragment;
+import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Song;
@@ -21,6 +26,15 @@ import com.afollestad.overhearapi.Song;
 import java.util.ArrayList;
 
 public class SearchScreen extends ListActivity {
+
+    private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (adapter != null)
+                adapter.notifyDataSetChanged();
+        }
+    };
+
 
     protected SearchAdapter adapter;
     private Handler mHandler = new Handler();
@@ -49,22 +63,25 @@ public class SearchScreen extends ListActivity {
 
     public void search(String query) {
         adapter.clear();
+        if (query == null || query.trim().isEmpty()) {
+            return;
+        }
 
         Cursor cursor = openCursor(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, query, MediaStore.Audio.AlbumColumns.ALBUM);
         ArrayList<Album> albums = new ArrayList<Album>();
         while (cursor.moveToNext()) {
             albums.add(Album.fromCursor(getApplicationContext(), cursor));
         }
-        if(albums.size() > 0)
+        if (albums.size() > 0)
             adapter.add("Albums", albums.toArray());
         cursor.close();
 
-        cursor = openCursor(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, query, MediaStore.Audio.ArtistColumns.ARTIST);
+        cursor = openCursor(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, query, MediaStore.Audio.ArtistColumns.ARTIST);
         ArrayList<Artist> artists = new ArrayList<Artist>();
         while (cursor.moveToNext()) {
             artists.add(Artist.fromCursor(cursor));
         }
-        if(artists.size() > 0)
+        if (artists.size() > 0)
             adapter.add("Artists", artists.toArray());
         cursor.close();
 
@@ -73,7 +90,7 @@ public class SearchScreen extends ListActivity {
         while (cursor.moveToNext()) {
             songs.add(Song.fromCursor(cursor));
         }
-        if(songs.size() > 0)
+        if (songs.size() > 0)
             adapter.add("Songs", songs.toArray());
         cursor.close();
     }
@@ -83,23 +100,48 @@ public class SearchScreen extends ListActivity {
         super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_search);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MusicService.PLAYING_STATE_CHANGED);
+        registerReceiver(mStatusReceiver, filter);
         adapter = new SearchAdapter(this);
-        ((ListView) findViewById(android.R.id.list)).setAdapter(adapter);
+        setListAdapter(adapter);
+        getListView().setFastScrollEnabled(true);
+        getListView().setSmoothScrollbarEnabled(true);
+        getListView().setEmptyView(findViewById(android.R.id.empty));
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        switch (adapter.getItemViewType(position)) {
+            case 1:
+                SongListFragment.performOnClick(this, (Song) adapter.getItem(position), null);
+                break;
+            case 2:
+                startActivity(new Intent(this, AlbumViewer.class).putExtra("album",
+                        ((Album) adapter.getItem(position)).getJSON().toString()));
+                break;
+            case 3:
+                startActivity(new Intent(this, ArtistViewer.class).putExtra("artist",
+                        ((Artist) adapter.getItem(position)).getJSON().toString()));
+                break;
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_screen, menu);
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        searchView.setFocusable(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
                 lastQuery = s;
@@ -108,6 +150,7 @@ public class SearchScreen extends ListActivity {
                 return false;
             }
         });
+        searchView.requestFocusFromTouch();
 
         return true;
     }
@@ -120,5 +163,11 @@ public class SearchScreen extends ListActivity {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mStatusReceiver);
     }
 }

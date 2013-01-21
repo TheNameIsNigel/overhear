@@ -41,4 +41,6 @@
     <string name="title_activity_now_playing_viewer">Now Playing</string>
     <string name="search_str">Search</string>
     <string name="sleep_timer_str">Sleep Timer</string>
+    <string name="search_hint">Type your query...</string>
+    <string name="no_results_str">No results</string>
 </resources>

@@ -85,15 +85,14 @@ public class SearchAdapter extends BaseAdapter {
                 ((TextView)view).setText(items.get(i).toString());
                 break;
             case 1:
-                view = LayoutInflater.from(context).inflate(R.layout.genre_item, null);
-                ((TextView)view).setText(((Song)items.get(i)).getTitle());
+                view = SongAdapter.getViewForSong(context, (Song)items.get(i), view);
                 break;
             case 2:
-                view = LayoutInflater.from(context).inflate(R.layout.genre_item, null);
-                ((TextView)view).setText(((Album)items.get(i)).getName());
+                view = AlbumAdapter.getViewForAlbum(context, (Album)items.get(i), convertView, i, viewGroup);
                 break;
             case 3:
-                view = LayoutInflater.from(context).inflate(R.layout.genre_item, null);
+                if(view == null)
+                    view = LayoutInflater.from(context).inflate(R.layout.genre_item, null);
                 ((TextView)view).setText(((Artist)items.get(i)).getName());
                 break;
         }

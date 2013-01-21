@@ -36,35 +36,44 @@ public class SongAdapter extends CursorAdapter {
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		return LayoutInflater.from(context).inflate(R.layout.song_item, null);
 	}
-	
+
+    public static View getViewForSong(Context context, Song song, View view) {
+        if(view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
+        }
+        ((TextView)view.findViewById(R.id.title)).setText(song.getTitle());
+        ((TextView)view.findViewById(R.id.duration)).setText(song.getDurationString());
+
+        ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
+        ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
+        peakOne.setImageResource(R.anim.peak_meter_1);
+        peakTwo.setImageResource(R.anim.peak_meter_2);
+        AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
+        AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
+
+        Song focused = Queue.getFocused(context);
+        if(focused != null && focused.isPlaying() && song.getId() == focused.getId()) {
+            peakOne.setVisibility(View.VISIBLE);
+            peakTwo.setVisibility(View.VISIBLE);
+            if(!mPeakOneAnimation.isRunning()) {
+                mPeakOneAnimation.start();
+                mPeakTwoAnimation.start();
+            }
+        } else {
+            peakOne.setVisibility(View.GONE);
+            peakTwo.setVisibility(View.GONE);
+            if(mPeakOneAnimation.isRunning()) {
+                mPeakOneAnimation.stop();
+                mPeakTwoAnimation.stop();
+            }
+        }
+
+        return view;
+    }
+
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		Song song = Song.fromCursor(cursor);
-		((TextView)view.findViewById(R.id.title)).setText(song.getTitle());
-		((TextView)view.findViewById(R.id.duration)).setText(song.getDurationString());
-
-		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
-		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
-		peakOne.setImageResource(R.anim.peak_meter_1);
-		peakTwo.setImageResource(R.anim.peak_meter_2);
-		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
-		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
-		
-		Song focused = Queue.getFocused(context);
-		if(focused != null && focused.isPlaying() && song.getId() == focused.getId()) {
-			peakOne.setVisibility(View.VISIBLE);
-			peakTwo.setVisibility(View.VISIBLE);
-			if(!mPeakOneAnimation.isRunning()) {
-				mPeakOneAnimation.start();
-				mPeakTwoAnimation.start();
-			}
-		} else {
-			peakOne.setVisibility(View.GONE);
-			peakTwo.setVisibility(View.GONE);
-			if(mPeakOneAnimation.isRunning()) {
-				mPeakOneAnimation.stop();
-				mPeakTwoAnimation.stop();
-			}
-		}
+		getViewForSong(context, song, view);
 	}
 }

@@ -1,5 +1,6 @@
 package com.afollestad.overhear.fragments;
 
+import android.app.Activity;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhear.service.MusicService;
@@ -73,14 +74,17 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		adapter.getCursor().moveToPosition(position);
-		Song song = Song.fromCursor(adapter.getCursor());
-		getActivity().startService(new Intent(getActivity(), MusicService.class)
-			.setAction(MusicService.ACTION_PLAY_ALL)
-			.putExtra("song", song.getJSON().toString())
-			.putExtra("position", position)
-			.putExtra("scope", getScope()));
+        adapter.getCursor().moveToPosition(position);
+        Song song = Song.fromCursor(adapter.getCursor());
+        performOnClick(getActivity(), song, getScope());
 	}
+
+    public static void performOnClick(Activity context, Song song, String[] scope) {
+        context.startService(new Intent(context, MusicService.class)
+                .setAction(MusicService.ACTION_PLAY_ALL)
+                .putExtra("song", song.getJSON().toString())
+                .putExtra("scope", scope));
+    }
 	
 	private String[] getScope() {
 		String sort = MediaStore.Audio.Media.TITLE;

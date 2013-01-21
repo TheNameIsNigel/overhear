@@ -2,6 +2,7 @@ package com.afollestad.overhear.service;
 
 import java.util.ArrayList;
 
+import android.provider.MediaStore;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
@@ -216,7 +217,7 @@ public class MusicService extends Service {
 		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
 	}
 
-	private void playAll(Song song, int currentPosition, String[] scope) {
+	private void playAll(Song song, String[] scope) {
 		Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
 		ArrayList<Song> queue = Queue.getQueue(this);
 		if(queue == null || queue.size() == 0 || 
@@ -224,7 +225,7 @@ public class MusicService extends Service {
 			queue = Song.getAllFromScope(getApplicationContext(), scope);
 			Queue.setQueue(this, queue);
 		}
-		playTrack(queue.get(currentPosition));
+		playTrack(song);
 	}
 
 	private void resumeTrack() {
@@ -365,9 +366,15 @@ public class MusicService extends Service {
 				resumeTrack();
 			}
 		} else if(action.equals(ACTION_PLAY_ALL)) {
-			playAll(Song.fromJSON(intent.getStringExtra("song")), 
-					intent.getIntExtra("position", 0),
-					intent.getStringArrayExtra("scope"));
+            Song song = Song.fromJSON(intent.getStringExtra("song"));
+            String[] scope = intent.getStringArrayExtra("scope");
+            if(scope == null) {
+                scope = new String[] {
+                    MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " + MediaStore.Audio.Media.ALBUM + " = '" + song.getAlbum().replace("'", "''") + "'",
+                    MediaStore.Audio.Media.TRACK
+                };
+            }
+			playAll(song, scope);
 		} else if(action.equals(ACTION_PAUSE)) {
 			pauseTrack();
 		} else if(action.equals(ACTION_SKIP)) {

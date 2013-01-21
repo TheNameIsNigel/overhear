@@ -50,16 +50,57 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 		}
 	}
 
+    public static View getViewForAlbum(Activity context, Album album, View view, int position, ViewGroup parent) {
+        if(view == null)
+            view = LayoutInflater.from(context).inflate(R.layout.album_item, null);
+        ((TextView)view.findViewById(R.id.title)).setText(album.getName());
+        ((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
+        final ImageView cover = (ImageView)view.findViewById(R.id.image);
+
+        final AQuery aq = new AQuery(view);
+        if (aq.shouldDelay(position, view, parent, "")) {
+            cover.setImageDrawable(null);
+        } else {
+            AlbumAdapter.startAlbumArtTask(context, album, cover, 0);
+        }
+
+        ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
+        ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
+        peakOne.setImageResource(R.anim.peak_meter_1);
+        peakTwo.setImageResource(R.anim.peak_meter_2);
+        AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
+        AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
+
+        Song focused = Queue.getFocused(context);
+        if(focused != null && focused.isPlaying() && album.getName().equals(focused.getAlbum()) &&
+                album.getArtist().equals(focused.getArtist())) {
+            peakOne.setVisibility(View.VISIBLE);
+            peakTwo.setVisibility(View.VISIBLE);
+            if(!mPeakOneAnimation.isRunning()) {
+                mPeakOneAnimation.start();
+                mPeakTwoAnimation.start();
+            }
+        } else {
+            peakOne.setVisibility(View.GONE);
+            peakTwo.setVisibility(View.GONE);
+            if(mPeakOneAnimation.isRunning()) {
+                mPeakOneAnimation.stop();
+                mPeakTwoAnimation.stop();
+            }
+        }
+
+        return view;
+    }
+
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = super.getView(position, convertView, parent);
-		if(view == null) {
-			if(convertView != null) {
-				view = convertView;
-			} else {
-				view = newView(context, getCursor(), parent);
-			}
-		}
+        if(view == null) {
+            view = convertView;
+        }
+
+        Album album = Album.fromCursor(context, getCursor());
+        view = getViewForAlbum(context, album, view, position, parent);
 
 		int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
 		if(position == 0) {
@@ -72,44 +113,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 			view.setPadding(0, 0, 0, pad);
 		} else {
 			view.setPadding(0, 0, 0, 0);
-		}
-
-		Album album = Album.fromCursor(context, getCursor());
-		((TextView)view.findViewById(R.id.title)).setText(album.getName());
-		((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
-		final ImageView cover = (ImageView)view.findViewById(R.id.image); 
-
-		final AQuery aq = new AQuery(view);
-		if (aq.shouldDelay(position, view, parent, "")) {
-			cover.setImageDrawable(null);
-		} else {
-			startAlbumArtTask(context, album, cover, 0);
-		}
-
-		ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
-		ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
-		peakOne.setImageResource(R.anim.peak_meter_1);
-		peakTwo.setImageResource(R.anim.peak_meter_2);
-		AnimationDrawable mPeakOneAnimation = (AnimationDrawable)peakOne.getDrawable();
-		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
-
-		Song focused = Queue.getFocused(context);
-		if(focused != null && focused.isPlaying() && album.getName().equals(focused.getAlbum()) &&
-				album.getArtist().equals(focused.getArtist())) {
-			peakOne.setVisibility(View.VISIBLE);
-			peakTwo.setVisibility(View.VISIBLE);
-			if(!mPeakOneAnimation.isRunning()) {
-				mPeakOneAnimation.start();
-				mPeakTwoAnimation.start();
-			}
-		} else {
-			peakOne.setVisibility(View.GONE);
-			peakTwo.setVisibility(View.GONE);
-			if(mPeakOneAnimation.isRunning()) {
-				mPeakOneAnimation.stop();
-				mPeakTwoAnimation.stop();
-			}
-		}
+        }
 
 		return view;
 	}
