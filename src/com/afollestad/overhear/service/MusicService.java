@@ -1,12 +1,10 @@
 package com.afollestad.overhear.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.provider.MediaStore;
-import com.afollestad.overhear.MusicUtils;
-import com.afollestad.overhear.Queue;
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.Recents;
+import com.afollestad.overhear.*;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
@@ -60,6 +58,7 @@ public class MusicService extends Service {
 			player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
+                    Toast.makeText(getApplicationContext(), "On completion", Toast.LENGTH_LONG).show();
 					if(!nextTrack()) {
 						getAudioManager().abandonAudioFocus(afl);
 					}
@@ -120,7 +119,8 @@ public class MusicService extends Service {
 	public final static String PLAYING_STATE_CHANGED = "com.afollestad.overhear.PLAY_STATE_CHANGED";
 	public final static String RECENTS_UPDATED = "com.afollestad.overhear.RECENTS_UPDATED";
 
-	public static final String ACTION_TOGGLE_PLAYBACK = "com.afollestad.overhear.action.TOGGLE_PLAYBACK";
+    public static final String ACTION_SLEEP_TIMER = "com.afollestad.overhear.action.SLEEP_TIMER";
+    public static final String ACTION_TOGGLE_PLAYBACK = "com.afollestad.overhear.action.TOGGLE_PLAYBACK";
 	public static final String ACTION_PLAY = "com.afollestad.overhear.action.PLAY";
 	public static final String ACTION_PLAY_ALL = "com.afollestad.overhear.action.PLAY_ALL";
 	public static final String ACTION_PAUSE = "com.afollestad.overhear.action.PAUSE";
@@ -377,6 +377,12 @@ public class MusicService extends Service {
 			playAll(song, scope);
 		} else if(action.equals(ACTION_PAUSE)) {
 			pauseTrack();
+        } else if(action.equals(ACTION_SLEEP_TIMER)) {
+            long scheduledTime = SleepTimer.getScheduledTime(this).getTimeInMillis();
+            if(Calendar.getInstance().getTimeInMillis() < scheduledTime) {
+                return START_STICKY;
+            }
+            pauseTrack();
 		} else if(action.equals(ACTION_SKIP)) {
 			nextTrack();
 		} else if(action.equals(ACTION_REWIND)) {

@@ -3,9 +3,13 @@ package com.afollestad.overhear.ui;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.widget.*;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.SleepTimer;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.service.MusicService.MusicBinder;
@@ -33,11 +37,6 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class NowPlayingViewer extends Activity {
 
@@ -145,6 +144,8 @@ public class NowPlayingViewer extends Activity {
 			else
 				startActivity(new Intent(this, TweetNowPlaying.class));
 			return true;
+        case R.id.sleepTimer:
+            showSleepTimerDialog();
 		}
 		return false;
 	}
@@ -229,9 +230,11 @@ public class NowPlayingViewer extends Activity {
 		final SeekBar seek = (SeekBar)findViewById(R.id.seek);
 		seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) { }
+			public void onStopTrackingTouch(SeekBar seekBar) {
+            }
 			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) { }
+			public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				if(fromUser) {
@@ -317,26 +320,29 @@ public class NowPlayingViewer extends Activity {
 			Toast.makeText(getApplicationContext(), "Unable to hook to the music service.", Toast.LENGTH_LONG).show();
 			return;
 		}
+
 		MediaPlayer player = mService.getPlayer(true);
-		if(player != null && player.isPlaying()) {
-			((ImageButton)findViewById(R.id.play)).setImageResource(R.drawable.pause);
+        SeekBar seek = (SeekBar)findViewById(R.id.seek);
+        TextView progress = (TextView)findViewById(R.id.progress);
+        TextView remaining = (TextView)findViewById(R.id.remaining);
+
+		if(player != null && mService.isPlayerInitialized()) {
+            if(player.isPlaying()) {
+			    ((ImageButton)findViewById(R.id.play)).setImageResource(R.drawable.pause);
+            } else {
+                ((ImageButton)findViewById(R.id.play)).setImageResource(R.drawable.play);
+            }
+            int max = player.getDuration();
+            int current = player.getCurrentPosition();
+            seek.setProgress(current);
+            seek.setMax(max);
+            progress.setText(" " + Song.getDurationString(current));
+            remaining.setText("-" + Song.getDurationString(max - current));
 		} else {
 			((ImageButton)findViewById(R.id.play)).setImageResource(R.drawable.play);
-		}
-		SeekBar seek = (SeekBar)findViewById(R.id.seek);
-		TextView progress = (TextView)findViewById(R.id.progress);
-		TextView remaining = (TextView)findViewById(R.id.remaining);
-		if(player != null && mService.isPlayerInitialized()) {
-			int max = player.getDuration();
-			int current = player.getCurrentPosition();
-			seek.setProgress(current);
-			seek.setMax(max);
-			progress.setText(Song.getDurationString(current));
-			remaining.setText("-" + Song.getDurationString(max - current));
-		} else {
-			seek.setProgress(0);
+            seek.setProgress(0);
 			seek.setMax(100);
-			progress.setText("0:00");
+			progress.setText(" 0:00");
 			String duration = "-0:00";
 			if(song != null) {
 				duration = "-" + song.getDurationString();
@@ -344,6 +350,55 @@ public class NowPlayingViewer extends Activity {
 			remaining.setText(duration);
 		}
 	}
+
+    public void showSleepTimerDialog() {
+        if(SleepTimer.isScheduled(this)) {
+            startActivity(new Intent(this, SleepTimerViewer.class));
+            return;
+        }
+        final Dialog diag = new Dialog(this);
+        diag.setContentView(R.layout.sleep_timer_dialog);
+        diag.setCancelable(true);
+        diag.setTitle(R.string.sleep_timer_str);
+        final TextView display = (TextView)diag.findViewById(R.id.text);
+        display.setText(getString(R.string.sleep_in_one));
+        final SeekBar seek = (SeekBar)diag.findViewById(R.id.seek);
+        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int value, boolean fromUser) {
+                if(fromUser) {
+                    value += 1;
+                    if(value == 1) {
+                        display.setText(getString(R.string.sleep_in_one));
+                    } else {
+                        display.setText(getString(R.string.sleep_in_x).replace("{x}", Integer.toString(value)));
+                    }
+                }
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        diag.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                diag.dismiss();
+                SleepTimer.schedule(getApplicationContext(), seek.getProgress() + 1);
+                startActivity(new Intent(getApplicationContext(), SleepTimerViewer.class));
+            }
+        });
+        diag.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                diag.dismiss();
+            }
+        });
+        seek.setMax(59);
+        diag.show();
+    }
 
 
 	private ServiceConnection mConnection = new ServiceConnection() {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                  android:layout_above="@+id/nowPlaying" android:orientation="vertical" android:gravity="center">
+
+        <TextView android:id="@+id/text" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:textSize="96sp"/>
+
+        <TextView android:id="@+id/sleepAt" android:layout_width="wrap_content"
+                  android:layout_marginTop="5dp" android:visibility="gone"
+                  android:layout_height="wrap_content" android:textSize="20sp"/>
+
+    </LinearLayout>
+
+    <fragment android:id="@+id/nowPlaying"
+              android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
+              android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:layout_alignParentBottom="true" tools:layout="@layout/now_playing_bar"/>
+
+</RelativeLayout>
