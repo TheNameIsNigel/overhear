@@ -37,6 +37,9 @@ public class ArtistOrAlbumImage extends AsyncTask<String, Integer, Bitmap> {
     protected Bitmap doInBackground(String... args) {
     	url = MusicUtils.getImageURL(contextReference.get(), args[0], key);
         Bitmap toreturn = aquery.getCachedImage(url);
+        if(toreturn == null) {
+            return null;
+        }
         if(width == -1 && height == -1) {
         	return toreturn;
         } else {
