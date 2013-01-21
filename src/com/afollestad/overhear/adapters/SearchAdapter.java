@@ -37,6 +37,7 @@ public class SearchAdapter extends BaseAdapter {
 
     public void clear() {
         items.clear();
+        notifyDataSetChanged();
     }
 
     @Override
