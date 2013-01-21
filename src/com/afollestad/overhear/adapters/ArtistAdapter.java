@@ -31,16 +31,18 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 	private Activity context;
 	public final static String ARTIST_IMAGE = "artist_image";
 	
-	public static void startArtistArtTask(Activity context, Artist artist, ImageView cover, int dimen) {
+	public static void startArtistArtTask(Activity context, Artist artist, ImageView cover, int width) {
 		if (MusicUtils.getImageURL(context, artist.getName(), ARTIST_IMAGE) == null) {
             new LastfmGetArtistImage(context, cover).executeOnExecutor(
                     AsyncTask.THREAD_POOL_EXECUTOR, artist);
         } else {
-        	if(dimen == 0) {
-        		dimen = context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
+        	if(width == 0) {
+        		width = context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
         	}
-        	//dimen = -1;
-            new ArtistOrAlbumImage(context, cover, ARTIST_IMAGE, dimen).executeOnExecutor(
+//            if(height == 0) {
+//                height  = context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
+//            }
+            new ArtistOrAlbumImage(context, cover, ARTIST_IMAGE, width, -1).executeOnExecutor(
                     AsyncTask.THREAD_POOL_EXECUTOR, artist.getName());
         }
 	}

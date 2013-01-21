@@ -15,11 +15,12 @@ public class ArtistOrAlbumImage extends AsyncTask<String, Integer, Bitmap> {
     private final WeakReference<ImageView> imageViewReference;
     private final WeakReference<Context> contextReference;
     private final AQuery aquery;
-    private final int albumart;
+    private final int width;
+    private final int height;
     private String url;
     private String key;
 
-    public ArtistOrAlbumImage(Context context, ImageView iv, String key, int dimen) {
+    public ArtistOrAlbumImage(Context context, ImageView iv, String key, int width, int height) {
     	contextReference = new WeakReference<Context>(context);
     	aquery = new AQuery(context);
     	if(iv != null) {
@@ -28,17 +29,26 @@ public class ArtistOrAlbumImage extends AsyncTask<String, Integer, Bitmap> {
     		imageViewReference = null;
     	}
     	this.key = key;
-    	albumart = dimen;
+    	this.width = width;
+        this.height = height;
     }
 
     @Override
     protected Bitmap doInBackground(String... args) {
     	url = MusicUtils.getImageURL(contextReference.get(), args[0], key);
         Bitmap toreturn = aquery.getCachedImage(url);
-        if(albumart == -1) {
+        if(width == -1 && height == -1) {
         	return toreturn;
         } else {
-        	return MusicUtils.getResizedBitmap(toreturn, albumart, albumart);
+            double newHeight = height;
+            if(height == -1) {
+                double actualWidth = toreturn.getWidth();
+                double actualHeight = toreturn.getHeight();
+                double ratio = (actualWidth / actualHeight);
+                newHeight = (double)width * ratio;
+
+            }
+        	return MusicUtils.getResizedBitmap(toreturn, width, (int)Math.round(newHeight));
         }
     }
 

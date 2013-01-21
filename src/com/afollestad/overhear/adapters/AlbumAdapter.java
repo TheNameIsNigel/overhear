@@ -45,7 +45,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 				dimen = context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
 			}
 			//dimen = -1;
-			new ArtistOrAlbumImage(context, cover, ALBUM_IMAGE, dimen).executeOnExecutor(
+			new ArtistOrAlbumImage(context, cover, ALBUM_IMAGE, dimen, dimen).executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR, album.getName() + ":" + album.getArtist().getName());
 		}
 	}
