@@ -116,6 +116,14 @@ public class NowPlayingBarFragment extends Fragment {
 				.setAction(MusicService.ACTION_REWIND));
 			}
 		});
+		previous.get().setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				getActivity().startService(new Intent(getActivity(), MusicService.class)
+				.setAction(MusicService.ACTION_REWIND).putExtra("override", true));
+				return true;
+			}
+		});
 		update();
 	}
 
@@ -135,8 +143,8 @@ public class NowPlayingBarFragment extends Fragment {
 
 			if(lastPlayed == null || lastPlayed.get() == null || 
 					(!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
-					!lastPlayed.get().getArtist().equals(focused.getArtist()))) {
-				
+							!lastPlayed.get().getArtist().equals(focused.getArtist()))) {
+
 				Album album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
 				AQuery aq = new AQuery(getActivity());
 				Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(getActivity(), 

@@ -84,7 +84,7 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		return new CursorLoader(getActivity(), Recents.PROVIDER_URI, 
-				null, null, null, Song.DATE_QUEUED + " DESC");
+				null, null, null, Song.DATE_QUEUED + " DESC LIMIT 10");
 	}
 
 	@Override

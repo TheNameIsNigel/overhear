@@ -40,7 +40,7 @@ public class OverviewScreen extends Activity {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOffscreenPageLimit(3);
-		mViewPager.setCurrentItem(1);
+		mViewPager.setCurrentItem(2);
 	}
 
 	@Override

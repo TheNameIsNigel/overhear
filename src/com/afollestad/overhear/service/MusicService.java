@@ -39,7 +39,7 @@ public class MusicService extends Service {
 	private boolean hasAudioFocus;
 	private boolean wasPlayingBeforeLoss;
 	private Toast toast;
-	private boolean paused;
+	private boolean initialized;
 
 	private Notification status;
 	private static MediaPlayer player;	
@@ -52,8 +52,8 @@ public class MusicService extends Service {
 		}
 		return audioManager;
 	}
-	public MediaPlayer getPlayer() {
-		if(player == null) {
+	public MediaPlayer getPlayer(boolean nullIfNotInitialized) {
+		if(player == null && !nullIfNotInitialized) {
 			player = new MediaPlayer();
 			player.setAudioStreamType(AudioManager.STREAM_MUSIC);
 			player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -69,7 +69,9 @@ public class MusicService extends Service {
 				public boolean onError(MediaPlayer mp, int what, int extra) {
 					switch(what) {
 					case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
-						mp.release();
+						player.release();
+						player = null;
+						initialized = false;
 						Toast.makeText(getApplicationContext(), "Media server died", Toast.LENGTH_LONG).show();
 						break;
 					default:
@@ -175,12 +177,13 @@ public class MusicService extends Service {
 	}
 
 	private void initializeMediaPlayer(String source) {
-		MediaPlayer player = getPlayer();
+		MediaPlayer player = getPlayer(false);
 		try {
 			player.reset();
 	        player.setDataSource(source);
 	        player.prepare();
 	        player.start();
+	        initialized = true;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -197,7 +200,6 @@ public class MusicService extends Service {
 
 	private void playTrack(Song song) {
 		Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
-		paused = false;
 		if(!initializeRemoteControl()) {
 			if(toast != null)
 				toast.cancel(); 
@@ -232,12 +234,11 @@ public class MusicService extends Service {
 			return;
 		}
 		Song last = Queue.getFocused(this);
-		if(player != null && last != null && paused) {
+		if(player != null && last != null && initialized) {
 			if(!initializeRemoteControl()) {
 				return;
 			}
 			Queue.setFocused(this, last, true);
-			paused = false;
 			try {
 				player.start();
 			} catch(IllegalStateException e) {
@@ -263,7 +264,6 @@ public class MusicService extends Service {
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
 		Queue.setFocused(this, focused, false);
 		if(player != null && player.isPlaying()) {
-			paused = true;
 			player.pause();
 			initializeNotification(focused);
 		} else {
@@ -278,6 +278,7 @@ public class MusicService extends Service {
 			player.stop();
 			player.release();
 			player = null;
+			initialized = false;
 		}
 		if(mRemoteControlClient != null)
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
@@ -299,9 +300,9 @@ public class MusicService extends Service {
 		return true;
 	}
 
-	private void previousOrRewind() {
+	private void previousOrRewind(boolean override) {
 		Log.i("OVERHEAR SERVICE", "previousTrack()");
-		if(player != null && player.getCurrentPosition() > 2000) {
+		if(player != null && player.getCurrentPosition() > 2000 && !override) {
 			player.seekTo(0);
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		} else {
@@ -318,6 +319,10 @@ public class MusicService extends Service {
 		return player != null && player.isPlaying();
 	}
 
+	public boolean isPlayerInitialized() {
+		return initialized;
+	}
+	
 
 	public class MusicBinder extends Binder {
 		public MusicService getService() {
@@ -368,7 +373,7 @@ public class MusicService extends Service {
 		} else if(action.equals(ACTION_SKIP)) {
 			nextTrack();
 		} else if(action.equals(ACTION_REWIND)) {
-			previousOrRewind();
+			previousOrRewind(intent.getBooleanExtra("override", false));
 		} else if(action.equals(ACTION_STOP)) {
 			stopTrack();
 		} else if(action.equals(ACTION_TOGGLE_PLAYBACK)) {
@@ -384,9 +389,12 @@ public class MusicService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if(player != null && player.isPlaying())
+		if(player != null && player.isPlaying()) {
 			player.stop();
-		player.release();
+			player.release();
+			player = null;
+		}
+		initialized = false;
 		unregisterReceiver(receiver);
 		getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
 		getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));

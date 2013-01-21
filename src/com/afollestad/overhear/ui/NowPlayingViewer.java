@@ -212,10 +212,14 @@ public class NowPlayingViewer extends Activity {
 	 */
 	public void hookToPlayer() {
 		if(mService == null) {
+			Toast.makeText(getApplicationContext(), "Unable to hook to the music service.", Toast.LENGTH_LONG).show();
+			return;
+		}
+		final MediaPlayer player = mService.getPlayer(true);
+		if(player == null) {
 			Toast.makeText(getApplicationContext(), "Unable to hook to the music player.", Toast.LENGTH_LONG).show();
 			return;
 		}
-		final MediaPlayer player = mService.getPlayer();
 		player.setOnSeekCompleteListener(new OnSeekCompleteListener() {
 			@Override
 			public void onSeekComplete(MediaPlayer arg0) {
@@ -241,6 +245,14 @@ public class NowPlayingViewer extends Activity {
 			public void onClick(View arg0) {
 				startService(new Intent(getApplicationContext(), MusicService.class)
 				.setAction(MusicService.ACTION_REWIND));
+			}
+		});
+		findViewById(R.id.previous).setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				startService(new Intent(getApplicationContext(), MusicService.class)
+				.setAction(MusicService.ACTION_REWIND).putExtra("override", true));
+				return true;
 			}
 		});
 		findViewById(R.id.play).setOnClickListener(new View.OnClickListener() {
@@ -302,11 +314,11 @@ public class NowPlayingViewer extends Activity {
 	 */
 	public void update() {
 		if(mService == null) {
-			Toast.makeText(getApplicationContext(), "Unable to hook to the music player.", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "Unable to hook to the music service.", Toast.LENGTH_LONG).show();
 			return;
 		}
-		MediaPlayer player = mService.getPlayer();
-		if(player.isPlaying()) {
+		MediaPlayer player = mService.getPlayer(true);
+		if(player != null && player.isPlaying()) {
 			((ImageButton)findViewById(R.id.play)).setImageResource(R.drawable.pause);
 		} else {
 			((ImageButton)findViewById(R.id.play)).setImageResource(R.drawable.play);
@@ -314,25 +326,36 @@ public class NowPlayingViewer extends Activity {
 		SeekBar seek = (SeekBar)findViewById(R.id.seek);
 		TextView progress = (TextView)findViewById(R.id.progress);
 		TextView remaining = (TextView)findViewById(R.id.remaining);
-		int max = player.getDuration();
-		int current = player.getCurrentPosition();
-		seek.setProgress(current);
-		seek.setMax(max);
-		progress.setText(Song.getDurationString(current));
-		remaining.setText("-" + Song.getDurationString(max - current));
+		if(player != null && mService.isPlayerInitialized()) {
+			int max = player.getDuration();
+			int current = player.getCurrentPosition();
+			seek.setProgress(current);
+			seek.setMax(max);
+			progress.setText(Song.getDurationString(current));
+			remaining.setText("-" + Song.getDurationString(max - current));
+		} else {
+			seek.setProgress(0);
+			seek.setMax(100);
+			progress.setText("0:00");
+			String duration = "-0:00";
+			if(song != null) {
+				duration = "-" + song.getDurationString();
+			}
+			remaining.setText(duration);
+		}
 	}
 
 
 	private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-        	MusicBinder binder = (MusicBinder)service;
-            mService = binder.getService();
-            hookToPlayer();
-        }
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) { 
-        	mService = null;
-        }
-    };
+		@Override
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			MusicBinder binder = (MusicBinder)service;
+			mService = binder.getService();
+			hookToPlayer();
+		}
+		@Override
+		public void onServiceDisconnected(ComponentName arg0) { 
+			mService = null;
+		}
+	};
 }
