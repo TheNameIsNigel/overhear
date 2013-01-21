@@ -39,4 +39,6 @@
     <string name="failed_tweet_str">Failed to send your tweet… {error}</string>
     <string name="now_playing_hash">#NowPlaying</string>
     <string name="title_activity_now_playing_viewer">Now Playing</string>
+    <string name="search_str">Search</string>
+    <string name="sleep_timer_str">Sleep Timer</string>
 </resources>

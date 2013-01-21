@@ -111,10 +111,4 @@ public class TweetNowPlaying extends Activity {
 			}
 		}).start();
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.dialog_tweet_now_playing, menu);
-		return true;
-	}
 }
