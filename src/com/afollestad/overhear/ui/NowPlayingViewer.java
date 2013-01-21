@@ -62,7 +62,7 @@ public class NowPlayingViewer extends Activity {
 			fadeIn(findViewById(R.id.remaining));
 			resetSeekBarThumb((SeekBar)findViewById(R.id.seek));
 			mHandler.removeCallbacks(disappearRunner);
-			mHandler.postDelayed(disappearRunner, 2000);
+			mHandler.postDelayed(disappearRunner, 3000);
 			return false;
 		}
 	};

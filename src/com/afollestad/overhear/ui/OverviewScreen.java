@@ -61,6 +61,9 @@ public class OverviewScreen extends Activity {
 			else
 				startActivity(new Intent(this, TweetNowPlaying.class));
 			return true;
+        case R.id.search:
+            startActivity(new Intent(this, SearchScreen.class));
+            return true;
 		}
 		return false;
 	}
