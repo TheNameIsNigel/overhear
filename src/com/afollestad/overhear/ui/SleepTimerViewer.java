@@ -62,9 +62,11 @@ public class SleepTimerViewer extends Activity {
 
 	public void onPause() {
 		super.onPause();
-        timer.cancel();
-        timer.purge();
-        timer = null;
+        if(timer != null) {
+            timer.cancel();
+            timer.purge();
+            timer = null;
+        }
 	}
 
     @Override
@@ -90,15 +92,20 @@ public class SleepTimerViewer extends Activity {
 
     public void update() {
         Calendar now = Calendar.getInstance();
-        long diff = sleepTime.getTimeInMillis() - now.getTimeInMillis();
+        long diff = -1;
+        if(sleepTime != null) {
+            diff = sleepTime.getTimeInMillis() - now.getTimeInMillis();
+        }
         TextView sleptAt = (TextView)findViewById(R.id.sleepAt);
         if(diff < 0) {
             sleptAt.setVisibility(View.VISIBLE);
             sleptAt.setText(getString(R.string.slept_at_str).replace("{time}", Utils.getFriendlyTime(now)));
             ((TextView)findViewById(R.id.text)).setText("0:00");
-            timer.cancel();
-            timer.purge();
-            timer = null;
+            if(timer != null) {
+                timer.cancel();
+                timer.purge();
+                timer = null;
+            }
             return;
         }
         sleptAt.setVisibility(View.GONE);
