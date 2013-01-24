@@ -88,7 +88,7 @@ public class AlbumViewer extends Activity {
 
         AQuery aq = new AQuery(this);
         ArtistAdapter.retrieveArtistArt(this, aq, null, artist, R.id.artistCover);
-        AlbumAdapter.retrieveAlbumArt(this, new AQuery(this), null, album, R.id.albumCover);
+        AlbumAdapter.retrieveAlbumArt(this, aq, null, album, R.id.albumCover);
 	}
 
 	@Override

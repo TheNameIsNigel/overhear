@@ -47,9 +47,9 @@ public class AlbumAdapter extends SimpleCursorAdapter {
             Bitmap bitmap = aq.getCachedImage(url);
             if (bitmap != null) {
                 Log.i("Overhear.AlbumAdapter", "Loading image for " + album.getName() + " (" + album.getArtist().getName() + ") from cache.");
-                aq.id(R.id.image).image(bitmap);
+                aq.id(viewId).image(bitmap);
             } else {
-                aq.id(R.id.image).image(url, true, true);
+                aq.id(viewId).image(url, true, true);
             }
         }
     }

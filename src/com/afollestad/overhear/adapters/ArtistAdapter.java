@@ -42,9 +42,9 @@ public class ArtistAdapter extends SimpleCursorAdapter {
             Bitmap bitmap = aq.getCachedImage(url);
             if (bitmap != null) {
                 Log.i("Overhear.ArtistAdapter", "Loading image for " + artist.getName() + " from cache.");
-                aq.id(R.id.image).image(bitmap);
+                aq.id(viewId).image(bitmap);
             } else {
-                aq.id(R.id.image).image(url, true, true);
+                aq.id(viewId).image(url, true, true);
             }
         }
     }

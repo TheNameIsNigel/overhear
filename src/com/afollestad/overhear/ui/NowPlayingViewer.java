@@ -206,7 +206,6 @@ public class NowPlayingViewer extends Activity {
 	 */
 	public void hookToPlayer() {
 		if(mService == null) {
-			Toast.makeText(getApplicationContext(), "Unable to hook to the music service.", Toast.LENGTH_LONG).show();
 			return;
 		}
 		final MediaPlayer player = mService.getPlayer(true);
@@ -310,7 +309,6 @@ public class NowPlayingViewer extends Activity {
 	 */
 	public void update() {
 		if(mService == null) {
-			Toast.makeText(getApplicationContext(), "Unable to hook to the music service.", Toast.LENGTH_LONG).show();
 			return;
 		}
 
