@@ -1,20 +1,58 @@
 package com.afollestad.overhear;
 
-import java.util.ArrayList;
-
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v13.app.FragmentCompat;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
+/**
+ * Implementation of {@link android.support.v4.view.PagerAdapter} that
+ * uses a {@link Fragment} to manage each page. This class also handles
+ * saving and restoring of fragment's state.
+ *
+ * <p>This version of the pager is more useful when there are a large number
+ * of pages, working more like a list view.  When pages are not visible to
+ * the user, their entire fragment may be destroyed, only keeping the saved
+ * state of that fragment.  This allows the pager to hold on to much less
+ * memory associated with each visited page as compared to
+ * {@link FragmentPagerAdapter} at the cost of potentially more overhead when
+ * switching between pages.
+ *
+ * <p>When using FragmentPagerAdapter the host ViewPager must have a
+ * valid ID set.</p>
+ *
+ * <p>Subclasses only need to implement {@link #getItem(int)}
+ * and {@link #getCount()} to have a working adapter.
+ *
+ * <p>Here is an example implementation of a pager containing fragments of
+ * lists:
+ *
+ * {@sample development/samples/Support4Demos/src/com/example/android/supportv4/app/FragmentStatePagerSupport.java
+ *      complete}
+ *
+ * <p>The <code>R.layout.fragment_pager</code> resource of the top-level fragment is:
+ *
+ * {@sample development/samples/Support4Demos/res/layout/fragment_pager.xml
+ *      complete}
+ *
+ * <p>The <code>R.layout.fragment_pager_list</code> resource containing each
+ * individual fragment's layout is:
+ *
+ * {@sample development/samples/Support4Demos/res/layout/fragment_pager_list.xml
+ *      complete}
+ */
 public abstract class TaggedFragmentAdapter extends PagerAdapter {
-    
-	private static final String TAG = "FragmentStatePagerAdapter";
+
+    private static final String TAG = "FragmentStatePagerAdapter";
     private static final boolean DEBUG = false;
 
     private final FragmentManager mFragmentManager;
@@ -34,11 +72,11 @@ public abstract class TaggedFragmentAdapter extends PagerAdapter {
     public abstract Fragment getItem(int position);
 
     @Override
-    public void startUpdate(View container) {
+    public void startUpdate(ViewGroup container) {
     }
 
     @Override
-    public Object instantiateItem(View container, int position) {
+    public Object instantiateItem(ViewGroup container, int position) {
         // If we already have this item instantiated, there is nothing
         // to do.  This can happen when we are restoring the entire pager
         // from its saved state, where the fragment manager has already
@@ -53,13 +91,6 @@ public abstract class TaggedFragmentAdapter extends PagerAdapter {
         if (mCurTransaction == null) {
             mCurTransaction = mFragmentManager.beginTransaction();
         }
-        
-        Fragment liveFragment = mFragmentManager.findFragmentByTag("page:" + Integer.toString(position));
-        if(liveFragment != null){
-        	mCurTransaction.attach(liveFragment);
-        	
-        	return liveFragment;
-        }
 
         Fragment fragment = getItem(position);
         if (DEBUG) Log.v(TAG, "Adding item #" + position + ": f=" + fragment);
@@ -72,14 +103,7 @@ public abstract class TaggedFragmentAdapter extends PagerAdapter {
         while (mFragments.size() <= position) {
             mFragments.add(null);
         }
-        
-        if (fragment != mCurrentPrimaryItem) {
-            fragment.setMenuVisibility(false);
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            	fragment.setUserVisibleHint(false);
-            }
-        }
-        
+        FragmentCompat.setMenuVisibility(fragment, false);
         mFragments.set(position, fragment);
         mCurTransaction.add(container.getId(), fragment, "page:" + Integer.toString(position));
 
@@ -87,7 +111,7 @@ public abstract class TaggedFragmentAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(View container, int position, Object object) {
+    public void destroyItem(ViewGroup container, int position, Object object) {
         Fragment fragment = (Fragment)object;
 
         if (mCurTransaction == null) {
@@ -105,21 +129,21 @@ public abstract class TaggedFragmentAdapter extends PagerAdapter {
     }
 
     @Override
-    public void setPrimaryItem(View container, int position, Object object) {
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
         Fragment fragment = (Fragment)object;
         if (fragment != mCurrentPrimaryItem) {
             if (mCurrentPrimaryItem != null) {
-                mCurrentPrimaryItem.setMenuVisibility(false);
+                FragmentCompat.setMenuVisibility(mCurrentPrimaryItem, false);
             }
             if (fragment != null) {
-                fragment.setMenuVisibility(true);
+                FragmentCompat.setMenuVisibility(fragment, true);
             }
             mCurrentPrimaryItem = fragment;
         }
     }
 
     @Override
-    public void finishUpdate(View container) {
+    public void finishUpdate(ViewGroup container) {
         if (mCurTransaction != null) {
             mCurTransaction.commitAllowingStateLoss();
             mCurTransaction = null;
@@ -176,7 +200,7 @@ public abstract class TaggedFragmentAdapter extends PagerAdapter {
                         while (mFragments.size() <= index) {
                             mFragments.add(null);
                         }
-                        f.setMenuVisibility(false);
+                        FragmentCompat.setMenuVisibility(f, false);
                         mFragments.set(index, f);
                     } else {
                         Log.w(TAG, "Bad fragment at key " + key);

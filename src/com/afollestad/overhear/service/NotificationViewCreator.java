@@ -32,7 +32,7 @@ public class NotificationViewCreator {
 	}
 	
 	protected static RemoteViews createView(Context context, boolean big, Song nowPlaying, Bitmap art, boolean playing) {
-		RemoteViews views = null;
+		RemoteViews views;
 		if(big) {
 			views = new RemoteViews(context.getPackageName(), R.layout.status_bar_big);
 		} else {

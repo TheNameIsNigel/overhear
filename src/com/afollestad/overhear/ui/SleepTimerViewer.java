@@ -1,32 +1,16 @@
 package com.afollestad.overhear.ui;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.*;
-import android.graphics.Bitmap;
-import android.graphics.drawable.AnimationDrawable;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.text.Html;
-import android.view.*;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.widget.*;
-import com.afollestad.overhear.MusicUtils;
-import com.afollestad.overhear.Queue;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.SleepTimer;
-import com.afollestad.overhear.adapters.AlbumAdapter;
-import com.afollestad.overhear.service.MusicService;
-import com.afollestad.overhear.service.MusicService.MusicBinder;
-import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
-import com.androidquery.AQuery;
 
 import java.util.Calendar;
 import java.util.Timer;

@@ -14,6 +14,7 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Song;
+import com.androidquery.AQuery;
 
 import java.util.ArrayList;
 
@@ -22,10 +23,12 @@ public class SearchAdapter extends BaseAdapter {
     public SearchAdapter(Activity context) {
         this.context = context;
         this.items = new ArrayList<Object>();
+        this.listAq = new AQuery(context);
     }
 
     private Activity context;
     private ArrayList<Object> items;
+    private AQuery listAq;
 
     public void add(String header, Object[] toadd) {
         items.add(header);
@@ -89,7 +92,7 @@ public class SearchAdapter extends BaseAdapter {
                 view = SongAdapter.getViewForSong(context, (Song)items.get(i), view);
                 break;
             case 2:
-                view = AlbumAdapter.getViewForAlbum(context, (Album)items.get(i), convertView, i, viewGroup);
+                view = AlbumAdapter.getViewForAlbum(context, (Album)items.get(i), convertView, i, viewGroup, listAq);
                 break;
             case 3:
                 if(view == null)

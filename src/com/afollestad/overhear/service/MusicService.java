@@ -1,23 +1,9 @@
 package com.afollestad.overhear.service;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
-import android.provider.MediaStore;
-import com.afollestad.overhear.*;
-import com.afollestad.overhear.adapters.AlbumAdapter;
-import com.afollestad.overhearapi.Album;
-import com.afollestad.overhearapi.Song;
-import com.androidquery.AQuery;
-
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
@@ -26,8 +12,17 @@ import android.media.RemoteControlClient;
 import android.media.RemoteControlClient.MetadataEditor;
 import android.os.Binder;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
+import com.afollestad.overhear.*;
+import com.afollestad.overhear.adapters.AlbumAdapter;
+import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Song;
+import com.androidquery.AQuery;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MusicService extends Service {
 
@@ -166,9 +161,8 @@ public class MusicService extends Service {
 				.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
 		Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
 		try {
-			AQuery aq = new AQuery(this);
-			Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, 
-					album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE));
+            String url = MusicUtils.getImageURL(this, album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE);
+            Bitmap art = new AQuery(this).getCachedImage(url);
 			metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, art);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -191,9 +185,8 @@ public class MusicService extends Service {
 	}
 
 	private void initializeNotification(Song nowPlaying) {
-		AQuery aq = new AQuery(this);
-		Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(this, nowPlaying.getAlbum() + ":" + 
-				nowPlaying.getArtist(), AlbumAdapter.ALBUM_IMAGE));
+		String url = MusicUtils.getImageURL(this, nowPlaying.getAlbum() + ":" + nowPlaying.getArtist(), AlbumAdapter.ALBUM_IMAGE);
+        Bitmap art = new AQuery(this).getCachedImage(url);
 		status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
 		startForeground(100, status);
 	}

@@ -1,8 +1,14 @@
 package com.afollestad.overhear.ui;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
@@ -10,17 +16,9 @@ import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
-
-import android.os.Bundle;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import com.androidquery.AQuery;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AlbumViewer extends Activity {
 
@@ -87,10 +85,10 @@ public class AlbumViewer extends Activity {
 						.putExtra("artist", artist.getJSON().toString()));
 			}
 		});
-		
-		int dimen = getResources().getDimensionPixelSize(R.dimen.split_view_image);
-		ArtistAdapter.startArtistArtTask(this, artist, (ImageView)findViewById(R.id.artistCover), dimen);
-		AlbumAdapter.startAlbumArtTask(this, album, (ImageView)findViewById(R.id.albumCover), dimen);
+
+        AQuery aq = new AQuery(this);
+        ArtistAdapter.retrieveArtistArt(this, aq, null, artist, R.id.artistCover);
+        AlbumAdapter.retrieveAlbumArt(this, new AQuery(this), null, album, R.id.albumCover);
 	}
 
 	@Override

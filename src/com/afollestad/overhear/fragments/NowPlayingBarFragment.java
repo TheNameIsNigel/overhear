@@ -1,8 +1,16 @@
 package com.afollestad.overhear.fragments;
 
-import java.lang.ref.WeakReference;
-
-import com.afollestad.overhear.MusicUtils;
+import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
@@ -12,18 +20,7 @@ import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 import com.androidquery.AQuery;
 
-import android.app.Fragment;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import java.lang.ref.WeakReference;
 
 /**
  * A completely self-sufficient now playing bar, displayed on the bottom of any activity that has music controls.
@@ -40,7 +37,6 @@ public class NowPlayingBarFragment extends Fragment {
 	};
 
 	private WeakReference<View> viewPlaying;
-	private WeakReference<ImageView> playing;
 	private WeakReference<ImageView> playPause;
 	private WeakReference<ImageView> previous;
 	private WeakReference<ImageView> next;
@@ -78,7 +74,6 @@ public class NowPlayingBarFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		viewPlaying = new WeakReference<View>(view.findViewById(R.id.viewPlaying));
-		playing = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.playing));
 		playPause = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.play));
 		previous = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.previous));
 		next = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.next));
@@ -144,12 +139,8 @@ public class NowPlayingBarFragment extends Fragment {
 			if(lastPlayed == null || lastPlayed.get() == null || 
 					(!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
 							!lastPlayed.get().getArtist().equals(focused.getArtist()))) {
-
 				Album album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
-				AQuery aq = new AQuery(getActivity());
-				Bitmap art = aq.getCachedImage(MusicUtils.getImageURL(getActivity(), 
-						album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE));
-				playing.get().setImageBitmap(art);
+                AlbumAdapter.retrieveAlbumArt(getActivity(), new AQuery(getView()), null, album, R.id.playing);
 			}
 
 			track.get().setText(focused.getTitle());

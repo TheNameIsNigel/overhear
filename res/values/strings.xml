@@ -40,6 +40,7 @@
     <string name="failed_tweet_str">Failed to send your tweet… {error}</string>
     <string name="now_playing_hash">#NowPlaying</string>
     <string name="title_activity_now_playing_viewer">Now Playing</string>
+    <string name="now_playing_tweet_content">#NowPlaying - {title} by {artist}, via @OverhearApp</string>
 
     <string name="search_str">Search</string>
 

@@ -1,14 +1,5 @@
 package com.afollestad.overhear.ui;
 
-import java.util.Locale;
-
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.TaggedFragmentAdapter;
-import com.afollestad.overhear.fragments.AlbumListFragment;
-import com.afollestad.overhear.fragments.ArtistListFragment;
-import com.afollestad.overhear.fragments.GenreListFragment;
-import com.afollestad.overhear.fragments.RecentsListFragment;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -17,6 +8,15 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.TaggedFragmentAdapter;
+import com.afollestad.overhear.fragments.AlbumListFragment;
+import com.afollestad.overhear.fragments.ArtistListFragment;
+import com.afollestad.overhear.fragments.GenreListFragment;
+import com.afollestad.overhear.fragments.RecentsListFragment;
+import com.androidquery.util.AQUtility;
+
+import java.util.Locale;
 
 public class OverviewScreen extends Activity {
 
@@ -41,6 +41,7 @@ public class OverviewScreen extends Activity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setCurrentItem(2);
+        AQUtility.setCacheDir(getExternalCacheDir());
 	}
 
 	@Override

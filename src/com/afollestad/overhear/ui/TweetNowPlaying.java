@@ -1,22 +1,15 @@
 package com.afollestad.overhear.ui;
 
-import twitter4j.ResponseList;
-import twitter4j.StatusUpdate;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.User;
-
-import com.afollestad.overhear.Queue;
-import com.afollestad.overhear.R;
-import com.afollestad.overhearapi.Song;
-
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.afollestad.overhear.Queue;
+import com.afollestad.overhear.R;
+import com.afollestad.overhearapi.Song;
+import twitter4j.*;
 
 public class TweetNowPlaying extends Activity {
 
@@ -103,7 +96,9 @@ public class TweetNowPlaying extends Activity {
 					@Override
 					public void run() {
 						text.setText("");
-						text.append("#NowPlaying - " + last.getTitle() + " by " + fArtist);
+                        text.append(getString(R.string.now_playing_tweet_content)
+                                .replace("{title}", last.getTitle())
+                                .replace("{artist}", fArtist));
 						text.setEnabled(true);
 						send.setEnabled(true);
 					}

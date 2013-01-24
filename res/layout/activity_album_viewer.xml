@@ -13,7 +13,7 @@
 
 		<RelativeLayout android:layout_width="match_parent"
 			android:layout_height="fill_parent" android:layout_weight="1">
-			<QuickContactBadge android:id="@+id/artistCover"
+			<ImageView android:id="@+id/artistCover"
 			    android:adjustViewBounds="true"
 				android:scaleType="centerCrop" android:layout_width="fill_parent"
 				android:layout_height="fill_parent" />

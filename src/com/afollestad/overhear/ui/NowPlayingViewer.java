@@ -1,11 +1,22 @@
 package com.afollestad.overhear.ui;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
+import android.app.Activity;
 import android.app.Dialog;
-import android.app.PendingIntent;
-import android.widget.*;
+import android.content.*;
+import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnSeekCompleteListener;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.view.*;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
@@ -15,28 +26,10 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.service.MusicService.MusicBinder;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
+import com.androidquery.AQuery;
 
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnSeekCompleteListener;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.graphics.drawable.AnimationDrawable;
-import android.view.DragEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class NowPlayingViewer extends Activity {
 
@@ -307,7 +300,7 @@ public class NowPlayingViewer extends Activity {
 	public void load() {
 		song = Queue.getFocused(this);
 		album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
-		AlbumAdapter.startAlbumArtTask(this, album, (ImageView)findViewById(R.id.cover), -1);
+        AlbumAdapter.retrieveAlbumArt(this, new AQuery(this), null, album, R.id.cover);
 		((TextView)findViewById(R.id.track)).setText(song.getTitle());
 		((TextView)findViewById(R.id.artistAlbum)).setText(song.getArtist() + " - " + album.getName());
 	}

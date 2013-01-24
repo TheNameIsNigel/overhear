@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../androidquery/androidquery.iml" filepath="$PROJECT_DIR$/../androidquery/androidquery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/overhear.iml" filepath="$PROJECT_DIR$/overhear.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../overhear-api/overhear-api.iml" filepath="$PROJECT_DIR$/../overhear-api/overhear-api.iml" />
+    </modules>
+  </component>
+</project>
+

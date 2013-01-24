@@ -1,33 +1,34 @@
 package com.afollestad.overhear.adapters;
 
-import com.afollestad.overhear.MusicUtils;
-import com.afollestad.overhear.Queue;
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.tasks.ArtistOrAlbumImage;
-import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
-import com.afollestad.overhearapi.Album;
-import com.afollestad.overhearapi.Song;
-import com.androidquery.AQuery;
-
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import com.afollestad.overhear.MusicUtils;
+import com.afollestad.overhear.Queue;
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
+import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Song;
+import com.androidquery.AQuery;
 
 public class AlbumAdapter extends SimpleCursorAdapter {
 
-	public AlbumAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+	public AlbumAdapter(Activity context, int layout, Cursor c, String[] from, int[] to, int flags) {
 		super(context, layout, c, from, to, flags);
-		this.context = (Activity)context;
+		this.context = context;
+        this.listAq = new AQuery(context);
 	}
 
+    private AQuery listAq;
 	private Activity context;
 	public final static String ALBUM_IMAGE = "album_image";
 
@@ -36,32 +37,40 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 		return LayoutInflater.from(context).inflate(R.layout.album_item, null);
 	}
 
-	public static void startAlbumArtTask(Activity context, Album album, ImageView cover, int dimen) {
-		if (MusicUtils.getImageURL(context, album.getName() + ":" + album.getArtist().getName(), ALBUM_IMAGE) == null) {
-			new LastfmGetAlbumImage(context, cover).executeOnExecutor(
-					AsyncTask.THREAD_POOL_EXECUTOR, album);
-		} else {
-			if(dimen == 0) {
-				dimen = context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
-			}
-			//dimen = -1;
-			new ArtistOrAlbumImage(context, cover, ALBUM_IMAGE, dimen, dimen).executeOnExecutor(
-					AsyncTask.THREAD_POOL_EXECUTOR, album.getName() + ":" + album.getArtist().getName());
-		}
-	}
+    public static void retrieveAlbumArt(Activity context, AQuery aq, String url, Album album, int viewId) {
+        if(url == null) {
+            url = MusicUtils.getImageURL(context, album.getName() + ":" + album.getArtist().getName(), ALBUM_IMAGE);
+        }
+        if (url == null) {
+            new LastfmGetAlbumImage(context, viewId, aq).execute(album);
+        } else {
+            Bitmap bitmap = aq.getCachedImage(url);
+            if (bitmap != null) {
+                Log.i("Overhear.AlbumAdapter", "Loading image for " + album.getName() + " (" + album.getArtist().getName() + ") from cache.");
+                aq.id(R.id.image).image(bitmap);
+            } else {
+                aq.id(R.id.image).image(url, true, true);
+            }
+        }
+    }
 
-    public static View getViewForAlbum(Activity context, Album album, View view, int position, ViewGroup parent) {
+    public static View getViewForAlbum(Activity context, Album album, View view, int position, ViewGroup parent, AQuery listAq) {
         if(view == null)
             view = LayoutInflater.from(context).inflate(R.layout.album_item, null);
         ((TextView)view.findViewById(R.id.title)).setText(album.getName());
         ((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
-        final ImageView cover = (ImageView)view.findViewById(R.id.image);
 
-        final AQuery aq = new AQuery(view);
-        if (aq.shouldDelay(position, view, parent, "")) {
-            cover.setImageDrawable(null);
+        AQuery aq = null;
+        if(listAq != null) {
+            aq = listAq.recycle(view);
         } else {
-            AlbumAdapter.startAlbumArtTask(context, album, cover, 0);
+            aq = new AQuery(context);
+        }
+        String url = MusicUtils.getImageURL(context, album.getName() + ":" + album.getArtist().getName(), ALBUM_IMAGE);
+        if (aq.shouldDelay(position, view, parent, url)) {
+            aq.id(R.id.image).image((Bitmap)null);
+        } else {
+            retrieveAlbumArt(context, aq, url, album, R.id.image);
         }
 
         ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
@@ -100,7 +109,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         }
 
         Album album = Album.fromCursor(context, getCursor());
-        view = getViewForAlbum(context, album, view, position, parent);
+        view = getViewForAlbum(context, album, view, position, parent, listAq);
 
 		int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
 		if(position == 0) {

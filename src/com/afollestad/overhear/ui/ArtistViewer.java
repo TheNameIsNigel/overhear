@@ -1,19 +1,5 @@
 package com.afollestad.overhear.ui;
 
-import java.util.Locale;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.afollestad.overhear.MusicUtils;
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.TaggedFragmentAdapter;
-import com.afollestad.overhear.adapters.ArtistAdapter;
-import com.afollestad.overhear.fragments.AlbumListFragment;
-import com.afollestad.overhear.fragments.BioListFragment;
-import com.afollestad.overhear.fragments.SongListFragment;
-import com.afollestad.overhearapi.Artist;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -22,7 +8,19 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import com.afollestad.overhear.MusicUtils;
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.TaggedFragmentAdapter;
+import com.afollestad.overhear.adapters.ArtistAdapter;
+import com.afollestad.overhear.fragments.AlbumListFragment;
+import com.afollestad.overhear.fragments.BioListFragment;
+import com.afollestad.overhear.fragments.SongListFragment;
+import com.afollestad.overhearapi.Artist;
+import com.androidquery.AQuery;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Locale;
 
 public class ArtistViewer extends Activity {
 
@@ -56,9 +54,7 @@ public class ArtistViewer extends Activity {
 			//throw new Error(e.getMessage());
 		}
 		setTitle(artist.getName());
-		//int dimen = getResources().getDimensionPixelSize(R.dimen.artist_viewer_header);
-		int dimen = -1;
-		ArtistAdapter.startArtistArtTask(this, artist, (ImageView)findViewById(R.id.cover), dimen);
+        ArtistAdapter.retrieveArtistArt(this, new AQuery(this), null, artist, R.id.cover);
 	}
 		
 	@Override
