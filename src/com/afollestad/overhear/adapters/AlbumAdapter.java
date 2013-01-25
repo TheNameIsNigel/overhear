@@ -37,19 +37,23 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 		return LayoutInflater.from(context).inflate(R.layout.album_item, null);
 	}
 
-    public static void retrieveAlbumArt(Activity context, AQuery aq, String url, Album album, int viewId) {
+    private static int getTargetWidth(Context context) {
+        return context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
+    }
+
+    public static void retrieveAlbumArt(Activity context, AQuery aq, String url, Album album, int viewId, int targetWidth) {
         if(url == null) {
             url = MusicUtils.getImageURL(context, album.getName() + ":" + album.getArtist().getName(), ALBUM_IMAGE);
         }
         if (url == null) {
-            new LastfmGetAlbumImage(context, viewId, aq).execute(album);
+            new LastfmGetAlbumImage(context, viewId, aq, targetWidth).execute(album);
         } else {
             Bitmap bitmap = aq.getCachedImage(url);
             if (bitmap != null) {
                 Log.i("Overhear.AlbumAdapter", "Loading image for " + album.getName() + " (" + album.getArtist().getName() + ") from cache.");
                 aq.id(viewId).image(bitmap);
             } else {
-                aq.id(viewId).image(url, true, true);
+                aq.id(viewId).image(url, true, true, targetWidth, 0, null, 0, 1.0f / 1.0f);
             }
         }
     }
@@ -70,7 +74,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         if (aq.shouldDelay(position, view, parent, url)) {
             aq.id(R.id.image).image((Bitmap)null);
         } else {
-            retrieveAlbumArt(context, aq, url, album, R.id.image);
+            retrieveAlbumArt(context, aq, url, album, R.id.image, getTargetWidth(context));
         }
 
         ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);

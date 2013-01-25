@@ -299,7 +299,7 @@ public class NowPlayingViewer extends Activity {
 	public void load() {
 		song = Queue.getFocused(this);
 		album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
-        AlbumAdapter.retrieveAlbumArt(this, new AQuery(this), null, album, R.id.cover);
+        AlbumAdapter.retrieveAlbumArt(this, new AQuery(this), null, album, R.id.cover, 0);
 		((TextView)findViewById(R.id.track)).setText(song.getTitle());
 		((TextView)findViewById(R.id.artistAlbum)).setText(song.getArtist() + " - " + album.getName());
 	}

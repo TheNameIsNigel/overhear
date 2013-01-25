@@ -16,11 +16,13 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
     private WeakReference<Activity> context;
     private int viewId;
     private WeakReference<AQuery> aq;
+    private int targetWidth;
    
-    public LastfmGetAlbumImage(Activity context, int viewId, AQuery aq) {
+    public LastfmGetAlbumImage(Activity context, int viewId, AQuery aq, int targetWidth) {
         this.context = new WeakReference<Activity>(context);
         this.viewId = viewId;
         this.aq = new WeakReference<AQuery>(aq);
+        this.targetWidth = targetWidth;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         if(viewId > 0 && aq != null && aq.get() != null)
-            aq.get().id(viewId).image(result, true, true);
+            aq.get().id(viewId).image(result, true, true, targetWidth, 0, null, 0, 1.0f / 1.0f);
         super.onPostExecute(result);
     }
 }

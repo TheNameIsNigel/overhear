@@ -140,7 +140,8 @@ public class NowPlayingBarFragment extends Fragment {
 					(!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
 							!lastPlayed.get().getArtist().equals(focused.getArtist()))) {
 				Album album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
-                AlbumAdapter.retrieveAlbumArt(getActivity(), new AQuery(getView()), null, album, R.id.playing);
+                AlbumAdapter.retrieveAlbumArt(getActivity(), new AQuery(getView()), null, album, R.id.playing,
+                        getResources().getDimensionPixelSize(R.dimen.now_playing_bar));
 			}
 
 			track.get().setText(focused.getTitle());

@@ -54,7 +54,7 @@ public class ArtistViewer extends Activity {
 			//throw new Error(e.getMessage());
 		}
 		setTitle(artist.getName());
-        ArtistAdapter.retrieveArtistArt(this, new AQuery(this), null, artist, R.id.cover);
+        ArtistAdapter.retrieveArtistArt(this, new AQuery(this), null, artist, R.id.cover, 0);
 	}
 		
 	@Override

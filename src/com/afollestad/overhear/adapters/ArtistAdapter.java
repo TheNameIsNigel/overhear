@@ -32,19 +32,23 @@ public class ArtistAdapter extends SimpleCursorAdapter {
     public final static String ARTIST_IMAGE = "artist_image";
     private AQuery listAq;
 
-    public static void retrieveArtistArt(Activity context, AQuery aq, String url, Artist artist, int viewId) {
+    private static int getTargetWidth(Context context) {
+        return context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
+    }
+
+    public static void retrieveArtistArt(Activity context, AQuery aq, String url, Artist artist, int viewId, int targetWidth) {
         if(url == null) {
             url = MusicUtils.getImageURL(context, artist.getName(), ARTIST_IMAGE);
         }
         if (url == null) {
-            new LastfmGetArtistImage(context, viewId, aq).execute(artist);
+            new LastfmGetArtistImage(context, viewId, aq, targetWidth).execute(artist);
         } else {
             Bitmap bitmap = aq.getCachedImage(url);
             if (bitmap != null) {
                 Log.i("Overhear.ArtistAdapter", "Loading image for " + artist.getName() + " from cache.");
                 aq.id(viewId).image(bitmap);
             } else {
-                aq.id(viewId).image(url, true, true);
+                aq.id(viewId).image(url, true, true, targetWidth, 0, null, 0, AQuery.RATIO_PRESERVE);
             }
         }
     }
@@ -65,10 +69,10 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 
         AQuery aq = listAq.recycle(view);
         String url = MusicUtils.getImageURL(context, artist.getName(), ARTIST_IMAGE);
-        if (aq.shouldDelay(position, convertView, parent, url)) {
+        if (aq.shouldDelay(position, view, parent, url)) {
             aq.id(R.id.image).image((Bitmap)null);
         } else {
-            retrieveArtistArt(context, aq, url, artist, R.id.image);
+            retrieveArtistArt(context, aq, url, artist, R.id.image, getTargetWidth(context));
         }
 
         ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
