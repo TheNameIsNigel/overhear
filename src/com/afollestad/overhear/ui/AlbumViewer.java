@@ -87,7 +87,7 @@ public class AlbumViewer extends Activity {
 		});
 
         AQuery aq = new AQuery(this);
-        ArtistAdapter.retrieveArtistArt(this, aq, null, artist, R.id.artistCover, 0);
+        ArtistAdapter.retrieveArtistArt(this, aq, null, artist, R.id.artistCover, 0, 1.0f / 1.0f);
         AlbumAdapter.retrieveAlbumArt(this, aq, null, album, R.id.albumCover, 0);
 	}
 

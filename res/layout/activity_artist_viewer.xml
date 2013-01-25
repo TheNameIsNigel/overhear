@@ -4,7 +4,7 @@
                 xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView android:id="@+id/cover" android:layout_width="fill_parent"
-                                          android:layout_height="160dp" android:scaleType="centerCrop"/>
+               android:layout_height="@dimen/artist_viewer_header" android:scaleType="centerCrop"/>
     <View android:id="@+id/coverDivider" android:layout_below="@+id/cover"
           android:background="@android:color/holo_blue_light"
           android:layout_width="fill_parent" android:layout_height="2dp"/>

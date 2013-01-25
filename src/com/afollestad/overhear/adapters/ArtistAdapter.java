@@ -36,19 +36,19 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         return context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
     }
 
-    public static void retrieveArtistArt(Activity context, AQuery aq, String url, Artist artist, int viewId, int targetWidth) {
+    public static void retrieveArtistArt(Activity context, AQuery aq, String url, Artist artist, int viewId, int targetWidth, float ratio) {
         if(url == null) {
             url = MusicUtils.getImageURL(context, artist.getName(), ARTIST_IMAGE);
         }
         if (url == null) {
-            new LastfmGetArtistImage(context, viewId, aq, targetWidth).execute(artist);
+            new LastfmGetArtistImage(context, viewId, aq, targetWidth, ratio).execute(artist);
         } else {
             Bitmap bitmap = aq.getCachedImage(url);
             if (bitmap != null) {
                 Log.i("Overhear.ArtistAdapter", "Loading image for " + artist.getName() + " from cache.");
                 aq.id(viewId).image(bitmap);
             } else {
-                aq.id(viewId).image(url, true, true, targetWidth, 0, null, 0, AQuery.RATIO_PRESERVE);
+                aq.id(viewId).image(url, true, true, targetWidth, 0, null, 0, ratio);
             }
         }
     }
@@ -72,7 +72,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         if (aq.shouldDelay(position, view, parent, url)) {
             aq.id(R.id.image).image((Bitmap)null);
         } else {
-            retrieveArtistArt(context, aq, url, artist, R.id.image, getTargetWidth(context));
+            retrieveArtistArt(context, aq, url, artist, R.id.image, getTargetWidth(context), 1.0f / 1.0f);
         }
 
         ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
