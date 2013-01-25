@@ -51,4 +51,7 @@
     <string name="sleep_in_one">Sleep in 1 minute</string>
     <string name="slept_at_str">Slept at {time}</string>
     <string name="sleep_timer_cancelled">Sleep timer cancelled!</string>
+
+    <string name="about_str">About</string>
+    <string name="about_contents_str">Coded by Aidan Follestad (@afollestad). Icon by Nathanel Titane.\n\nFollow Overhear! @OverhearApp</string>
 </resources>

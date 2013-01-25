@@ -3,4 +3,5 @@
     <item android:id="@+id/search" android:title="@string/search_str" android:icon="@drawable/search"
           android:showAsAction="ifRoom"/>
     <item android:id="@+id/tweetPlaying" android:title="@string/tweet_now_playing" />
+    <item android:id="@+id/about" android:title="@string/about_str" />
 </menu>
