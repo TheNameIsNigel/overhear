@@ -1,29 +1,26 @@
 package com.afollestad.overhear.fragments;
 
 import android.app.Activity;
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.adapters.SongAdapter;
-import com.afollestad.overhear.service.MusicService;
-import com.afollestad.overhearapi.Song;
-
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Loader;
+import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ListView;
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.adapters.SongAdapter;
+import com.afollestad.overhear.service.MusicService;
+import com.afollestad.overhearapi.Genre;
+import com.afollestad.overhearapi.Song;
 
 public class SongListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
 	private SongAdapter adapter;
+    private Genre genre;
+
 	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -76,7 +73,7 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 		super.onListItemClick(l, v, position, id);
         adapter.getCursor().moveToPosition(position);
         Song song = Song.fromCursor(adapter.getCursor());
-        performOnClick(getActivity(), song, getScope());
+        performOnClick(getActivity(), song, getScope(song));
 	}
 
     public static void performOnClick(Activity context, Song song, String[] scope) {
@@ -86,7 +83,7 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
                 .putExtra("scope", scope));
     }
 	
-	private String[] getScope() {
+	private String[] getScope(Song genreSong) {
 		String sort = MediaStore.Audio.Media.TITLE;
 		if(getArguments() != null) {
 			sort = MediaStore.Audio.Media.TRACK;
@@ -98,14 +95,24 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 			where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + getArguments().getInt("album_id");
 		} else if(getArguments().containsKey("artist_name")) {
 			where += " AND " + MediaStore.Audio.Media.ARTIST + " = '" + getArguments().getString("artist_name").replace("'", "''") + "'";
-		}
+		} else if(getArguments().containsKey("genre")) {
+            where += " AND " + MediaStore.Audio.Media.ALBUM + " = '" + genreSong.getAlbum().replace("'", "''") + "'";
+        }
 		return new String[] { where, sort };
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-		String[] scope = getScope();
+		Uri uri = null;
+        String[] scope = null;
+        if(getArguments().containsKey("genre")) {
+            genre = Genre.fromJSON(getArguments().getString("genre"));
+            uri = MediaStore.Audio.Genres.Members.getContentUri("external", genre.getId());
+            scope = new String[] { null, null };
+        } else {
+            uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+            scope = getScope(null);
+        }
 		return new CursorLoader(getActivity(), uri, null, scope[0], null, scope[1]);
 	}
 
@@ -114,6 +121,8 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 		if(data == null)
 			return;
 		adapter = new SongAdapter(getActivity(), data, 0);
+        if(getArguments() != null)
+            adapter.setShowArtist(getArguments().getBoolean("show_artist", false));
 		setListAdapter(adapter);
 	}
 

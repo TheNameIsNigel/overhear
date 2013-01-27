@@ -1,11 +1,5 @@
 package com.afollestad.overhear.adapters;
 
-import java.util.ArrayList;
-
-import com.afollestad.overhear.Queue;
-import com.afollestad.overhear.R;
-import com.afollestad.overhearapi.Song;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
@@ -15,13 +9,24 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.afollestad.overhear.Queue;
+import com.afollestad.overhear.R;
+import com.afollestad.overhearapi.Song;
+
+import java.util.ArrayList;
 
 public class SongAdapter extends CursorAdapter {
 
 	public SongAdapter(Context context, Cursor c, int flags) {
 		super(context, c, flags);
 	}
-	
+
+    private boolean showArtist = true;
+
+    public void setShowArtist(boolean show) {
+        showArtist = show;
+    }
+
 	public ArrayList<Song> getSongs() {
 		ArrayList<Song> songs = new ArrayList<Song>();
 		getCursor().moveToFirst();
@@ -37,12 +42,18 @@ public class SongAdapter extends CursorAdapter {
 		return LayoutInflater.from(context).inflate(R.layout.song_item, null);
 	}
 
-    public static View getViewForSong(Context context, Song song, View view) {
+    public static View getViewForSong(Context context, Song song, View view, boolean showArtist) {
         if(view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }
         ((TextView)view.findViewById(R.id.title)).setText(song.getTitle());
-        ((TextView)view.findViewById(R.id.duration)).setText(song.getDurationString());
+        TextView artist = (TextView)view.findViewById(R.id.artist);
+        if(showArtist) {
+            artist.setVisibility(View.VISIBLE);
+            artist.setText(song.getArtist());
+        } else {
+            artist.setVisibility(View.GONE);
+        }
 
         ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
         ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
@@ -74,6 +85,6 @@ public class SongAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		Song song = Song.fromCursor(cursor);
-		getViewForSong(context, song, view);
+		getViewForSong(context, song, view, showArtist);
 	}
 }

@@ -37,6 +37,8 @@
                   android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name="com.afollestad.overhear.ui.SleepTimerViewer" android:label="@string/sleep_timer_str"
                   android:configChanges="keyboardHidden|orientation|screenSize" android:launchMode="singleInstance"/>
+        <activity android:name="com.afollestad.overhear.ui.GenreViewer"
+                  android:configChanges="keyboardHidden|orientation|screenSize"/>
 
 
         <service android:name="com.afollestad.overhear.service.MusicService"

@@ -1,11 +1,9 @@
 package com.afollestad.overhear.fragments;
 
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.adapters.GenreAdapter;
-
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,6 +11,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ListView;
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.adapters.GenreAdapter;
+import com.afollestad.overhear.ui.GenreViewer;
+import com.afollestad.overhearapi.Genre;
 
 public class GenreListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
@@ -42,14 +44,14 @@ public class GenreListFragment extends ListFragment implements LoaderCallbacks<C
 		setEmptyText(getString(R.string.no_genres));
 	}
 
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-//		TODO adapter.getCursor().moveToPosition(position);
-//		Genre genre = Genre.fromCursor(adapter.getCursor());
-//		startActivity(new Intent(getActivity(), GenreViewer.class)
-//		.putExtra("genre", genre.getJSON().toString()));
-	}
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        adapter.getCursor().moveToPosition(position);
+        Genre genre = Genre.fromCursor(adapter.getCursor());
+        startActivity(new Intent(getActivity(), GenreViewer.class)
+                .putExtra("genre", genre.getJSON().toString()));
+    }
 	
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {

@@ -76,6 +76,7 @@ public class ArtistViewer extends Activity {
 				SongListFragment songs = new SongListFragment();
 				Bundle args = new Bundle();
 				args.putString("artist_name", artist.getName());
+                args.putBoolean("show_artist", false);
 				songs.setArguments(args);
 				return songs;
 			}
