@@ -24,389 +24,392 @@ import java.util.Calendar;
 
 public class MusicService extends Service {
 
-	public MusicService() {
-	}
+    public MusicService() {
+    }
 
-	private final IBinder mBinder = new MusicBinder();
-	private boolean hasAudioFocus;
-	private boolean wasPlayingBeforeLoss;
-	private Toast toast;
-	private boolean initialized;
+    private final IBinder mBinder = new MusicBinder();
+    private boolean hasAudioFocus;
+    private boolean wasPlayingBeforeLoss;
+    private Toast toast;
+    private boolean initialized;
 
-	private Notification status;
-	private static MediaPlayer player;	
-	private AudioManager audioManager;
-	private RemoteControlClient mRemoteControlClient;
+    private Notification status;
+    private static MediaPlayer player;
+    private AudioManager audioManager;
+    private RemoteControlClient mRemoteControlClient;
 
-	public AudioManager getAudioManager() {
-		if(audioManager == null) {
-			audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-		}
-		return audioManager;
-	}
-	public MediaPlayer getPlayer(boolean nullIfNotInitialized) {
-		if(player == null && !nullIfNotInitialized) {
-			player = new MediaPlayer();
-			player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-				@Override
-				public void onCompletion(MediaPlayer mp) {
+    public AudioManager getAudioManager() {
+        if (audioManager == null) {
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        }
+        return audioManager;
+    }
+
+    public MediaPlayer getPlayer(boolean nullIfNotInitialized) {
+        if (player == null && !nullIfNotInitialized) {
+            player = new MediaPlayer();
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
                     Toast.makeText(getApplicationContext(), "On completion", Toast.LENGTH_LONG).show();
-					if(!nextTrack()) {
-						getAudioManager().abandonAudioFocus(afl);
-					}
-				}
-			});
-			player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-				@Override
-				public boolean onError(MediaPlayer mp, int what, int extra) {
-					switch(what) {
-					case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
-						player.release();
-						player = null;
-						initialized = false;
-						Toast.makeText(getApplicationContext(), "Media server died", Toast.LENGTH_LONG).show();
-						break;
-					default:
-						if(extra == MediaPlayer.MEDIA_ERROR_IO) {
-							Toast.makeText(getApplicationContext(), "Media player IO error", Toast.LENGTH_LONG).show();
-						} else if(extra == MediaPlayer.MEDIA_ERROR_MALFORMED || extra == MediaPlayer.MEDIA_ERROR_UNSUPPORTED) {
-							Toast.makeText(getApplicationContext(), "Media player malformed or supported error", Toast.LENGTH_LONG).show();
-						} else if(extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT) {
-							Toast.makeText(getApplicationContext(), "Media player timed out", Toast.LENGTH_LONG).show();
-						}
-						break;
-					}
-					return true;
-				}
-			});
-		}
-		return player;
-	}
+                    if (!nextTrack()) {
+                        getAudioManager().abandonAudioFocus(afl);
+                    }
+                }
+            });
+            player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    switch (what) {
+                        case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
+                            player.release();
+                            player = null;
+                            initialized = false;
+                            Toast.makeText(getApplicationContext(), "Media server died", Toast.LENGTH_LONG).show();
+                            break;
+                        default:
+                            if (extra == MediaPlayer.MEDIA_ERROR_IO) {
+                                Toast.makeText(getApplicationContext(), "Media player IO error", Toast.LENGTH_LONG).show();
+                            } else if (extra == MediaPlayer.MEDIA_ERROR_MALFORMED || extra == MediaPlayer.MEDIA_ERROR_UNSUPPORTED) {
+                                Toast.makeText(getApplicationContext(), "Media player malformed or supported error", Toast.LENGTH_LONG).show();
+                            } else if (extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT) {
+                                Toast.makeText(getApplicationContext(), "Media player timed out", Toast.LENGTH_LONG).show();
+                            }
+                            break;
+                    }
+                    return true;
+                }
+            });
+        }
+        return player;
+    }
 
-	private AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {
-		@Override
-		public void onAudioFocusChange(int focusChange) {
-			switch(focusChange) {
-			case AudioManager.AUDIOFOCUS_LOSS:
-				hasAudioFocus = false;
-				getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
-				getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
-				wasPlayingBeforeLoss = isPlaying(); 
-				pauseTrack();
-				break;
-			case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-				hasAudioFocus = false;
-				player.setVolume(0.2f, 0.2f);
-				break;
-			case AudioManager.AUDIOFOCUS_GAIN:
-				hasAudioFocus = true;
-				player.setVolume(1.0f, 1.0f);
-				if(wasPlayingBeforeLoss)
-					resumeTrack();
-				break;
-			}
-		}
-	};
+    private AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    hasAudioFocus = false;
+                    getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
+                    getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
+                    wasPlayingBeforeLoss = isPlaying();
+                    pauseTrack();
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    hasAudioFocus = false;
+                    player.setVolume(0.2f, 0.2f);
+                    break;
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    hasAudioFocus = true;
+                    player.setVolume(1.0f, 1.0f);
+                    if (wasPlayingBeforeLoss)
+                        resumeTrack();
+                    break;
+            }
+        }
+    };
 
-	public final static String PLAYING_STATE_CHANGED = "com.afollestad.overhear.PLAY_STATE_CHANGED";
-	public final static String RECENTS_UPDATED = "com.afollestad.overhear.RECENTS_UPDATED";
+    public final static String PLAYING_STATE_CHANGED = "com.afollestad.overhear.PLAY_STATE_CHANGED";
+    public final static String RECENTS_UPDATED = "com.afollestad.overhear.RECENTS_UPDATED";
 
     public static final String ACTION_SLEEP_TIMER = "com.afollestad.overhear.action.SLEEP_TIMER";
     public static final String ACTION_TOGGLE_PLAYBACK = "com.afollestad.overhear.action.TOGGLE_PLAYBACK";
-	public static final String ACTION_PLAY = "com.afollestad.overhear.action.PLAY";
-	public static final String ACTION_PLAY_ALL = "com.afollestad.overhear.action.PLAY_ALL";
-	public static final String ACTION_PAUSE = "com.afollestad.overhear.action.PAUSE";
-	public static final String ACTION_STOP = "com.afollestad.overhear.action.STOP";
-	public static final String ACTION_SKIP = "com.afollestad.overhear.action.SKIP";
-	public static final String ACTION_REWIND = "com.afollestad.overhear.action.REWIND";
+    public static final String ACTION_PLAY = "com.afollestad.overhear.action.PLAY";
+    public static final String ACTION_PLAY_ALL = "com.afollestad.overhear.action.PLAY_ALL";
+    public static final String ACTION_PAUSE = "com.afollestad.overhear.action.PAUSE";
+    public static final String ACTION_STOP = "com.afollestad.overhear.action.STOP";
+    public static final String ACTION_SKIP = "com.afollestad.overhear.action.SKIP";
+    public static final String ACTION_REWIND = "com.afollestad.overhear.action.REWIND";
 
 
-	private boolean requestAudioFocus() {
-		if(hasAudioFocus) {
-			return true;
-		}
-		int result = getAudioManager().requestAudioFocus(afl, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-		boolean hasFocus = (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
-		Log.i("OVERHEAR SERVICE", "requestAudioFocus() = " + hasFocus);
-		return hasFocus;
-	}
+    private boolean requestAudioFocus() {
+        if (hasAudioFocus) {
+            return true;
+        }
+        int result = getAudioManager().requestAudioFocus(afl, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        boolean hasFocus = (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
+        Log.i("OVERHEAR SERVICE", "requestAudioFocus() = " + hasFocus);
+        return hasFocus;
+    }
 
-	private boolean initializeRemoteControl() {
-		boolean focused = requestAudioFocus();
-		if(focused) {
-			Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-			ComponentName component = new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class);
-			getAudioManager().registerMediaButtonEventReceiver(component);
-			intent.setComponent(component);
-			mRemoteControlClient = new RemoteControlClient(PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0));
-			mRemoteControlClient.setTransportControlFlags(
-					RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
-					RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
-					RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
-					RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS);
-			getAudioManager().registerRemoteControlClient(mRemoteControlClient);
-		}
-		return focused;
-	}
+    private boolean initializeRemoteControl() {
+        boolean focused = requestAudioFocus();
+        if (focused) {
+            Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+            ComponentName component = new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class);
+            getAudioManager().registerMediaButtonEventReceiver(component);
+            intent.setComponent(component);
+            mRemoteControlClient = new RemoteControlClient(PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0));
+            mRemoteControlClient.setTransportControlFlags(
+                    RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
+                            RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
+                            RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
+                            RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS);
+            getAudioManager().registerRemoteControlClient(mRemoteControlClient);
+        }
+        return focused;
+    }
 
-	private void updateRemoteControl(int state) {
-		Song nowPlaying = Queue.getFocused(this);
-		MetadataEditor metadataEditor = mRemoteControlClient
-				.editMetadata(true)
-				.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
-				.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, nowPlaying.getTitle())
-				.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
-		Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
-		try {
+    private void updateRemoteControl(int state) {
+        Song nowPlaying = Queue.getFocused(this);
+        MetadataEditor metadataEditor = mRemoteControlClient
+                .editMetadata(true)
+                .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
+                .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, nowPlaying.getTitle())
+                .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
+        Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
+        try {
             String url = WebArtUtils.getImageURL(this, album);
-            if(url == null) {
+            if (url == null) {
                 url = album.getAlbumArtUri(this).toString();
             }
-            Bitmap art = ((App)getApplication()).getManager().get(url, null);
-			metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, art);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		metadataEditor.apply();
-		mRemoteControlClient.setPlaybackState(state);
-	}
+            Bitmap art = ((App) getApplication()).getManager().get(url, null);
+            metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, art);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        metadataEditor.apply();
+        mRemoteControlClient.setPlaybackState(state);
+    }
 
-	private void initializeMediaPlayer(String source) {
-		MediaPlayer player = getPlayer(false);
-		try {
-			player.reset();
-	        player.setDataSource(source);
-	        player.prepare();
-	        player.start();
-	        initialized = true;
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+    private void initializeMediaPlayer(String source) {
+        MediaPlayer player = getPlayer(false);
+        try {
+            player.reset();
+            player.setDataSource(source);
+            player.prepare();
+            player.start();
+            initialized = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void initializeNotification(Song nowPlaying) {
+    private void initializeNotification(Song nowPlaying) {
         Album album = Album.getAlbum(this, nowPlaying.getAlbum(), nowPlaying.getArtist());
         String url = WebArtUtils.getImageURL(this, album);
-        if(url == null) {
+        if (url == null) {
             url = album.getAlbumArtUri(this).toString();
         }
-        Bitmap art = ((App)getApplication()).getManager().get(url, null);
-		status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
-		startForeground(100, status);
-	}
+        Bitmap art = ((App) getApplication()).getManager().get(url, null);
+        status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
+        startForeground(100, status);
+    }
 
 
-	private void playTrack(Song song) {
-		Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
-		if(!initializeRemoteControl()) {
-			if(toast != null)
-				toast.cancel(); 
-			toast = Toast.makeText(getApplicationContext(), R.string.no_audio_focus, Toast.LENGTH_SHORT);
-			toast.show();
-			return;
-		}
-		Queue.setFocused(this, song, true);
-		Recents.add(getApplicationContext(), song);
-		initializeMediaPlayer(song.getData());
-		initializeNotification(song);
-		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
-	}
+    private void playTrack(Song song) {
+        Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
+        if (!initializeRemoteControl()) {
+            if (toast != null)
+                toast.cancel();
+            toast = Toast.makeText(getApplicationContext(), R.string.no_audio_focus, Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
 
-	private void playAll(Song song, String[] scope) {
-		Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
-		ArrayList<Song> queue = Queue.getQueue(this);
-		if(queue == null || queue.size() == 0 || 
-				(!queue.get(0).getArtist().equals(song.getArtist()) || !queue.get(0).getAlbum().equals(song.getAlbum()))) {
-			queue = Song.getAllFromScope(getApplicationContext(), scope);
-			Queue.setQueue(this, queue);
-		}
-		playTrack(song);
-	}
+        Queue.setFocused(this, song, true);
+        Recents.add(getApplicationContext(), song);
+        initializeMediaPlayer(song.getData());
+        initializeNotification(song);
 
-	private void resumeTrack() {
-		Log.i("OVERHEAR SERVICE", "resumeTrack()");
-		boolean focused = requestAudioFocus();
-		if(!focused) {
-			return;
-		}
-		Song last = Queue.getFocused(this);
-		if(player != null && last != null && initialized) {
-			if(!initializeRemoteControl()) {
-				return;
-			}
-			Queue.setFocused(this, last, true);
-			try {
-				player.start();
-			} catch(IllegalStateException e) {
-				e.printStackTrace();
-				playTrack(last);
-				return;
-			}
-			initializeNotification(last);
-			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
-		} else if(last != null) {
-			Log.i("OVERHEAR SERVICE", "No paused state found");
-			playTrack(last);
-		} else {
-			Log.i("OVERHEAR SERVICE", "No song to resume");
-		}
-	}
+        sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+        updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
+    }
 
-	private void pauseTrack() {
-		Log.i("OVERHEAR SERVICE", "pauseTrack()");
-		Song focused = Queue.getFocused(this);
-		if(mRemoteControlClient != null)
-			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
-		Queue.setFocused(this, focused, false);
-		if(player != null && player.isPlaying()) {
-			player.pause();
-			initializeNotification(focused);
-		} else {
-			stopTrack();
-		}
-		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-	}
+    private void playAll(Song song, String[] scope) {
+        Log.i("OVERHEAR SERVICE", "playAll(" + song.getData() + ") : " + scope[0] + " - " + scope[1]);
+        ArrayList<Song> queue = Queue.getQueue(this);
+        if (queue == null || queue.size() == 0 ||
+                (!queue.get(0).getArtist().equals(song.getArtist()) || !queue.get(0).getAlbum().equals(song.getAlbum()))) {
+            queue = Song.getAllFromScope(getApplicationContext(), scope);
+            Queue.setQueue(this, queue);
+        }
+        playTrack(song);
+    }
 
-	private void stopTrack() {
-		Log.i("OVERHEAR SERVICE", "stopTrack()");
-		if(player != null && player.isPlaying()) {
-			player.stop();
-			player.release();
-			player = null;
-			initialized = false;
-		}
-		if(mRemoteControlClient != null)
-			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
-		getAudioManager().abandonAudioFocus(afl);
-		Queue.clearPlaying(this);
-		stopForeground(true);
-		stopSelf();
-		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-	}
+    private void resumeTrack() {
+        Log.i("OVERHEAR SERVICE", "resumeTrack()");
+        boolean focused = requestAudioFocus();
+        if (!focused) {
+            return;
+        }
+        Song last = Queue.getFocused(this);
+        if (player != null && last != null && initialized) {
+            if (!initializeRemoteControl()) {
+                return;
+            }
+            Queue.setFocused(this, last, true);
+            try {
+                player.start();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+                playTrack(last);
+                return;
+            }
+            initializeNotification(last);
+            sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+            mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+        } else if (last != null) {
+            Log.i("OVERHEAR SERVICE", "No paused state found");
+            playTrack(last);
+        } else {
+            Log.i("OVERHEAR SERVICE", "No song to resume");
+        }
+    }
 
-	private boolean nextTrack() {
-		Log.i("OVERHEAR SERVICE", "nextTrack()"); 
-		if(Queue.increment(this, true)) {
-			playTrack(Queue.getFocused(this));
-		} else {
-			stopTrack();
-			return false;
-		}
-		return true;
-	}
+    private void pauseTrack() {
+        Log.i("OVERHEAR SERVICE", "pauseTrack()");
+        Song focused = Queue.getFocused(this);
+        if (mRemoteControlClient != null)
+            mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
+        Queue.setFocused(this, focused, false);
+        if (player != null && player.isPlaying()) {
+            player.pause();
+            initializeNotification(focused);
+        } else {
+            stopTrack();
+        }
+        sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+    }
 
-	private void previousOrRewind(boolean override) {
-		Log.i("OVERHEAR SERVICE", "previousTrack()");
-		if(player != null && player.getCurrentPosition() > 2000 && !override) {
-			player.seekTo(0);
-			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-		} else {
-			if(Queue.decrement(this, true)) {
-				playTrack(Queue.getFocused(this));
-			} else {
-				stopTrack();
-				return;
-			}
-		}
-	}
+    private void stopTrack() {
+        Log.i("OVERHEAR SERVICE", "stopTrack()");
+        if (player != null && player.isPlaying()) {
+            player.stop();
+            player.release();
+            player = null;
+            initialized = false;
+        }
+        if (mRemoteControlClient != null)
+            mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
+        getAudioManager().abandonAudioFocus(afl);
+        Queue.clearPlaying(this);
+        stopForeground(true);
+        stopSelf();
+        sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+    }
 
-	public boolean isPlaying() {
-		return player != null && player.isPlaying();
-	}
+    private boolean nextTrack() {
+        Log.i("OVERHEAR SERVICE", "nextTrack()");
+        if (Queue.increment(this, true)) {
+            playTrack(Queue.getFocused(this));
+        } else {
+            stopTrack();
+            return false;
+        }
+        return true;
+    }
 
-	public boolean isPlayerInitialized() {
-		return initialized;
-	}
-	
+    private void previousOrRewind(boolean override) {
+        Log.i("OVERHEAR SERVICE", "previousTrack()");
+        if (player != null && player.getCurrentPosition() > 2000 && !override) {
+            player.seekTo(0);
+            sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
+        } else {
+            if (Queue.decrement(this, true)) {
+                playTrack(Queue.getFocused(this));
+            } else {
+                stopTrack();
+                return;
+            }
+        }
+    }
 
-	public class MusicBinder extends Binder {
-		public MusicService getService() {
-			return MusicService.this;
-		}
-	}
+    public boolean isPlaying() {
+        return player != null && player.isPlaying();
+    }
 
-	private BroadcastReceiver receiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if(intent.getAction().equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
-				pauseTrack();
-			}
-		}
-	};
+    public boolean isPlayerInitialized() {
+        return initialized;
+    }
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		registerReceiver(receiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
-		player = new MediaPlayer();	
-	}
 
-	@Override
-	public IBinder onBind(Intent intent) {
-		return mBinder;
-	}
+    public class MusicBinder extends Binder {
+        public MusicService getService() {
+            return MusicService.this;
+        }
+    }
 
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		super.onStartCommand(intent, flags, startId);
-		if(intent == null || intent.getAction() == null) {
-			return START_STICKY;
-		}
-		String action = intent.getAction();
-		if(action.equals(ACTION_PLAY)) {
-			if(intent.hasExtra("song")) {
-				playTrack(Song.fromJSON(intent.getStringExtra("song")));
-			} else {
-				resumeTrack();
-			}
-		} else if(action.equals(ACTION_PLAY_ALL)) {
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
+                pauseTrack();
+            }
+        }
+    };
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        registerReceiver(receiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
+        player = new MediaPlayer();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        if (intent == null || intent.getAction() == null) {
+            return START_STICKY;
+        }
+        String action = intent.getAction();
+        if (action.equals(ACTION_PLAY)) {
+            if (intent.hasExtra("song")) {
+                playTrack(Song.fromJSON(intent.getStringExtra("song")));
+            } else {
+                resumeTrack();
+            }
+        } else if (action.equals(ACTION_PLAY_ALL)) {
             Song song = Song.fromJSON(intent.getStringExtra("song"));
             String[] scope = intent.getStringArrayExtra("scope");
-            if(scope == null) {
-                scope = new String[] {
-                    MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " + MediaStore.Audio.Media.ALBUM + " = '" + song.getAlbum().replace("'", "''") + "'",
-                    MediaStore.Audio.Media.TRACK
+            if (scope == null) {
+                scope = new String[]{
+                        MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " + MediaStore.Audio.Media.ALBUM + " = '" + song.getAlbum().replace("'", "''") + "'",
+                        MediaStore.Audio.Media.TRACK
                 };
             }
-			playAll(song, scope);
-		} else if(action.equals(ACTION_PAUSE)) {
-			pauseTrack();
-        } else if(action.equals(ACTION_SLEEP_TIMER)) {
+            playAll(song, scope);
+        } else if (action.equals(ACTION_PAUSE)) {
+            pauseTrack();
+        } else if (action.equals(ACTION_SLEEP_TIMER)) {
             long scheduledTime = SleepTimer.getScheduledTime(this).getTimeInMillis();
-            if(Calendar.getInstance().getTimeInMillis() < scheduledTime) {
+            if (Calendar.getInstance().getTimeInMillis() < scheduledTime) {
                 return START_STICKY;
             }
             pauseTrack();
-		} else if(action.equals(ACTION_SKIP)) {
-			nextTrack();
-		} else if(action.equals(ACTION_REWIND)) {
-			previousOrRewind(intent.getBooleanExtra("override", false));
-		} else if(action.equals(ACTION_STOP)) {
-			stopTrack();
-		} else if(action.equals(ACTION_TOGGLE_PLAYBACK)) {
-			if(isPlaying()) {
-				pauseTrack();
-			} else {
-				resumeTrack();
-			}
-		}
-		return START_STICKY;
-	}
+        } else if (action.equals(ACTION_SKIP)) {
+            nextTrack();
+        } else if (action.equals(ACTION_REWIND)) {
+            previousOrRewind(intent.getBooleanExtra("override", false));
+        } else if (action.equals(ACTION_STOP)) {
+            stopTrack();
+        } else if (action.equals(ACTION_TOGGLE_PLAYBACK)) {
+            if (isPlaying()) {
+                pauseTrack();
+            } else {
+                resumeTrack();
+            }
+        }
+        return START_STICKY;
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if(player != null && player.isPlaying()) {
-			player.stop();
-			player.release();
-			player = null;
-		}
-		initialized = false;
-		unregisterReceiver(receiver);
-		getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
-		getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (player != null && player.isPlaying()) {
+            player.stop();
+            player.release();
+            player = null;
+        }
+        initialized = false;
+        unregisterReceiver(receiver);
+        getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
+        getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
+    }
 }

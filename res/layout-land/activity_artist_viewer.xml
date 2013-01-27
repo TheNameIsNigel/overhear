@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent" android:layout_height="wrap_content"
+                xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v4.view.ViewPager
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/pager" android:layout_width="match_parent"
+            android:layout_above="@+id/nowPlaying"
+            android:layout_height="match_parent" tools:context=".ArtistViewer">
+
+        <android.support.v4.view.PagerTitleStrip
+                android:id="@+id/pager_title_strip" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_gravity="top"
+                android:background="#33b5e5" android:paddingBottom="4dp"
+                android:paddingTop="4dp" android:textColor="#fff"/>
+
+    </android.support.v4.view.ViewPager>
+
+    <fragment
+            android:id="@+id/nowPlaying"
+            android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            tools:layout="@layout/now_playing_bar"/>
+
+</RelativeLayout>

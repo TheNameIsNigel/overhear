@@ -15,6 +15,7 @@
     <dimen name="now_playing_button">45dp</dimen>
     
     <dimen name="now_playing_screen_cover">360dp</dimen>
+    <dimen name="now_playing_screen_cover_land">220dp</dimen>
     <dimen name="now_playing_screen_control">60dp</dimen>
     <dimen name="now_playing_screen_controls_width">220dp</dimen>
 
