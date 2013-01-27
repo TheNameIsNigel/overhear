@@ -70,7 +70,7 @@ public class MusicService extends Service {
                             break;
                         default:
                             if (extra == MediaPlayer.MEDIA_ERROR_IO) {
-                                Toast.makeText(getApplicationContext(), "Media player IO error", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Media player I/O error", Toast.LENGTH_LONG).show();
                             } else if (extra == MediaPlayer.MEDIA_ERROR_MALFORMED || extra == MediaPlayer.MEDIA_ERROR_UNSUPPORTED) {
                                 Toast.makeText(getApplicationContext(), "Media player malformed or supported error", Toast.LENGTH_LONG).show();
                             } else if (extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT) {
@@ -230,10 +230,6 @@ public class MusicService extends Service {
 
     private void resumeTrack() {
         Log.i("OVERHEAR SERVICE", "resumeTrack()");
-        boolean focused = requestAudioFocus();
-        if (!focused) {
-            return;
-        }
         Song last = Queue.getFocused(this);
         if (player != null && last != null && initialized) {
             if (!initializeRemoteControl()) {
@@ -401,7 +397,7 @@ public class MusicService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        Log.i("MusicService", "onDestroy()");
         if (player != null && player.isPlaying()) {
             player.stop();
             player.release();
@@ -411,5 +407,6 @@ public class MusicService extends Service {
         unregisterReceiver(receiver);
         getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
         getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
+        super.onDestroy();
     }
 }
