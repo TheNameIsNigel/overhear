@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
@@ -16,7 +17,6 @@ import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Artist;
-import com.androidquery.AQuery;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,7 +54,7 @@ public class ArtistViewer extends Activity {
 			//throw new Error(e.getMessage());
 		}
 		setTitle(artist.getName());
-        ArtistAdapter.retrieveArtistArt(this, new AQuery(this), null, artist, R.id.cover, 0, AQuery.ANCHOR_DYNAMIC);
+        ArtistAdapter.retrieveArtistArt(this, artist, (AImageView)findViewById(R.id.cover));
 	}
 		
 	@Override

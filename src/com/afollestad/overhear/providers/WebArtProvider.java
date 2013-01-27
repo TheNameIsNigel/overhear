@@ -1,22 +1,31 @@
 package com.afollestad.overhear.providers;
 
-import com.afollestad.overhearapi.Song;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
+import com.afollestad.overhearapi.WebArt;
 
-public class QueueProvider extends ContentProvider {
+public class WebArtProvider extends ContentProvider {
 
     private SQLiteOpenHelper mOpenHelper;
     private static final String DBNAME = "overhear";
-    private static final String TABLE_QUEUE = "queue";
+    private static final String ALBUM_ART = "album_art";
+    private static final String ARTIST_ART = "artist_art";
     private SQLiteDatabase db;
-    
+
+    private static UriMatcher sUriMatcher;
+
+    static {
+        sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        sUriMatcher.addURI("com.afollestad.overhear.webartprovider", "albums", 1);
+        sUriMatcher.addURI("com.afollestad.overhear.webartprovider", "artists", 2);
+    }
+
     @Override
 	public boolean onCreate() {
     	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, 1) {
@@ -27,14 +36,17 @@ public class QueueProvider extends ContentProvider {
 				if(newVersion <= oldVersion) {
 					return;
 				}
-				Log.i("OVERHEAR QueueProvider", "Upgrading database from version " + oldVersion +
+				Log.i("OVERHEAR WebArtProvider", "Upgrading database from version " + oldVersion +
 						" to " + newVersion + ", which will destroy all old data");
-				db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUEUE);
+				db.execSQL("DROP TABLE IF EXISTS " + ALBUM_ART);
+                db.execSQL("DROP TABLE IF EXISTS " + ARTIST_ART);
 				onCreate(db);
 			}
     	};
+
     	db = mOpenHelper.getWritableDatabase();
-    	db.execSQL(Song.getCreateTableStatement(TABLE_QUEUE));
+    	db.execSQL(WebArt.getCreateTableStatement(ALBUM_ART));
+        db.execSQL(WebArt.getCreateTableStatement(ARTIST_ART));
     	return true;
 	}
 
@@ -45,13 +57,24 @@ public class QueueProvider extends ContentProvider {
 	public String getType(Uri uri) {
 		return null;
 	}
-	
+
+    private String chooseTable(Uri uri) {
+        switch (sUriMatcher.match(uri)) {
+            case 1:
+                return ALBUM_ART;
+            case 2:
+                return ARTIST_ART;
+            default:
+                throw new IllegalArgumentException("Invalid web art provider table found in the URI " + uri.toString());
+        }
+    }
+
 	/**
 	 * The URI is ignored, for now.
 	 */
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		return db.query(TABLE_QUEUE, projection, selection, selectionArgs, null, null, sortOrder);
+		return db.query(chooseTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
 	}
 	
 	/**
@@ -59,7 +82,7 @@ public class QueueProvider extends ContentProvider {
 	 */
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		return db.update(TABLE_QUEUE, values, selection, selectionArgs);
+		return db.update(chooseTable(uri), values, selection, selectionArgs);
 	}
 	
 	/**
@@ -67,7 +90,7 @@ public class QueueProvider extends ContentProvider {
 	 */
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		db.insert(TABLE_QUEUE, null, values);
+		db.insert(chooseTable(uri), null, values);
 		return null;
 	}
 	
@@ -76,6 +99,6 @@ public class QueueProvider extends ContentProvider {
 	 */
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		return db.delete(TABLE_QUEUE, selection, selectionArgs);
+		return db.delete(chooseTable(uri), selection, selectionArgs);
 	}
 }

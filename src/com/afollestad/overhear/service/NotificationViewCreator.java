@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.widget.RemoteViews;
-
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhearapi.Song;
@@ -17,7 +16,7 @@ import com.afollestad.overhearapi.Song;
 public class NotificationViewCreator {
 
 	@SuppressWarnings("deprecation")
-	public static Notification createNotification(Context context, Song nowPlaying, Bitmap art, boolean playing) {
+    public static Notification createNotification(Context context, Song nowPlaying, Bitmap art, boolean playing) {
 		Notification.Builder builder = new Notification.Builder(context);
 		builder.setContent(createView(context, false, nowPlaying, art, playing));
 		builder.setOngoing(true);

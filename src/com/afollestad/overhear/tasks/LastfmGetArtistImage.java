@@ -3,27 +3,25 @@ package com.afollestad.overhear.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.afollestad.aimage.views.AImageView;
+import com.afollestad.overhear.App;
 import com.afollestad.overhear.MusicUtils;
-import com.afollestad.overhear.adapters.ArtistAdapter;
+import com.afollestad.overhear.WebArtUtils;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
-import com.androidquery.AQuery;
 
 import java.lang.ref.WeakReference;
 
 public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
 
     private WeakReference<Activity> context;
-    private int viewId;
-    private WeakReference<AQuery> aq;
-    private int targetWidth;
-    private float ratio;
+    private WeakReference<AImageView> view;
+    private String tag;
 
-    public LastfmGetArtistImage(Activity context, int viewId, AQuery aq, int targetWidth, float ratio) {
+    public LastfmGetArtistImage(Activity context, AImageView view) {
         this.context = new WeakReference<Activity>(context);
-        this.viewId = viewId;
-        this.aq = new WeakReference<AQuery>(aq);
-        this.targetWidth = targetWidth;
+        this.view = new WeakReference<AImageView>(view);
+        this.tag = (String)view.getTag();
     }
 
     @Override
@@ -33,21 +31,20 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
             try {
                 Log.i("Overhear", "Getting artist information from LastFM for: " + arts[0].getName());
                 url = LastFM.getArtistInfo(arts[0].getName()).getBioImageURL();
-                MusicUtils.setImageURL(context.get(), arts[0].getName(), url, ArtistAdapter.ARTIST_IMAGE);
+                WebArtUtils.setImageURL(context.get(), arts[0], url);
                 return url;
             } catch (Exception e) {
-                return null;
+                e.printStackTrace();;
             }
-        } else {
-            url = MusicUtils.getImageURL(context.get(), arts[0].getName(), ArtistAdapter.ARTIST_IMAGE);
         }
         return url;
     }
 
     @Override
     protected void onPostExecute(String result) {
-        if(viewId > 0 && aq != null && aq.get() != null)
-            aq.get().id(viewId).image(result, true, true, targetWidth, 0, null, 0, ratio);
+        if(view != null && view.get() != null && result != null && (tag == null || tag.equals(view.get().getTag()))) {
+            view.get().setAImageSource(((App)context.get().getApplication()).getManager(), result);
+        }
         super.onPostExecute(result);
     }
 }

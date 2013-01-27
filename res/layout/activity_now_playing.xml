@@ -4,10 +4,10 @@
                 android:layout_height="fill_parent" android:orientation="vertical"
                 tools:context=".NowPlayingViewer">
 
-    <ImageView android:id="@+id/cover"
-                                          android:layout_alignParentTop="true" android:layout_width="fill_parent"
-                                          android:layout_height="@dimen/now_playing_screen_cover"
-                                          android:scaleType="fitXY"/>
+    <com.afollestad.aimage.views.AImageView android:id="@+id/cover"
+               android:layout_alignParentTop="true" android:layout_width="fill_parent"
+               android:layout_height="@dimen/now_playing_screen_cover"
+               android:scaleType="fitXY"/>
 
     <LinearLayout android:id="@+id/nonControls"
                   android:layout_below="@+id/cover" android:layout_alignParentBottom="true"

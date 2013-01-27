@@ -16,7 +16,6 @@ import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.ArtistListFragment;
 import com.afollestad.overhear.fragments.GenreListFragment;
 import com.afollestad.overhear.fragments.RecentsListFragment;
-import com.androidquery.util.AQUtility;
 
 import java.util.Locale;
 
@@ -44,7 +43,6 @@ public class OverviewScreen extends Activity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setCurrentItem(2);
-        AQUtility.setCacheDir(getExternalCacheDir());
     }
 
     @Override

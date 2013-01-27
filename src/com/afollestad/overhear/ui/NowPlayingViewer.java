@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
@@ -26,7 +27,6 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.service.MusicService.MusicBinder;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
-import com.androidquery.AQuery;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -299,7 +299,7 @@ public class NowPlayingViewer extends Activity {
 	public void load() {
 		song = Queue.getFocused(this);
 		album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
-        AlbumAdapter.retrieveAlbumArt(this, new AQuery(this), null, album, R.id.cover, 0);
+        AlbumAdapter.retrieveAlbumArt(this, album, (AImageView)findViewById(R.id.cover));
 		((TextView)findViewById(R.id.track)).setText(song.getTitle());
 		((TextView)findViewById(R.id.artistAlbum)).setText(song.getArtist() + " - " + album.getName());
 	}

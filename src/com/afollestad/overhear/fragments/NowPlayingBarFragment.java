@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
@@ -18,7 +19,6 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
-import com.androidquery.AQuery;
 
 import java.lang.ref.WeakReference;
 
@@ -37,6 +37,7 @@ public class NowPlayingBarFragment extends Fragment {
 	};
 
 	private WeakReference<View> viewPlaying;
+    private WeakReference<AImageView> playing;
 	private WeakReference<ImageView> playPause;
 	private WeakReference<ImageView> previous;
 	private WeakReference<ImageView> next;
@@ -73,6 +74,7 @@ public class NowPlayingBarFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+        playing = new WeakReference<AImageView>((AImageView)view.findViewById(R.id.playing));
 		viewPlaying = new WeakReference<View>(view.findViewById(R.id.viewPlaying));
 		playPause = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.play));
 		previous = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.previous));
@@ -140,8 +142,7 @@ public class NowPlayingBarFragment extends Fragment {
 					(!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
 							!lastPlayed.get().getArtist().equals(focused.getArtist()))) {
 				Album album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
-                AlbumAdapter.retrieveAlbumArt(getActivity(), new AQuery(getView()), null, album, R.id.playing,
-                        getResources().getDimensionPixelSize(R.dimen.now_playing_bar));
+                AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
 			}
 
 			track.get().setText(focused.getTitle());

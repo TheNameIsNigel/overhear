@@ -3,53 +3,38 @@ package com.afollestad.overhear.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import com.afollestad.overhear.MusicUtils;
+import com.afollestad.aimage.views.AImageView;
+import com.afollestad.overhear.App;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.WebArtUtils;
 import com.afollestad.overhear.tasks.LastfmGetArtistImage;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Song;
-import com.androidquery.AQuery;
 
 public class ArtistAdapter extends SimpleCursorAdapter {
 
     public ArtistAdapter(Activity context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
         this.context = context;
-        this.listAq = new AQuery(context);
     }
 
     private Activity context;
-    public final static String ARTIST_IMAGE = "artist_image";
-    private AQuery listAq;
 
-    private static int getTargetWidth(Context context) {
-        return context.getResources().getDimensionPixelSize(R.dimen.gridview_image);
-    }
-
-    public static void retrieveArtistArt(Activity context, AQuery aq, String url, Artist artist, int viewId, int targetWidth, float ratio) {
-        if(url == null) {
-            url = MusicUtils.getImageURL(context, artist.getName(), ARTIST_IMAGE);
-        }
+    public static void retrieveArtistArt(Activity context, Artist artist, AImageView view) {
+        view.setImageBitmap(null);
+        String url = WebArtUtils.getImageURL(context, artist);
         if (url == null) {
-            new LastfmGetArtistImage(context, viewId, aq, targetWidth, ratio).execute(artist);
+            new LastfmGetArtistImage(context, view).execute(artist);
         } else {
-            Bitmap bitmap = aq.getCachedImage(url);
-            if (bitmap != null) {
-                Log.i("Overhear.ArtistAdapter", "Loading image for " + artist.getName() + " from cache.");
-                aq.id(viewId).image(bitmap);
-            } else {
-                aq.id(viewId).image(url, true, true, targetWidth, 0, null, 0, ratio);
-            }
+            view.setAImageSource(((App) context.getApplication()).getManager(), url);
         }
     }
 
@@ -67,13 +52,9 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         Artist artist = Artist.fromCursor(getCursor());
         ((TextView) view.findViewById(R.id.title)).setText(artist.getName());
 
-        AQuery aq = listAq.recycle(view);
-        String url = MusicUtils.getImageURL(context, artist.getName(), ARTIST_IMAGE);
-        if (aq.shouldDelay(position, view, parent, url)) {
-            aq.id(R.id.image).image((Bitmap)null);
-        } else {
-            retrieveArtistArt(context, aq, url, artist, R.id.image, getTargetWidth(context), 1.0f / 1.0f);
-        }
+        AImageView image = (AImageView)view.findViewById(R.id.image);
+        image.setTag(artist.getName());
+        retrieveArtistArt(context, artist, image);
 
         ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
         ImageView peakTwo = (ImageView) view.findViewById(R.id.peak_two);

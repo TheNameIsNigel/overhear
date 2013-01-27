@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
@@ -16,7 +17,6 @@ import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
-import com.androidquery.AQuery;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,9 +86,8 @@ public class AlbumViewer extends Activity {
 			}
 		});
 
-        AQuery aq = new AQuery(this);
-        ArtistAdapter.retrieveArtistArt(this, aq, null, artist, R.id.artistCover, 0, 1.0f / 1.0f);
-        AlbumAdapter.retrieveAlbumArt(this, aq, null, album, R.id.albumCover, 0);
+        ArtistAdapter.retrieveArtistArt(this, artist, (AImageView)findViewById(R.id.artistCover));
+        AlbumAdapter.retrieveAlbumArt(this, album, (AImageView)findViewById(R.id.albumCover));
 	}
 
 	@Override

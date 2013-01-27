@@ -16,10 +16,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 import com.afollestad.overhear.*;
-import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
-import com.androidquery.AQuery;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -161,8 +159,11 @@ public class MusicService extends Service {
 				.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
 		Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
 		try {
-            String url = MusicUtils.getImageURL(this, album.getName() + ":" + album.getArtist().getName(), AlbumAdapter.ALBUM_IMAGE);
-            Bitmap art = new AQuery(this).getCachedImage(url);
+            String url = WebArtUtils.getImageURL(this, album);
+            if(url == null) {
+                url = album.getAlbumArtUri(this).toString();
+            }
+            Bitmap art = ((App)getApplication()).getManager().get(url, null);
 			metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, art);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -185,8 +186,12 @@ public class MusicService extends Service {
 	}
 
 	private void initializeNotification(Song nowPlaying) {
-		String url = MusicUtils.getImageURL(this, nowPlaying.getAlbum() + ":" + nowPlaying.getArtist(), AlbumAdapter.ALBUM_IMAGE);
-        Bitmap art = new AQuery(this).getCachedImage(url);
+        Album album = Album.getAlbum(this, nowPlaying.getAlbum(), nowPlaying.getArtist());
+        String url = WebArtUtils.getImageURL(this, album);
+        if(url == null) {
+            url = album.getAlbumArtUri(this).toString();
+        }
+        Bitmap art = ((App)getApplication()).getManager().get(url, null);
 		status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
 		startForeground(100, status);
 	}

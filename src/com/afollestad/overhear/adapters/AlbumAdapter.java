@@ -3,34 +3,30 @@ package com.afollestad.overhear.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import com.afollestad.overhear.MusicUtils;
+import com.afollestad.aimage.views.AImageView;
+import com.afollestad.overhear.App;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.WebArtUtils;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
-import com.androidquery.AQuery;
 
 public class AlbumAdapter extends SimpleCursorAdapter {
 
 	public AlbumAdapter(Activity context, int layout, Cursor c, String[] from, int[] to, int flags) {
 		super(context, layout, c, from, to, flags);
 		this.context = context;
-        this.listAq = new AQuery(context);
 	}
 
-    private AQuery listAq;
 	private Activity context;
-	public final static String ALBUM_IMAGE = "album_image";
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -41,41 +37,25 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         return context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
     }
 
-    public static void retrieveAlbumArt(Activity context, AQuery aq, String url, Album album, int viewId, int targetWidth) {
-        if(url == null) {
-            url = MusicUtils.getImageURL(context, album.getName() + ":" + album.getArtist().getName(), ALBUM_IMAGE);
-        }
+    public static void retrieveAlbumArt(Activity context, Album album, AImageView view) {
+        view.setImageBitmap(null);
+        String url = WebArtUtils.getImageURL(context, album);
         if (url == null) {
-            new LastfmGetAlbumImage(context, viewId, aq, targetWidth).execute(album);
+            new LastfmGetAlbumImage(context, view).execute(album);
         } else {
-            Bitmap bitmap = aq.getCachedImage(url);
-            if (bitmap != null) {
-                Log.i("Overhear.AlbumAdapter", "Loading image for " + album.getName() + " (" + album.getArtist().getName() + ") from cache.");
-                aq.id(viewId).image(bitmap);
-            } else {
-                aq.id(viewId).image(url, true, true, targetWidth, 0, null, 0, 1.0f / 1.0f);
-            }
+            view.setAImageSource(((App) context.getApplication()).getManager(), url);
         }
     }
 
-    public static View getViewForAlbum(Activity context, Album album, View view, int position, ViewGroup parent, AQuery listAq) {
+    public static View getViewForAlbum(Activity context, Album album, View view) {
         if(view == null)
             view = LayoutInflater.from(context).inflate(R.layout.album_item, null);
         ((TextView)view.findViewById(R.id.title)).setText(album.getName());
         ((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 
-        AQuery aq = null;
-        if(listAq != null) {
-            aq = listAq.recycle(view);
-        } else {
-            aq = new AQuery(context);
-        }
-        String url = MusicUtils.getImageURL(context, album.getName() + ":" + album.getArtist().getName(), ALBUM_IMAGE);
-        if (aq.shouldDelay(position, view, parent, url)) {
-            aq.id(R.id.image).image((Bitmap)null);
-        } else {
-            retrieveAlbumArt(context, aq, url, album, R.id.image, getTargetWidth(context));
-        }
+        AImageView image =(AImageView)view.findViewById(R.id.image);
+        image.setTag(album.getName() + ":" + album.getArtist().getName());
+        retrieveAlbumArt(context, album, image);
 
         ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
         ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
@@ -113,7 +93,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         }
 
         Album album = Album.fromCursor(context, getCursor());
-        view = getViewForAlbum(context, album, view, position, parent, listAq);
+        view = getViewForAlbum(context, album, view);
 
 		int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
 		if(position == 0) {
