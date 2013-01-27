@@ -54,7 +54,6 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         ((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 
         AImageView image =(AImageView)view.findViewById(R.id.image);
-        image.setTag(album.getName() + ":" + album.getArtist().getName());
         retrieveAlbumArt(context, album, image);
 
         ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);

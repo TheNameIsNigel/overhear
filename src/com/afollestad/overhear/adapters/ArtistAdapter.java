@@ -53,7 +53,6 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         ((TextView) view.findViewById(R.id.title)).setText(artist.getName());
 
         AImageView image = (AImageView)view.findViewById(R.id.image);
-        image.setTag(artist.getName());
         retrieveArtistArt(context, artist, image);
 
         ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);

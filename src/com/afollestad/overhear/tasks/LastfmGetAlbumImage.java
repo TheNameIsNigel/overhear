@@ -16,12 +16,14 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
 
     private WeakReference<Activity> context;
     private WeakReference<AImageView> view;
-    private String tag;
    
     public LastfmGetAlbumImage(Activity context, AImageView view) {
         this.context = new WeakReference<Activity>(context);
         this.view = new WeakReference<AImageView>(view);
-        this.tag = (String)view.getTag();
+        if(view.getTag() != null) {
+            ((LastfmGetAlbumImage)view.getTag()).cancel(true);
+        }
+        view.setTag(this);
     }
 
     @Override
@@ -45,7 +47,11 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if(view != null && view.get() != null && result != null && (tag == null || tag.equals(view.get().getTag()))) {
+        if(view == null && view.get() == null) {
+            return;
+        } else if(view.get().getTag() != null && view.get().getTag() != this) {
+            return;
+        } else if(result != null) {
             view.get().setAImageSource(((App)context.get().getApplication()).getManager(), result);
         }
         super.onPostExecute(result);
