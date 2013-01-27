@@ -34,7 +34,7 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
                 WebArtUtils.setImageURL(context.get(), arts[0], url);
                 return url;
             } catch (Exception e) {
-                e.printStackTrace();;
+                e.printStackTrace();
             }
         }
         return url;
