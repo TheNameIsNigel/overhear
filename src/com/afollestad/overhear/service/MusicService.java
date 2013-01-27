@@ -210,7 +210,6 @@ public class MusicService extends Service {
 		Recents.add(getApplicationContext(), song);
 		initializeMediaPlayer(song.getData());
 		initializeNotification(song);
-		sendBroadcast(new Intent(RECENTS_UPDATED));
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING);
 	}

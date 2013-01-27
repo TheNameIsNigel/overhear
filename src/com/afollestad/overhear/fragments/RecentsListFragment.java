@@ -27,7 +27,7 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-        	getLoaderManager().initLoader(0, null, RecentsListFragment.this);
+            getLoaderManager().restartLoader(0, null, RecentsListFragment.this);
         }
     };
 	
@@ -39,6 +39,13 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 	}
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(0, null, RecentsListFragment.this);
+    }
 
 	@Override
 	public void onStart() {

@@ -1,11 +1,12 @@
 package com.afollestad.overhear;
 
-import com.afollestad.overhearapi.Album;
-import com.afollestad.overhearapi.Song;
-
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import com.afollestad.overhear.service.MusicService;
+import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Song;
 
 /**
  * Various utilities for modifying the recent history.
@@ -25,5 +26,6 @@ public class Recents {
 		if(updated == 0) {
 			context.getContentResolver().insert(PROVIDER_URI, values);
 		}
+        context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
 	}
 }
