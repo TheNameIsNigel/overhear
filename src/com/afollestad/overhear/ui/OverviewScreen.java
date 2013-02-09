@@ -78,7 +78,7 @@ public class OverviewScreen extends Activity {
         AlertDialog.Builder diag = new AlertDialog.Builder(this);
         diag.setTitle(R.string.about_str);
         diag.setMessage(R.string.about_contents_str);
-        diag.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+        diag.setNegativeButton(R.string.close_str, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 dialog.dismiss();

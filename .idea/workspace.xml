@@ -71,7 +71,7 @@
     <file path="$PROJECT_DIR$/../Temp/src/com/afollestad/temp/Program.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358903270138" ignored="false" />
     <file path="/now_playing_bar.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359234157979" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359429974968" ignored="false" />
-    <file path="/strings.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360444453051" ignored="false" />
+    <file path="/strings.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360444960880" ignored="false" />
     <file path="/Overhear.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358907405659" ignored="false" />
     <file path="/LastfmGetAlbumImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360443960077" ignored="false" />
     <file path="/LastfmGetArtistImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360443901122" ignored="false" />
@@ -85,7 +85,7 @@
     <file path="/AlbumViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359315693509" ignored="false" />
     <file path="/TaggedFragmentAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358908997002" ignored="false" />
     <file path="/TweetNowPlaying.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358983039400" ignored="false" />
-    <file path="/OverviewScreen.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360444620541" ignored="false" />
+    <file path="/OverviewScreen.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360444969927" ignored="false" />
     <file path="/SearchAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358985737339" ignored="false" />
     <file path="/NotificationViewCreator.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359230886173" ignored="false" />
     <file path="/Album.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358986522176" ignored="false" />
@@ -225,16 +225,16 @@
       <file leaf-file-name="OverviewScreen.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="65" selection-start="3442" selection-end="3442" vertical-scroll-proportion="0.94265234">
+            <state line="80" column="49" selection-start="2903" selection-end="2903" vertical-scroll-proportion="0.6272401">
               <folding>
                 <element signature="method#onActivityResult#0;class#OverviewScreen#0" expanded="false" />
                 <element signature="method#onCreate#0;class#OverviewScreen#0" expanded="false" />
                 <element signature="method#onCreateOptionsMenu#0;class#OverviewScreen#0" expanded="false" />
                 <element signature="method#onOptionsItemSelected#0;class#OverviewScreen#0" expanded="false" />
-                <element signature="e#2906#3090#0" expanded="true" />
-                <element signature="e#3079#3080#0" expanded="true" />
-                <element signature="e#3146#3471#0" expanded="true" />
-                <element signature="e#3460#3461#0" expanded="true" />
+                <element signature="e#2905#3089#0" expanded="true" />
+                <element signature="e#3078#3079#0" expanded="true" />
+                <element signature="e#3145#3470#0" expanded="true" />
+                <element signature="e#3459#3460#0" expanded="true" />
                 <element signature="class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
                 <element signature="method#SectionsPagerAdapter#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
                 <element signature="method#getItem#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
@@ -805,23 +805,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="18" selection-start="2892" selection-end="2892" vertical-scroll-proportion="0.86972475">
+        <state line="56" column="23" selection-start="2897" selection-end="2897" vertical-scroll-proportion="0.7944954">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="65" selection-start="3442" selection-end="3442" vertical-scroll-proportion="0.94265234">
+        <state line="80" column="49" selection-start="2903" selection-end="2903" vertical-scroll-proportion="0.6272401">
           <folding>
             <element signature="method#onActivityResult#0;class#OverviewScreen#0" expanded="false" />
             <element signature="method#onCreate#0;class#OverviewScreen#0" expanded="false" />
             <element signature="method#onCreateOptionsMenu#0;class#OverviewScreen#0" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#OverviewScreen#0" expanded="false" />
-            <element signature="e#2906#3090#0" expanded="true" />
-            <element signature="e#3079#3080#0" expanded="true" />
-            <element signature="e#3146#3471#0" expanded="true" />
-            <element signature="e#3460#3461#0" expanded="true" />
+            <element signature="e#2905#3089#0" expanded="true" />
+            <element signature="e#3078#3079#0" expanded="true" />
+            <element signature="e#3145#3470#0" expanded="true" />
+            <element signature="e#3459#3460#0" expanded="true" />
             <element signature="class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
             <element signature="method#SectionsPagerAdapter#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
             <element signature="method#getItem#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
