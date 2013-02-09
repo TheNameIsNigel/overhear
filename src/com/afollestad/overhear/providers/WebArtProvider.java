@@ -50,9 +50,6 @@ public class WebArtProvider extends ContentProvider {
     	return true;
 	}
 
-    /**
-     * This returns null, for now.
-     */
 	@Override
 	public String getType(Uri uri) {
 		return null;
@@ -69,34 +66,22 @@ public class WebArtProvider extends ContentProvider {
         }
     }
 
-	/**
-	 * The URI is ignored, for now.
-	 */
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		return db.query(chooseTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
 	}
 	
-	/**
-	 * The URI is ignored, for now.
-	 */
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		return db.update(chooseTable(uri), values, selection, selectionArgs);
 	}
 	
-	/**
-	 * The URI is ignored, for now.
-	 */
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		db.insert(chooseTable(uri), null, values);
 		return null;
 	}
 	
-	/**
-	 * The URI is ignored, for now.
-	 */
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		return db.delete(chooseTable(uri), selection, selectionArgs);

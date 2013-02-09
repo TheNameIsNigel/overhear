@@ -43,7 +43,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         if (url == null) {
             new LastfmGetAlbumImage(context, view).execute(album);
         } else {
-            view.setAImageSource(((App) context.getApplication()).getManager(), url);
+            view.setManager(((App) context.getApplication()).getManager()).setSource(url).load();
         }
     }
 

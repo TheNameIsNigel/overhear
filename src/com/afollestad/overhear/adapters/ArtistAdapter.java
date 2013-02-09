@@ -34,7 +34,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         if (url == null) {
             new LastfmGetArtistImage(context, view).execute(artist);
         } else {
-            view.setAImageSource(((App) context.getApplication()).getManager(), url);
+            view.setManager(((App) context.getApplication()).getManager()).setSource(url).load();
         }
     }
 
@@ -52,7 +52,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         Artist artist = Artist.fromCursor(getCursor());
         ((TextView) view.findViewById(R.id.title)).setText(artist.getName());
 
-        AImageView image = (AImageView)view.findViewById(R.id.image);
+        AImageView image = (AImageView) view.findViewById(R.id.image);
         retrieveArtistArt(context, artist, image);
 
         ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);

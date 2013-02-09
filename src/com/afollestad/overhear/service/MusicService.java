@@ -33,7 +33,6 @@ public class MusicService extends Service {
     private Toast toast;
     private boolean initialized;
 
-    private Notification status;
     private static MediaPlayer player;
     private AudioManager audioManager;
     private RemoteControlClient mRemoteControlClient;
@@ -75,6 +74,8 @@ public class MusicService extends Service {
                                 Toast.makeText(getApplicationContext(), "Media player malformed or supported error", Toast.LENGTH_LONG).show();
                             } else if (extra == MediaPlayer.MEDIA_ERROR_TIMED_OUT) {
                                 Toast.makeText(getApplicationContext(), "Media player timed out", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Unknown media player error", Toast.LENGTH_LONG).show();
                             }
                             break;
                     }
@@ -193,13 +194,13 @@ public class MusicService extends Service {
             url = album.getAlbumArtUri(this).toString();
         }
         Bitmap art = ((App) getApplication()).getManager().get(url, null);
-        status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
+        Notification status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
         startForeground(100, status);
     }
 
 
     private void playTrack(Song song) {
-        Log.i("OVERHEAR SERVICE", "playTrack(" + song.getData() + ")");
+        Log.i("OVERHEAR SERVICE", "playTrack(\"" + song.getData() + "\")");
         if (!initializeRemoteControl()) {
             if (toast != null)
                 toast.cancel();
@@ -313,7 +314,7 @@ public class MusicService extends Service {
     }
 
     public boolean isPlaying() {
-        return player != null && player.isPlaying();
+        return player != null && initialized && player.isPlaying();
     }
 
     public boolean isPlayerInitialized() {

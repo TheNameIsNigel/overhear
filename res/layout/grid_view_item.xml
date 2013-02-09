@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp">
+    android:layout_width="match_parent" android:layout_height="wrap_content">
 
     <com.afollestad.aimage.views.AImageView android:id="@+id/image" android:layout_width="@dimen/gridview_image"
-                                            android:layout_height="@dimen/gridview_image" android:scaleType="centerCrop"
-                                            android:adjustViewBounds="true"/>
+        android:layout_height="@dimen/gridview_image" android:scaleType="centerCrop"
+        android:adjustViewBounds="true"/>
 
     <RelativeLayout android:layout_width="@dimen/gridview_image"
-                    android:layout_height="50dp" android:layout_alignBottom="@+id/image"
-                    android:layout_alignLeft="@+id/image" android:layout_alignRight="@+id/image"
-                    android:background="@color/black_transparent" android:padding="10dp">
+        android:layout_height="50dp" android:layout_alignBottom="@+id/image"
+        android:layout_alignLeft="@+id/image" android:layout_alignRight="@+id/image"
+        android:background="@color/black_transparent" android:padding="10dp">
 
         <TextView android:id="@+id/title" android:layout_width="fill_parent"
                   android:layout_height="wrap_content" android:layout_alignParentLeft="true"

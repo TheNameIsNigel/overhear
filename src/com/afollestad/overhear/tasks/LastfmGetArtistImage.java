@@ -49,7 +49,7 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
         } else if(view.get().getTag() != null && view.get().getTag() != this) {
             return;
         } else if(result != null) {
-            view.get().setAImageSource(((App)context.get().getApplication()).getManager(), result);
+            view.get().setManager(((App)context.get().getApplication()).getManager()).setSource(result).load();
         }
         super.onPostExecute(result);
     }
