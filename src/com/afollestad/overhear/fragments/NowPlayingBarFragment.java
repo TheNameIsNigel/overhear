@@ -16,6 +16,7 @@ import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
+import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
@@ -35,6 +36,8 @@ public class NowPlayingBarFragment extends Fragment {
 			update();
 		}
 	};
+
+    private Album album;
 
 	private WeakReference<View> viewPlaying;
     private WeakReference<AImageView> playing;
@@ -95,10 +98,17 @@ public class NowPlayingBarFragment extends Fragment {
 		viewPlaying.get().setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				//TODO open now playing screen
 				startActivity(new Intent(getActivity(), NowPlayingViewer.class));
 			}
 		});
+        viewPlaying.get().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                startActivity(new Intent(getActivity(), AlbumViewer.class)
+                        .putExtra("album", album.getJSON().toString()));
+                return false;
+            }
+        });
 		next.get().setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -141,7 +151,7 @@ public class NowPlayingBarFragment extends Fragment {
 			if(lastPlayed == null || lastPlayed.get() == null || 
 					(!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
 							!lastPlayed.get().getArtist().equals(focused.getArtist()))) {
-				Album album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
+				album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
                 AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
 			}
 

@@ -33,10 +33,6 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 		return LayoutInflater.from(context).inflate(R.layout.album_item, null);
 	}
 
-    private static int getTargetWidth(Context context) {
-        return context.getResources().getDimensionPixelSize(R.dimen.album_list_cover);
-    }
-
     public static void retrieveAlbumArt(Activity context, Album album, AImageView view) {
         view.setImageBitmap(null);
         String url = WebArtUtils.getImageURL(context, album);
