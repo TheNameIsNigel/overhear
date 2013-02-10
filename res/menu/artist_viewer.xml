@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/search" android:title="@string/search_str" android:icon="@drawable/search"
           android:showAsAction="ifRoom"/>
-    <item android:id="@+id/tweetPlaying" android:title="@string/tweet_now_playing" />
-    <item android:id="@+id/shopArtist" android:title="@string/shop_artist_str" />
+    <item android:id="@+id/shopArtist" android:title="@string/shop_artist_str" android:icon="@drawable/shop"
+          android:showAsAction="ifRoom"/>
+    <item android:id="@+id/tweetPlaying" android:title="@string/tweet_now_playing"/>
 </menu>
