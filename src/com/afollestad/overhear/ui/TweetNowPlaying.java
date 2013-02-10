@@ -69,6 +69,9 @@ public class TweetNowPlaying extends Activity {
 		final TextView text = (TextView)findViewById(R.id.tweetText);
 		final Button send = (Button)findViewById(R.id.tweetBtn);
 		final Song last = Queue.getFocused(this);
+        if(last == null) {
+            finish();
+        }
 		
 		text.setText(R.string.loading_str);
 		text.setEnabled(false);
