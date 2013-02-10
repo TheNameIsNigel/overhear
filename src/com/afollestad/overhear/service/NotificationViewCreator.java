@@ -20,6 +20,7 @@ public class NotificationViewCreator {
 		Notification.Builder builder = new Notification.Builder(context);
 		builder.setContent(createView(context, false, nowPlaying, art, playing));
 		builder.setOngoing(true);
+        builder.setPriority(Notification.PRIORITY_MAX);
 		builder.setSmallIcon(R.drawable.stat_notify_music);
 		builder.setContentIntent(PendingIntent.getActivity(context, 0, 
         		new Intent(context, NowPlayingViewer.class).
