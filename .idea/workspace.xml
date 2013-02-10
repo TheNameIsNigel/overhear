@@ -39,7 +39,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/service/NotificationViewCreator.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/service/NotificationViewCreator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_album_viewer.xml" afterPath="$PROJECT_DIR$/res/layout/activity_album_viewer.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
@@ -77,11 +79,11 @@
     <file path="/ArtistOrAlbumImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358908075435" ignored="false" />
     <file path="/AlbumAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360442358491" ignored="false" />
     <file path="/ArtistAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359777378733" ignored="false" />
-    <file path="/NowPlayingBarFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360446535101" ignored="false" />
+    <file path="/NowPlayingBarFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360532832469" ignored="false" />
     <file path="/MusicService.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359346749475" ignored="false" />
     <file path="/ArtistViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359320830095" ignored="false" />
     <file path="/NowPlayingViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359346779024" ignored="false" />
-    <file path="/AlbumViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359315693509" ignored="false" />
+    <file path="/AlbumViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360532797548" ignored="false" />
     <file path="/TaggedFragmentAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358908997002" ignored="false" />
     <file path="/TweetNowPlaying.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358983039400" ignored="false" />
     <file path="/OverviewScreen.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360444969927" ignored="false" />
@@ -231,10 +233,62 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NotificationViewCreator.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="NotificationViewCreator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/service/NotificationViewCreator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="50" selection-start="1218" selection-end="1218" vertical-scroll-proportion="0.7411444">
+            <state line="22" column="25" selection-start="845" selection-end="845" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AlbumViewer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="61" column="34" selection-start="2325" selection-end="2325" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="method#onActivityResult#0;class#AlbumViewer#0" expanded="false" />
+                <element signature="method#onCreateOptionsMenu#0;class#AlbumViewer#0" expanded="false" />
+                <element signature="method#onNewIntent#0;class#AlbumViewer#0" expanded="false" />
+                <element signature="method#load#0;class#AlbumViewer#0" expanded="false" />
+                <element signature="method#onOptionsItemSelected#0;class#AlbumViewer#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NowPlayingBarFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="81" column="40" selection-start="2754" selection-end="2754" vertical-scroll-proportion="0.386921">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1104#1249#0" expanded="true" />
+                <element signature="e#1242#1243#0" expanded="true" />
+                <element signature="e#3282#3564#0" expanded="true" />
+                <element signature="e#3553#3554#0" expanded="true" />
+                <element signature="e#3612#3813#0" expanded="true" />
+                <element signature="e#3802#3803#0" expanded="true" />
+                <element signature="e#3966#4302#0" expanded="true" />
+                <element signature="e#4287#4288#0" expanded="true" />
+                <element signature="e#4353#4624#0" expanded="true" />
+                <element signature="e#4613#4614#0" expanded="true" />
+                <element signature="e#4669#4942#0" expanded="true" />
+                <element signature="e#4931#4932#0" expanded="true" />
+                <element signature="e#4991#5328#0" expanded="true" />
+                <element signature="e#5317#5318#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_album_viewer.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/activity_album_viewer.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="38" column="43" selection-start="2362" selection-end="2362" vertical-scroll-proportion="-10.44">
               <folding />
             </state>
           </provider>
@@ -260,11 +314,16 @@
       <MyDateState />
     </option>
   </component>
+  <component name="GradleLocalSettings">
+    <option name="expandStates">
+      <map>
+        <entry key="overhear" value="true" />
+      </map>
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/layout/grid_view_item.xml" />
-        <option value="$PROJECT_DIR$/res/layout/grid_fragment.xml" />
         <option value="$PROJECT_DIR$/res/values/dimens.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/providers/WebArtProvider.java" />
@@ -275,10 +334,12 @@
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/dialog_tweet_now_playing.xml" />
         <option value="$PROJECT_DIR$/res/layout/song_item.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/service/NotificationViewCreator.java" />
+        <option value="$PROJECT_DIR$/res/layout/activity_album_viewer.xml" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" />
       </list>
     </option>
   </component>
@@ -376,7 +437,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="service" />
+              <option name="myItemId" value="fragments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -628,7 +689,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67235494" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -713,11 +774,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/tasks/LastfmGetArtistImage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="40" selection-start="1451" selection-end="1451" vertical-scroll-proportion="0.31182796" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="56" column="23" selection-start="2897" selection-end="2897" vertical-scroll-proportion="0.7944954">
@@ -752,13 +808,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="89" selection-start="2478" selection-end="2483" vertical-scroll-proportion="0.390681">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/ArtistAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -779,13 +828,6 @@
       </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="56" selection-start="521" selection-end="521" vertical-scroll-proportion="0.2990654">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="18" selection-start="4032" selection-end="4032" vertical-scroll-proportion="1.6523298">
           <folding />
         </state>
       </provider>
@@ -837,8 +879,54 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/service/NotificationViewCreator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="50" selection-start="1218" selection-end="1218" vertical-scroll-proportion="0.7411444">
+        <state line="22" column="25" selection-start="845" selection-end="845" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_album_viewer.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="43" selection-start="2362" selection-end="2362" vertical-scroll-proportion="-10.44">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="34" selection-start="2325" selection-end="2325" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="method#onActivityResult#0;class#AlbumViewer#0" expanded="false" />
+            <element signature="method#onCreateOptionsMenu#0;class#AlbumViewer#0" expanded="false" />
+            <element signature="method#onNewIntent#0;class#AlbumViewer#0" expanded="false" />
+            <element signature="method#load#0;class#AlbumViewer#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#AlbumViewer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="40" selection-start="2754" selection-end="2754" vertical-scroll-proportion="0.386921">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1104#1249#0" expanded="true" />
+            <element signature="e#1242#1243#0" expanded="true" />
+            <element signature="e#3282#3564#0" expanded="true" />
+            <element signature="e#3553#3554#0" expanded="true" />
+            <element signature="e#3612#3813#0" expanded="true" />
+            <element signature="e#3802#3803#0" expanded="true" />
+            <element signature="e#3966#4302#0" expanded="true" />
+            <element signature="e#4287#4288#0" expanded="true" />
+            <element signature="e#4353#4624#0" expanded="true" />
+            <element signature="e#4613#4614#0" expanded="true" />
+            <element signature="e#4669#4942#0" expanded="true" />
+            <element signature="e#4931#4932#0" expanded="true" />
+            <element signature="e#4991#5328#0" expanded="true" />
+            <element signature="e#5317#5318#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

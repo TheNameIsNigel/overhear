@@ -8,16 +8,18 @@
                   android:orientation="horizontal">
 
         <com.afollestad.aimage.views.AImageView android:id="@+id/albumCover" android:scaleType="fitXY"
-                   android:layout_width="fill_parent" android:layout_height="fill_parent"
-                   android:layout_weight="1"/>
+                                                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                                                android:layout_weight="1"/>
 
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="fill_parent" android:layout_weight="1">
 
-            <com.afollestad.aimage.views.AImageView android:id="@+id/artistCover" android:clickable="true" android:focusable="true"
-                       android:adjustViewBounds="true" android:background="?android:attr/selectableItemBackground"
-                       android:scaleType="fitXY" android:layout_width="fill_parent"
-                       android:layout_height="fill_parent"/>
+            <com.afollestad.aimage.views.AImageView android:id="@+id/artistCover" android:clickable="true"
+                                                    android:focusable="true"
+                                                    android:adjustViewBounds="true"
+                                                    android:background="?android:attr/selectableItemBackground"
+                                                    android:scaleType="fitXY" android:layout_width="fill_parent"
+                                                    android:layout_height="fill_parent"/>
 
             <TextView android:id="@+id/artistName" android:layout_width="fill_parent"
                       android:background="@color/black_transparent" android:padding="10dp"
@@ -38,9 +40,8 @@
                  android:layout_height="fill_parent" android:layout_below="@+id/headerDivider"
                  android:layout_above="@+id/nowPlaying"/>
 
-    <fragment
+    <FrameLayout
             android:id="@+id/nowPlaying"
-            android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

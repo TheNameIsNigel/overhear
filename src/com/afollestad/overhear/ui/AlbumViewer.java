@@ -14,6 +14,7 @@ import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
+import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
@@ -51,6 +52,14 @@ public class AlbumViewer extends Activity {
             args.putBoolean("show_artist", false);
             newFragment.setArguments(args);
             ft.add(R.id.songList, newFragment);
+            ft.commit();
+
+            ft = getFragmentManager().beginTransaction();
+            newFragment = new NowPlayingBarFragment();
+            args = new Bundle();
+            args.putBoolean("disable_long_click", true);
+            newFragment.setArguments(args);
+            ft.add(R.id.nowPlaying, newFragment);
             ft.commit();
         }
     }

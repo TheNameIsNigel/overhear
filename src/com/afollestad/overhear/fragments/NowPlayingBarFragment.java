@@ -25,144 +25,146 @@ import java.lang.ref.WeakReference;
 
 /**
  * A completely self-sufficient now playing bar, displayed on the bottom of any activity that has music controls.
- * 
+ *
  * @author Aidan Follestad
  */
 public class NowPlayingBarFragment extends Fragment {
 
-	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			update();
-		}
-	};
+    private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            update();
+        }
+    };
 
     private Album album;
 
-	private WeakReference<View> viewPlaying;
+    private WeakReference<View> viewPlaying;
     private WeakReference<AImageView> playing;
-	private WeakReference<ImageView> playPause;
-	private WeakReference<ImageView> previous;
-	private WeakReference<ImageView> next;
-	private WeakReference<TextView> track;
-	private WeakReference<TextView> artist;
-	private WeakReference<Song> lastPlayed;
+    private WeakReference<ImageView> playPause;
+    private WeakReference<ImageView> previous;
+    private WeakReference<ImageView> next;
+    private WeakReference<TextView> track;
+    private WeakReference<TextView> artist;
+    private WeakReference<Song> lastPlayed;
 
-	@Override
-	public void onCreate(Bundle sis) {
-		super.onCreate(sis);
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(MusicService.PLAYING_STATE_CHANGED);
-		getActivity().registerReceiver(mStatusReceiver, filter);
-	}
+    @Override
+    public void onCreate(Bundle sis) {
+        super.onCreate(sis);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MusicService.PLAYING_STATE_CHANGED);
+        getActivity().registerReceiver(mStatusReceiver, filter);
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		update();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        update();
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		getActivity().unregisterReceiver(mStatusReceiver);
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mStatusReceiver);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		return inflater.inflate(R.layout.now_playing_bar, null);
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.now_playing_bar, null);
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-        playing = new WeakReference<AImageView>((AImageView)view.findViewById(R.id.playing));
-		viewPlaying = new WeakReference<View>(view.findViewById(R.id.viewPlaying));
-		playPause = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.play));
-		previous = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.previous));
-		next = new WeakReference<ImageView>((ImageView)view.findViewById(R.id.next));
-		track = new WeakReference<TextView>((TextView)view.findViewById(R.id.playingTrack));
-		artist = new WeakReference<TextView>((TextView)view.findViewById(R.id.playingArtist));
-		initialize();
-	}
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        playing = new WeakReference<AImageView>((AImageView) view.findViewById(R.id.playing));
+        viewPlaying = new WeakReference<View>(view.findViewById(R.id.viewPlaying));
+        playPause = new WeakReference<ImageView>((ImageView) view.findViewById(R.id.play));
+        previous = new WeakReference<ImageView>((ImageView) view.findViewById(R.id.previous));
+        next = new WeakReference<ImageView>((ImageView) view.findViewById(R.id.next));
+        track = new WeakReference<TextView>((TextView) view.findViewById(R.id.playingTrack));
+        artist = new WeakReference<TextView>((TextView) view.findViewById(R.id.playingArtist));
+        initialize();
+    }
 
-	private void initialize() {
-		playPause.get().setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				getActivity().startService(new Intent(getActivity(), MusicService.class)
-				.setAction(MusicService.ACTION_TOGGLE_PLAYBACK));
-			}
-		});
-		viewPlaying.get().setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(getActivity(), NowPlayingViewer.class));
-			}
-		});
-        viewPlaying.get().setOnLongClickListener(new View.OnLongClickListener() {
+    private void initialize() {
+        playPause.get().setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                startActivity(new Intent(getActivity(), AlbumViewer.class)
-                        .putExtra("album", album.getJSON().toString()));
-                return false;
+            public void onClick(View view) {
+                getActivity().startService(new Intent(getActivity(), MusicService.class)
+                        .setAction(MusicService.ACTION_TOGGLE_PLAYBACK));
             }
         });
-		next.get().setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				getActivity().startService(new Intent(getActivity(), MusicService.class)
-				.setAction(MusicService.ACTION_SKIP));
-			}
-		});
-		previous.get().setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				getActivity().startService(new Intent(getActivity(), MusicService.class)
-				.setAction(MusicService.ACTION_REWIND));
-			}
-		});
-		previous.get().setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				getActivity().startService(new Intent(getActivity(), MusicService.class)
-				.setAction(MusicService.ACTION_REWIND).putExtra("override", true));
-				return true;
-			}
-		});
-		update();
-	}
+        viewPlaying.get().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                startActivity(new Intent(getActivity(), NowPlayingViewer.class));
+            }
+        });
+        if (getArguments() == null || !getArguments().getBoolean("disable_long_click", false)) {
+            viewPlaying.get().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    startActivity(new Intent(getActivity(), AlbumViewer.class)
+                            .putExtra("album", album.getJSON().toString()));
+                    return false;
+                }
+            });
+        }
+        next.get().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                getActivity().startService(new Intent(getActivity(), MusicService.class)
+                        .setAction(MusicService.ACTION_SKIP));
+            }
+        });
+        previous.get().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                getActivity().startService(new Intent(getActivity(), MusicService.class)
+                        .setAction(MusicService.ACTION_REWIND));
+            }
+        });
+        previous.get().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                getActivity().startService(new Intent(getActivity(), MusicService.class)
+                        .setAction(MusicService.ACTION_REWIND).putExtra("override", true));
+                return true;
+            }
+        });
+        update();
+    }
 
-	public void update() {
-		if(getActivity() == null) {
-			return;
-		}
-		Song focused = Queue.getFocused(getActivity());
-		if(focused != null && focused.isPlaying()) {
-			playPause.get().setImageResource(R.drawable.pause);
-		} else {
-			playPause.get().setImageResource(R.drawable.play);
-		}
-		if(focused != null) {
-			previous.get().setEnabled(true);
-			next.get().setEnabled(true);
+    public void update() {
+        if (getActivity() == null) {
+            return;
+        }
+        Song focused = Queue.getFocused(getActivity());
+        if (focused != null && focused.isPlaying()) {
+            playPause.get().setImageResource(R.drawable.pause);
+        } else {
+            playPause.get().setImageResource(R.drawable.play);
+        }
+        if (focused != null) {
+            previous.get().setEnabled(true);
+            next.get().setEnabled(true);
 
-			if(lastPlayed == null || lastPlayed.get() == null || 
-					(!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
-							!lastPlayed.get().getArtist().equals(focused.getArtist()))) {
-				album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
+            if (lastPlayed == null || lastPlayed.get() == null ||
+                    (!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
+                            !lastPlayed.get().getArtist().equals(focused.getArtist()))) {
+                album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
                 AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
-			}
+            }
 
-			track.get().setText(focused.getTitle());
-			artist.get().setText(focused.getArtist());
-			lastPlayed = new WeakReference<Song>(focused);
-		} else {
-			lastPlayed = null;
-			previous.get().setEnabled(false);
-			next.get().setEnabled(false);
-			//TODO default now playing image
-		}
-	}
+            track.get().setText(focused.getTitle());
+            artist.get().setText(focused.getArtist());
+            lastPlayed = new WeakReference<Song>(focused);
+        } else {
+            lastPlayed = null;
+            previous.get().setEnabled(false);
+            next.get().setEnabled(false);
+            //TODO default now playing image
+        }
+    }
 }
