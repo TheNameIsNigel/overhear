@@ -28,18 +28,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/LoginHandler.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/LoginHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/TweetNowPlaying.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/TweetNowPlaying.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -165,7 +155,7 @@
     <file path="/dialog_tweet_now_playing.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360469857115" ignored="false" />
     <file path="/LoginHandler.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360539506226" ignored="false" />
     <file path="/Twitter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360543120931" ignored="false" />
-    <file path="/BioListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360543458034" ignored="false" />
+    <file path="/BioListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360543673071" ignored="false" />
     <file path="/AlternateScreenNameProvider.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360539661669" ignored="false" />
     <file path="/alternate_account_popup.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360541499018" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -238,7 +228,7 @@
       <file leaf-file-name="BioListFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="232" column="43" selection-start="10639" selection-end="10639" vertical-scroll-proportion="0.91553134">
+            <state line="245" column="38" selection-start="11039" selection-end="11039" vertical-scroll-proportion="0.6594982">
               <folding>
                 <element signature="method#BioListFragment#0;class#BioListFragment#0" expanded="false" />
                 <element signature="method#onCreate#0;class#BioListFragment#0" expanded="false" />
@@ -249,11 +239,14 @@
                 <element signature="e#2803#2804#0" expanded="true" />
                 <element signature="e#2970#2971#0" expanded="true" />
                 <element signature="e#3245#3259#0" expanded="true" />
-                <element signature="e#3536#4072#0" expanded="true" />
-                <element signature="e#4061#4062#0" expanded="true" />
-                <element signature="e#5887#10649#0" expanded="true" />
-                <element signature="e#6584#7028#0" expanded="true" />
-                <element signature="e#6993#6994#0" expanded="true" />
+                <element signature="e#3537#4074#0" expanded="true" />
+                <element signature="e#4063#4064#0" expanded="true" />
+                <element signature="e#5889#10739#0" expanded="true" />
+                <element signature="e#6586#7030#0" expanded="true" />
+                <element signature="e#6995#6996#0" expanded="true" />
+                <element signature="e#10435#10673#0" expanded="true" />
+                <element signature="e#10646#10647#0" expanded="true" />
+                <element signature="e#10728#10729#0" expanded="true" />
                 <element signature="method#update#0;class#BioListFragment#0" expanded="false" />
               </folding>
             </state>
@@ -659,8 +652,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23712121" sideWeight="0.6729452" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3270548" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23712121" sideWeight="0.40239727" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270548" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -843,7 +836,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="232" column="43" selection-start="10639" selection-end="10639" vertical-scroll-proportion="0.91553134">
+        <state line="245" column="38" selection-start="11039" selection-end="11039" vertical-scroll-proportion="0.6594982">
           <folding>
             <element signature="method#BioListFragment#0;class#BioListFragment#0" expanded="false" />
             <element signature="method#onCreate#0;class#BioListFragment#0" expanded="false" />
@@ -854,11 +847,14 @@
             <element signature="e#2803#2804#0" expanded="true" />
             <element signature="e#2970#2971#0" expanded="true" />
             <element signature="e#3245#3259#0" expanded="true" />
-            <element signature="e#3536#4072#0" expanded="true" />
-            <element signature="e#4061#4062#0" expanded="true" />
-            <element signature="e#5887#10649#0" expanded="true" />
-            <element signature="e#6584#7028#0" expanded="true" />
-            <element signature="e#6993#6994#0" expanded="true" />
+            <element signature="e#3537#4074#0" expanded="true" />
+            <element signature="e#4063#4064#0" expanded="true" />
+            <element signature="e#5889#10739#0" expanded="true" />
+            <element signature="e#6586#7030#0" expanded="true" />
+            <element signature="e#6995#6996#0" expanded="true" />
+            <element signature="e#10435#10673#0" expanded="true" />
+            <element signature="e#10646#10647#0" expanded="true" />
+            <element signature="e#10728#10729#0" expanded="true" />
             <element signature="method#update#0;class#BioListFragment#0" expanded="false" />
           </folding>
         </state>

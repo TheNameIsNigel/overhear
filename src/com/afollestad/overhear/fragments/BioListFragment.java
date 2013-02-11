@@ -87,14 +87,14 @@ public class BioListFragment extends Fragment {
         builder.setTitle(R.string.alternate_accounts);
         ArrayList<CharSequence> items = new ArrayList<CharSequence>();
         items.add(getString(R.string.none_str));
-        for(int i = 0; i < possibleUsers.size(); i++) {
+        for (int i = 0; i < possibleUsers.size(); i++) {
             User user = possibleUsers.get(i);
             items.add("@" + user.getScreenName());
         }
         builder.setItems(items.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                if(which == 0) {
+                if (which == 0) {
                     twitterUser = null;
                     Twitter.setSocialAccount(getActivity(), artist, 0);
                 } else {
@@ -178,7 +178,7 @@ public class BioListFragment extends Fragment {
                     final long altTwit = com.afollestad.overhear.Twitter.getSocialAccount(getActivity(), artist);
                     if (altTwit > 0) {
                         twitterUser = twitter.showUser(altTwit);
-                    } else if(altTwit == -1) {
+                    } else if (altTwit == -1) {
                         possibleUsers = getPossibleUsers();
                         if (possibleUsers.size() > 0) {
                             for (int i = 0; i < possibleUsers.size(); i++) {
@@ -224,11 +224,13 @@ public class BioListFragment extends Fragment {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    mHandler.post(new Runnable() {
-                        public void run() {
-                            ((Button) getView().findViewById(R.id.bioUpdatesAction)).setText(R.string.error_str);
-                        }
-                    });
+                    if (getView() != null) {
+                        mHandler.post(new Runnable() {
+                            public void run() {
+                                ((Button) getView().findViewById(R.id.bioUpdatesAction)).setText(R.string.error_str);
+                            }
+                        });
+                    }
                 }
             }
         }).start();
