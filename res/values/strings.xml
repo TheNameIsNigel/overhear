@@ -29,6 +29,7 @@
     <string name="failed_load_artist_bio">Error occurred while loading bio</string>
     <string name="login_str">Login</string>
     <string name="login_twitter">Login to Twitter</string>
+    <string name="social_profile_none">No social profile.</string>
     <string name="no_social_profile">No verified social profile was found. Tap and hold to manually choose one.</string>
     <string name="no_bio_str">No biography was found</string>
     <string name="loading_str">Loading…</string>

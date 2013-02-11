@@ -4,17 +4,16 @@
                 android:layout_height="match_parent" tools:context=".AlbumViewer">
 
     <com.afollestad.aimage.views.AImageView android:id="@+id/albumCover" android:scaleType="fitXY"
-        android:layout_alignParentTop="true"
-        android:layout_width="@dimen/gridview_image"
-        android:layout_height="@dimen/gridview_image"/>
+                                            android:layout_alignParentTop="true"
+                                            android:layout_width="@dimen/gridview_image"
+                                            android:layout_height="@dimen/gridview_image"/>
 
     <FrameLayout android:id="@+id/songList" android:layout_width="fill_parent"
                  android:layout_height="fill_parent" android:layout_toRightOf="@+id/albumCover"
                  android:layout_above="@+id/nowPlaying"/>
 
-    <fragment
+    <FrameLayout
             android:id="@+id/nowPlaying"
-            android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

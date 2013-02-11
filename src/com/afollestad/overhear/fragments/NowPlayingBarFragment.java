@@ -55,6 +55,7 @@ public class NowPlayingBarFragment extends Fragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction(MusicService.PLAYING_STATE_CHANGED);
         getActivity().registerReceiver(mStatusReceiver, filter);
+        setRetainInstance(true);
     }
 
     @Override

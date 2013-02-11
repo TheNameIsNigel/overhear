@@ -47,20 +47,20 @@ public class AlbumViewer extends Activity {
         if (savedInstanceState == null) {
             // First-time init; create fragment to embed in activity.
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            Fragment newFragment = new SongListFragment();
+
+            Fragment songFrag = new SongListFragment();
             Bundle args = new Bundle();
             args.putInt("album_id", album.getAlbumId());
             args.putBoolean("show_artist", false);
-            newFragment.setArguments(args);
-            ft.add(R.id.songList, newFragment);
-            ft.commit();
+            songFrag.setArguments(args);
+            ft.add(R.id.songList, songFrag);
 
-            ft = getFragmentManager().beginTransaction();
-            newFragment = new NowPlayingBarFragment();
+            Fragment nowFrag = new NowPlayingBarFragment();
             args = new Bundle();
             args.putBoolean("disable_long_click", true);
-            newFragment.setArguments(args);
-            ft.add(R.id.nowPlaying, newFragment);
+            nowFrag.setArguments(args);
+            ft.add(R.id.nowPlaying, nowFrag);
+
             ft.commit();
         }
     }

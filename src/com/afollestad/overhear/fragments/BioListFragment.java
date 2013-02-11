@@ -21,6 +21,8 @@ import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
 import com.afollestad.overhearapi.LastFM.ArtistInfo;
 import com.afollestad.overhearapi.Utils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import twitter4j.ResponseList;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -40,7 +42,22 @@ public class BioListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        artist = ((ArtistViewer) getActivity()).artist;
+        if(savedInstanceState != null) {
+            try {
+                artist = Artist.fromJSON(new JSONObject(savedInstanceState.getString("artist")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            artist = ((ArtistViewer) getActivity()).artist;
+        }
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("artist", artist.getJSON().toString());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -215,7 +232,11 @@ public class BioListFragment extends Fragment {
                         mHandler.post(new Runnable() {
                             public void run() {
                                 TextView updates = (TextView) getView().findViewById(R.id.bioUpdates);
-                                updates.setText(R.string.no_social_profile);
+                                if(altTwit == 0) {
+                                    updates.setText(R.string.social_profile_none);
+                                } else {
+                                    updates.setText(R.string.no_social_profile);
+                                }
                                 updates.setVisibility(View.VISIBLE);
                                 getView().findViewById(R.id.bioUpdateSource).setVisibility(View.GONE);
                                 getView().findViewById(R.id.bioUpdatesAction).setVisibility(View.GONE);
