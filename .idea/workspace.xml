@@ -28,8 +28,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/bio_fragment.xml" afterPath="$PROJECT_DIR$/res/layout/bio_fragment.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
@@ -67,7 +66,7 @@
     <file path="/ArtistOrAlbumImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358908075435" ignored="false" />
     <file path="/AlbumAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360442358491" ignored="false" />
     <file path="/ArtistAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359777378733" ignored="false" />
-    <file path="/NowPlayingBarFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360532832469" ignored="false" />
+    <file path="/NowPlayingBarFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360546061201" ignored="false" />
     <file path="/MusicService.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359346749475" ignored="false" />
     <file path="/ArtistViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359320830095" ignored="false" />
     <file path="/NowPlayingViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359346779024" ignored="false" />
@@ -156,7 +155,7 @@
     <file path="/dialog_tweet_now_playing.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360469857115" ignored="false" />
     <file path="/LoginHandler.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360539506226" ignored="false" />
     <file path="/Twitter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360543120931" ignored="false" />
-    <file path="/BioListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360543673071" ignored="false" />
+    <file path="/BioListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360544288643" ignored="false" />
     <file path="/AlternateScreenNameProvider.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360539661669" ignored="false" />
     <file path="/alternate_account_popup.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360541499018" ignored="false" />
     <file path="/bio_fragment.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360544087119" ignored="false" />
@@ -218,62 +217,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TweetNowPlaying.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/TweetNowPlaying.java">
+      <file leaf-file-name="NowPlayingBarFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="97" column="8" selection-start="2310" selection-end="2802" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BioListFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="102" selection-start="1441" selection-end="1441" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="method#BioListFragment#0;class#BioListFragment#0" expanded="false" />
-                <element signature="method#onCreate#0;class#BioListFragment#0" expanded="false" />
-                <element signature="method#onCreateView#0;class#BioListFragment#0" expanded="false" />
-                <element signature="method#showAlternateAccountPopup#0;class#BioListFragment#0" expanded="false" />
-                <element signature="method#getPossibleUsers#0;class#BioListFragment#0" expanded="false" />
-                <element signature="method#loadLastFm#0;class#BioListFragment#0" expanded="false" />
-                <element signature="method#loadTwitter#0;class#BioListFragment#0" expanded="false" />
-                <element signature="method#onActivityResult#0;class#BioListFragment#0" expanded="false" />
-                <element signature="method#onViewCreated#0;class#BioListFragment#0" expanded="false" />
-                <element signature="method#update#0;class#BioListFragment#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="61" selection-start="1575" selection-end="1575" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bio_fragment.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/res/layout/bio_fragment.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="65" selection-start="1057" selection-end="1057" vertical-scroll-proportion="0.79532164">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Twitter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/Twitter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="87" selection-start="1748" selection-end="1748" vertical-scroll-proportion="0.0">
+            <state line="112" column="35" selection-start="0" selection-end="6837" vertical-scroll-proportion="0.65591395">
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="docComment;class#NowPlayingBarFragment#0" expanded="false" />
+                <element signature="method#onCreate#0;class#NowPlayingBarFragment#0" expanded="false" />
+                <element signature="method#onResume#0;class#NowPlayingBarFragment#0" expanded="false" />
+                <element signature="method#onDestroy#0;class#NowPlayingBarFragment#0" expanded="false" />
+                <element signature="method#onCreateView#0;class#NowPlayingBarFragment#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -309,7 +263,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java" />
@@ -322,9 +275,10 @@
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/TweetNowPlaying.java" />
         <option value="$PROJECT_DIR$/res/menu/alternate_account_popup.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/Twitter.java" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/res/layout/bio_fragment.xml" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" />
       </list>
     </option>
   </component>
@@ -396,11 +350,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
+              <option name="myItemId" value="overhear" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -414,25 +368,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="overhear" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="overhear" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
+              <option name="myItemId" value="fragments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -699,8 +643,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23712121" sideWeight="0.6729452" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3270548" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23712121" sideWeight="0.40239727" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270548" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -857,7 +801,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/Twitter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="87" selection-start="1748" selection-end="1748" vertical-scroll-proportion="0.0">
+        <state line="39" column="87" selection-start="1748" selection-end="1748" vertical-scroll-proportion="0.39784947">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -866,26 +810,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="61" selection-start="1575" selection-end="1575" vertical-scroll-proportion="0.0">
+        <state line="31" column="61" selection-start="1575" selection-end="1575" vertical-scroll-proportion="0.7651376">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="102" selection-start="1441" selection-end="1441" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="method#BioListFragment#0;class#BioListFragment#0" expanded="false" />
-            <element signature="method#onCreate#0;class#BioListFragment#0" expanded="false" />
-            <element signature="method#onCreateView#0;class#BioListFragment#0" expanded="false" />
-            <element signature="method#showAlternateAccountPopup#0;class#BioListFragment#0" expanded="false" />
-            <element signature="method#getPossibleUsers#0;class#BioListFragment#0" expanded="false" />
-            <element signature="method#loadLastFm#0;class#BioListFragment#0" expanded="false" />
-            <element signature="method#loadTwitter#0;class#BioListFragment#0" expanded="false" />
-            <element signature="method#onActivityResult#0;class#BioListFragment#0" expanded="false" />
-            <element signature="method#onViewCreated#0;class#BioListFragment#0" expanded="false" />
-            <element signature="method#update#0;class#BioListFragment#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -894,8 +820,39 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="65" selection-start="1057" selection-end="1057" vertical-scroll-proportion="0.79532164">
+        <state line="17" column="59" selection-start="1057" selection-end="1057" vertical-scroll-proportion="0.51031893">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="119" column="31" selection-start="4499" selection-end="4499" vertical-scroll-proportion="0.05734767">
+          <folding>
+            <element signature="method#BioListFragment#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#onCreate#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#onCreateView#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#showAlternateAccountPopup#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#getPossibleUsers#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#loadTwitter#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#onActivityResult#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#onViewCreated#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#update#0;class#BioListFragment#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="35" selection-start="0" selection-end="6837" vertical-scroll-proportion="0.65591395">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#NowPlayingBarFragment#0" expanded="false" />
+            <element signature="method#onCreate#0;class#NowPlayingBarFragment#0" expanded="false" />
+            <element signature="method#onResume#0;class#NowPlayingBarFragment#0" expanded="false" />
+            <element signature="method#onDestroy#0;class#NowPlayingBarFragment#0" expanded="false" />
+            <element signature="method#onCreateView#0;class#NowPlayingBarFragment#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

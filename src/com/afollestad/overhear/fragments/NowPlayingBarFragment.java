@@ -38,6 +38,7 @@ public class NowPlayingBarFragment extends Fragment {
     };
 
     private Album album;
+    private Song focused;
 
     private WeakReference<View> viewPlaying;
     private WeakReference<AImageView> playing;
@@ -98,6 +99,9 @@ public class NowPlayingBarFragment extends Fragment {
         viewPlaying.get().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                if (focused == null) {
+                    return;
+                }
                 startActivity(new Intent(getActivity(), NowPlayingViewer.class));
             }
         });
@@ -105,6 +109,9 @@ public class NowPlayingBarFragment extends Fragment {
             viewPlaying.get().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
+                    if (focused == null) {
+                        return true;
+                    }
                     startActivity(new Intent(getActivity(), AlbumViewer.class)
                             .putExtra("album", album.getJSON().toString()));
                     return false;
@@ -140,7 +147,7 @@ public class NowPlayingBarFragment extends Fragment {
         if (getActivity() == null) {
             return;
         }
-        Song focused = Queue.getFocused(getActivity());
+        focused = Queue.getFocused(getActivity());
         if (focused != null && focused.isPlaying()) {
             playPause.get().setImageResource(R.drawable.pause);
         } else {
