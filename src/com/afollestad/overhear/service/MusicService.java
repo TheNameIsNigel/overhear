@@ -51,7 +51,6 @@ public class MusicService extends Service {
             player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    Toast.makeText(getApplicationContext(), "On completion", Toast.LENGTH_LONG).show();
                     if (!nextTrack()) {
                         getAudioManager().abandonAudioFocus(afl);
                     }
@@ -341,7 +340,6 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         registerReceiver(receiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
-        player = new MediaPlayer();
     }
 
     @Override
