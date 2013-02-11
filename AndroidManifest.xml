@@ -59,6 +59,9 @@
         <provider android:name="com.afollestad.overhear.providers.WebArtProvider"
                   android:authorities="com.afollestad.overhear.webartprovider"
                   android:exported="true"/>
+        <provider android:name="com.afollestad.overhear.providers.ArtistSocialAccountProvider"
+                  android:authorities="com.afollestad.overhear.artistsocialaccounts"
+                  android:exported="true"/>
 
     </application>
 

@@ -4,13 +4,11 @@ import com.afollestad.overhear.R;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
+
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,23 +22,6 @@ import android.widget.Toast;
 public class LoginHandler extends Activity {
 
 	private Twitter twitter;
-	public static Twitter getTwitterInstance(Context context, boolean nullIfNotAuthenticated) {
-		Twitter client = new TwitterFactory().getInstance();
-		client.setOAuthConsumer("DlG3XT5adlDNRKUkZMMvA", "hDzUkzmge2gHwBP6AWdLNql2q2fdAN61enmfJBooZU");
-		SharedPreferences prefs = context.getSharedPreferences("twitter_account", 0);
-		String token = prefs.getString("token", null);
-		String secret = prefs.getString("secret", null);
-		if(token == null || secret == null) {
-			if(nullIfNotAuthenticated)
-				return null;
-			else
-				client.setOAuthAccessToken(null);
-		} else {
-			client.setOAuthAccessToken(new AccessToken(token, secret));
-		}
-
-		return client;
-	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +88,7 @@ public class LoginHandler extends Activity {
 			}
 		});
 
-		twitter = getTwitterInstance(this, false);
+		twitter = com.afollestad.overhear.Twitter.getTwitterInstance(this, false);
 		new Thread(new Runnable() {
 			public void run() {
 				try {

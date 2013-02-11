@@ -12,6 +12,7 @@ import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
+import com.afollestad.overhear.Twitter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
@@ -126,7 +127,7 @@ public class ArtistViewer extends Activity {
                 MusicUtils.browseArtist(getApplicationContext(), artist.getName());
                 return true;
             case R.id.tweetPlaying:
-                if (LoginHandler.getTwitterInstance(getApplicationContext(), true) == null)
+                if (Twitter.getTwitterInstance(getApplicationContext(), true) == null)
                     startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
                 else
                     startActivity(new Intent(this, TweetNowPlaying.class));

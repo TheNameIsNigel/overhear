@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
+import com.afollestad.overhear.Twitter;
 import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.ArtistListFragment;
 import com.afollestad.overhear.fragments.GenreListFragment;
@@ -59,7 +60,7 @@ public class OverviewScreen extends Activity {
                 finish();
                 return true;
             case R.id.tweetPlaying:
-                if (LoginHandler.getTwitterInstance(getApplicationContext(), true) == null)
+                if (Twitter.getTwitterInstance(getApplicationContext(), true) == null)
                     startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
                 else
                     startActivity(new Intent(this, TweetNowPlaying.class));

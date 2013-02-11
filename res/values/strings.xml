@@ -56,4 +56,6 @@
     <string name="about_contents_str">Coded by Aidan Follestad (@afollestad). Icon by Nathanel Titane.\n\nFollow Overhear! @OverhearApp</string>
     <string name="close_str">Close</string>
     <string name="twitter_str">Twitter</string>
+    <string name="none_str">None</string>
+    <string name="alternate_accounts">Alternate Accounts</string>
 </resources>

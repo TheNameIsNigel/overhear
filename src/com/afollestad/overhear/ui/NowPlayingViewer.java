@@ -18,10 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.MusicUtils;
-import com.afollestad.overhear.Queue;
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.SleepTimer;
+import com.afollestad.overhear.*;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.service.MusicService.MusicBinder;
@@ -132,7 +129,7 @@ public class NowPlayingViewer extends Activity {
 			MusicUtils.browseArtist(getApplicationContext(), song.getArtist());
 			return true;
 		case R.id.tweetPlaying:
-			if(LoginHandler.getTwitterInstance(getApplicationContext(), true) == null)
+			if(Twitter.getTwitterInstance(getApplicationContext(), true) == null)
 				startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
 			else
 				startActivity(new Intent(this, TweetNowPlaying.class));

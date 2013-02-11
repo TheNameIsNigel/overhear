@@ -13,13 +13,14 @@ import twitter4j.*;
 
 public class TweetNowPlaying extends Activity {
 
-	private Twitter twitter;
+	private twitter4j.Twitter twitter;
+    private ResponseList<User> twitterMatches;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_tweet_now_playing); 
-		twitter = LoginHandler.getTwitterInstance(getApplicationContext(), true);
+		twitter = com.afollestad.overhear.Twitter.getTwitterInstance(getApplicationContext(), true);
 		loadInitialText();
 		findViewById(R.id.tweetBtn).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -71,6 +72,7 @@ public class TweetNowPlaying extends Activity {
 		final Song last = Queue.getFocused(this);
         if(last == null) {
             finish();
+            return;
         }
 		
 		text.setText(R.string.loading_str);
@@ -82,11 +84,11 @@ public class TweetNowPlaying extends Activity {
 			public void run() {
 				String displayArtist = last.getArtist();
 				try {
-					ResponseList<User> possibleUsers = twitter.searchUsers(last.getArtist(), 0);
-					if(possibleUsers.size() > 0) {
-						for(int i = 0; i < possibleUsers.size(); i++) {
-							if(possibleUsers.get(i).isVerified()) {
-								displayArtist = "@" + possibleUsers.get(i).getScreenName();
+					twitterMatches = twitter.searchUsers(last.getArtist(), 0);
+					if(twitterMatches.size() > 0) {
+						for(int i = 0; i < twitterMatches.size(); i++) {
+							if(twitterMatches.get(i).isVerified()) {
+								displayArtist = "@" + twitterMatches.get(i).getScreenName();
 								break;
 							}
 						}

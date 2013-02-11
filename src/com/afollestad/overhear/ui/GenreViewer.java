@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.Twitter;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Genre;
 
@@ -56,7 +57,7 @@ public class GenreViewer extends Activity {
 			finish();
 			return true;
 		case R.id.tweetPlaying:
-			if(LoginHandler.getTwitterInstance(getApplicationContext(), true) == null)
+			if(Twitter.getTwitterInstance(getApplicationContext(), true) == null)
 				startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
 			else
 				startActivity(new Intent(this, TweetNowPlaying.class));
