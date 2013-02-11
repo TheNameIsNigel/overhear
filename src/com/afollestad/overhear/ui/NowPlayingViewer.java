@@ -205,7 +205,7 @@ public class NowPlayingViewer extends Activity {
 		if(mService == null) {
 			return;
 		}
-		final MediaPlayer player = mService.getPlayer(true);
+		final MediaPlayer player = mService.getPlayer(false);
 		if(player == null) {
 			Toast.makeText(getApplicationContext(), "Unable to hook to the music player.", Toast.LENGTH_LONG).show();
 			return;
