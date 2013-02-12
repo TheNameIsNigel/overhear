@@ -21,6 +21,7 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
         this.context = new WeakReference<Activity>(context);
         this.view = new WeakReference<AImageView>(view);
         if(view.getTag() != null) {
+            //TODO this may be causing issues (with cancelling tasks that should not be cancelled).
             ((LastfmGetAlbumImage)view.getTag()).cancel(true);
         }
         view.setTag(this);

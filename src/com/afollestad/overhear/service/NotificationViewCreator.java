@@ -2,6 +2,7 @@ package com.afollestad.overhear.service;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.KeyEvent;
 import android.widget.RemoteViews;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.ui.NowPlayingViewer;
+import com.afollestad.overhear.ui.OverviewScreen;
 import com.afollestad.overhearapi.Song;
 
 public class NotificationViewCreator {
@@ -22,9 +24,15 @@ public class NotificationViewCreator {
 		builder.setOngoing(true);
         builder.setPriority(Notification.PRIORITY_MAX);
 		builder.setSmallIcon(R.drawable.stat_notify_music);
-		builder.setContentIntent(PendingIntent.getActivity(context, 0, 
-        		new Intent(context, NowPlayingViewer.class).
-        		addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), 0));
+
+        Intent nowPlayingIntent = new Intent(context, NowPlayingViewer.class).
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(OverviewScreen.class);
+        stackBuilder.addNextIntent(new Intent(context, OverviewScreen.class));
+        stackBuilder.addNextIntent(nowPlayingIntent);
+		builder.setContentIntent(stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT));
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			return NotificationViewCreator16.createNotification(context, builder, nowPlaying, art, playing);
 		}
