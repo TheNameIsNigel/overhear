@@ -270,7 +270,6 @@ public class NowPlayingViewer extends Activity {
 				}
 			}
 		});
-		findViewById(R.id.cover).setOnTouchListener(disappearListener);
 		seek.setOnDragListener(new View.OnDragListener() {	
 			@Override
 			public boolean onDrag(View v, DragEvent event) {
@@ -299,6 +298,27 @@ public class NowPlayingViewer extends Activity {
         AlbumAdapter.retrieveAlbumArt(this, album, (AImageView)findViewById(R.id.cover));
 		((TextView)findViewById(R.id.track)).setText(song.getTitle());
 		((TextView)findViewById(R.id.artistAlbum)).setText(song.getArtist() + " - " + album.getName());
+
+        findViewById(R.id.cover).setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void onBasicTouch(View v, MotionEvent event) {
+                disappearListener.onTouch(v, event);
+            }
+            @Override
+            public void onSwipeRight() {
+                findViewById(R.id.previous).performClick();
+            }
+            @Override
+            public void onSwipeLeft() {
+                findViewById(R.id.next).performClick();
+            }
+            @Override
+            public void onSwipeTop() {
+            }
+            @Override
+            public void onSwipeBottom() {
+            }
+        });
 	}
 
 	/**
