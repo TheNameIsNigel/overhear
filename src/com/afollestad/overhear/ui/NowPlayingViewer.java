@@ -91,7 +91,7 @@ public class NowPlayingViewer extends Activity {
 		super.onResume();
 		bindService(new Intent(this, MusicService.class), mConnection, Context.BIND_AUTO_CREATE);
 		timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() { 
+		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				runOnUiThread(new Runnable() {
 					@Override
@@ -99,7 +99,7 @@ public class NowPlayingViewer extends Activity {
 						update();
 					}
 				});
-			} 
+			}
 		}, 250, 250);
 		load();
 	}
@@ -191,7 +191,7 @@ public class NowPlayingViewer extends Activity {
 		}
 	}
 
-	private void resetSeekBarThumb(SeekBar bar) { 
+	private void resetSeekBarThumb(SeekBar bar) {
 		seekThumb = (AnimationDrawable)getResources().getDrawable(R.drawable.seekbar_thumb_fade_out);
 		bar.setThumb(seekThumb);
 		bar.invalidate();
@@ -230,7 +230,7 @@ public class NowPlayingViewer extends Activity {
 					player.seekTo(progress);
 				}
 			}
-		});  
+		});
 
 		findViewById(R.id.previous).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -270,7 +270,7 @@ public class NowPlayingViewer extends Activity {
 				}
 			}
 		});
-		seek.setOnDragListener(new View.OnDragListener() {	
+		seek.setOnDragListener(new View.OnDragListener() {
 			@Override
 			public boolean onDrag(View v, DragEvent event) {
 				resetFade(findViewById(R.id.progress));
@@ -417,7 +417,7 @@ public class NowPlayingViewer extends Activity {
 			hookToPlayer();
 		}
 		@Override
-		public void onServiceDisconnected(ComponentName arg0) { 
+		public void onServiceDisconnected(ComponentName arg0) {
 			mService = null;
 		}
 	};
