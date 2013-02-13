@@ -85,19 +85,21 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 	
 	private String[] getScope(Song genreSong) {
 		String sort = MediaStore.Audio.Media.TITLE;
+        String where = MediaStore.Audio.Media.IS_MUSIC + " = 1";
+
 		if(getArguments() != null) {
 			sort = MediaStore.Audio.Media.TRACK;
+            if(getArguments().containsKey("artist_id")) {
+                where += " AND " + MediaStore.Audio.Media.ARTIST_ID + " = " + getArguments().getInt("artist_id");
+            } else if(getArguments().containsKey("album_id")) {
+                where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + getArguments().getInt("album_id");
+            } else if(getArguments().containsKey("artist_name")) {
+                where += " AND " + MediaStore.Audio.Media.ARTIST + " = '" + getArguments().getString("artist_name").replace("'", "''") + "'";
+            } else if(getArguments().containsKey("genre")) {
+                where += " AND " + MediaStore.Audio.Media.ALBUM + " = '" + genreSong.getAlbum().replace("'", "''") + "'";
+            }
 		}
-		String where = MediaStore.Audio.Media.IS_MUSIC + " = 1"; 
-		if(getArguments().containsKey("artist_id")) {
-			where += " AND " + MediaStore.Audio.Media.ARTIST_ID + " = " + getArguments().getInt("artist_id"); 			
-		} else if(getArguments().containsKey("album_id")) {
-			where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + getArguments().getInt("album_id");
-		} else if(getArguments().containsKey("artist_name")) {
-			where += " AND " + MediaStore.Audio.Media.ARTIST + " = '" + getArguments().getString("artist_name").replace("'", "''") + "'";
-		} else if(getArguments().containsKey("genre")) {
-            where += " AND " + MediaStore.Audio.Media.ALBUM + " = '" + genreSong.getAlbum().replace("'", "''") + "'";
-        }
+
 		return new String[] { where, sort };
 	}
 
@@ -105,7 +107,7 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		Uri uri = null;
         String[] scope = null;
-        if(getArguments().containsKey("genre")) {
+        if(getArguments() != null && getArguments().containsKey("genre")) {
             genre = Genre.fromJSON(getArguments().getString("genre"));
             uri = MediaStore.Audio.Genres.Members.getContentUri("external", genre.getId());
             scope = new String[] { null, null };

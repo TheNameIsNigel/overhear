@@ -15,10 +15,7 @@ import android.view.MenuItem;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
 import com.afollestad.overhear.Twitter;
-import com.afollestad.overhear.fragments.AlbumListFragment;
-import com.afollestad.overhear.fragments.ArtistListFragment;
-import com.afollestad.overhear.fragments.GenreListFragment;
-import com.afollestad.overhear.fragments.RecentsListFragment;
+import com.afollestad.overhear.fragments.*;
 
 import java.util.Locale;
 
@@ -120,6 +117,8 @@ public class OverviewScreen extends Activity {
                 case 2:
                     return new AlbumListFragment();
                 case 3:
+                    return new SongListFragment();
+                case 4:
                     return new GenreListFragment();
             }
             return null;
@@ -140,6 +139,8 @@ public class OverviewScreen extends Activity {
                 case 2:
                     return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
                 case 3:
+                    return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
+                case 4:
                     return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
             }
             return null;
