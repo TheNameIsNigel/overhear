@@ -54,7 +54,7 @@
     <string name="sleep_timer_cancelled">Sleep timer cancelled!</string>
 
     <string name="about_str">About</string>
-    <string name="about_contents_str">Coded by Aidan Follestad (@afollestad). Icon by Nathanel Titane.\n\nFollow Overhear! @OverhearApp</string>
+    <string name="about_contents_str">Overhear v{version}.\n\nCoded by Aidan Follestad (@afollestad). Icon by Nathanel Titane.\n\nFollow Overhear! @OverhearApp\n</string>
     <string name="close_str">Close</string>
     <string name="twitter_str">Twitter</string>
     <string name="none_str">None</string>
