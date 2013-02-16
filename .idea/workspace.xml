@@ -28,22 +28,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_album_viewer.xml" afterPath="$PROJECT_DIR$/res/layout/activity_album_viewer.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_artist_viewer.xml" afterPath="$PROJECT_DIR$/res/layout/activity_artist_viewer.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_now_playing.xml" afterPath="$PROJECT_DIR$/res/layout/activity_now_playing.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/album_item.xml" afterPath="$PROJECT_DIR$/res/layout/album_item.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/bio_fragment.xml" afterPath="$PROJECT_DIR$/res/layout/bio_fragment.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/genre_item.xml" afterPath="$PROJECT_DIR$/res/layout/genre_item.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/grid_view_item.xml" afterPath="$PROJECT_DIR$/res/layout/grid_view_item.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/now_playing_bar.xml" afterPath="$PROJECT_DIR$/res/layout/now_playing_bar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/sleep_timer_dialog.xml" afterPath="$PROJECT_DIR$/res/layout/sleep_timer_dialog.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/sleep_timer_viewer.xml" afterPath="$PROJECT_DIR$/res/layout/sleep_timer_viewer.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/song_item.xml" afterPath="$PROJECT_DIR$/res/layout/song_item.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/styles.xml" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -254,20 +239,20 @@
       </file>
       <file leaf-file-name="bio_fragment.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/bio_fragment.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state line="16" column="93" selection-start="1075" selection-end="1095" vertical-scroll-proportion="-1.28">
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="styles.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="63" selection-start="979" selection-end="979" vertical-scroll-proportion="0.65217394">
+            <state line="6" column="69" selection-start="423" selection-end="423" vertical-scroll-proportion="0.26086956">
               <folding />
             </state>
           </provider>
@@ -275,13 +260,13 @@
       </file>
       <file leaf-file-name="activity_main.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/activity_main.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state line="14" column="24" selection-start="758" selection-end="758" vertical-scroll-proportion="-8.96">
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -914,7 +899,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="63" selection-start="979" selection-end="979" vertical-scroll-proportion="0.65217394">
+        <state line="6" column="69" selection-start="423" selection-end="423" vertical-scroll-proportion="0.26086956">
           <folding />
         </state>
       </provider>
