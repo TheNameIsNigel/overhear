@@ -1,21 +1,27 @@
 package com.afollestad.overhear.ui;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.app.*;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.TaggedFragmentAdapter;
 import com.afollestad.overhear.Twitter;
-import com.afollestad.overhear.fragments.*;
+import com.afollestad.overhear.fragments.AlbumListFragment;
+import com.afollestad.overhear.fragments.ArtistListFragment;
+import com.afollestad.overhear.fragments.GenreListFragment;
+import com.afollestad.overhear.fragments.RecentsListFragment;
 
 import java.util.Locale;
 
@@ -67,39 +73,12 @@ public class OverviewScreen extends Activity {
                 startActivity(new Intent(this, SearchScreen.class));
                 return true;
             case R.id.about:
-                showAbout();
+                showAboutDialog(this);
                 return true;
         }
         return false;
     }
 
-    private void showAbout() {
-        String versionName = null;
-        try {
-            versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        AlertDialog.Builder diag = new AlertDialog.Builder(this);
-        diag.setTitle(R.string.about_str);
-        diag.setMessage(getString(R.string.about_contents_str).replace("{version}", versionName));
-        diag.setNegativeButton(R.string.close_str, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.dismiss();
-            }
-        });
-        diag.setPositiveButton(R.string.twitter_str, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.dismiss();
-                startActivity(new Intent(Intent.ACTION_VIEW).setData(
-                        Uri.parse("http://twitter.com/OverhearApp")));
-            }
-        });
-        diag.create().show();
-    }
 
     public class SectionsPagerAdapter extends TaggedFragmentAdapter {
 
@@ -117,8 +96,6 @@ public class OverviewScreen extends Activity {
                 case 2:
                     return new AlbumListFragment();
                 case 3:
-                    return new SongListFragment();
-                case 4:
                     return new GenreListFragment();
             }
             return null;
@@ -139,11 +116,74 @@ public class OverviewScreen extends Activity {
                 case 2:
                     return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
                 case 3:
-                    return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
-                case 4:
                     return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
             }
             return null;
+        }
+    }
+
+
+    public static void showAboutDialog(Activity activity) {
+        FragmentManager fm = activity.getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment prev = fm.findFragmentByTag("dialog_about");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        new AboutDialog().show(ft, "dialog_about");
+    }
+
+    public static class AboutDialog extends DialogFragment {
+
+        private static final String VERSION_UNAVAILABLE = "N/A";
+
+        public AboutDialog() {
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Get app version
+            PackageManager pm = getActivity().getPackageManager();
+            String packageName = getActivity().getPackageName();
+            String versionName;
+            try {
+                PackageInfo info = pm.getPackageInfo(packageName, 0);
+                versionName = info.versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                versionName = VERSION_UNAVAILABLE;
+            }
+
+            // Build the about body view and append the link to see OSS licenses
+            LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+            View rootView = layoutInflater.inflate(R.layout.about_dialog, null);
+            TextView nameAndVersionView = (TextView) rootView.findViewById(
+                    R.id.app_name_and_version);
+            nameAndVersionView.setText(Html.fromHtml(
+                    getString(R.string.app_name_and_version, versionName)));
+
+            TextView aboutBodyView = (TextView) rootView.findViewById(R.id.about_body);
+            aboutBodyView.setText(Html.fromHtml(getString(R.string.about_body)));
+            aboutBodyView.setMovementMethod(new LinkMovementMethod());
+
+            return new AlertDialog.Builder(getActivity())
+                    .setView(rootView)
+                    .setNegativeButton(R.string.close_str, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setPositiveButton(R.string.twitter_str, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            dialog.dismiss();
+                            startActivity(new Intent(Intent.ACTION_VIEW).setData(
+                                    Uri.parse("http://twitter.com/OverhearApp")));
+                        }
+                    })
+                    .create();
         }
     }
 }
