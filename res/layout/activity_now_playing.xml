@@ -23,11 +23,13 @@
 
             <TextView android:id="@+id/track" style="@style/StatusBarText"
                       android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:gravity="center_horizontal" android:textAppearance="?android:attr/textAppearanceMedium"/>
+                      android:gravity="center_horizontal" android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:fontFamily="sans-serif-condensed"/>
 
             <TextView android:id="@+id/artistAlbum" style="@style/StatusBarText"
                       android:layout_width="fill_parent" android:layout_height="wrap_content"
-                      android:gravity="center_horizontal"/>
+                      android:gravity="center_horizontal"
+                      android:fontFamily="sans-serif-light"/>
 
         </LinearLayout>
 
@@ -39,7 +41,7 @@
             <TextView android:id="@+id/progress" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:layout_alignParentLeft="true"
                       android:layout_centerVertical="true" android:textAppearance="?android:attr/textAppearanceSmall"
-                      android:textColor="@color/white"/>
+                      android:textColor="@color/white" android:fontFamily="sans-serif-light"/>
 
             <SeekBar android:id="@+id/seek" android:layout_width="match_parent"
                      android:layout_centerVertical="true"
@@ -51,7 +53,7 @@
                       android:layout_height="wrap_content"
                       android:layout_alignParentRight="true"
                       android:layout_centerVertical="true" android:textAppearance="?android:attr/textAppearanceSmall"
-                      android:textColor="@color/white"/>
+                      android:textColor="@color/white" android:fontFamily="sans-serif-light"/>
         </RelativeLayout>
 
     </LinearLayout>

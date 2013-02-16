@@ -13,11 +13,13 @@
 
         <TextView android:id="@+id/title" android:layout_width="wrap_content"
                   android:layout_height="wrap_content" android:singleLine="true"
-                  android:textAppearance="?android:attr/textAppearanceMedium"/>
+                  android:textAppearance="?android:attr/textAppearanceMedium"
+                  android:fontFamily="sans-serif-condensed"/>
 
         <TextView android:id="@+id/artist" android:layout_width="wrap_content"
                   android:layout_height="wrap_content" android:singleLine="true"
-                  android:textAppearance="?android:attr/textAppearanceSmall"/>
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:fontFamily="sans-serif-light"/>
     </LinearLayout>
 
     <ImageView android:id="@+id/peak_one" android:layout_width="wrap_content"

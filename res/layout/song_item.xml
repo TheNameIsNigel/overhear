@@ -7,10 +7,11 @@
     <TextView android:id="@+id/title" android:layout_width="wrap_content"
               android:singleLine="true"
               android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
-              android:layout_alignParentLeft="true" android:layout_toLeftOf="@+id/peak_one"/>
+              android:layout_alignParentLeft="true" android:layout_toLeftOf="@+id/peak_one"
+              android:fontFamily="sans-serif-condensed"/>
     <TextView android:id="@+id/artist" android:layout_width="wrap_content"
               android:layout_marginTop="3dp" android:layout_height="wrap_content"
-              android:layout_below="@+id/title"/>
+              android:layout_below="@+id/title" android:fontFamily="sans-serif-light"/>
 
     <ImageView android:id="@+id/peak_one" android:layout_width="wrap_content"
                android:layout_marginLeft="5dp" android:layout_height="25dp"

@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="DarkTheme" parent="@android:style/Theme.Holo">
+        <item name="android:actionBarStyle">@style/DarkTheme.ActionBarStyle</item>
+        <item name="android:actionBarWidgetTheme">@style/DarkThemeActionBarItemTextStyle</item>
+        <item name="android:actionMenuTextAppearance">@style/DarkThemeActionBarItemTextStyle</item>
+    </style>
+    <style name="DarkTheme.ActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:titleTextStyle">@style/DarkTheme.ActionBar.TitleTextStyle</item>
+    </style>
+    <style name="DarkTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+    <style name="DarkThemeActionBarItemTextStyle">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+
 	<style name="StatusBarText">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
@@ -8,7 +25,7 @@
 		<item name="android:scrollHorizontally">true</item>
 		<item name="android:singleLine">true</item>
 	</style>
-	<style name="StatusBarButton">
+    <style name="StatusBarButton">
 		<item name="android:layout_width">@dimen/status_bar_button_width_height</item>
 		<item name="android:layout_height">@dimen/status_bar_button_width_height</item>
 		<item name="android:layout_gravity">center|right</item>
