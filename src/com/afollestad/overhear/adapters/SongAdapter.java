@@ -22,9 +22,14 @@ public class SongAdapter extends CursorAdapter {
 	}
 
     private boolean showArtist = true;
+    private boolean showTrackNumher = false;
 
     public void setShowArtist(boolean show) {
         showArtist = show;
+    }
+
+    public void setShowTrackNumber(boolean show) {
+        this.showTrackNumher = show;
     }
 
 	public ArrayList<Song> getSongs() {
@@ -42,11 +47,11 @@ public class SongAdapter extends CursorAdapter {
 		return LayoutInflater.from(context).inflate(R.layout.song_item, null);
 	}
 
-    public static View getViewForSong(Context context, Song song, View view, boolean showArtist) {
+    public static View getViewForSong(Context context, Song song, View view, boolean showArtist, int trackNumber) {
         if(view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }
-        ((TextView)view.findViewById(R.id.title)).setText(song.getTitle());
+        ((TextView)view.findViewById(R.id.title)).setText((trackNumber > -1 ? (trackNumber + 1) + ".     " : "") + song.getTitle());
         TextView artist = (TextView)view.findViewById(R.id.artist);
         if(showArtist) {
             artist.setVisibility(View.VISIBLE);
@@ -85,6 +90,6 @@ public class SongAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		Song song = Song.fromCursor(cursor);
-		getViewForSong(context, song, view, showArtist);
+		getViewForSong(context, song, view, showArtist, showTrackNumher ? cursor.getPosition() : -1);
 	}
 }

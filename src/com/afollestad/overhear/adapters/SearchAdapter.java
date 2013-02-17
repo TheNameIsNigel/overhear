@@ -82,7 +82,7 @@ public class SearchAdapter extends BaseAdapter {
                 ((TextView)view).setText(items.get(i).toString());
                 break;
             case 1:
-                view = SongAdapter.getViewForSong(context, (Song)items.get(i), view, true);
+                view = SongAdapter.getViewForSong(context, (Song)items.get(i), view, true, -1);
                 break;
             case 2:
                 view = AlbumAdapter.getViewForAlbum(context, (Album)items.get(i), convertView);

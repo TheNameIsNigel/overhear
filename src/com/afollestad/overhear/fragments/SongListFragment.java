@@ -115,7 +115,7 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
             uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
             scope = getScope(null);
         }
-		return new CursorLoader(getActivity(), uri, null, scope[0], null, scope[1]);
+        return new CursorLoader(getActivity(), uri, null, scope[0], null, scope[1]);
 	}
 
 	@Override
@@ -123,8 +123,10 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 		if(data == null)
 			return;
 		adapter = new SongAdapter(getActivity(), data, 0);
-        if(getArguments() != null)
+        if(getArguments() != null) {
             adapter.setShowArtist(getArguments().getBoolean("show_artist", false));
+            adapter.setShowTrackNumber(getArguments().getBoolean("show_track_number", false));
+        }
 		setListAdapter(adapter);
 	}
 

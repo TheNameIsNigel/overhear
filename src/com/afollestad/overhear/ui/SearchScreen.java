@@ -1,6 +1,7 @@
 package com.afollestad.overhear.ui;
 
 import android.app.ListActivity;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 import com.afollestad.overhear.R;
@@ -131,11 +133,10 @@ public class SearchScreen extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_screen, menu);
-
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setQueryHint(getString(R.string.search_hint));
-        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-        searchView.setFocusable(true);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -150,7 +151,8 @@ public class SearchScreen extends ListActivity {
                 return false;
             }
         });
-        searchView.requestFocusFromTouch();
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        searchView.requestFocus();
 
         return true;
     }
