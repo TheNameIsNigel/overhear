@@ -16,6 +16,13 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="DarkTheme.DialogCustom" parent="@android:style/Theme.Holo.Dialog">
+        <item name="android:windowTitleStyle">@style/DarkTheme.DialogCustom.TitleStyle</item>
+    </style>
+    <style name="DarkTheme.DialogCustom.TitleStyle" parent="@android:style/TextAppearance.Holo.DialogWindowTitle">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
 
 	<style name="StatusBarText">
 		<item name="android:layout_width">wrap_content</item>

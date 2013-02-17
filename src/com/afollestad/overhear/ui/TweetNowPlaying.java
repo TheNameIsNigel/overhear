@@ -34,7 +34,7 @@ public class TweetNowPlaying extends Activity {
 				finish();
 			}
 		});
-	}
+    }
 
 	private void send() {
 		final TextView text = (TextView)findViewById(R.id.tweetText);

@@ -227,7 +227,12 @@ public class NowPlayingViewer extends Activity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				if(fromUser) {
-					player.seekTo(progress);
+                    if(mService != null && mService.isPlayerInitialized() && mService.isPlaying()) {
+					    player.seekTo(progress);
+                    } else {
+                        startService(new Intent(getApplicationContext(), MusicService.class)
+                                .setAction(MusicService.ACTION_TOGGLE_PLAYBACK));
+                    }
 				}
 			}
 		});
