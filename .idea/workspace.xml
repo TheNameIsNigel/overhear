@@ -28,9 +28,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/list_header.xml" afterPath="$PROJECT_DIR$/res/layout/list_header.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/bio_fragment.xml" afterPath="$PROJECT_DIR$/res/layout/bio_fragment.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -156,10 +156,10 @@
     <file path="/dialog_tweet_now_playing.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361062632524" ignored="false" />
     <file path="/LoginHandler.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360539506226" ignored="false" />
     <file path="/Twitter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360543120931" ignored="false" />
-    <file path="/BioListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360555525073" ignored="false" />
+    <file path="/BioListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361063951110" ignored="false" />
     <file path="/AlternateScreenNameProvider.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360539661669" ignored="false" />
     <file path="/alternate_account_popup.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360541499018" ignored="false" />
-    <file path="/bio_fragment.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361050107807" ignored="false" />
+    <file path="/bio_fragment.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361063995608" ignored="false" />
     <file path="/PlayListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360594998841" ignored="false" />
     <file path="/Playlist.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360595933824" ignored="false" />
     <file path="/OnSwipeTouchListener.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360640160025" ignored="false" />
@@ -232,39 +232,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="sleep_timer_dialog.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/sleep_timer_dialog.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="16" selection-start="1478" selection-end="1519" vertical-scroll-proportion="-14.72">
-              <folding />
-            </state>
-          </provider>
+      <file leaf-file-name="bio_fragment.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/bio_fragment.xml">
           <provider editor-type-id="android-designer">
             <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="45" selection-start="3096" selection-end="3096" vertical-scroll-proportion="0.393586">
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="list_header.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/res/layout/list_header.xml">
+      <file leaf-file-name="BioListFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="71" selection-start="641" selection-end="641" vertical-scroll-proportion="0.41982508">
+            <state line="151" column="55" selection-start="5875" selection-end="5875" vertical-scroll-proportion="0.0">
               <folding />
             </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sleep_timer_viewer.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/sleep_timer_viewer.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="27" selection-start="141" selection-end="141" vertical-scroll-proportion="-1.28">
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
@@ -298,7 +283,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/layout/grid_view_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/song_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/genre_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/sleep_timer_viewer.xml" />
@@ -306,7 +290,6 @@
         <option value="$PROJECT_DIR$/res/layout/activity_now_playing.xml" />
         <option value="$PROJECT_DIR$/res/layout/activity_artist_viewer.xml" />
         <option value="$PROJECT_DIR$/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/res/layout/bio_fragment.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/TweetNowPlaying.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
@@ -314,6 +297,8 @@
         <option value="$PROJECT_DIR$/res/layout/dialog_tweet_now_playing.xml" />
         <option value="$PROJECT_DIR$/res/layout/sleep_timer_dialog.xml" />
         <option value="$PROJECT_DIR$/res/layout/list_header.xml" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" />
+        <option value="$PROJECT_DIR$/res/layout/bio_fragment.xml" />
       </list>
     </option>
   </component>
@@ -384,7 +369,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -398,11 +387,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fragments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -742,23 +735,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="41" selection-start="4951" selection-end="4951" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/bio_fragment.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="93" selection-start="1075" selection-end="1095" vertical-scroll-proportion="-1.28">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/activity_main.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -828,16 +804,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/about_dialog.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="34" selection-start="697" selection-end="717" vertical-scroll-proportion="0.42026266">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/SleepTimer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="99" selection-start="825" selection-end="825" vertical-scroll-proportion="0.6956522">
@@ -847,7 +813,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/sleep_timer_viewer.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="27" selection-start="141" selection-end="141" vertical-scroll-proportion="-1.28">
+        <state line="2" column="27" selection-start="141" selection-end="141" vertical-scroll-proportion="0.060037524">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/list_header.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="71" selection-start="641" selection-end="641" vertical-scroll-proportion="0.27016884">
           <folding />
         </state>
       </provider>
@@ -860,14 +836,31 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="16" selection-start="1478" selection-end="1519" vertical-scroll-proportion="-14.72">
+        <state line="23" column="16" selection-start="1478" selection-end="1519" vertical-scroll-proportion="0.69043154">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/list_header.xml">
+    <entry file="file://$PROJECT_DIR$/res/layout/about_dialog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="71" selection-start="641" selection-end="641" vertical-scroll-proportion="0.41982508">
+        <state line="14" column="34" selection-start="697" selection-end="717" vertical-scroll-proportion="0.12945591">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="151" column="55" selection-start="5875" selection-end="5875" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/bio_fragment.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="45" selection-start="3096" selection-end="3096" vertical-scroll-proportion="0.393586">
           <folding />
         </state>
       </provider>

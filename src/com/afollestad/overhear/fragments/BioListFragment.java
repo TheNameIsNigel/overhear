@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,7 +147,11 @@ public class BioListFragment extends Fragment {
                                 if (info.getBioContent() == null) {
                                     ((TextView) getView().findViewById(R.id.bioAbout)).setText(R.string.no_bio_str);
                                 } else {
-                                    ((TextView) getView().findViewById(R.id.bioAbout)).setText(info.getBioContent());
+                                    Spanned bio = info.getBioContent();
+                                    if(bio.charAt(0) == '\n') {
+                                        bio = (Spanned)bio.subSequence(1, bio.length() - 1);
+                                    }
+                                    ((TextView) getView().findViewById(R.id.bioAbout)).setText(bio);
                                 }
                             }
                         }
