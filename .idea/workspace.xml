@@ -26,10 +26,12 @@
       <entry key="file://$PROJECT_DIR$/res/layout-land/activity_album_viewer.xml" value="Portrait" />
     </device-configurations>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/bio_fragment.xml" afterPath="$PROJECT_DIR$/res/layout/bio_fragment.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
@@ -67,7 +69,7 @@
     <file path="/ArtistOrAlbumImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358908075435" ignored="false" />
     <file path="/AlbumAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360442358491" ignored="false" />
     <file path="/ArtistAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359777378733" ignored="false" />
-    <file path="/NowPlayingBarFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360546061201" ignored="false" />
+    <file path="/NowPlayingBarFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361065947252" ignored="false" />
     <file path="/MusicService.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360640663646" ignored="false" />
     <file path="/ArtistViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359320830095" ignored="false" />
     <file path="/NowPlayingViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361060509593" ignored="false" />
@@ -232,22 +234,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="bio_fragment.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/res/layout/bio_fragment.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
+      <file leaf-file-name="OverviewScreen.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="45" selection-start="3096" selection-end="3096" vertical-scroll-proportion="0.393586">
+            <state line="80" column="0" selection-start="2848" selection-end="2848" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BioListFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
+      <file leaf-file-name="NowPlayingBarFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="151" column="55" selection-start="5875" selection-end="5875" vertical-scroll-proportion="0.0">
+            <state line="69" column="12" selection-start="2149" selection-end="2149" vertical-scroll-proportion="0.84689">
               <folding />
             </state>
           </provider>
@@ -283,7 +282,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/layout/song_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/genre_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/sleep_timer_viewer.xml" />
         <option value="$PROJECT_DIR$/res/layout/now_playing_bar.xml" />
@@ -299,6 +297,7 @@
         <option value="$PROJECT_DIR$/res/layout/list_header.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/bio_fragment.xml" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" />
       </list>
     </option>
   </component>
@@ -395,7 +394,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fragments" />
+              <option name="myItemId" value="ui" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -649,12 +648,12 @@
     <frame x="-3" y="0" width="1372" height="730" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989726" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5976027" sideWeight="0.4969697" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5976027" sideWeight="0.4969697" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3219178" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23712121" sideWeight="0.3219178" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.6746575" order="2" side_tool="false" content_ui="tabs" />
@@ -663,7 +662,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5007576" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22575757" sideWeight="0.6746575" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22575757" sideWeight="0.40239727" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.6746575" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -735,16 +734,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="24" selection-start="758" selection-end="758" vertical-scroll-proportion="0.42026266">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="358" column="21" selection-start="14440" selection-end="14440" vertical-scroll-proportion="0.0">
@@ -755,13 +744,6 @@
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="13" selection-start="858" selection-end="858" vertical-scroll-proportion="0.11469534">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="50" selection-start="1397" selection-end="1397" vertical-scroll-proportion="0.43010753">
           <folding />
         </state>
       </provider>
@@ -851,21 +833,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="55" selection-start="5875" selection-end="5875" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/bio_fragment.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="45" selection-start="3096" selection-end="3096" vertical-scroll-proportion="0.393586">
+        <state line="49" column="58" selection-start="3231" selection-end="3238" vertical-scroll-proportion="0.48688048">
           <folding />
         </state>
       </provider>
       <provider editor-type-id="android-designer">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="151" column="55" selection-start="5875" selection-end="5875" vertical-scroll-proportion="0.33423913">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="0" selection-start="2848" selection-end="2848" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="12" selection-start="2149" selection-end="2149" vertical-scroll-proportion="0.84689">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>
