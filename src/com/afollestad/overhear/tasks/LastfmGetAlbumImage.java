@@ -1,6 +1,7 @@
 package com.afollestad.overhear.tasks;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.afollestad.aimage.views.AImageView;
@@ -10,6 +11,7 @@ import com.afollestad.overhear.WebArtUtils;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.LastFM;
 
+import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 
 public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
@@ -32,8 +34,14 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
         String url = WebArtUtils.getImageURL(context.get(), als[0]);
         if(url == null) {
             url = als[0].getAlbumArtUri(context.get()).toString();
+            try {
+                context.get().getContentResolver().openInputStream(Uri.parse(url));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                url = null;
+            }
         }
-        if (url == null && MusicUtils.isOnline(context.get())) {
+        if ((url == null || url.trim().isEmpty()) && MusicUtils.isOnline(context.get())) {
             try {
                 Log.i("Overhear", "Getting album information from LastFM for: " + als[0].getName() + " by " + als[0].getArtist());
                 url = LastFM.getAlbumInfo(als[0].getArtist().getName(), als[0].getName()).getCoverImageURL();
