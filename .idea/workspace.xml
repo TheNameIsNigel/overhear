@@ -28,7 +28,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/sleep_timer_dialog.xml" afterPath="$PROJECT_DIR$/res/layout/sleep_timer_dialog.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/list_header.xml" afterPath="$PROJECT_DIR$/res/layout/list_header.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -168,6 +168,7 @@
     <file path="/activity_main.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361050039398" ignored="false" />
     <file path="/styles.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361062543341" ignored="false" />
     <file path="/sleep_timer_dialog.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361063401584" ignored="false" />
+    <file path="/list_header.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361063638839" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,10 +232,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="sleep_timer_dialog.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sleep_timer_dialog.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/sleep_timer_dialog.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="58" selection-start="263" selection-end="263" vertical-scroll-proportion="0.18658893">
+            <state line="23" column="16" selection-start="1478" selection-end="1519" vertical-scroll-proportion="-14.72">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list_header.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/res/layout/list_header.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="71" selection-start="641" selection-end="641" vertical-scroll-proportion="0.41982508">
               <folding />
             </state>
           </provider>
@@ -285,7 +298,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/res/layout/album_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/grid_view_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/song_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/genre_item.xml" />
@@ -301,6 +313,7 @@
         <option value="$PROJECT_DIR$/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/res/layout/dialog_tweet_now_playing.xml" />
         <option value="$PROJECT_DIR$/res/layout/sleep_timer_dialog.xml" />
+        <option value="$PROJECT_DIR$/res/layout/list_header.xml" />
       </list>
     </option>
   </component>
@@ -371,11 +384,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -629,7 +656,7 @@
     <frame x="-3" y="0" width="1372" height="730" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989726" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -715,16 +742,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_now_playing.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="55" selection-start="3459" selection-end="3496" vertical-scroll-proportion="0.18949343">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="130" column="41" selection-start="4951" selection-end="4951" vertical-scroll-proportion="0.0">
@@ -843,9 +860,19 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="58" selection-start="263" selection-end="263" vertical-scroll-proportion="0.18658893">
+        <state line="23" column="16" selection-start="1478" selection-end="1519" vertical-scroll-proportion="-14.72">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/list_header.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="71" selection-start="641" selection-end="641" vertical-scroll-proportion="0.41982508">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>
