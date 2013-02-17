@@ -371,7 +371,7 @@ public class NowPlayingViewer extends Activity {
             startActivity(new Intent(this, SleepTimerViewer.class));
             return;
         }
-        final Dialog diag = new Dialog(this);
+        final Dialog diag = new Dialog(this, R.style.DarkTheme_DialogCustom);
         diag.setContentView(R.layout.sleep_timer_dialog);
         diag.setCancelable(true);
         diag.setTitle(R.string.sleep_timer_str);
