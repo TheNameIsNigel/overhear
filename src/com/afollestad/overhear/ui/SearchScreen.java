@@ -1,7 +1,6 @@
 package com.afollestad.overhear.ui;
 
 import android.app.ListActivity;
-import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 import com.afollestad.overhear.R;
@@ -60,7 +58,7 @@ public class SearchScreen extends ListActivity {
                 null,
                 column + " LIKE ('%" + query + "%') ESCAPE '\\'",
                 null,
-                column + " LIMIT 10");
+                column + " LIMIT 5");
     }
 
     public void search(String query) {
@@ -130,19 +128,14 @@ public class SearchScreen extends ListActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_screen, menu);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+    private SearchView getSearchView(MenuItem item) {
+        SearchView searchView = (SearchView)item.getActionView();
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String s) {
                 lastQuery = s;
@@ -152,8 +145,17 @@ public class SearchScreen extends ListActivity {
             }
         });
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-        searchView.requestFocus();
+        return searchView;
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_screen, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = getSearchView(searchItem);
+        searchView.setFocusable(true);
+        searchView.setIconified(false);
+        searchView.requestFocusFromTouch();
         return true;
     }
 
