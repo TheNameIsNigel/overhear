@@ -33,7 +33,7 @@ public class NowPlayingViewer extends Activity {
 	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			load();
+			load(intent.getBooleanExtra("album_changed", false));
 		}
 	};
 
@@ -101,7 +101,7 @@ public class NowPlayingViewer extends Activity {
 				});
 			}
 		}, 250, 250);
-		load();
+		load(true);
 	}
 
 	public void onPause() {
@@ -297,10 +297,12 @@ public class NowPlayingViewer extends Activity {
 	/**
 	 * Loads song/album/artist info and album art
 	 */
-	public void load() {
+	public void load(boolean albumChanged) {
 		song = Queue.getFocused(this);
 		album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
-        AlbumAdapter.retrieveAlbumArt(this, album, (AImageView)findViewById(R.id.cover));
+        if(albumChanged) {
+            AlbumAdapter.retrieveAlbumArt(this, album, (AImageView)findViewById(R.id.cover));
+        }
 		((TextView)findViewById(R.id.track)).setText(song.getTitle());
 		((TextView)findViewById(R.id.artistAlbum)).setText(song.getArtist() + " - " + album.getName());
 
