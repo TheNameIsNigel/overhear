@@ -1,6 +1,7 @@
 package com.afollestad.overhear.tasks;
 
-import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,17 +17,21 @@ import java.lang.ref.WeakReference;
 
 public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
 
-    private WeakReference<Activity> context;
+    private WeakReference<Context> context;
     private WeakReference<AImageView> view;
+    private WeakReference<Application> app;
    
-    public LastfmGetAlbumImage(Activity context, AImageView view) {
-        this.context = new WeakReference<Activity>(context);
+    public LastfmGetAlbumImage(Context context, Application app, AImageView view) {
+        this.context = new WeakReference<Context>(context);
         this.view = new WeakReference<AImageView>(view);
-        if(view.getTag() != null) {
-            //TODO this may be causing issues (with cancelling tasks that should not be cancelled).
-            ((LastfmGetAlbumImage)view.getTag()).cancel(true);
+        this.app = new WeakReference<Application>(app);
+        if(view != null) {
+            if(view.getTag() != null) {
+                //TODO this may be causing issues (with cancelling tasks that should not be cancelled).
+                ((LastfmGetAlbumImage)view.getTag()).cancel(true);
+            }
+            view.setTag(this);
         }
-        view.setTag(this);
     }
 
     @Override
@@ -62,7 +67,7 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
             if(view.get().getTag() != null && view.get().getTag() != this) {
                 return;
             } else if(view != null && view.get() != null && result != null) {
-                view.get().setManager(((App)context.get().getApplication()).getManager()).setSource(result).load();
+                view.get().setManager(((App)app.get()).getManager()).setSource(result).load();
             }
         }
         super.onPostExecute(result);

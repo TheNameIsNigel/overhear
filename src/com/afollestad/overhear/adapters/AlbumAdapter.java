@@ -37,7 +37,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         view.setImageBitmap(null);
         String url = WebArtUtils.getImageURL(context, album);
         if (url == null) {
-            new LastfmGetAlbumImage(context, view).execute(album);
+            new LastfmGetAlbumImage(context, context.getApplication(), view).execute(album);
         } else {
             view.setManager(((App) context.getApplication()).getManager()).setSource(url).load();
         }

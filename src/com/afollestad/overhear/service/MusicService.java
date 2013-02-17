@@ -160,11 +160,11 @@ public class MusicService extends Service {
                 .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, nowPlaying.getTitle())
                 .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
         Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
+        String url = WebArtUtils.getImageURL(getApplicationContext(), album);
+        if(url == null) {
+            url = album.getAlbumArtUri(getApplicationContext()).toString();
+        }
         try {
-            String url = WebArtUtils.getImageURL(this, album);
-            if (url == null) {
-                url = album.getAlbumArtUri(this).toString();
-            }
             Bitmap art = ((App) getApplication()).getManager().get(url, null);
             metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, art);
         } catch (Exception e) {
@@ -189,9 +189,9 @@ public class MusicService extends Service {
 
     private void initializeNotification(Song nowPlaying) {
         Album album = Album.getAlbum(this, nowPlaying.getAlbum(), nowPlaying.getArtist());
-        String url = WebArtUtils.getImageURL(this, album);
-        if (url == null) {
-            url = album.getAlbumArtUri(this).toString();
+        String url = WebArtUtils.getImageURL(getApplicationContext(), album);
+        if(url == null) {
+            url = album.getAlbumArtUri(getApplicationContext()).toString();
         }
         Bitmap art = ((App) getApplication()).getManager().get(url, null);
         Notification status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
