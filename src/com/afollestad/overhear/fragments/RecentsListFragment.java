@@ -1,25 +1,18 @@
 package com.afollestad.overhear.fragments;
 
+import android.app.ListFragment;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.*;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.Recents;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhearapi.Album;
-import com.afollestad.overhearapi.Song;
-
-import android.app.ListFragment;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Loader;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ListView;
 
 public class RecentsListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 
@@ -83,7 +76,7 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		adapter.getCursor().moveToPosition(position);
-		Album album = Album.fromCursor(getActivity(), adapter.getCursor());
+		Album album = Album.fromCursor(adapter.getCursor());
 		startActivity(new Intent(getActivity(), AlbumViewer.class)
 		.putExtra("album", album.getJSON().toString()));
 	}
@@ -91,7 +84,7 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		return new CursorLoader(getActivity(), Recents.PROVIDER_URI, 
-				null, null, null, Song.QUEUE_ID + " DESC LIMIT 15");
+				null, null, null, Recents.SORT);
 	}
 
 	@Override

@@ -85,7 +85,7 @@ public class AlbumListFragment extends ListFragment implements LoaderCallbacks<C
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		adapter.getCursor().moveToPosition(position);
-		Album album = Album.fromCursor(getActivity(), adapter.getCursor());
+		Album album = Album.fromCursor(adapter.getCursor());
 		startActivity(new Intent(getActivity(), AlbumViewer.class)
 		.putExtra("album", album.getJSON().toString()));
 	}

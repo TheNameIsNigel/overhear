@@ -70,7 +70,7 @@ public class SearchScreen extends ListActivity {
         Cursor cursor = openCursor(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, query, MediaStore.Audio.AlbumColumns.ALBUM);
         ArrayList<Album> albums = new ArrayList<Album>();
         while (cursor.moveToNext()) {
-            albums.add(Album.fromCursor(getApplicationContext(), cursor));
+            albums.add(Album.fromCursor(cursor));
         }
         if (albums.size() > 0)
             adapter.add("Albums", albums.toArray());

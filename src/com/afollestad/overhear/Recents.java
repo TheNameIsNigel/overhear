@@ -23,22 +23,31 @@ public class Recents {
 	 */
 	public static void add(Context context, Song song) {
 		Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
-        album.setQueueId(getSize(context) + 1);
-		ContentValues values = album.getContentValues(true);
+        long queueId = 1;
+        Album mostRecent = getMostRecent(context);
+        if(mostRecent != null)
+            queueId = mostRecent.getQueueId() + 1;
+        album.setQueueId(queueId);
+
+        ContentValues values = album.getContentValues(true);
 		int updated = context.getContentResolver().update(PROVIDER_URI, values,
                 MediaStore.Audio.AlbumColumns.ALBUM + " = '" + album.getName() + "' AND " +
                 MediaStore.Audio.AlbumColumns.ARTIST + " = '" + album.getArtist().getName() + "'", null);
 		if(updated == 0) {
-            values = album.getContentValues(true);
 			context.getContentResolver().insert(PROVIDER_URI, values);
 		}
         context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
 	}
 
-    public static int getSize(Context context) {
-        Cursor cursor = context.getContentResolver().query(PROVIDER_URI, null, null, null, null);
-        int rows = cursor.getCount();
+    public static Album getMostRecent(Context context) {
+        Cursor cursor = context.getContentResolver().query(PROVIDER_URI, null, null, null, SORT);
+        if(!cursor.moveToFirst()) {
+            return null;
+        }
+        Album toreturn = Album.fromCursor(cursor);
         cursor.close();
-        return rows;
+        return toreturn;
     }
+
+    public final static String SORT = Song.QUEUE_ID + " DESC LIMIT 15";
 }

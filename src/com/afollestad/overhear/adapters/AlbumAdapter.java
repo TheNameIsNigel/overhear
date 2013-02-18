@@ -123,7 +123,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
             view = convertView;
         }
 
-        Album album = Album.fromCursor(context, getCursor());
+        Album album = Album.fromCursor(getCursor());
         view = getViewForAlbum(context, album, view);
 
 		int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
