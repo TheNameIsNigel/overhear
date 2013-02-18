@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Song;
@@ -21,12 +22,7 @@ public class SongAdapter extends CursorAdapter {
 		super(context, c, flags);
 	}
 
-    private boolean showArtist = true;
     private boolean showTrackNumher = false;
-
-    public void setShowArtist(boolean show) {
-        showArtist = show;
-    }
 
     public void setShowTrackNumber(boolean show) {
         this.showTrackNumher = show;
@@ -47,18 +43,24 @@ public class SongAdapter extends CursorAdapter {
 		return LayoutInflater.from(context).inflate(R.layout.song_item, null);
 	}
 
-    public static View getViewForSong(Context context, Song song, View view, boolean showArtist, int trackNumber) {
+    public static View getViewForSong(final Context context, final Song song, View view, int trackNumber) {
         if(view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }
-        ((TextView)view.findViewById(R.id.title)).setText((trackNumber > -1 ? (trackNumber + 1) + ".     " : "") + song.getTitle());
-        TextView artist = (TextView)view.findViewById(R.id.artist);
-        if(showArtist) {
-            artist.setVisibility(View.VISIBLE);
-            artist.setText(song.getArtist());
-        } else {
-            artist.setVisibility(View.GONE);
+
+        String spaces = ". ";
+        if(Integer.toString(trackNumber).length() > 1) {
+            spaces += " ";
         }
+        ((TextView)view.findViewById(R.id.title)).setText((trackNumber > -1 ? (trackNumber + 1) + spaces : "") + song.getTitle());
+
+        View options = view.findViewById(R.id.options);
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, song.getTitle(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         ImageView peakOne = (ImageView)view.findViewById(R.id.peak_one);
         ImageView peakTwo = (ImageView)view.findViewById(R.id.peak_two);
@@ -90,6 +92,6 @@ public class SongAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		Song song = Song.fromCursor(cursor);
-		getViewForSong(context, song, view, showArtist, showTrackNumher ? cursor.getPosition() : -1);
+		getViewForSong(context, song, view, showTrackNumher ? cursor.getPosition() : -1);
 	}
 }

@@ -124,7 +124,6 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 			return;
 		adapter = new SongAdapter(getActivity(), data, 0);
         if(getArguments() != null) {
-            adapter.setShowArtist(getArguments().getBoolean("show_artist", false));
             adapter.setShowTrackNumber(getArguments().getBoolean("show_track_number", false));
         }
 		setListAdapter(adapter);

@@ -35,7 +35,6 @@ public class GenreViewer extends Activity {
 	        Fragment newFragment = new SongListFragment();
 	        Bundle args = new Bundle();
 	        args.putString("genre", getIntent().getStringExtra("genre"));
-            args.putBoolean("show_artist", true);
 	        newFragment.setArguments(args);
 	        ft.add(R.id.songList, newFragment);
 	        ft.commit();
