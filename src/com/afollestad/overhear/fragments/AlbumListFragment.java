@@ -1,5 +1,6 @@
 package com.afollestad.overhear.fragments;
 
+import android.widget.AdapterView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
@@ -70,6 +71,13 @@ public class AlbumListFragment extends ListFragment implements LoaderCallbacks<C
 		getListView().setPadding(pad, 0, pad, 0);
 		getListView().setSmoothScrollbarEnabled(true);
 		getListView().setFastScrollEnabled(true);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                view.findViewById(R.id.options).performClick();
+                return true;
+            }
+        });
 		setEmptyText(getString(R.string.no_albums));
 	}
 

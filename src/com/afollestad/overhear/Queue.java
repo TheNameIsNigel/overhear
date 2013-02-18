@@ -106,6 +106,21 @@ public class Queue {
         return song;
 	}
 
+    public static ArrayList<Song> addToQueue(Context context, ArrayList<Song> songs) {
+        ArrayList<Song> toreturn = new ArrayList<Song>();
+        Cursor cursor = openCursor(context, null);
+
+        int startPos = cursor.getCount();
+        for(Song si : songs) {
+            startPos++;
+            si.setQueueId(startPos);
+            toreturn.add(addToQueue(context, si));
+        }
+
+        cursor.close();
+        return toreturn;
+    }
+
 	public static int setFocused(Context context, Song song, boolean playing) {
 		clearFocused(context);
 		song.setIsPlaying(playing);

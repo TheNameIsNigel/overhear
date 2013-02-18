@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
@@ -18,6 +21,8 @@ import com.afollestad.overhear.WebArtUtils;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
+
+import java.util.ArrayList;
 
 public class AlbumAdapter extends SimpleCursorAdapter {
 
@@ -43,11 +48,36 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         }
     }
 
-    public static View getViewForAlbum(Activity context, Album album, View view) {
+    public static View getViewForAlbum(final Activity context, final Album album, View view) {
         if(view == null)
             view = LayoutInflater.from(context).inflate(R.layout.album_item, null);
         ((TextView)view.findViewById(R.id.title)).setText(album.getName());
         ((TextView)view.findViewById(R.id.artist)).setText(album.getArtist().getName());
+
+        View options = view.findViewById(R.id.options);
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu menu = new PopupMenu(context, view);
+                menu.inflate(R.menu.song_item_popup);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.addToQueue:
+                                ArrayList<Song> content = Song.getAllFromScope(context, new String[] {
+                                        MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
+                                        MediaStore.Audio.Media.ALBUM_ID + " = " + album.getAlbumId(),
+                                        MediaStore.Audio.Media.TRACK });
+                                Queue.addToQueue(context, content);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                menu.show();
+            }
+        });
 
         AImageView image =(AImageView)view.findViewById(R.id.image);
         retrieveAlbumArt(context, album, image);

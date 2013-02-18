@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SongAdapter;
@@ -65,6 +66,13 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 		getListView().setPadding(pad, 0, pad, 0);
 		getListView().setSmoothScrollbarEnabled(true);
 		getListView().setFastScrollEnabled(true);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                view.findViewById(R.id.options).performClick();
+                return true;
+            }
+        });
 		setEmptyText(getString(R.string.no_songs));
 	}
 
