@@ -60,18 +60,24 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         AnimationDrawable mPeakTwoAnimation = (AnimationDrawable)peakTwo.getDrawable();
 
         Song focused = Queue.getFocused(context);
-        if(focused != null && focused.isPlaying() && album.getName().equals(focused.getAlbum()) &&
-                album.getArtist().equals(focused.getArtist())) {
+        if (focused != null && album.getName().equals(focused.getAlbum()) && album.getArtist().equals(focused.getArtist())) {
             peakOne.setVisibility(View.VISIBLE);
             peakTwo.setVisibility(View.VISIBLE);
-            if(!mPeakOneAnimation.isRunning()) {
-                mPeakOneAnimation.start();
-                mPeakTwoAnimation.start();
+            if (focused.isPlaying()) {
+                if (!mPeakOneAnimation.isRunning()) {
+                    mPeakOneAnimation.start();
+                    mPeakTwoAnimation.start();
+                }
+            } else {
+                mPeakOneAnimation.stop();
+                mPeakOneAnimation.selectDrawable(0);
+                mPeakTwoAnimation.stop();
+                mPeakTwoAnimation.selectDrawable(0);
             }
         } else {
             peakOne.setVisibility(View.GONE);
             peakTwo.setVisibility(View.GONE);
-            if(mPeakOneAnimation.isRunning()) {
+            if (mPeakOneAnimation.isRunning()) {
                 mPeakOneAnimation.stop();
                 mPeakTwoAnimation.stop();
             }

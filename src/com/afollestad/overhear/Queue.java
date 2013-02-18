@@ -43,19 +43,18 @@ public class Queue {
 	public static boolean increment(Context context, boolean playing) {
 		Cursor cursor = openCursor(context, null);
 		boolean found = false;
+        clearPlaying(context);
 		while(cursor.moveToNext()) {
 			boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
 			if(hasFocus) {
 				if(cursor.moveToNext()) {
 					clearFocused(context);
-					int id = cursor.getInt(cursor.getColumnIndex("_id"));
+					long dateQueued = cursor.getLong(cursor.getColumnIndex(Song.DATE_QUEUED));
 					ContentValues values = new ContentValues();
 					values.put(Song.QUEUE_FOCUS, 1);
 					values.put(Song.NOW_PLAYING, playing ? 1 : 0);
-					context.getContentResolver().update(PROVIDER_URI, values, "_id = " + id, null);
+					context.getContentResolver().update(PROVIDER_URI, values, Song.DATE_QUEUED + " = " + dateQueued, null);
 					found = true;
-				} else {
-					clearPlaying(context);
 				}
 				break;
 			}
@@ -67,19 +66,18 @@ public class Queue {
 	public static boolean decrement(Context context, boolean playing) {
 		Cursor cursor = openCursor(context, null);
 		boolean found = false;
+        clearPlaying(context);
 		while(cursor.moveToNext()) {
 			boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
 			if(hasFocus) {
 				if(cursor.moveToPrevious()) {
 					clearFocused(context);
-					int id = cursor.getInt(cursor.getColumnIndex("_id"));
+                    long dateQueued = cursor.getLong(cursor.getColumnIndex(Song.DATE_QUEUED));
 					ContentValues values = new ContentValues();
 					values.put(Song.QUEUE_FOCUS, 1);
 					values.put(Song.NOW_PLAYING, playing ? 1 : 0);
-					context.getContentResolver().update(PROVIDER_URI, values, "_id = " + id, null);
+					context.getContentResolver().update(PROVIDER_URI, values, Song.DATE_QUEUED + " = " + dateQueued, null);
 					found = true;
-				} else {
-					clearPlaying(context);
 				}
 				break;
 			}
@@ -87,22 +85,6 @@ public class Queue {
 		cursor.close();
 		return found;
 	}
-
-    public static Song getPrevious(Context context) {
-        Cursor cursor = openCursor(context, null);
-        Song toreturn = null;
-        while(cursor.moveToNext()) {
-            boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
-            if(hasFocus) {
-                if(cursor.moveToPrevious()) {
-                    toreturn = Song.fromCursor(cursor);
-                }
-                break;
-            }
-        }
-        cursor.close();
-        return toreturn;
-    }
 
 	public static void clearQueue(Context context) {
 		context.getContentResolver().delete(PROVIDER_URI, null, null);
@@ -126,7 +108,8 @@ public class Queue {
 		ContentValues values = new ContentValues();
 		values.put(Song.NOW_PLAYING, playing ? 1 : 0);
 		values.put(Song.QUEUE_FOCUS, 1);
-		int updated = context.getContentResolver().update(PROVIDER_URI, values, "_id = " + song.getId(), null);
+		int updated = context.getContentResolver().update(PROVIDER_URI, values, Song.DATE_QUEUED +
+                " = " + song.getDateQueued().getTimeInMillis(), null);
 		if(updated == 0) {
 			addToQueue(context, song);
 		}
@@ -168,7 +151,7 @@ public class Queue {
 	
 	public static Song pull(Context context) {
 		Song pulled = poll(context);
-		context.getContentResolver().delete(PROVIDER_URI, "_id = " + pulled.getId(), null);
+		context.getContentResolver().delete(PROVIDER_URI, Song.DATE_QUEUED + " = " + pulled.getDateQueued().getTimeInMillis(), null);
 		return pulled;
 	}
 }
