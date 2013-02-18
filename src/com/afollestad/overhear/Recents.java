@@ -3,6 +3,7 @@ package com.afollestad.overhear;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
@@ -21,6 +22,7 @@ public class Recents {
 	 */
 	public static void add(Context context, Song song) {
 		Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
+        album.setQueueId(getSize(context) + 1);
 		ContentValues values = album.getContentValues(true);
 		int updated = context.getContentResolver().update(PROVIDER_URI, values, "_id = " + album.getAlbumId(), null);
 		if(updated == 0) {
@@ -28,4 +30,11 @@ public class Recents {
 		}
         context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
 	}
+
+    public static int getSize(Context context) {
+        Cursor cursor = context.getContentResolver().query(PROVIDER_URI, null, null, null, null);
+        int rows = cursor.getCount();
+        cursor.close();
+        return rows;
+    }
 }

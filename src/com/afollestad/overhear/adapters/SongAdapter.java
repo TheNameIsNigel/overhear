@@ -15,8 +15,6 @@ import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Song;
 
-import java.util.ArrayList;
-
 public class SongAdapter extends CursorAdapter {
 
     public SongAdapter(Context context, Cursor c, int flags) {
@@ -27,16 +25,6 @@ public class SongAdapter extends CursorAdapter {
 
     public void setShowTrackNumber(boolean show) {
         this.showTrackNumher = show;
-    }
-
-    public ArrayList<Song> getSongs() {
-        ArrayList<Song> songs = new ArrayList<Song>();
-        getCursor().moveToFirst();
-        songs.add(Song.fromCursor(getCursor()));
-        while (getCursor().moveToNext()) {
-            songs.add(Song.fromCursor(getCursor()));
-        }
-        return songs;
     }
 
     @Override
@@ -61,10 +49,6 @@ public class SongAdapter extends CursorAdapter {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.playNext:
-                                Song focused = Queue.getFocused(context);
-                                Queue.insertInQueue(context, song, focused);
-                                return true;
                             case R.id.addToQueue:
                                 Queue.addToQueue(context, song);
                                 return true;

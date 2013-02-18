@@ -7,7 +7,6 @@ import android.net.Uri;
 import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Various utilities for accessing the play queue content provider, also keeps track of your 
@@ -20,7 +19,7 @@ public class Queue {
 	public final static Uri PROVIDER_URI = Uri.parse("content://com.afollestad.overhear.queueprovider");
 
 	private static Cursor openCursor(Context context, String where) {
-		return context.getContentResolver().query(PROVIDER_URI, null, where, null, Song.DATE_QUEUED);
+		return context.getContentResolver().query(PROVIDER_URI, null, where, null, Song.QUEUE_ID);
 	}
 	
 	public static void setQueue(Context context, ArrayList<Song> songs) {
@@ -41,19 +40,19 @@ public class Queue {
 	}
 	
 	public static boolean increment(Context context, boolean playing) {
+        clearPlaying(context);
 		Cursor cursor = openCursor(context, null);
 		boolean found = false;
-        clearPlaying(context);
 		while(cursor.moveToNext()) {
 			boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
 			if(hasFocus) {
 				if(cursor.moveToNext()) {
+                    int queueId = cursor.getInt(cursor.getColumnIndex(Song.QUEUE_ID));
 					clearFocused(context);
-					long dateQueued = cursor.getLong(cursor.getColumnIndex(Song.DATE_QUEUED));
 					ContentValues values = new ContentValues();
 					values.put(Song.QUEUE_FOCUS, 1);
 					values.put(Song.NOW_PLAYING, playing ? 1 : 0);
-					context.getContentResolver().update(PROVIDER_URI, values, Song.DATE_QUEUED + " = " + dateQueued, null);
+					context.getContentResolver().update(PROVIDER_URI, values, Song.QUEUE_ID + " = " + queueId, null);
 					found = true;
 				}
 				break;
@@ -64,19 +63,19 @@ public class Queue {
 	}
 	
 	public static boolean decrement(Context context, boolean playing) {
+        clearPlaying(context);
 		Cursor cursor = openCursor(context, null);
 		boolean found = false;
-        clearPlaying(context);
 		while(cursor.moveToNext()) {
 			boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
 			if(hasFocus) {
 				if(cursor.moveToPrevious()) {
+                    int queueId = cursor.getInt(cursor.getColumnIndex(Song.QUEUE_ID));
 					clearFocused(context);
-                    long dateQueued = cursor.getLong(cursor.getColumnIndex(Song.DATE_QUEUED));
 					ContentValues values = new ContentValues();
 					values.put(Song.QUEUE_FOCUS, 1);
 					values.put(Song.NOW_PLAYING, playing ? 1 : 0);
-					context.getContentResolver().update(PROVIDER_URI, values, Song.DATE_QUEUED + " = " + dateQueued, null);
+					context.getContentResolver().update(PROVIDER_URI, values, Song.QUEUE_ID + " = " + queueId, null);
 					found = true;
 				}
 				break;
@@ -91,15 +90,11 @@ public class Queue {
 	}
 	
 	public static void addToQueue(Context context, Song song) {
+        Cursor cursor = openCursor(context, null);
+        song.setQueueId(cursor.getCount() + 1);
+        cursor.close();
 		context.getContentResolver().insert(PROVIDER_URI, song.getContentValues(true));
 	}
-
-    public static void insertInQueue(Context context, Song song, Song after) {
-        Calendar cal = after.getDateQueued();
-        cal.setTimeInMillis(cal.getTimeInMillis() + 1);
-        song.setDateQueued(cal);
-        context.getContentResolver().insert(PROVIDER_URI, song.getContentValues(true));
-    }
 
 	public static void setFocused(Context context, Song song, boolean playing) {
 		clearFocused(context);
@@ -108,8 +103,8 @@ public class Queue {
 		ContentValues values = new ContentValues();
 		values.put(Song.NOW_PLAYING, playing ? 1 : 0);
 		values.put(Song.QUEUE_FOCUS, 1);
-		int updated = context.getContentResolver().update(PROVIDER_URI, values, Song.DATE_QUEUED +
-                " = " + song.getDateQueued().getTimeInMillis(), null);
+		int updated = context.getContentResolver().update(PROVIDER_URI, values, Song.QUEUE_ID +
+                " = " + song.getQueueId(), null);
 		if(updated == 0) {
 			addToQueue(context, song);
 		}
@@ -137,21 +132,5 @@ public class Queue {
 		values.put(Song.QUEUE_FOCUS, 0);
 		context.getContentResolver().update(PROVIDER_URI, values, Song.QUEUE_FOCUS +
 				" = 1 OR " + Song.NOW_PLAYING + " = 1", null);
-	}
-	
-	public static Song poll(Context context) {
-		Cursor cursor = openCursor(context, null);
-		Song toreturn = null;
-		if(cursor.moveToFirst()) { 
-			toreturn = Song.fromCursor(cursor);
-		}
-		cursor.close();
-		return toreturn;
-	}
-	
-	public static Song pull(Context context) {
-		Song pulled = poll(context);
-		context.getContentResolver().delete(PROVIDER_URI, Song.DATE_QUEUED + " = " + pulled.getDateQueued().getTimeInMillis(), null);
-		return pulled;
 	}
 }

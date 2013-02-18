@@ -161,7 +161,7 @@ public class MusicService extends Service {
                 .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
         Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
         String url = WebArtUtils.getImageURL(getApplicationContext(), album);
-        if(url == null) {
+        if (url == null) {
             url = album.getAlbumArtUri(getApplicationContext()).toString();
         }
         try {
@@ -190,7 +190,7 @@ public class MusicService extends Service {
     private void initializeNotification(Song nowPlaying) {
         Album album = Album.getAlbum(this, nowPlaying.getAlbum(), nowPlaying.getArtist());
         String url = WebArtUtils.getImageURL(getApplicationContext(), album);
-        if(url == null) {
+        if (url == null) {
             url = album.getAlbumArtUri(getApplicationContext()).toString();
         }
         Bitmap art = ((App) getApplication()).getManager().get(url, null);
@@ -296,13 +296,14 @@ public class MusicService extends Service {
         } else {
             stopTrack();
             return false;
+
         }
         return true;
     }
 
     private void previousOrRewind(boolean override) {
         Log.i("OVERHEAR SERVICE", "previousTrack()");
-        if (player != null && player.getCurrentPosition() > 2000 && !override) {
+        if (player != null && player.getCurrentPosition() > 3000 && !override) {
             player.seekTo(0);
             sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
         } else {
