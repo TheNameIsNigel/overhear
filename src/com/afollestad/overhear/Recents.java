@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
@@ -24,8 +25,11 @@ public class Recents {
 		Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
         album.setQueueId(getSize(context) + 1);
 		ContentValues values = album.getContentValues(true);
-		int updated = context.getContentResolver().update(PROVIDER_URI, values, "_id = " + album.getAlbumId(), null);
+		int updated = context.getContentResolver().update(PROVIDER_URI, values,
+                MediaStore.Audio.AlbumColumns.ALBUM + " = '" + album.getName() + "' AND " +
+                MediaStore.Audio.AlbumColumns.ARTIST + " = '" + album.getArtist().getName() + "'", null);
 		if(updated == 0) {
+            values = album.getContentValues(true);
 			context.getContentResolver().insert(PROVIDER_URI, values);
 		}
         context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));

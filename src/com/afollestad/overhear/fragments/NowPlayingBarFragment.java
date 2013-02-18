@@ -66,8 +66,13 @@ public class NowPlayingBarFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if(getActivity() != null)
-            getActivity().unregisterReceiver(mStatusReceiver);
+        if(getActivity() != null) {
+            try {
+                getActivity().unregisterReceiver(mStatusReceiver);
+            } catch(Exception e) {
+                //Supress
+            }
+        }
         super.onDestroy();
     }
 
