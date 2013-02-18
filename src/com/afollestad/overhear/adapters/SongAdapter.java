@@ -48,11 +48,7 @@ public class SongAdapter extends CursorAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }
 
-        String spaces = ". ";
-        if(Integer.toString(trackNumber).length() == 1) {
-            spaces += " ";
-        }
-        ((TextView)view.findViewById(R.id.title)).setText((trackNumber > -1 ? (trackNumber + 1) + spaces : "") + song.getTitle());
+        ((TextView)view.findViewById(R.id.title)).setText((trackNumber > -1 ? (trackNumber + 1) + ". " : "") + song.getTitle());
 
         View options = view.findViewById(R.id.options);
         options.setOnClickListener(new View.OnClickListener() {
