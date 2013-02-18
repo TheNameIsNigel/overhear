@@ -1,11 +1,13 @@
 package com.afollestad.overhear;
 
-import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import com.afollestad.overhearapi.Song;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Various utilities for accessing the play queue content provider, also keeps track of your 
@@ -68,10 +70,9 @@ public class Queue {
 		while(cursor.moveToNext()) {
 			boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
 			if(hasFocus) {
-				int id = cursor.getInt(cursor.getColumnIndex("_id"));
 				if(cursor.moveToPrevious()) {
 					clearFocused(context);
-					id = cursor.getInt(cursor.getColumnIndex("_id"));
+					int id = cursor.getInt(cursor.getColumnIndex("_id"));
 					ContentValues values = new ContentValues();
 					values.put(Song.QUEUE_FOCUS, 1);
 					values.put(Song.NOW_PLAYING, playing ? 1 : 0);
@@ -85,7 +86,23 @@ public class Queue {
 		}
 		cursor.close();
 		return found;
-	}	
+	}
+
+    public static Song getPrevious(Context context) {
+        Cursor cursor = openCursor(context, null);
+        Song toreturn = null;
+        while(cursor.moveToNext()) {
+            boolean hasFocus = (cursor.getInt(cursor.getColumnIndex(Song.QUEUE_FOCUS)) == 1);
+            if(hasFocus) {
+                if(cursor.moveToPrevious()) {
+                    toreturn = Song.fromCursor(cursor);
+                }
+                break;
+            }
+        }
+        cursor.close();
+        return toreturn;
+    }
 
 	public static void clearQueue(Context context) {
 		context.getContentResolver().delete(PROVIDER_URI, null, null);
@@ -94,6 +111,13 @@ public class Queue {
 	public static void addToQueue(Context context, Song song) {
 		context.getContentResolver().insert(PROVIDER_URI, song.getContentValues(true));
 	}
+
+    public static void insertInQueue(Context context, Song song, Song after) {
+        Calendar cal = after.getDateQueued();
+        cal.setTimeInMillis(cal.getTimeInMillis() + 1);
+        song.setDateQueued(cal);
+        context.getContentResolver().insert(PROVIDER_URI, song.getContentValues(true));
+    }
 
 	public static void setFocused(Context context, Song song, boolean playing) {
 		clearFocused(context);

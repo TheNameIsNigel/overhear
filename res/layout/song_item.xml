@@ -17,11 +17,12 @@
                android:layout_height="30dp"
                android:layout_centerVertical="true" android:layout_toLeftOf="@+id/options"/>
 
-    <RelativeLayout android:id="@+id/options" android:layout_width="48dp" android:layout_height="match_parent"
+    <RelativeLayout android:id="@+id/options" android:layout_width="40dp" android:layout_height="match_parent"
                     android:background="?android:attr/listChoiceBackgroundIndicator"
                     android:layout_alignParentRight="true"
                     android:clickable="true" android:focusable="true"
                     android:focusableInTouchMode="false" android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
                     android:paddingLeft="5dp" android:paddingRight="10dp" android:paddingTop="20dp"
                     android:paddingBottom="20dp">
 
