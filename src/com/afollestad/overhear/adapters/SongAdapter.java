@@ -49,7 +49,7 @@ public class SongAdapter extends CursorAdapter {
         }
 
         String spaces = ". ";
-        if(Integer.toString(trackNumber).length() > 1) {
+        if(Integer.toString(trackNumber).length() == 1) {
             spaces += " ";
         }
         ((TextView)view.findViewById(R.id.title)).setText((trackNumber > -1 ? (trackNumber + 1) + spaces : "") + song.getTitle());
