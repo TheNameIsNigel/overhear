@@ -226,9 +226,16 @@ public class MusicService extends Service {
         if (queue == null || queue.size() == 0 ||
                 (!queue.get(0).getArtist().equals(song.getArtist()) || !queue.get(0).getAlbum().equals(song.getAlbum()))) {
             queue = Song.getAllFromScope(getApplicationContext(), scope);
-            Queue.setQueue(this, queue);
+            queue = Queue.setQueue(this, queue);
         }
-        playTrack(song);
+
+        int queuePos = 0;
+        for(Song qi : queue) {
+            if(qi.getId() == song.getId())
+                break;
+            queuePos++;
+        }
+        playTrack(queue.get(queuePos));
     }
 
     private void resumeTrack() {

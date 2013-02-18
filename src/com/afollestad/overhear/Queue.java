@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
@@ -22,15 +23,19 @@ public class Queue {
 		return context.getContentResolver().query(PROVIDER_URI, null, where, null, Song.QUEUE_ID);
 	}
 	
-	public static void setQueue(Context context, ArrayList<Song> songs) {
+	public static ArrayList<Song> setQueue(Context context, ArrayList<Song> songs) {
+        Log.i("QUEUE", "setQueue(context, [" + songs.size() + "])");
+        ArrayList<Song> toreturn = new ArrayList<Song>();
 		clearQueue(context);
 		for(Song song : songs) {
-			addToQueue(context, song);
+			toreturn.add(addToQueue(context, song));
 		}
+        return toreturn;
 	}
 	
 	public static ArrayList<Song> getQueue(Context context) {
-		ArrayList<Song> queue = new ArrayList<Song>();
+        Log.i("QUEUE", "getQueue(context)");
+        ArrayList<Song> queue = new ArrayList<Song>();
 		Cursor cursor = openCursor(context, null);
 		while(cursor.moveToNext()) {
 			queue.add(Song.fromCursor(cursor));
@@ -59,6 +64,7 @@ public class Queue {
 			}
 		}
 		cursor.close();
+        Log.i("QUEUE", "increment(context, playing = " + playing + ") = " + found);
 		return found;
 	}
 	
@@ -82,32 +88,37 @@ public class Queue {
 			}
 		}
 		cursor.close();
+        Log.i("QUEUE", "decrement(context, playing = " + playing + ") = " + found);
 		return found;
 	}
 
 	public static void clearQueue(Context context) {
+        Log.i("QUEUE", "clearQueue(context)");
 		context.getContentResolver().delete(PROVIDER_URI, null, null);
 	}
 	
-	public static void addToQueue(Context context, Song song) {
+	public static Song addToQueue(Context context, Song song) {
         Cursor cursor = openCursor(context, null);
         song.setQueueId(cursor.getCount() + 1);
         cursor.close();
 		context.getContentResolver().insert(PROVIDER_URI, song.getContentValues(true));
+        Log.i("QUEUE", "addToQueue(context, \"" + song.getTitle() + "\") = " + song.getQueueId());
+        return song;
 	}
 
-	public static void setFocused(Context context, Song song, boolean playing) {
+	public static int setFocused(Context context, Song song, boolean playing) {
 		clearFocused(context);
 		song.setIsPlaying(playing);
 		song.setHasFocus(true);
 		ContentValues values = new ContentValues();
 		values.put(Song.NOW_PLAYING, playing ? 1 : 0);
 		values.put(Song.QUEUE_FOCUS, 1);
-		int updated = context.getContentResolver().update(PROVIDER_URI, values, Song.QUEUE_ID +
-                " = " + song.getQueueId(), null);
-		if(updated == 0) {
-			addToQueue(context, song);
-		}
+		int updated = context.getContentResolver().update(PROVIDER_URI, values, Song.QUEUE_ID + " = " + song.getQueueId(), null);
+//		if(updated == 0) {
+//			addToQueue(context, song);
+//		}
+        Log.i("QUEUE", "setFocused(context, \"" + song.getTitle() + "\", " + playing + ") = " + updated);
+        return updated;
 	}
 	
 	public static Song getFocused(Context context) {
@@ -117,16 +128,19 @@ public class Queue {
 			toreturn = Song.fromCursor(cursor);
 		}
 		cursor.close();
+        Log.i("QUEUE", "getFocused(context) = \"" + (toreturn != null ? toreturn.getTitle() : "null") + "\"");
 		return toreturn;
 	}
 	
 	public static void clearPlaying(Context context) {
+        Log.i("QUEUE", "clearPlaying(context)");
 		ContentValues values = new ContentValues();
 		values.put(Song.NOW_PLAYING, 0);
 		context.getContentResolver().update(PROVIDER_URI, values, Song.NOW_PLAYING + " = 1", null);
 	}
 	
 	public static void clearFocused(Context context) {
+        Log.i("QUEUE", "clearFocused(context)");
 		ContentValues values = new ContentValues();
 		values.put(Song.NOW_PLAYING, 0);
 		values.put(Song.QUEUE_FOCUS, 0);
