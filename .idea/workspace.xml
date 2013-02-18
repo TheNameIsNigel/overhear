@@ -39,11 +39,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/AlbumListFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/AlbumListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/SongListFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/SongListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/album_item.xml" afterPath="$PROJECT_DIR$/res/layout/album_item.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
@@ -252,25 +248,25 @@
     <leaf>
       <file leaf-file-name="song_item.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/song_item.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state line="3" column="16" selection-start="219" selection-end="269" vertical-scroll-proportion="-1.92">
               <folding />
             </state>
           </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
         </entry>
       </file>
       <file leaf-file-name="album_item.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/album_item.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state line="3" column="66" selection-start="269" selection-end="269" vertical-scroll-proportion="-1.92">
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -299,10 +295,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AlbumAdapter.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AlbumAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="68" selection-start="3050" selection-end="3050" vertical-scroll-proportion="1.125">
+            <state line="70" column="68" selection-start="3050" selection-end="3050" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="68" selection-start="928" selection-end="928" vertical-scroll-proportion="0.45878136">
               <folding />
             </state>
           </provider>
@@ -338,7 +343,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Genre.java" />
         <option value="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Album.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/SongAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SearchScreen.java" />
@@ -354,6 +358,7 @@
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -701,7 +706,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989726" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67235494" order="2" side_tool="false" content_ui="tabs" />
@@ -782,32 +787,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="176" column="17" selection-start="8208" selection-end="8208" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="method#MusicService#0;class#MusicService#0" expanded="false" />
-            <element signature="method#getPlayer#0;class#MusicService#0" expanded="false" />
-            <element signature="method#requestAudioFocus#0;class#MusicService#0" expanded="false" />
-            <element signature="method#initializeRemoteControl#0;class#MusicService#0" expanded="false" />
-            <element signature="method#updateRemoteControl#0;class#MusicService#0" expanded="false" />
-            <element signature="method#initializeNotification#0;class#MusicService#0" expanded="false" />
-            <element signature="method#resumeTrack#0;class#MusicService#0" expanded="false" />
-            <element signature="method#pauseTrack#0;class#MusicService#0" expanded="false" />
-            <element signature="method#stopTrack#0;class#MusicService#0" expanded="false" />
-            <element signature="method#previousOrRewind#0;class#MusicService#0" expanded="false" />
-            <element signature="method#isPlaying#0;class#MusicService#0" expanded="false" />
-            <element signature="method#isPlayerInitialized#0;class#MusicService#0" expanded="false" />
-            <element signature="class#MusicBinder#0;class#MusicService#0" expanded="false" />
-            <element signature="method#getService#0;class#MusicBinder#0;class#MusicService#0" expanded="false" />
-            <element signature="method#onCreate#0;class#MusicService#0" expanded="false" />
-            <element signature="method#onBind#0;class#MusicService#0" expanded="false" />
-            <element signature="method#onStartCommand#0;class#MusicService#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#MusicService#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="56" column="25" selection-start="1931" selection-end="1931" vertical-scroll-proportion="0.0">
@@ -929,7 +908,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="68" selection-start="3050" selection-end="3050" vertical-scroll-proportion="1.125">
+        <state line="70" column="68" selection-start="3050" selection-end="3050" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="68" selection-start="928" selection-end="928" vertical-scroll-proportion="0.45878136">
           <folding />
         </state>
       </provider>
