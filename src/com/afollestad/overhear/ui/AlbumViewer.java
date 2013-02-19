@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.R;
@@ -17,6 +18,7 @@ import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
+import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import org.json.JSONException;
@@ -102,7 +104,16 @@ public class AlbumViewer extends Activity {
             ArtistAdapter.retrieveArtistArt(this, artist, (AImageView) findViewById(R.id.artistCover));
         }
 
-        AlbumAdapter.retrieveAlbumArt(this, album, (AImageView) findViewById(R.id.albumCover));
+        final AImageView albumCover = (AImageView) findViewById(R.id.albumCover);
+        AlbumAdapter.retrieveAlbumArt(this, album, albumCover);
+        albumCover.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(getApplicationContext(), R.string.redownloading_art, Toast.LENGTH_SHORT).show();
+                new LastfmGetAlbumImage(getApplicationContext(), getApplication(), albumCover, true).execute(album);
+                return true;
+            }
+        });
     }
 
     @Override

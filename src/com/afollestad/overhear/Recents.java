@@ -31,8 +31,8 @@ public class Recents {
 
         ContentValues values = album.getContentValues(true);
 		int updated = context.getContentResolver().update(PROVIDER_URI, values,
-                MediaStore.Audio.AlbumColumns.ALBUM + " = '" + album.getName() + "' AND " +
-                MediaStore.Audio.AlbumColumns.ARTIST + " = '" + album.getArtist().getName() + "'", null);
+                MediaStore.Audio.AlbumColumns.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
+                MediaStore.Audio.AlbumColumns.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'", null);
 		if(updated == 0) {
 			context.getContentResolver().insert(PROVIDER_URI, values);
 		}
