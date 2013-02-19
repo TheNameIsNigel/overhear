@@ -221,19 +221,17 @@ public class MusicService extends Service {
     }
 
     private void playAll(Song song, String[] scope) {
-        Log.i("OVERHEAR SERVICE", "playAll(" + song.getData() + ") : " + scope[0] + " - " + scope[1]);
-        ArrayList<Song> queue = Queue.getQueue(this);
-        if (queue == null || queue.size() == 0 ||
-                (!queue.get(0).getArtist().equals(song.getArtist()) || !queue.get(0).getAlbum().equals(song.getAlbum()))) {
-            queue = Song.getAllFromScope(getApplicationContext(), scope);
-            queue = Queue.setQueue(this, queue);
-        }
+        Log.i("OVERHEAR SERVICE", "playAll(" + (song != null ? song.getData() : "null") + ")");
+        ArrayList<Song> queue = Song.getAllFromScope(getApplicationContext(), scope);
+        queue = Queue.setQueue(this, queue);
 
         int queuePos = 0;
-        for(Song qi : queue) {
-            if(qi.getId() == song.getId())
-                break;
-            queuePos++;
+        if (song != null) {
+            for (Song qi : queue) {
+                if (qi.getId() == song.getId())
+                    break;
+                queuePos++;
+            }
         }
         playTrack(queue.get(queuePos));
     }
@@ -372,13 +370,25 @@ public class MusicService extends Service {
                 resumeTrack();
             }
         } else if (action.equals(ACTION_PLAY_ALL)) {
-            Song song = Song.fromJSON(intent.getStringExtra("song"));
-            String[] scope = intent.getStringArrayExtra("scope");
-            if (scope == null) {
+            String[] scope = null;
+            Song song = null;
+            if (intent.hasExtra("album_id")) {
                 scope = new String[]{
-                        MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " + MediaStore.Audio.Media.ALBUM + " = '" + song.getAlbum().replace("'", "''") + "'",
+                        MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
+                                MediaStore.Audio.Media.ALBUM_ID + " = " + intent.getIntExtra("album_id", 0),
                         MediaStore.Audio.Media.TRACK
                 };
+            } else {
+                song = Song.fromJSON(intent.getStringExtra("song"));
+                scope = intent.getStringArrayExtra("scope");
+                if (scope == null) {
+                    scope = new String[]{
+                            MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
+                                    MediaStore.Audio.Media.ALBUM + " = '" + song.getAlbum().replace("'", "''") + "' AND " +
+                                    MediaStore.Audio.Media.ARTIST + " = '" + song.getArtist().replace("'", "''") + "'",
+                            MediaStore.Audio.Media.TRACK
+                    };
+                }
             }
             playAll(song, scope);
         } else if (action.equals(ACTION_PAUSE)) {
