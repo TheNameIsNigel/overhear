@@ -163,6 +163,8 @@ public class SearchScreen extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                startActivity(new Intent(this, OverviewScreen.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();
                 return true;
         }

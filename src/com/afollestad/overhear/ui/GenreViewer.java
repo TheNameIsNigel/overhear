@@ -53,7 +53,9 @@ public class GenreViewer extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case android.R.id.home:
-			finish();
+            startActivity(new Intent(this, OverviewScreen.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            finish();
 			return true;
 		case R.id.tweetPlaying:
 			if(Twitter.getTwitterInstance(getApplicationContext(), true) == null)

@@ -42,11 +42,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SearchScreen.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SearchScreen.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SleepTimerViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SleepTimerViewer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361237847191" ignored="false" />
+    <file path="/Dummy.txt" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361316144875" ignored="false" />
     <file path="/AbstractAQuery.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358988719930" ignored="false" />
     <file path="$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/Util.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358891317092" ignored="false" />
     <file path="/AImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358979344631" ignored="false" />
@@ -71,7 +77,7 @@
     <file path="$PROJECT_DIR$/../Temp/.idea/misc.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358902816689" ignored="false" />
     <file path="$PROJECT_DIR$/../Temp/src/com/afollestad/temp/Program.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358903270138" ignored="false" />
     <file path="/now_playing_bar.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361049856886" ignored="false" />
-    <file path="/AndroidManifest.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361062530586" ignored="false" />
+    <file path="/AndroidManifest.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361317096859" ignored="false" />
     <file path="/strings.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361243716165" ignored="false" />
     <file path="/Overhear.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358907405659" ignored="false" />
     <file path="/LastfmGetAlbumImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361243540133" ignored="false" />
@@ -83,7 +89,7 @@
     <file path="/MusicService.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361233422344" ignored="false" />
     <file path="/ArtistViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359320830095" ignored="false" />
     <file path="/NowPlayingViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361244360979" ignored="false" />
-    <file path="/AlbumViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361243840466" ignored="false" />
+    <file path="/AlbumViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361317247940" ignored="false" />
     <file path="/TaggedFragmentAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358908997002" ignored="false" />
     <file path="/TweetNowPlaying.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361062134027" ignored="false" />
     <file path="/OverviewScreen.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360983082521" ignored="false" />
@@ -186,7 +192,8 @@
     <file path="/song_item_popup.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361162332319" ignored="false" />
     <file path="/Queue.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361223735504" ignored="false" />
     <file path="/album_item_popup.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361242893731" ignored="false" />
-    <file path="/SleepTimerViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361235304721" ignored="false" />
+    <file path="/SleepTimerViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361317134846" ignored="false" />
+    <file path="/LastFM.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361316695618" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,7 +213,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -241,6 +247,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -253,12 +260,26 @@
       <file leaf-file-name="AlbumViewer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="16" selection-start="4021" selection-end="4116" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3898#4286#0" expanded="true" />
-                <element signature="e#4275#4276#0" expanded="true" />
-              </folding>
+            <state line="122" column="16" selection-start="4456" selection-end="4605" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArtistViewer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="123" column="100" selection-start="4420" selection-end="4420" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GenreViewer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="56" column="96" selection-start="1977" selection-end="1977" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -266,107 +287,25 @@
       <file leaf-file-name="NowPlayingViewer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="53" selection-start="1844" selection-end="1844" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1188#1377#0" expanded="false" />
-                <element signature="e#1370#1371#0" expanded="false" />
-                <element signature="e#1629#2066#0" expanded="false" />
-                <element signature="e#2059#2060#0" expanded="false" />
-                <element signature="e#2107#2317#0" expanded="false" />
-                <element signature="e#2310#2311#0" expanded="false" />
-                <element signature="method#onActivityResult#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="method#onCreate#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="method#onResume#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="e#3487#3753#0" expanded="false" />
-                <element signature="e#3567#3727#0" expanded="false" />
-                <element signature="e#3708#3709#0" expanded="false" />
-                <element signature="e#3742#3743#0" expanded="false" />
-                <element signature="method#onPause#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="method#onOptionsItemSelected#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="method#resetFade#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="class#5466:5846" expanded="false" />
-                <element signature="method#onAnimationStart#0;class#5466:5846" expanded="false" />
-                <element signature="method#onAnimationRepeat#0;class#5466:5846" expanded="false" />
-                <element signature="method#onAnimationEnd#0;class#5466:5846" expanded="false" />
-                <element signature="class#6190:6572" expanded="false" />
-                <element signature="method#onAnimationStart#0;class#6190:6572" expanded="false" />
-                <element signature="method#onAnimationRepeat#0;class#6190:6572" expanded="false" />
-                <element signature="method#onAnimationEnd#0;class#6190:6572" expanded="false" />
-                <element signature="docComment;method#hookToPlayer#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="method#hookToPlayer#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="e#7386#7547#0" expanded="false" />
-                <element signature="e#7536#7537#0" expanded="false" />
-                <element signature="class#7658:8460" expanded="false" />
-                <element signature="method#onStopTrackingTouch#0;class#7658:8460" expanded="false" />
-                <element signature="method#onStartTrackingTouch#0;class#7658:8460" expanded="false" />
-                <element signature="method#onProgressChanged#0;class#7658:8460" expanded="false" />
-                <element signature="e#8519#8788#0" expanded="false" />
-                <element signature="e#8777#8778#0" expanded="false" />
-                <element signature="e#8850#9183#0" expanded="false" />
-                <element signature="e#9172#9173#0" expanded="false" />
-                <element signature="e#9237#9515#0" expanded="false" />
-                <element signature="e#9504#9505#0" expanded="false" />
-                <element signature="e#9569#9833#0" expanded="false" />
-                <element signature="e#9822#9823#0" expanded="false" />
-                <element signature="e#9887#10224#0" expanded="false" />
-                <element signature="e#10213#10214#0" expanded="false" />
-                <element signature="e#10258#10576#0" expanded="false" />
-                <element signature="e#10565#10566#0" expanded="false" />
-                <element signature="e#10611#10832#0" expanded="false" />
-                <element signature="e#10821#10822#0" expanded="false" />
-                <element signature="docComment;method#load#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="method#load#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="e#11638#11639#0" expanded="false" />
-                <element signature="e#11708#12123#0" expanded="false" />
-                <element signature="e#12112#12113#0" expanded="false" />
-                <element signature="docComment;method#update#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="method#update#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="method#showSleepTimerDialog#0;class#NowPlayingViewer#0" expanded="false" />
-                <element signature="class#14248:14979" expanded="false" />
-                <element signature="method#onProgressChanged#0;class#14248:14979" expanded="false" />
-                <element signature="method#onStartTrackingTouch#0;class#14248:14979" expanded="false" />
-                <element signature="method#onStopTrackingTouch#0;class#14248:14979" expanded="false" />
-                <element signature="e#15036#15365#0" expanded="false" />
-                <element signature="e#15354#15355#0" expanded="false" />
-                <element signature="e#15426#15577#0" expanded="false" />
-                <element signature="e#15566#15567#0" expanded="false" />
-                <element signature="class#15682:16070" expanded="false" />
-                <element signature="method#onServiceConnected#0;class#15682:16070" expanded="false" />
-                <element signature="method#onServiceDisconnected#0;class#15682:16070" expanded="false" />
-                <marker date="1361244362190" expanded="false" signature="11475:11570" placeholder="(view) -&gt; {" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="36" selection-start="3252" selection-end="3252" vertical-scroll-proportion="0.0">
+            <state line="128" column="100" selection-start="4469" selection-end="4469" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RecentsListFragment.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java">
+      <file leaf-file-name="SearchScreen.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/SearchScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="61" selection-start="1757" selection-end="1757" vertical-scroll-proportion="0.45878136">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#719#1171#0" expanded="true" />
-                <element signature="e#1164#1165#0" expanded="true" />
-              </folding>
+            <state line="166" column="100" selection-start="6188" selection-end="6188" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ArtistListFragment.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/ArtistListFragment.java">
+      <file leaf-file-name="SleepTimerViewer.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/SleepTimerViewer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="8" selection-start="1484" selection-end="1537" vertical-scroll-proportion="0.0">
+            <state line="69" column="100" selection-start="1919" selection-end="1919" vertical-scroll-proportion="0.9175627">
               <folding />
             </state>
           </provider>
@@ -402,22 +341,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/SongListFragment.java" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/ArtistListFragment.java" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/AlbumListFragment.java" />
-        <option value="$PROJECT_DIR$/res/layout/album_item.xml" />
-        <option value="$PROJECT_DIR$/res/layout/song_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/artist_item.xml" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/res/menu/album_item_popup.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/tasks/LastfmGetAlbumImage.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/OnSwipeTouchListener.java" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/Recents.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java" />
+        <option value="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/LastFM.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SearchScreen.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SleepTimerViewer.java" />
       </list>
     </option>
   </component>
@@ -460,6 +399,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -491,66 +431,39 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="overhear" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="overhear" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="overhear" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="overhear" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fragments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="ExportedModule" value="overhear" />
-    <property name="GoToClass.includeLibraries" value="false" />
-    <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="AndroidRunProguardForReleaseBuild" value="false" />
-    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/zubhiumsdk.jar!/" />
-    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="overhear" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="AndroidIncludeSystemProguardFile" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
-    <property name="restartRequiresConfirmation" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="recentsLimit" value="5" />
-    <property name="AndroidProguardConfigPath" value="$PROJECT_DIR$/proguard-project.txt" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/com/afollestad/overhear" />
-    <property name="ExportedApkPath" value="$PROJECT_DIR$/overhear.apk" />
+    <property name="AndroidIncludeSystemProguardFile" value="true" />
     <property name="AndroidLayoutSelectedEditor" value="text-editor" />
-    <property name="MemberChooser.showClasses" value="true" />
-    <property name="OverrideImplement.combined" value="false" />
+    <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="ExportedApkPath" value="$PROJECT_DIR$/overhear.apk" />
+    <property name="ExportedModule" value="overhear" />
+    <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
+    <property name="AndroidProguardConfigPath" value="$PROJECT_DIR$/proguard-project.txt" />
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/com/afollestad/overhear" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="OverrideImplement.combined" value="false" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="overhear" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/zubhiumsdk.jar!/" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="project.structure.last.edited" value="Modules" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -572,33 +485,18 @@
     </key>
   </component>
   <component name="RunManager" selected="Android Application.overhear">
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
@@ -618,24 +516,12 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -665,18 +551,45 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
       <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
       <envs />
+      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -766,30 +679,30 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="0" width="1372" height="730" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5007576" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23712121" sideWeight="0.3219178" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3219178" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5976027" sideWeight="0.4969697" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989726" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67235494" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5976027" sideWeight="0.4969697" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.6746575" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20075758" sideWeight="0.6746575" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3219178" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21363637" sideWeight="0.6746575" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5007576" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23712121" sideWeight="0.3219178" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67235494" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20075758" sideWeight="0.6746575" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.6746575" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -854,76 +767,22 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/AlbumListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="21" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/album_item.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="44" selection-start="1664" selection-end="1664" vertical-scroll-proportion="-4.04">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/song_item.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="44" selection-start="876" selection-end="876" vertical-scroll-proportion="-4.04">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/menu/album_item_popup.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="40" selection-start="297" selection-end="297" vertical-scroll-proportion="0.11469534">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/tasks/LastfmGetAlbumImage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="80" selection-start="2656" selection-end="2656" vertical-scroll-proportion="0.60215056">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/artist_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="93" selection-start="1234" selection-end="1234" vertical-scroll-proportion="-9.8" />
+      </provider>
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="93" selection-start="1234" selection-end="1234" vertical-scroll-proportion="-9.8">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="38" selection-start="3403" selection-end="3403" vertical-scroll-proportion="0.7419355">
-          <folding />
-        </state>
+        <state line="67" column="38" selection-start="3403" selection-end="3403" vertical-scroll-proportion="0.7419355" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java">
@@ -936,103 +795,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="16" selection-start="4021" selection-end="4116" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3898#4286#0" expanded="true" />
-            <element signature="e#4275#4276#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/Recents.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="33" column="65" selection-start="1173" selection-end="1173" vertical-scroll-proportion="0.25448027">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="53" selection-start="1844" selection-end="1844" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1188#1377#0" expanded="false" />
-            <element signature="e#1370#1371#0" expanded="false" />
-            <element signature="e#1629#2066#0" expanded="false" />
-            <element signature="e#2059#2060#0" expanded="false" />
-            <element signature="e#2107#2317#0" expanded="false" />
-            <element signature="e#2310#2311#0" expanded="false" />
-            <element signature="method#onActivityResult#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="method#onCreate#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="method#onResume#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="e#3487#3753#0" expanded="false" />
-            <element signature="e#3567#3727#0" expanded="false" />
-            <element signature="e#3708#3709#0" expanded="false" />
-            <element signature="e#3742#3743#0" expanded="false" />
-            <element signature="method#onPause#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="method#resetFade#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="class#5466:5846" expanded="false" />
-            <element signature="method#onAnimationStart#0;class#5466:5846" expanded="false" />
-            <element signature="method#onAnimationRepeat#0;class#5466:5846" expanded="false" />
-            <element signature="method#onAnimationEnd#0;class#5466:5846" expanded="false" />
-            <element signature="class#6190:6572" expanded="false" />
-            <element signature="method#onAnimationStart#0;class#6190:6572" expanded="false" />
-            <element signature="method#onAnimationRepeat#0;class#6190:6572" expanded="false" />
-            <element signature="method#onAnimationEnd#0;class#6190:6572" expanded="false" />
-            <element signature="docComment;method#hookToPlayer#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="method#hookToPlayer#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="e#7386#7547#0" expanded="false" />
-            <element signature="e#7536#7537#0" expanded="false" />
-            <element signature="class#7658:8460" expanded="false" />
-            <element signature="method#onStopTrackingTouch#0;class#7658:8460" expanded="false" />
-            <element signature="method#onStartTrackingTouch#0;class#7658:8460" expanded="false" />
-            <element signature="method#onProgressChanged#0;class#7658:8460" expanded="false" />
-            <element signature="e#8519#8788#0" expanded="false" />
-            <element signature="e#8777#8778#0" expanded="false" />
-            <element signature="e#8850#9183#0" expanded="false" />
-            <element signature="e#9172#9173#0" expanded="false" />
-            <element signature="e#9237#9515#0" expanded="false" />
-            <element signature="e#9504#9505#0" expanded="false" />
-            <element signature="e#9569#9833#0" expanded="false" />
-            <element signature="e#9822#9823#0" expanded="false" />
-            <element signature="e#9887#10224#0" expanded="false" />
-            <element signature="e#10213#10214#0" expanded="false" />
-            <element signature="e#10258#10576#0" expanded="false" />
-            <element signature="e#10565#10566#0" expanded="false" />
-            <element signature="e#10611#10832#0" expanded="false" />
-            <element signature="e#10821#10822#0" expanded="false" />
-            <element signature="docComment;method#load#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="method#load#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="e#11638#11639#0" expanded="false" />
-            <element signature="e#11708#12123#0" expanded="false" />
-            <element signature="e#12112#12113#0" expanded="false" />
-            <element signature="docComment;method#update#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="method#update#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="method#showSleepTimerDialog#0;class#NowPlayingViewer#0" expanded="false" />
-            <element signature="class#14248:14979" expanded="false" />
-            <element signature="method#onProgressChanged#0;class#14248:14979" expanded="false" />
-            <element signature="method#onStartTrackingTouch#0;class#14248:14979" expanded="false" />
-            <element signature="method#onStopTrackingTouch#0;class#14248:14979" expanded="false" />
-            <element signature="e#15036#15365#0" expanded="false" />
-            <element signature="e#15354#15355#0" expanded="false" />
-            <element signature="e#15426#15577#0" expanded="false" />
-            <element signature="e#15566#15567#0" expanded="false" />
-            <element signature="class#15682:16070" expanded="false" />
-            <element signature="method#onServiceConnected#0;class#15682:16070" expanded="false" />
-            <element signature="method#onServiceDisconnected#0;class#15682:16070" expanded="false" />
-            <marker date="1361244362190" expanded="false" signature="11475:11570" placeholder="(view) -&gt; {" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="36" selection-start="3252" selection-end="3252" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1044,14 +809,75 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/LastFM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="116" column="33" selection-start="3290" selection-end="3290" vertical-scroll-proportion="0.2580645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="61" selection-start="1757" selection-end="1757" vertical-scroll-proportion="0.45878136">
+        <state line="52" column="61" selection-start="1757" selection-end="1757" vertical-scroll-proportion="0.028673835">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#719#1171#0" expanded="true" />
-            <element signature="e#1164#1165#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../overhear-api/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="29" selection-start="270" selection-end="270" vertical-scroll-proportion="0.17204301">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="81" selection-start="939" selection-end="939" vertical-scroll-proportion="0.45996276">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="16" selection-start="4456" selection-end="4605" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="123" column="100" selection-start="4420" selection-end="4420" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="96" selection-start="1977" selection-end="1977" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="128" column="100" selection-start="4469" selection-end="4469" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/SearchScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="166" column="100" selection-start="6188" selection-end="6188" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/SleepTimerViewer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="100" selection-start="1919" selection-end="1919" vertical-scroll-proportion="0.9175627">
+          <folding />
         </state>
       </provider>
     </entry>
