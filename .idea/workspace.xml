@@ -42,13 +42,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/OnSwipeTouchListener.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/Recents.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/Recents.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -111,7 +106,7 @@
     <file path="$PROJECT_DIR$/../aimage/gen/com/afollestad/aimage/Manifest.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359242990320" ignored="false" />
     <file path="/README.md" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359329193765" ignored="false" />
     <file path="/App.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360720727103" ignored="false" />
-    <file path="/RecentsListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361225504284" ignored="false" />
+    <file path="/RecentsListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361246462468" ignored="false" />
     <file path="/Recents.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361244428429" ignored="false" />
     <file path="/grid_view_item.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361223004352" ignored="false" />
     <file path="/song_item.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361162012078" ignored="false" />
@@ -274,9 +269,20 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="51" column="53" selection-start="1844" selection-end="1844" vertical-scroll-proportion="0.0">
               <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#1188#1377#0" expanded="false" />
+                <element signature="e#1370#1371#0" expanded="false" />
+                <element signature="e#1629#2066#0" expanded="false" />
+                <element signature="e#2059#2060#0" expanded="false" />
+                <element signature="e#2107#2317#0" expanded="false" />
+                <element signature="e#2310#2311#0" expanded="false" />
                 <element signature="method#onActivityResult#0;class#NowPlayingViewer#0" expanded="false" />
                 <element signature="method#onCreate#0;class#NowPlayingViewer#0" expanded="false" />
                 <element signature="method#onResume#0;class#NowPlayingViewer#0" expanded="false" />
+                <element signature="e#3487#3753#0" expanded="false" />
+                <element signature="e#3567#3727#0" expanded="false" />
+                <element signature="e#3708#3709#0" expanded="false" />
+                <element signature="e#3742#3743#0" expanded="false" />
                 <element signature="method#onPause#0;class#NowPlayingViewer#0" expanded="false" />
                 <element signature="method#onCreateOptionsMenu#0;class#NowPlayingViewer#0" expanded="false" />
                 <element signature="method#onOptionsItemSelected#0;class#NowPlayingViewer#0" expanded="false" />
@@ -291,12 +297,31 @@
                 <element signature="method#onAnimationEnd#0;class#6190:6572" expanded="false" />
                 <element signature="docComment;method#hookToPlayer#0;class#NowPlayingViewer#0" expanded="false" />
                 <element signature="method#hookToPlayer#0;class#NowPlayingViewer#0" expanded="false" />
+                <element signature="e#7386#7547#0" expanded="false" />
+                <element signature="e#7536#7537#0" expanded="false" />
                 <element signature="class#7658:8460" expanded="false" />
                 <element signature="method#onStopTrackingTouch#0;class#7658:8460" expanded="false" />
                 <element signature="method#onStartTrackingTouch#0;class#7658:8460" expanded="false" />
                 <element signature="method#onProgressChanged#0;class#7658:8460" expanded="false" />
+                <element signature="e#8519#8788#0" expanded="false" />
+                <element signature="e#8777#8778#0" expanded="false" />
+                <element signature="e#8850#9183#0" expanded="false" />
+                <element signature="e#9172#9173#0" expanded="false" />
+                <element signature="e#9237#9515#0" expanded="false" />
+                <element signature="e#9504#9505#0" expanded="false" />
+                <element signature="e#9569#9833#0" expanded="false" />
+                <element signature="e#9822#9823#0" expanded="false" />
+                <element signature="e#9887#10224#0" expanded="false" />
+                <element signature="e#10213#10214#0" expanded="false" />
+                <element signature="e#10258#10576#0" expanded="false" />
+                <element signature="e#10565#10566#0" expanded="false" />
+                <element signature="e#10611#10832#0" expanded="false" />
+                <element signature="e#10821#10822#0" expanded="false" />
                 <element signature="docComment;method#load#0;class#NowPlayingViewer#0" expanded="false" />
                 <element signature="method#load#0;class#NowPlayingViewer#0" expanded="false" />
+                <element signature="e#11638#11639#0" expanded="false" />
+                <element signature="e#11708#12123#0" expanded="false" />
+                <element signature="e#12112#12113#0" expanded="false" />
                 <element signature="docComment;method#update#0;class#NowPlayingViewer#0" expanded="false" />
                 <element signature="method#update#0;class#NowPlayingViewer#0" expanded="false" />
                 <element signature="method#showSleepTimerDialog#0;class#NowPlayingViewer#0" expanded="false" />
@@ -304,18 +329,45 @@
                 <element signature="method#onProgressChanged#0;class#14248:14979" expanded="false" />
                 <element signature="method#onStartTrackingTouch#0;class#14248:14979" expanded="false" />
                 <element signature="method#onStopTrackingTouch#0;class#14248:14979" expanded="false" />
+                <element signature="e#15036#15365#0" expanded="false" />
+                <element signature="e#15354#15355#0" expanded="false" />
+                <element signature="e#15426#15577#0" expanded="false" />
+                <element signature="e#15566#15567#0" expanded="false" />
                 <element signature="class#15682:16070" expanded="false" />
                 <element signature="method#onServiceConnected#0;class#15682:16070" expanded="false" />
                 <element signature="method#onServiceDisconnected#0;class#15682:16070" expanded="false" />
+                <marker date="1361244362190" expanded="false" signature="11475:11570" placeholder="(view) -&gt; {" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Recents.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/Recents.java">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="110" selection-start="1329" selection-end="1329" vertical-scroll-proportion="0.28315413">
+            <state line="60" column="36" selection-start="3252" selection-end="3252" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RecentsListFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="52" column="61" selection-start="1757" selection-end="1757" vertical-scroll-proportion="0.45878136">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#719#1171#0" expanded="true" />
+                <element signature="e#1164#1165#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArtistListFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/ArtistListFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="8" selection-start="1484" selection-end="1537" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -354,7 +406,6 @@
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/SongListFragment.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/ArtistListFragment.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/AlbumListFragment.java" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/album_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/song_item.xml" />
         <option value="$PROJECT_DIR$/res/layout/artist_item.xml" />
@@ -367,6 +418,7 @@
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/OnSwipeTouchListener.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/Recents.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java" />
       </list>
     </option>
   </component>
@@ -442,6 +494,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fragments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -712,7 +786,7 @@
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20075758" sideWeight="0.6746575" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3219178" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21363637" sideWeight="0.40239727" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21363637" sideWeight="0.6746575" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
@@ -781,20 +855,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/ArtistListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="5" selection-start="1753" selection-end="1753" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="35" selection-start="1049" selection-end="1049" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/AlbumListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="65" column="21" selection-start="1810" selection-end="1810" vertical-scroll-proportion="0.0">
@@ -825,13 +885,6 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="60" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -895,13 +948,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/Recents.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="65" selection-start="1173" selection-end="1173" vertical-scroll-proportion="0.25448027">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="51" column="53" selection-start="1844" selection-end="1844" vertical-scroll-proportion="0.0">
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1188#1377#0" expanded="false" />
+            <element signature="e#1370#1371#0" expanded="false" />
+            <element signature="e#1629#2066#0" expanded="false" />
+            <element signature="e#2059#2060#0" expanded="false" />
+            <element signature="e#2107#2317#0" expanded="false" />
+            <element signature="e#2310#2311#0" expanded="false" />
             <element signature="method#onActivityResult#0;class#NowPlayingViewer#0" expanded="false" />
             <element signature="method#onCreate#0;class#NowPlayingViewer#0" expanded="false" />
             <element signature="method#onResume#0;class#NowPlayingViewer#0" expanded="false" />
+            <element signature="e#3487#3753#0" expanded="false" />
+            <element signature="e#3567#3727#0" expanded="false" />
+            <element signature="e#3708#3709#0" expanded="false" />
+            <element signature="e#3742#3743#0" expanded="false" />
             <element signature="method#onPause#0;class#NowPlayingViewer#0" expanded="false" />
             <element signature="method#onCreateOptionsMenu#0;class#NowPlayingViewer#0" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#NowPlayingViewer#0" expanded="false" />
@@ -916,12 +987,31 @@
             <element signature="method#onAnimationEnd#0;class#6190:6572" expanded="false" />
             <element signature="docComment;method#hookToPlayer#0;class#NowPlayingViewer#0" expanded="false" />
             <element signature="method#hookToPlayer#0;class#NowPlayingViewer#0" expanded="false" />
+            <element signature="e#7386#7547#0" expanded="false" />
+            <element signature="e#7536#7537#0" expanded="false" />
             <element signature="class#7658:8460" expanded="false" />
             <element signature="method#onStopTrackingTouch#0;class#7658:8460" expanded="false" />
             <element signature="method#onStartTrackingTouch#0;class#7658:8460" expanded="false" />
             <element signature="method#onProgressChanged#0;class#7658:8460" expanded="false" />
+            <element signature="e#8519#8788#0" expanded="false" />
+            <element signature="e#8777#8778#0" expanded="false" />
+            <element signature="e#8850#9183#0" expanded="false" />
+            <element signature="e#9172#9173#0" expanded="false" />
+            <element signature="e#9237#9515#0" expanded="false" />
+            <element signature="e#9504#9505#0" expanded="false" />
+            <element signature="e#9569#9833#0" expanded="false" />
+            <element signature="e#9822#9823#0" expanded="false" />
+            <element signature="e#9887#10224#0" expanded="false" />
+            <element signature="e#10213#10214#0" expanded="false" />
+            <element signature="e#10258#10576#0" expanded="false" />
+            <element signature="e#10565#10566#0" expanded="false" />
+            <element signature="e#10611#10832#0" expanded="false" />
+            <element signature="e#10821#10822#0" expanded="false" />
             <element signature="docComment;method#load#0;class#NowPlayingViewer#0" expanded="false" />
             <element signature="method#load#0;class#NowPlayingViewer#0" expanded="false" />
+            <element signature="e#11638#11639#0" expanded="false" />
+            <element signature="e#11708#12123#0" expanded="false" />
+            <element signature="e#12112#12113#0" expanded="false" />
             <element signature="docComment;method#update#0;class#NowPlayingViewer#0" expanded="false" />
             <element signature="method#update#0;class#NowPlayingViewer#0" expanded="false" />
             <element signature="method#showSleepTimerDialog#0;class#NowPlayingViewer#0" expanded="false" />
@@ -929,17 +1019,40 @@
             <element signature="method#onProgressChanged#0;class#14248:14979" expanded="false" />
             <element signature="method#onStartTrackingTouch#0;class#14248:14979" expanded="false" />
             <element signature="method#onStopTrackingTouch#0;class#14248:14979" expanded="false" />
+            <element signature="e#15036#15365#0" expanded="false" />
+            <element signature="e#15354#15355#0" expanded="false" />
+            <element signature="e#15426#15577#0" expanded="false" />
+            <element signature="e#15566#15567#0" expanded="false" />
             <element signature="class#15682:16070" expanded="false" />
             <element signature="method#onServiceConnected#0;class#15682:16070" expanded="false" />
             <element signature="method#onServiceDisconnected#0;class#15682:16070" expanded="false" />
+            <marker date="1361244362190" expanded="false" signature="11475:11570" placeholder="(view) -&gt; {" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/Recents.java">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="110" selection-start="1329" selection-end="1329" vertical-scroll-proportion="0.28315413">
+        <state line="60" column="36" selection-start="3252" selection-end="3252" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/ArtistListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="8" selection-start="1484" selection-end="1537" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="61" selection-start="1757" selection-end="1757" vertical-scroll-proportion="0.45878136">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#719#1171#0" expanded="true" />
+            <element signature="e#1164#1165#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
