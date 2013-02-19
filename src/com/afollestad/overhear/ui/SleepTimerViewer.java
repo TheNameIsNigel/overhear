@@ -29,6 +29,7 @@ public class SleepTimerViewer extends Activity {
         sleepTime = SleepTimer.getScheduledTime(this);
 	}
 
+    @Override
 	public void onResume() {
 		super.onResume();
         timer = new Timer();
@@ -44,6 +45,7 @@ public class SleepTimerViewer extends Activity {
         }, 250, 250);
 	}
 
+    @Override
 	public void onPause() {
 		super.onPause();
         if(timer != null) {

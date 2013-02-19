@@ -47,6 +47,13 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 		getActivity().registerReceiver(mStatusReceiver, filter);
 	}
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(adapter != null)
+            adapter.notifyDataSetChanged();
+    }
+
 	@Override
 	public void onStop() {
 		super.onStop();

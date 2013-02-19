@@ -50,6 +50,13 @@ public class ArtistListFragment extends Fragment implements LoaderCallbacks<Curs
         filter.addAction(MusicService.PLAYING_STATE_CHANGED);
         getActivity().registerReceiver(mStatusReceiver, filter);
 	}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(adapter != null)
+            adapter.notifyDataSetChanged();
+    }
 	
 	@Override
 	public void onStop() {
