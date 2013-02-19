@@ -55,7 +55,8 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
                 try {
                     Log.i("Overhear", "Getting album information from LastFM for: " + als[0].getName() + " by " + als[0].getArtist());
                     url = LastFM.getAlbumInfo(als[0].getArtist().getName(), als[0].getName()).getCoverImageURL();
-                    WebArtUtils.setImageURL(context.get(), als[0], url);
+                    if(url != null && !url.trim().isEmpty())
+                        WebArtUtils.setImageURL(context.get(), als[0], url);
                     return url;
                 } catch (Exception e) {
                     e.printStackTrace();
