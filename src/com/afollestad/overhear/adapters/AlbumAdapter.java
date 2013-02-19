@@ -44,7 +44,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         view.setImageBitmap(null);
         String url = WebArtUtils.getImageURL(context, album);
         if (url == null) {
-            new LastfmGetAlbumImage(context, context.getApplication(), view).execute(album);
+            new LastfmGetAlbumImage(context, context.getApplication(), view, false).execute(album);
         } else {
             view.setManager(((App) context.getApplication()).getManager()).setSource(url).load();
         }
@@ -55,6 +55,9 @@ public class AlbumAdapter extends SimpleCursorAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.album_item, null);
         ((TextView) view.findViewById(R.id.title)).setText(album.getName());
         ((TextView) view.findViewById(R.id.artist)).setText(album.getArtist().getName());
+
+        final AImageView image = (AImageView) view.findViewById(R.id.image);
+        retrieveAlbumArt(context, album, image);
 
         View options = view.findViewById(R.id.options);
         options.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +82,10 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                                 Queue.addToQueue(context, content);
                                 return true;
                             }
+                            case R.id.redownloadArt: {
+                                new LastfmGetAlbumImage(context, context.getApplication(), image, true).execute(album);
+                                return true;
+                            }
                         }
                         return false;
                     }
@@ -86,9 +93,6 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                 menu.show();
             }
         });
-
-        AImageView image = (AImageView) view.findViewById(R.id.image);
-        retrieveAlbumArt(context, album, image);
 
         ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
         ImageView peakTwo = (ImageView) view.findViewById(R.id.peak_two);

@@ -2,4 +2,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/playAll" android:title="@string/play_all" />
     <item android:id="@+id/addToQueue" android:title="@string/add_to_queue" />
+    <item android:id="@+id/redownloadArt" android:title="@string/redownload_art" />
 </menu>
