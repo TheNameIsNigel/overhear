@@ -39,6 +39,7 @@ public class Queue {
         ArrayList<Integer> matchIndexes = new ArrayList<Integer>();
         int focusedAlbumStart = -1;
         int focusedAlbumEnd = -1;
+        boolean foundQueuePos = false;
 
         // Search for matching tracks for what is going to be played
         while (cursor.moveToNext()) {
@@ -48,7 +49,11 @@ public class Queue {
                 matchIndexes.add(cursor.getPosition());
             }
 
-            if (focused != null) {
+            if(currentSong.getQueueId() == focused.getQueueId()) {
+                foundQueuePos = true;
+            }
+
+            if (focused != null && foundQueuePos) {
                 if (currentSong.getArtist().equals(focused.getArtist()) && currentSong.getAlbum().equals(focused.getAlbum())) {
                     focusedAlbumStart = cursor.getPosition();
                 } else {
