@@ -220,18 +220,16 @@ public class MusicService extends Service {
         lastPlaying = song;
     }
 
-    private void playAll(Song song, String[] scope) {
-        Log.i("OVERHEAR SERVICE", "playAll(" + (song != null ? song.getData() : "null") + ")");
-        ArrayList<Song> queue = Song.getAllFromScope(getApplicationContext(), scope);
-        queue = Queue.setQueue(this, queue);
-
-        int queuePos = 0;
-        if (song != null) {
-            for (Song qi : queue) {
-                if (qi.getId() == song.getId())
-                    break;
-                queuePos++;
-            }
+    private void playAll(Song song, String[] scope, int queuePos) {
+        Log.i("OVERHEAR SERVICE", "playAll(\"" + (song != null ? song.getData() : "null") + "\")");
+        ArrayList<Song> queue = null;
+        int skipPos = Queue.canQueueSkip(this, song);
+        if(skipPos == -1) {
+            queue = Song.getAllFromScope(getApplicationContext(), scope);
+            queue = Queue.setQueue(this, queue);
+        } else {
+            queue = Queue.getQueue(this);
+            queuePos = skipPos;
         }
         playTrack(queue.get(queuePos));
     }
@@ -390,7 +388,7 @@ public class MusicService extends Service {
                     };
                 }
             }
-            playAll(song, scope);
+            playAll(song, scope, intent.getIntExtra("position", 0));
         } else if (action.equals(ACTION_PAUSE)) {
             pauseTrack();
         } else if (action.equals(ACTION_SLEEP_TIMER)) {

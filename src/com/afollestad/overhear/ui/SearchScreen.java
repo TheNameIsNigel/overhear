@@ -115,7 +115,7 @@ public class SearchScreen extends ListActivity {
         super.onListItemClick(l, v, position, id);
         switch (adapter.getItemViewType(position)) {
             case 1:
-                SongListFragment.performOnClick(this, (Song) adapter.getItem(position), null);
+                SongListFragment.performOnClick(this, (Song) adapter.getItem(position), null, position);
                 break;
             case 2:
                 startActivity(new Intent(this, AlbumViewer.class).putExtra("album",

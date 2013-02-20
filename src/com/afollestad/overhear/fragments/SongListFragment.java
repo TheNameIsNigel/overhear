@@ -88,14 +88,15 @@ public class SongListFragment extends ListFragment implements LoaderCallbacks<Cu
 		super.onListItemClick(l, v, position, id);
         adapter.getCursor().moveToPosition(position);
         Song song = Song.fromCursor(adapter.getCursor());
-        performOnClick(getActivity(), song, getScope(song));
+        performOnClick(getActivity(), song, getScope(song), position);
 	}
 
-    public static void performOnClick(Activity context, Song song, String[] scope) {
+    public static void performOnClick(Activity context, Song song, String[] scope, int position) {
         context.startService(new Intent(context, MusicService.class)
                 .setAction(MusicService.ACTION_PLAY_ALL)
                 .putExtra("song", song.getJSON().toString())
-                .putExtra("scope", scope));
+                .putExtra("scope", scope)
+                .putExtra("position", position));
     }
 	
 	private String[] getScope(Song genreSong) {
