@@ -42,7 +42,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/SongAdapter.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/SongAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/album_item_popup.xml" afterPath="$PROJECT_DIR$/res/menu/album_item_popup.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/song_item_popup.xml" afterPath="$PROJECT_DIR$/res/menu/song_item_popup.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
@@ -73,12 +78,12 @@
     <file path="$PROJECT_DIR$/../Temp/src/com/afollestad/temp/Program.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358903270138" ignored="false" />
     <file path="/now_playing_bar.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361049856886" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361317096859" ignored="false" />
-    <file path="/strings.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361243716165" ignored="false" />
+    <file path="/strings.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361377613741" ignored="false" />
     <file path="/Overhear.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358907405659" ignored="false" />
     <file path="/LastfmGetAlbumImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361243540133" ignored="false" />
     <file path="/LastfmGetArtistImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360685016372" ignored="false" />
     <file path="/ArtistOrAlbumImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358908075435" ignored="false" />
-    <file path="/AlbumAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361242989147" ignored="false" />
+    <file path="/AlbumAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361377851180" ignored="false" />
     <file path="/ArtistAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361223030633" ignored="false" />
     <file path="/NowPlayingBarFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361317488879" ignored="false" />
     <file path="/MusicService.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361371203588" ignored="false" />
@@ -110,7 +115,7 @@
     <file path="/Recents.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361244428429" ignored="false" />
     <file path="/grid_view_item.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361223004352" ignored="false" />
     <file path="/song_item.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361162012078" ignored="false" />
-    <file path="/SongAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361212164114" ignored="false" />
+    <file path="/SongAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361377794158" ignored="false" />
     <file path="/SongListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361323974973" ignored="false" />
     <file path="/GenreViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359312143286" ignored="false" />
     <file path="/activity_genre_viewer.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359311218089" ignored="false" />
@@ -184,7 +189,7 @@
     <file path="/list_header.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361063638839" ignored="false" />
     <file path="/SearchScreen.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361323987193" ignored="false" />
     <file path="/activity_search.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361130143244" ignored="false" />
-    <file path="/song_item_popup.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361162332319" ignored="false" />
+    <file path="/song_item_popup.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361377634937" ignored="false" />
     <file path="/Queue.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361377361294" ignored="false" />
     <file path="/album_item_popup.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361242893731" ignored="false" />
     <file path="/SleepTimerViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361317134846" ignored="false" />
@@ -252,17 +257,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Queue.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Queue.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="48" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.04507042">
+            <state line="68" column="42" selection-start="2480" selection-end="2480" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#926#932#0" expanded="true" />
                 <element signature="e#1315#1324#0" expanded="true" />
-                <element signature="e#3085#3091#0" expanded="true" />
-                <element signature="e#6126#6132#0" expanded="true" />
+                <element signature="e#3112#3118#0" expanded="true" />
+                <element signature="e#6153#6159#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AlbumAdapter.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="91" column="77" selection-start="4326" selection-end="4326" vertical-scroll-proportion="0.42119566">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SongAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/SongAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="67" column="92" selection-start="2873" selection-end="2873" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -270,7 +293,7 @@
       <file leaf-file-name="MusicService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="185" column="25" selection-start="8525" selection-end="8525" vertical-scroll-proportion="0.0">
+            <state line="179" column="22" selection-start="8330" selection-end="8330" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -306,22 +329,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/Recents.java" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java" />
-        <option value="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/LastFM.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SleepTimerViewer.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/SongListFragment.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SearchScreen.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java" />
         <option value="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Album.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/res/menu/song_item_popup.xml" />
+        <option value="$PROJECT_DIR$/res/menu/album_item_popup.xml" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/SongAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java" />
       </list>
     </option>
   </component>
@@ -378,7 +401,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="overhear-api" />
+              <option name="myItemId" value="overhear" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -388,7 +411,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="overhear-api" />
+              <option name="myItemId" value="overhear" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -396,7 +419,29 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="overhearapi" />
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fragments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -655,7 +700,7 @@
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5007576" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3208191" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32020548" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
@@ -736,42 +781,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../overhear-api/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="29" selection-start="270" selection-end="270" vertical-scroll-proportion="0.17204301">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="81" selection-start="939" selection-end="939" vertical-scroll-proportion="0.45996276">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="16" selection-start="4456" selection-end="4605" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="100" selection-start="4420" selection-end="4420" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/GenreViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="96" selection-start="1977" selection-end="1977" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/NowPlayingViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="100" selection-start="4469" selection-end="4469" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/SleepTimerViewer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="69" column="100" selection-start="1919" selection-end="1919" vertical-scroll-proportion="0.0">
@@ -781,12 +790,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="169" column="55" selection-start="6585" selection-end="6585" vertical-scroll-proportion="0.36021507" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="78" selection-start="2304" selection-end="2304" vertical-scroll-proportion="0.390681">
+        <state line="169" column="55" selection-start="6585" selection-end="6585" vertical-scroll-proportion="0.36021507">
           <folding />
         </state>
       </provider>
@@ -826,23 +830,72 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="29" selection-start="3779" selection-end="3779" vertical-scroll-proportion="0.8566308">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="185" column="25" selection-start="8525" selection-end="8525" vertical-scroll-proportion="0.0">
+        <state line="179" column="22" selection-start="8330" selection-end="8330" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/album_item_popup.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="66" selection-start="105" selection-end="105" vertical-scroll-proportion="0.028673835">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/song_item_popup.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="4" selection-start="265" selection-end="338" vertical-scroll-proportion="0.11469534">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="48" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.04507042">
+        <state line="68" column="42" selection-start="2480" selection-end="2480" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#926#932#0" expanded="true" />
             <element signature="e#1315#1324#0" expanded="true" />
-            <element signature="e#3085#3091#0" expanded="true" />
-            <element signature="e#6126#6132#0" expanded="true" />
+            <element signature="e#3112#3118#0" expanded="true" />
+            <element signature="e#6153#6159#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/AlbumListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="73" selection-start="1926" selection-end="1926" vertical-scroll-proportion="0.16845877">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/ArtistListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="70" selection-start="2527" selection-end="2702" vertical-scroll-proportion="0.4767025">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/SongAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="92" selection-start="2873" selection-end="2873" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="77" selection-start="4326" selection-end="4326" vertical-scroll-proportion="0.42119566">
+          <folding />
         </state>
       </provider>
     </entry>

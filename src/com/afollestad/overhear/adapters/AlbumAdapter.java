@@ -21,6 +21,7 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhear.WebArtUtils;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
+import com.afollestad.overhear.ui.ArtistViewer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
@@ -84,6 +85,11 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                             }
                             case R.id.redownloadArt: {
                                 new LastfmGetAlbumImage(context, context.getApplication(), image, true).execute(album);
+                                return true;
+                            }
+                            case R.id.viewArtist: {
+                                context.startActivity(new Intent(context, ArtistViewer.class)
+                                        .putExtra("artist", album.getArtist().getJSON().toString()));
                                 return true;
                             }
                         }

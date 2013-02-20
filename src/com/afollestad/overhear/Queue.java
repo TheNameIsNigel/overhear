@@ -56,7 +56,7 @@ public class Queue {
             if (focused != null && foundQueuePos) {
                 if (currentSong.getArtist().equals(focused.getArtist()) && currentSong.getAlbum().equals(focused.getAlbum())) {
                     focusedAlbumStart = cursor.getPosition();
-                } else {
+                } else if(focusedAlbumStart > -1) {
                     focusedAlbumEnd = cursor.getPosition();
                 }
             }

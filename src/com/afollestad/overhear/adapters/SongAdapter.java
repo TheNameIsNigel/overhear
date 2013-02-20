@@ -1,6 +1,7 @@
 package com.afollestad.overhear.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
@@ -13,6 +14,10 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.ui.AlbumViewer;
+import com.afollestad.overhear.ui.ArtistViewer;
+import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Song;
 
 public class SongAdapter extends CursorAdapter {
@@ -49,9 +54,22 @@ public class SongAdapter extends CursorAdapter {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.addToQueue:
+                            case R.id.addToQueue: {
                                 Queue.addToQueue(context, song);
                                 return true;
+                            }
+                            case R.id.viewAlbum: {
+                                Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
+                                context.startActivity(new Intent(context, AlbumViewer.class)
+                                        .putExtra("album", album.getJSON().toString()));
+                                return true;
+                            }
+                            case R.id.viewArtist: {
+                                Artist artist = Artist.getArtist(context, song.getArtist());
+                                context.startActivity(new Intent(context, ArtistViewer.class)
+                                        .putExtra("artist", artist.getJSON().toString()));
+                                return true;
+                            }
                         }
                         return false;
                     }

@@ -3,4 +3,5 @@
     <item android:id="@+id/playAll" android:title="@string/play_all" />
     <item android:id="@+id/addToQueue" android:title="@string/add_to_queue" />
     <item android:id="@+id/redownloadArt" android:title="@string/redownload_art" />
+    <item android:id="@+id/viewArtist" android:title="@string/view_artist" />
 </menu>
