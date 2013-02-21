@@ -163,6 +163,8 @@ public class MusicService extends Service {
                 .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
                 .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, nowPlaying.getTitle())
                 .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
+        metadataEditor.apply();
+        mRemoteControlClient.setPlaybackState(state);
 
         Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
         LastfmGetAlbumImage task = new LastfmGetAlbumImage(this, getApplication(), null, false);
@@ -174,7 +176,6 @@ public class MusicService extends Service {
                 public void onImageReceived(final String source, final Bitmap bitmap) {
                     metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, bitmap);
                     metadataEditor.apply();
-                    mRemoteControlClient.setPlaybackState(state);
                 }
             });
         } catch (Exception e) {
@@ -208,7 +209,7 @@ public class MusicService extends Service {
                 @Override
                 public void onImageReceived(final String source, final Bitmap bitmap) {
                     Notification update = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, bitmap, isPlaying());
-                    NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                    NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     nm.notify(100, update);
                 }
             });
@@ -228,7 +229,7 @@ public class MusicService extends Service {
         }
 
         Queue.setFocused(this, song, true);
-        Recents.add(getApplicationContext(), song);
+        Recents.add(this, song);
         initializeMediaPlayer(song.getData());
         initializeNotification(song);
 
@@ -242,7 +243,7 @@ public class MusicService extends Service {
         Log.i("OVERHEAR SERVICE", "playAll(\"" + (song != null ? song.getData() : "null") + "\")");
         ArrayList<Song> queue = null;
         int skipPos = Queue.canQueueSkip(this, song);
-        if(skipPos == -1) {
+        if (skipPos == -1) {
             queue = Song.getAllFromScope(getApplicationContext(), scope);
             queue = Queue.setQueue(this, queue);
         } else {
@@ -412,6 +413,7 @@ public class MusicService extends Service {
         } else if (action.equals(ACTION_SLEEP_TIMER)) {
             long scheduledTime = SleepTimer.getScheduledTime(this).getTimeInMillis();
             if (Calendar.getInstance().getTimeInMillis() < scheduledTime) {
+                // Verify that now is for sure the sleep timer scheduled time (or after it).
                 return START_STICKY;
             }
             pauseTrack();
@@ -422,11 +424,10 @@ public class MusicService extends Service {
         } else if (action.equals(ACTION_STOP)) {
             stopTrack();
         } else if (action.equals(ACTION_TOGGLE_PLAYBACK)) {
-            if (isPlaying()) {
+            if (isPlaying())
                 pauseTrack();
-            } else {
+            else
                 resumeTrack();
-            }
         }
         return START_STICKY;
     }

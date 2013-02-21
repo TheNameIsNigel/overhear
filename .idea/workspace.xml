@@ -39,12 +39,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/ImageManager.java" afterPath="$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/ImageManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361410497439" ignored="false" />
+    <file path="/Dummy.txt" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361457009684" ignored="false" />
     <file path="/AbstractAQuery.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358988719930" ignored="false" />
     <file path="$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/Util.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358891317092" ignored="false" />
     <file path="/AImage.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358979344631" ignored="false" />
@@ -78,7 +80,7 @@
     <file path="/AlbumAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361377851180" ignored="false" />
     <file path="/ArtistAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361223030633" ignored="false" />
     <file path="/NowPlayingBarFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361317488879" ignored="false" />
-    <file path="/MusicService.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361415208139" ignored="false" />
+    <file path="/MusicService.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361457461421" ignored="false" />
     <file path="/ArtistViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1359320830095" ignored="false" />
     <file path="/NowPlayingViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361244360979" ignored="false" />
     <file path="/AlbumViewer.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361317247940" ignored="false" />
@@ -166,7 +168,7 @@
     <file path="/dialog_tweet_now_playing.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361062632524" ignored="false" />
     <file path="/LoginHandler.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360539506226" ignored="false" />
     <file path="/Twitter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360543120931" ignored="false" />
-    <file path="/BioListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361063951110" ignored="false" />
+    <file path="/BioListFragment.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361459515310" ignored="false" />
     <file path="/AlternateScreenNameProvider.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360539661669" ignored="false" />
     <file path="/alternate_account_popup.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360541499018" ignored="false" />
     <file path="/bio_fragment.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361063995608" ignored="false" />
@@ -205,6 +207,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -239,7 +242,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -249,24 +251,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MusicService.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java">
+      <file leaf-file-name="BioListFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="207" column="36" selection-start="9543" selection-end="9543" vertical-scroll-proportion="0.65688074">
+            <state line="46" column="115" selection-start="1506" selection-end="1506" vertical-scroll-proportion="0.2562724">
               <folding>
-                <element signature="e#8078#8464#0" expanded="true" />
-                <element signature="e#8449#8450#0" expanded="true" />
-                <element signature="e#9950#9951#0" expanded="true" />
+                <element signature="method#BioListFragment#0;class#BioListFragment#0" expanded="false" />
+                <element signature="method#onCreateView#0;class#BioListFragment#0" expanded="false" />
+                <element signature="method#showAlternateAccountPopup#0;class#BioListFragment#0" expanded="false" />
+                <element signature="method#getPossibleUsers#0;class#BioListFragment#0" expanded="false" />
+                <element signature="method#loadLastFm#0;class#BioListFragment#0" expanded="false" />
+                <element signature="method#loadTwitter#0;class#BioListFragment#0" expanded="false" />
+                <element signature="method#onActivityResult#0;class#BioListFragment#0" expanded="false" />
+                <element signature="method#onViewCreated#0;class#BioListFragment#0" expanded="false" />
+                <element signature="method#update#0;class#BioListFragment#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="105" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -301,7 +300,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/NowPlayingBarFragment.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/SongListFragment.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/SearchScreen.java" />
         <option value="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Album.java" />
@@ -315,14 +313,16 @@
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java" />
         <option value="$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/ImageManager.java" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1366" />
-    <option name="height" value="728" />
+    <option name="x" value="-3" />
+    <option name="width" value="1372" />
+    <option name="height" value="730" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -357,8 +357,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -377,38 +375,80 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="overhear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fragments" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="MemberChooser.showClasses" value="true" />
-    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
-    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
-    <property name="recentsLimit" value="5" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
-    <property name="restartRequiresConfirmation" value="true" />
-    <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/com/afollestad/overhear" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/zubhiumsdk.jar!/" />
-    <property name="ExportedModule" value="overhear" />
-    <property name="GoToClass.includeLibraries" value="false" />
-    <property name="AndroidIncludeSystemProguardFile" value="true" />
-    <property name="ExportedApkPath" value="$PROJECT_DIR$/overhear.apk" />
-    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
-    <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="OverrideImplement.combined" value="false" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="AndroidProguardConfigPath" value="$PROJECT_DIR$/proguard-project.txt" />
-    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="overhear" />
-    <property name="AndroidRunProguardForReleaseBuild" value="false" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="overhear" />
+    <property name="AndroidIncludeSystemProguardFile" value="true" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="AndroidRunProguardForReleaseBuild" value="false" />
+    <property name="AndroidProguardConfigPath" value="$PROJECT_DIR$/proguard-project.txt" />
+    <property name="recentsLimit" value="5" />
+    <property name="ExportedApkPath" value="$PROJECT_DIR$/overhear.apk" />
+    <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="ExportedModule" value="overhear" />
+    <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="OverrideImplement.combined" value="false" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/com/afollestad/overhear" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/zubhiumsdk.jar!/" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -430,13 +470,11 @@
     </key>
   </component>
   <component name="RunManager" selected="Android Application.overhear">
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
       <option name="PREFERRED_AVD" value="" />
       <option name="COMMAND_LINE" value="" />
@@ -445,6 +483,39 @@
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -467,17 +538,29 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -505,49 +588,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
-      <option name="PROGRAM_PARAMETERS" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
       <method />
     </configuration>
     <configuration default="false" name="overhear" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -623,33 +663,33 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1366" height="728" extended-state="6" />
-    <editor active="false" />
+    <frame x="-3" y="0" width="1372" height="730" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67235494" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23712121" sideWeight="0.3219178" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5007576" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32020548" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23712121" sideWeight="0.3219178" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989726" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.6746575" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5007576" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32020548" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32876712" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5976027" sideWeight="0.4969697" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21363637" sideWeight="0.40239727" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67235494" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21363637" sideWeight="0.6746575" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20075758" sideWeight="0.6746575" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.6746575" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -712,60 +752,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="60" selection-start="2944" selection-end="2944" vertical-scroll-proportion="0.028673835" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Song.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="83" selection-start="1320" selection-end="1320" vertical-scroll-proportion="0.68817204">
-          <folding>
-            <element signature="method#getId#0;class#Song#0" expanded="false" />
-            <element signature="method#getQueueId#0;class#Song#0" expanded="false" />
-            <element signature="method#getDisplayName#0;class#Song#0" expanded="false" />
-            <element signature="method#getMimeType#0;class#Song#0" expanded="false" />
-            <element signature="method#getDateAdded#0;class#Song#0" expanded="false" />
-            <element signature="method#getDateModified#0;class#Song#0" expanded="false" />
-            <element signature="method#getTitle#0;class#Song#0" expanded="false" />
-            <element signature="method#getDuration#0;class#Song#0" expanded="false" />
-            <element signature="method#getDurationString#0;class#Song#0" expanded="false" />
-            <element signature="method#getDurationString#1;class#Song#0" expanded="false" />
-            <element signature="method#getTrack#0;class#Song#0" expanded="false" />
-            <element signature="method#getArtist#0;class#Song#0" expanded="false" />
-            <element signature="method#getAlbum#0;class#Song#0" expanded="false" />
-            <element signature="method#getYear#0;class#Song#0" expanded="false" />
-            <element signature="method#getData#0;class#Song#0" expanded="false" />
-            <element signature="method#isPlaying#0;class#Song#0" expanded="false" />
-            <element signature="method#setIsPlaying#0;class#Song#0" expanded="false" />
-            <element signature="method#setQueueId#0;class#Song#0" expanded="false" />
-            <element signature="method#hasFocus#0;class#Song#0" expanded="false" />
-            <element signature="method#setHasFocus#0;class#Song#0" expanded="false" />
-            <element signature="method#getJSON#0;class#Song#0" expanded="false" />
-            <element signature="method#fromJSON#0;class#Song#0" expanded="false" />
-            <element signature="method#fromJSON#1;class#Song#0" expanded="false" />
-            <element signature="method#fromCursor#0;class#Song#0" expanded="false" />
-            <element signature="method#getAllFromScope#0;class#Song#0" expanded="false" />
-            <element signature="method#getCreateTableStatement#0;class#Song#0" expanded="false" />
-            <element signature="method#getContentValues#0;class#Song#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/tasks/LastfmGetArtistImage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="26" selection-start="1456" selection-end="1456" vertical-scroll-proportion="0.6272401">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/tasks/LastfmGetAlbumImage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="43" selection-start="1164" selection-end="1164" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/RecentsListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="84" column="11" selection-start="3021" selection-end="3021" vertical-scroll-proportion="0.94265234">
@@ -807,13 +793,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/status_bar_big.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="47" selection-start="282" selection-end="282" vertical-scroll-proportion="-3.2">
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/status_bar.xml">
@@ -835,12 +821,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/views/AImageView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="8" selection-start="2606" selection-end="2813" vertical-scroll-proportion="0.4856631">
-          <folding>
-            <element signature="e#2686#3410#0" expanded="true" />
-            <element signature="e#3399#3400#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="80" column="8" selection-start="2606" selection-end="2813" vertical-scroll-proportion="0.4856631" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/ImageManager.java">
@@ -852,25 +833,73 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/Dimension.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="11" selection-start="852" selection-end="852" vertical-scroll-proportion="0.33333334">
+        <state line="31" column="11" selection-start="852" selection-end="852" vertical-scroll-proportion="0.33333334" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_album_viewer.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/AlbumViewer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="105" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.0">
+        <state line="43" column="0" selection-start="1483" selection-end="1483" vertical-scroll-proportion="0.6">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="207" column="36" selection-start="9543" selection-end="9543" vertical-scroll-proportion="0.65688074">
+        <state line="146" column="58" selection-start="6644" selection-end="6644" vertical-scroll-proportion="0.43875685">
           <folding>
-            <element signature="e#8078#8464#0" expanded="true" />
-            <element signature="e#8449#8450#0" expanded="true" />
-            <element signature="e#9950#9951#0" expanded="true" />
+            <element signature="e#9516#9986#0" expanded="false" />
+            <element signature="e#9971#9972#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="105" selection-start="1305" selection-end="1305" vertical-scroll-proportion="0.028571429">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/ArtistViewer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="68" selection-start="2553" selection-end="2553" vertical-scroll-proportion="0.6">
+          <folding>
+            <element signature="method#onActivityResult#0;class#ArtistViewer#0" expanded="false" />
+            <element signature="method#onCreate#0;class#ArtistViewer#0" expanded="false" />
+            <element signature="method#onCreateOptionsMenu#0;class#ArtistViewer#0" expanded="false" />
+            <element signature="class#SectionsPagerAdapter#0;class#ArtistViewer#0" expanded="false" />
+            <element signature="method#SectionsPagerAdapter#0;class#SectionsPagerAdapter#0;class#ArtistViewer#0" expanded="false" />
+            <element signature="method#getItem#0;class#SectionsPagerAdapter#0;class#ArtistViewer#0" expanded="false" />
+            <element signature="method#getCount#0;class#SectionsPagerAdapter#0;class#ArtistViewer#0" expanded="false" />
+            <element signature="method#getPageTitle#0;class#SectionsPagerAdapter#0;class#ArtistViewer#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#ArtistViewer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/fragments/BioListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="115" selection-start="1506" selection-end="1506" vertical-scroll-proportion="0.2562724">
+          <folding>
+            <element signature="method#BioListFragment#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#onCreateView#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#showAlternateAccountPopup#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#getPossibleUsers#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#loadLastFm#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#loadTwitter#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#onActivityResult#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#onViewCreated#0;class#BioListFragment#0" expanded="false" />
+            <element signature="method#update#0;class#BioListFragment#0" expanded="false" />
           </folding>
         </state>
       </provider>

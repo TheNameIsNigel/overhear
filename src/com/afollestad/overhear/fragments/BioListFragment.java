@@ -44,6 +44,7 @@ public class BioListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null) {
+            ((TextView) getView().findViewById(R.id.bioAbout)).setText(savedInstanceState.getString("lastfm_bio"));
             try {
                 artist = Artist.fromJSON(new JSONObject(savedInstanceState.getString("artist")));
             } catch (JSONException e) {
@@ -58,6 +59,7 @@ public class BioListFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString("artist", artist.getJSON().toString());
+        outState.putString("lastfm_bio", ((TextView) getView().findViewById(R.id.bioAbout)).getText().toString());
         super.onSaveInstanceState(outState);
     }
 
@@ -136,6 +138,10 @@ public class BioListFragment extends Fragment {
     }
 
     private void loadLastFm() {
+        String currentBio = ((TextView) getView().findViewById(R.id.bioAbout)).getText().toString();
+        if(!currentBio.equals(getString(R.string.loading_str))) {
+            return;
+        }
         final Handler mHandler = new Handler();
         new Thread(new Runnable() {
             public void run() {
