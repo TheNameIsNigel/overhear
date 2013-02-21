@@ -6,6 +6,7 @@ import android.content.*;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.Recents;
@@ -75,6 +76,13 @@ public class RecentsListFragment extends ListFragment implements LoaderCallbacks
         getListView().setPadding(pad, 0, pad, 0);
         getListView().setSmoothScrollbarEnabled(true);
         getListView().setFastScrollEnabled(true);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                view.findViewById(R.id.options).performClick();
+                return true;
+            }
+        });
         setEmptyText(getString(R.string.no_recents));
     }
 

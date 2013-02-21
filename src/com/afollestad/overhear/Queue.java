@@ -35,6 +35,9 @@ public class Queue {
     }
 
     public static int canQueueSkip(Context context, Song targetSong) {
+        if(targetSong == null) {
+            return -1;
+        }
         Song focused = getFocused(context);
         Cursor cursor = openCursor(context, null);
         ArrayList<Integer> matchIndexes = new ArrayList<Integer>();

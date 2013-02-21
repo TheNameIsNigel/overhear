@@ -1,6 +1,7 @@
 package com.afollestad.overhear.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.*;
@@ -15,7 +16,10 @@ import android.os.IBinder;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
+import com.afollestad.aimage.Dimension;
+import com.afollestad.aimage.ImageListener;
 import com.afollestad.overhear.*;
+import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
@@ -152,26 +156,30 @@ public class MusicService extends Service {
         return focused;
     }
 
-    private void updateRemoteControl(int state) {
+    private void updateRemoteControl(final int state) {
         Song nowPlaying = Queue.getFocused(this);
-        MetadataEditor metadataEditor = mRemoteControlClient
+        final MetadataEditor metadataEditor = mRemoteControlClient
                 .editMetadata(true)
                 .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
                 .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, nowPlaying.getTitle())
                 .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
+
         Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
-        String url = WebArtUtils.getImageURL(getApplicationContext(), album);
-        if (url == null) {
-            url = album.getAlbumArtUri(getApplicationContext()).toString();
-        }
+        LastfmGetAlbumImage task = new LastfmGetAlbumImage(this, getApplication(), null, false);
+        task.execute(album);
         try {
-            Bitmap art = ((App) getApplication()).getManager().get(url, null);
-            metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, art);
+            String url = task.get();
+            ((App) getApplication()).getManager().get(url, null, new ImageListener() {
+                @Override
+                public void onImageReceived(final String source, final Bitmap bitmap) {
+                    metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, bitmap);
+                    metadataEditor.apply();
+                    mRemoteControlClient.setPlaybackState(state);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
-        metadataEditor.apply();
-        mRemoteControlClient.setPlaybackState(state);
     }
 
     private void initializeMediaPlayer(String source) {
@@ -187,17 +195,27 @@ public class MusicService extends Service {
         }
     }
 
-    private void initializeNotification(Song nowPlaying) {
-        Album album = Album.getAlbum(this, nowPlaying.getAlbum(), nowPlaying.getArtist());
-        String url = WebArtUtils.getImageURL(getApplicationContext(), album);
-        if (url == null) {
-            url = album.getAlbumArtUri(getApplicationContext()).toString();
-        }
-        Bitmap art = ((App) getApplication()).getManager().get(url, null);
-        Notification status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, art, isPlaying());
+    private void initializeNotification(final Song nowPlaying) {
+        Notification status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, null, isPlaying());
         startForeground(100, status);
-    }
 
+        Album album = Album.getAlbum(this, nowPlaying.getAlbum(), nowPlaying.getArtist());
+        LastfmGetAlbumImage task = new LastfmGetAlbumImage(this, getApplication(), null, false);
+        task.execute(album);
+        try {
+            String url = task.get();
+            ((App) getApplication()).getManager().get(url, new Dimension(this, 130f), new ImageListener() {
+                @Override
+                public void onImageReceived(final String source, final Bitmap bitmap) {
+                    Notification update = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, bitmap, isPlaying());
+                    NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                    nm.notify(100, update);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void playTrack(Song song) {
         Log.i("OVERHEAR SERVICE", "playTrack(\"" + song.getData() + "\")");
