@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
@@ -37,45 +38,60 @@ public class Queue {
         Song focused = getFocused(context);
         Cursor cursor = openCursor(context, null);
         ArrayList<Integer> matchIndexes = new ArrayList<Integer>();
-        int focusedAlbumStart = -1;
+
+        boolean foundFocused = false;
+        int currentAlbumStart = 0;
         int focusedAlbumEnd = -1;
-        boolean foundQueuePos = false;
+        Album lastAlbum = null;
 
         // Search for matching tracks for what is going to be played
         while (cursor.moveToNext()) {
 
             Song currentSong = Song.fromCursor(cursor);
+            if(lastAlbum == null)
+                lastAlbum = new Album(currentSong.getAlbum(), currentSong.getArtist());
+
             if (currentSong.getId() == targetSong.getId()) {
+                // Add all matches to the target in case the focused song's album doesn't contain the target song
                 matchIndexes.add(cursor.getPosition());
             }
 
-            if(currentSong.getQueueId() == focused.getQueueId()) {
-                foundQueuePos = true;
-            }
-
-            if (focused != null && foundQueuePos) {
-                if (currentSong.getArtist().equals(focused.getArtist()) && currentSong.getAlbum().equals(focused.getAlbum())) {
-                    focusedAlbumStart = cursor.getPosition();
-                } else if(focusedAlbumStart > -1) {
+            if (!lastAlbum.getName().equals(currentSong.getAlbum()) || !lastAlbum.getArtist().equals(currentSong.getArtist())) {
+                if (!foundFocused) {
+                    /**
+                     * If the focused album hasn't been found yet and the current song's album isn't the same as the
+                     * last song's album, set the start position of the new album being processed by the algorithm.
+                     */
+                    currentAlbumStart = cursor.getPosition();
+                } else if (focusedAlbumEnd == -1) {
+                    // If the focused album has been found but the end position hasn't been set, set it now.
                     focusedAlbumEnd = cursor.getPosition();
                 }
             }
+
+            if (focused != null && currentSong.getQueueId() == focused.getQueueId()) {
+                foundFocused = true;
+            }
+
+            lastAlbum = new Album(currentSong.getAlbum(), currentSong.getArtist());
+        }
+
+        if(focusedAlbumEnd == -1) {
+            focusedAlbumEnd = cursor.getCount() - 1;
         }
 
         // Prioritize matches within the bounds of the album the focused song is from
         int index = -1;
-        if (focusedAlbumStart > -1) {
-            if (focusedAlbumEnd == -1)
-                focusedAlbumEnd = cursor.getCount() - 1;
+        if (foundFocused) {
             for (Integer mi : matchIndexes) {
-                if (mi >= focusedAlbumStart && mi <= focusedAlbumEnd) {
+                if (mi >= currentAlbumStart && mi <= focusedAlbumEnd) {
                     index = mi;
                     break;
                 }
             }
         }
 
-        // If no matches were within the focused album boumds, use the first match that was found.
+        // If no matches were within the focused album bounds, use the first match that was found.
         if (index == -1 && matchIndexes.size() > 0)
             index = matchIndexes.get(0);
         cursor.close();
@@ -192,7 +208,7 @@ public class Queue {
             toreturn = Song.fromCursor(cursor);
         }
         cursor.close();
-        Log.i("QUEUE", "getFocused(context) = \"" + (toreturn != null ? toreturn.getTitle() : "null") + "\"");
+        //Log.i("QUEUE", "getFocused(context) = \"" + (toreturn != null ? toreturn.getTitle() : "null") + "\"");
         return toreturn;
     }
 
