@@ -46,6 +46,21 @@ public class OverviewScreen extends Activity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setCurrentItem(2);
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+            @Override
+            public void onPageSelected(int i) {
+                //TODO hide or show overfloe menu items based on the current page
+            }
+            @Override
+            public void onPageScrollStateChanged(int i) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
     }
 
     @Override

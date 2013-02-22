@@ -60,8 +60,8 @@ public class MusicUtils {
             items.add(list.getName());
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DarkTheme_DialogCustom);
-            builder.setTitle(R.string.add_to_playlist)
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+            .setTitle(R.string.add_to_playlist)
             .setItems(items.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -70,8 +70,8 @@ public class MusicUtils {
                         list.insertSong(context, songAdd);
                     } else if(albumAdd != null) {
                         ArrayList<Song> albumSongs = Song.getAllFromScope(context, new String[] {
-                                MediaStore.Audio.Media.ALBUM + " = '" + songAdd.getAlbum().replace("'", "''") + "' AND " +
-                                        MediaStore.Audio.Media.ARTIST + " = '" + songAdd.getArtist().replace("'", "''") + "'",
+                                MediaStore.Audio.Media.ALBUM + " = '" + albumAdd.getName().replace("'", "''") + "' AND " +
+                                        MediaStore.Audio.Media.ARTIST + " = '" + albumAdd.getArtist().getName().replace("'", "''") + "'",
                                 MediaStore.Audio.Media.TRACK
                         });
                         list.insertSongs(context, albumSongs);
