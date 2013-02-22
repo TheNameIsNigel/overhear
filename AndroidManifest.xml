@@ -49,6 +49,9 @@
         <activity android:name="com.afollestad.overhear.ui.GenreViewer"
                   android:configChanges="keyboardHidden|orientation|screenSize"/>
 
+        <activity android:name="com.afollestad.overhear.ui.PlaylistViewer"
+                  android:configChanges="keyboardHidden|orientation|screenSize"/>
+
 
         <service android:name="com.afollestad.overhear.service.MusicService"
                  android:enabled="true" android:exported="false"/>

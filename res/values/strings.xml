@@ -6,11 +6,13 @@
     <string name="albums_str">Albums</string>
     <string name="songs_str">Songs</string>
     <string name="genres_str">Genres</string>
+    <string name="playlists_str">Playlists</string>
     <string name="no_recents">No recent</string>
     <string name="no_artists">No artists</string>
     <string name="no_albums">No albums</string>
     <string name="no_songs">No songs</string>
     <string name="no_genres">No genres</string>
+    <string name="no_playlists">No playlists</string>
     <string name="bio_str">Bio</string>
     <string name="menu_settings">Settings</string>
     <string name="now_playing">Now playing</string>
