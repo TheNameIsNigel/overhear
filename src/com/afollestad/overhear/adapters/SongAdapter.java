@@ -1,5 +1,6 @@
 package com.afollestad.overhear.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.ui.AlbumViewer;
@@ -24,9 +26,11 @@ public class SongAdapter extends CursorAdapter {
 
     public SongAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
+        this.activity = (Activity)context;
     }
 
     private boolean showTrackNumher = false;
+    private Activity activity;
 
     public void setShowTrackNumber(boolean show) {
         this.showTrackNumher = show;
@@ -37,7 +41,7 @@ public class SongAdapter extends CursorAdapter {
         return LayoutInflater.from(context).inflate(R.layout.song_item, null);
     }
 
-    public static View getViewForSong(final Context context, final Song song, View view, int trackNumber) {
+    public static View getViewForSong(final Activity context, final Song song, View view, int trackNumber) {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }
@@ -54,6 +58,9 @@ public class SongAdapter extends CursorAdapter {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
+                            case R.id.addToPlaylist:
+                                MusicUtils.createPlaylistChooseDialog(context, song, null).show();
+                                return true;
                             case R.id.addToQueue: {
                                 Queue.addToQueue(context, song);
                                 return true;
@@ -115,6 +122,6 @@ public class SongAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         Song song = Song.fromCursor(cursor);
-        getViewForSong(context, song, view, showTrackNumher ? cursor.getPosition() : -1);
+        getViewForSong(activity, song, view, showTrackNumher ? cursor.getPosition() : -1);
     }
 }

@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.Twitter;
-import com.afollestad.overhear.fragments.SongListFragment;
+import com.afollestad.overhear.fragments.PlaylistSongFragment;
 import com.afollestad.overhearapi.Playlist;
 
 public class PlaylistViewer extends Activity {
@@ -32,7 +32,7 @@ public class PlaylistViewer extends Activity {
 		if (savedInstanceState == null) {
 	        // First-time init; create fragment to embed in activity.
 	        FragmentTransaction ft = getFragmentManager().beginTransaction();
-	        Fragment newFragment = new SongListFragment();
+	        Fragment newFragment = new PlaylistSongFragment();
 	        Bundle args = new Bundle();
 	        args.putString("playlist", getIntent().getStringExtra("playlist"));
 	        newFragment.setArguments(args);

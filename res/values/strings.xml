@@ -69,9 +69,12 @@
 
     <string name="redownloading_art">Downloading album art...</string>
     <string name="redownload_art">Download Artwork</string>
+    <string name="add_to_playlist">Add to Playlist</string>
     <string name="add_to_queue">Add to Queue</string>
     <string name="play_all">Play All</string>
     <string name="download_queued">Album art will be downloaded when a connection is available!</string>
     <string name="view_album">View Album</string>
     <string name="view_artist">View Artist</string>
+
+    <string name="create_playlist">Create Playlist</string>
 </resources>

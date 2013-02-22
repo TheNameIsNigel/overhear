@@ -54,20 +54,26 @@ public class Queue {
             if(lastAlbum == null)
                 lastAlbum = new Album(currentSong.getAlbum(), currentSong.getArtist());
 
-            if (currentSong.getId() == targetSong.getId()) {
-                // Add all matches to the target in case the focused song's album doesn't contain the target song
+            if (currentSong.getId() == targetSong.getId() &&
+                    currentSong.getFromPlaylist() == targetSong.getFromPlaylist()) {
+                // Add all matches to the target in case the focused song's album/playlist doesn't contain the target song
                 matchIndexes.add(cursor.getPosition());
             }
 
-            if (!lastAlbum.getName().equals(currentSong.getAlbum()) || !lastAlbum.getArtist().equals(currentSong.getArtist())) {
+            boolean sameAlbum = focused.getFromPlaylist() == 0 &&
+                    (!lastAlbum.getName().equals(currentSong.getAlbum()) || !lastAlbum.getArtist().equals(currentSong.getArtist()));
+            boolean samePlaylist = focused.getFromPlaylist() > 0 &&
+                    focused.getFromPlaylist() == currentSong.getFromPlaylist();
+
+            if (sameAlbum || samePlaylist) {
                 if (!foundFocused) {
                     /**
-                     * If the focused album hasn't been found yet and the current song's album isn't the same as the
-                     * last song's album, set the start position of the new album being processed by the algorithm.
+                     * If the focused album/playlist hasn't been found yet and the current song's album/playlist isn't the same as the
+                     * last song's; set the start position of the new/playlist album being processed by the algorithm.
                      */
                     currentAlbumStart = cursor.getPosition();
                 } else if (focusedAlbumEnd == -1) {
-                    // If the focused album has been found but the end position hasn't been set, set it now.
+                    // If the focused album/playlist has been found but the end position hasn't been set, set it now.
                     focusedAlbumEnd = cursor.getPosition();
                 }
             }

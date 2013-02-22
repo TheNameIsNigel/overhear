@@ -91,7 +91,7 @@ public class PlayListFragment extends ListFragment implements LoaderCallbacks<Cu
     }
 
     public static void performOnClick(Activity context, Playlist list) {
-        context.startService(new Intent(context, PlaylistViewer.class)
+        context.startActivity(new Intent(context, PlaylistViewer.class)
                 .putExtra("playlist", list.getJSON().toString()));
     }
 

@@ -15,10 +15,7 @@ import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.App;
-import com.afollestad.overhear.Queue;
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.WebArtUtils;
+import com.afollestad.overhear.*;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.ui.ArtistViewer;
@@ -70,6 +67,9 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
+                            case R.id.addToPlaylist:
+                                MusicUtils.createPlaylistChooseDialog(context, null, album).show();
+                                return true;
                             case R.id.playAll: {
                                 context.startService(new Intent(context, MusicService.class)
                                         .setAction(MusicService.ACTION_PLAY_ALL).putExtra("album_id", album.getAlbumId()));

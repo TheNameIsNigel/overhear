@@ -20,6 +20,7 @@ import com.afollestad.aimage.ImageListener;
 import com.afollestad.overhear.*;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
@@ -116,6 +117,7 @@ public class MusicService extends Service {
 
     public final static String PLAYING_STATE_CHANGED = "com.afollestad.overhear.PLAY_STATE_CHANGED";
     public final static String RECENTS_UPDATED = "com.afollestad.overhear.RECENTS_UPDATED";
+    public final static String PLAYLIST_UPDATED = "com.afollestad.overhear.PLAYLIST_UPDATED";
 
     public static final String ACTION_SLEEP_TIMER = "com.afollestad.overhear.action.SLEEP_TIMER";
     public static final String ACTION_TOGGLE_PLAYBACK = "com.afollestad.overhear.action.TOGGLE_PLAYBACK";
@@ -239,12 +241,15 @@ public class MusicService extends Service {
         lastPlaying = song;
     }
 
-    private void playAll(Song song, String[] scope, int queuePos) {
+    private void playAll(Song song, String[] scope, int queuePos, Playlist list) {
         Log.i("OVERHEAR SERVICE", "playAll(\"" + (song != null ? song.getData() : "null") + "\")");
         ArrayList<Song> queue = null;
         int skipPos = Queue.canQueueSkip(this, song);
         if (skipPos == -1) {
-            queue = Song.getAllFromScope(getApplicationContext(), scope);
+            if(list != null)
+                queue = list.getSongs(this);
+            else
+                queue = Song.getAllFromScope(getApplicationContext(), scope);
             queue = Queue.setQueue(this, queue);
         } else {
             queue = Queue.getQueue(this);
@@ -395,6 +400,8 @@ public class MusicService extends Service {
                                 MediaStore.Audio.Media.ALBUM_ID + " = " + intent.getIntExtra("album_id", 0),
                         MediaStore.Audio.Media.TRACK
                 };
+            } else if(intent.hasExtra("playlist")) {
+
             } else {
                 song = Song.fromJSON(intent.getStringExtra("song"));
                 scope = intent.getStringArrayExtra("scope");
@@ -407,7 +414,10 @@ public class MusicService extends Service {
                     };
                 }
             }
-            playAll(song, scope, intent.getIntExtra("position", 0));
+            Playlist list = null;
+            if(intent.hasExtra("playlist"))
+                list = Playlist.fromJSON(intent.getStringExtra("playlist"));
+            playAll(song, scope, intent.getIntExtra("position", 0), list);
         } else if (action.equals(ACTION_PAUSE)) {
             pauseTrack();
         } else if (action.equals(ACTION_SLEEP_TIMER)) {

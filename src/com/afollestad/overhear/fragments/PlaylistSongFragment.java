@@ -109,6 +109,7 @@ public class PlaylistSongFragment extends ListFragment implements LoaderCallback
 		if(data == null)
 			return;
 		adapter = new SongAdapter(getActivity(), data, 0);
+        adapter.setShowTrackNumber(true);
 		setListAdapter(adapter);
 	}
 
