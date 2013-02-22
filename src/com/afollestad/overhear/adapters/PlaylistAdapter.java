@@ -35,7 +35,7 @@ public class PlaylistAdapter extends CursorAdapter {
             @Override
             public void onClick(View view) {
                 PopupMenu menu = new PopupMenu(context, view);
-                menu.inflate(R.menu.song_item_popup);
+                menu.inflate(R.menu.playlist_item_popup);
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {

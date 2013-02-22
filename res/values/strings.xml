@@ -77,4 +77,6 @@
     <string name="view_artist">View Artist</string>
 
     <string name="create_playlist">Create Playlist</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
 </resources>

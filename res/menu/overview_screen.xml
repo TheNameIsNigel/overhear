@@ -4,5 +4,5 @@
           android:showAsAction="ifRoom"/>
     <item android:id="@+id/tweetPlaying" android:title="@string/tweet_now_playing" />
     <item android:id="@+id/about" android:title="@string/about_str" />
-    <item android:id="@+id/createPlaylist" android:title="@string/create_playlist" />
+    <item android:id="@+id/createPlaylist" android:title="@string/create_playlist" android:visible="false" />
 </menu>
