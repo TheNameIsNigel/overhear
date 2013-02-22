@@ -37,14 +37,9 @@
       <entry key="file://$PROJECT_DIR$/res/layout-land/activity_album_viewer.xml" value="Portrait" />
     </device-configurations>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/ImageManager.java" afterPath="$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/ImageManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/MusicUtils.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/MusicUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Playlist.java" afterPath="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Playlist.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Song.java" afterPath="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Song.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
@@ -95,7 +90,7 @@
     <file path="/SearchAdapter.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1358985737339" ignored="false" />
     <file path="/NotificationViewCreator.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1360685442399" ignored="false" />
     <file path="/Album.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361374069980" ignored="false" />
-    <file path="/Song.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361545987999" ignored="false" />
+    <file path="/Song.java" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361568675112" ignored="false" />
     <file path="/activity_album_viewer.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361049350560" ignored="false" />
     <file path="/activity_artist_viewer.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361050059114" ignored="false" />
     <file path="/overview_screen.xml" changelist="4748a407-09f6-4ffb-bbb8-fe9409d469cc" time="1361553953308" ignored="false" />
@@ -305,10 +300,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MusicUtils.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MusicUtils.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/MusicUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="111" selection-start="3052" selection-end="3052" vertical-scroll-proportion="0.49348232">
+            <state line="76" column="35" selection-start="3203" selection-end="3203" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="method#isOnline#0;class#MusicUtils#0" expanded="false" />
                 <element signature="method#browseArtist#0;class#MusicUtils#0" expanded="false" />
@@ -318,19 +313,61 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="overview_screen.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/menu/overview_screen.xml">
+      <file leaf-file-name="Playlist.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Playlist.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="41" selection-start="448" selection-end="448" vertical-scroll-proportion="0.0">
+            <state line="64" column="15" selection-start="1385" selection-end="1385" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#3558#3568#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QueueProvider.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/providers/QueueProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="42" selection-start="1224" selection-end="1224" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlaylistViewer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/PlaylistViewer.java">
+      <file leaf-file-name="Song.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Song.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="47" selection-start="2461" selection-end="2461" vertical-scroll-proportion="0.0">
+            <state line="160" column="57" selection-start="3553" selection-end="3553" vertical-scroll-proportion="-5.092219">
+              <folding>
+                <element signature="method#getId#0;class#Song#0" expanded="false" />
+                <element signature="method#getQueueId#0;class#Song#0" expanded="false" />
+                <element signature="method#getDisplayName#0;class#Song#0" expanded="false" />
+                <element signature="method#getMimeType#0;class#Song#0" expanded="false" />
+                <element signature="method#getDateAdded#0;class#Song#0" expanded="false" />
+                <element signature="method#getDateModified#0;class#Song#0" expanded="false" />
+                <element signature="method#getTitle#0;class#Song#0" expanded="false" />
+                <element signature="method#getDuration#0;class#Song#0" expanded="false" />
+                <element signature="method#getDurationString#0;class#Song#0" expanded="false" />
+                <element signature="method#getDurationString#1;class#Song#0" expanded="false" />
+                <element signature="method#getTrack#0;class#Song#0" expanded="false" />
+                <element signature="method#getArtist#0;class#Song#0" expanded="false" />
+                <element signature="method#getAlbum#0;class#Song#0" expanded="false" />
+                <element signature="method#getYear#0;class#Song#0" expanded="false" />
+                <element signature="method#getData#0;class#Song#0" expanded="false" />
+                <element signature="method#isPlaying#0;class#Song#0" expanded="false" />
+                <element signature="method#setIsPlaying#0;class#Song#0" expanded="false" />
+                <element signature="method#setQueueId#0;class#Song#0" expanded="false" />
+                <element signature="method#hasFocus#0;class#Song#0" expanded="false" />
+                <element signature="method#setHasFocus#0;class#Song#0" expanded="false" />
+                <element signature="method#fromJSON#0;class#Song#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="overview_screen.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/menu/overview_screen.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="41" selection-start="448" selection-end="448" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -349,7 +386,7 @@
     <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../overhear-api" />
   </component>
   <component name="GitLogSettings">
     <option name="myDateState">
@@ -372,7 +409,6 @@
         <option value="$PROJECT_DIR$/res/layout/song_item.xml" />
         <option value="$PROJECT_DIR$/res/menu/song_item_popup.xml" />
         <option value="$PROJECT_DIR$/res/menu/album_item_popup.xml" />
-        <option value="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Song.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/Queue.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/service/MusicService.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/AlbumAdapter.java" />
@@ -382,6 +418,7 @@
         <option value="$PROJECT_DIR$/res/menu/overview_screen.xml" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/MusicUtils.java" />
+        <option value="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Song.java" />
       </list>
     </option>
   </component>
@@ -479,7 +516,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
+              <option name="myItemId" value="providers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -733,7 +770,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23712121" sideWeight="0.3219178" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21363637" sideWeight="0.40239727" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21363637" sideWeight="0.6746575" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32020548" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.67235494" order="2" side_tool="false" content_ui="tabs" />
@@ -741,7 +778,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989726" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -818,51 +855,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/menu/song_item_popup.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="4" selection-start="110" selection-end="190" vertical-scroll-proportion="0.05734767">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/menu/album_item_popup.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="84" selection-start="190" selection-end="190" vertical-scroll-proportion="0.05734767">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Song.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="20" selection-start="2423" selection-end="2423" vertical-scroll-proportion="0.029795159">
-          <folding>
-            <element signature="method#getId#0;class#Song#0" expanded="false" />
-            <element signature="method#getQueueId#0;class#Song#0" expanded="false" />
-            <element signature="method#getDisplayName#0;class#Song#0" expanded="false" />
-            <element signature="method#getMimeType#0;class#Song#0" expanded="false" />
-            <element signature="method#getDateAdded#0;class#Song#0" expanded="false" />
-            <element signature="method#getDateModified#0;class#Song#0" expanded="false" />
-            <element signature="method#getTitle#0;class#Song#0" expanded="false" />
-            <element signature="method#getDuration#0;class#Song#0" expanded="false" />
-            <element signature="method#getDurationString#0;class#Song#0" expanded="false" />
-            <element signature="method#getDurationString#1;class#Song#0" expanded="false" />
-            <element signature="method#getTrack#0;class#Song#0" expanded="false" />
-            <element signature="method#getArtist#0;class#Song#0" expanded="false" />
-            <element signature="method#getAlbum#0;class#Song#0" expanded="false" />
-            <element signature="method#getYear#0;class#Song#0" expanded="false" />
-            <element signature="method#getData#0;class#Song#0" expanded="false" />
-            <element signature="method#isPlaying#0;class#Song#0" expanded="false" />
-            <element signature="method#setIsPlaying#0;class#Song#0" expanded="false" />
-            <element signature="method#setQueueId#0;class#Song#0" expanded="false" />
-            <element signature="method#hasFocus#0;class#Song#0" expanded="false" />
-            <element signature="method#setHasFocus#0;class#Song#0" expanded="false" />
-            <element signature="method#getJSON#0;class#Song#0" expanded="false" />
-            <element signature="method#fromJSON#0;class#Song#0" expanded="false" />
-            <element signature="method#fromJSON#1;class#Song#0" expanded="false" />
-            <element signature="method#fromCursor#0;class#Song#0" expanded="false" />
-            <element signature="method#getCreateTableStatement#0;class#Song#0" expanded="false" />
-            <element signature="method#getContentValues#0;class#Song#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -906,15 +902,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="72" column="47" selection-start="2461" selection-end="2461" vertical-scroll-proportion="0.0">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Playlist.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="29" selection-start="4541" selection-end="4541" vertical-scroll-proportion="0.827957">
-          <folding>
-            <element signature="e#3558#3568#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -962,11 +949,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/MusicUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="111" selection-start="3052" selection-end="3052" vertical-scroll-proportion="0.49348232">
+        <state line="76" column="35" selection-start="3203" selection-end="3203" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="method#isOnline#0;class#MusicUtils#0" expanded="false" />
             <element signature="method#browseArtist#0;class#MusicUtils#0" expanded="false" />
             <element signature="e#2030#2044#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Playlist.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="15" selection-start="1385" selection-end="1385" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#3558#3568#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/providers/QueueProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="42" selection-start="1224" selection-end="1224" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Song.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="160" column="57" selection-start="3553" selection-end="3553" vertical-scroll-proportion="-5.092219">
+          <folding>
+            <element signature="method#getId#0;class#Song#0" expanded="false" />
+            <element signature="method#getQueueId#0;class#Song#0" expanded="false" />
+            <element signature="method#getDisplayName#0;class#Song#0" expanded="false" />
+            <element signature="method#getMimeType#0;class#Song#0" expanded="false" />
+            <element signature="method#getDateAdded#0;class#Song#0" expanded="false" />
+            <element signature="method#getDateModified#0;class#Song#0" expanded="false" />
+            <element signature="method#getTitle#0;class#Song#0" expanded="false" />
+            <element signature="method#getDuration#0;class#Song#0" expanded="false" />
+            <element signature="method#getDurationString#0;class#Song#0" expanded="false" />
+            <element signature="method#getDurationString#1;class#Song#0" expanded="false" />
+            <element signature="method#getTrack#0;class#Song#0" expanded="false" />
+            <element signature="method#getArtist#0;class#Song#0" expanded="false" />
+            <element signature="method#getAlbum#0;class#Song#0" expanded="false" />
+            <element signature="method#getYear#0;class#Song#0" expanded="false" />
+            <element signature="method#getData#0;class#Song#0" expanded="false" />
+            <element signature="method#isPlaying#0;class#Song#0" expanded="false" />
+            <element signature="method#setIsPlaying#0;class#Song#0" expanded="false" />
+            <element signature="method#setQueueId#0;class#Song#0" expanded="false" />
+            <element signature="method#hasFocus#0;class#Song#0" expanded="false" />
+            <element signature="method#setHasFocus#0;class#Song#0" expanded="false" />
+            <element signature="method#fromJSON#0;class#Song#0" expanded="false" />
           </folding>
         </state>
       </provider>
