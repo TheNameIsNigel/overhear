@@ -10,7 +10,6 @@ import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
-import android.media.RemoteControlClient.MetadataEditor;
 import android.os.Binder;
 import android.os.IBinder;
 import android.provider.MediaStore;
@@ -158,12 +157,11 @@ public class MusicService extends Service {
 
     private void updateRemoteControl(final int state) {
         Song nowPlaying = Queue.getFocused(this);
-        final MetadataEditor metadataEditor = mRemoteControlClient
-                .editMetadata(true)
+        mRemoteControlClient
+                .editMetadata(false)
                 .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
                 .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, nowPlaying.getTitle())
-                .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration());
-        metadataEditor.apply();
+                .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration()).apply();
         mRemoteControlClient.setPlaybackState(state);
 
         Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
@@ -174,8 +172,10 @@ public class MusicService extends Service {
             ((App) getApplication()).getManager().get(url, null, new ImageListener() {
                 @Override
                 public void onImageReceived(final String source, final Bitmap bitmap) {
-                    metadataEditor.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, bitmap);
-                    metadataEditor.apply();
+                    mRemoteControlClient
+                            .editMetadata(false)
+                            .putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, bitmap)
+                            .apply();
                 }
             });
         } catch (Exception e) {
