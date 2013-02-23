@@ -43,8 +43,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4748a407-09f6-4ffb-bbb8-fe9409d469cc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/ImageManager.java" afterPath="$PROJECT_DIR$/../aimage/src/com/afollestad/aimage/ImageManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Playlist.java" afterPath="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Playlist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/PlaylistAdapter.java" afterPath="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/PlaylistAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../aimage/.idea/workspace.xml" />
     </list>
     <ignored path="overhear.iws" />
@@ -260,10 +260,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PlaylistAdapter.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PlaylistAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/PlaylistAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="76" selection-start="3719" selection-end="3719" vertical-scroll-proportion="0.5163044">
+            <state line="87" column="39" selection-start="3682" selection-end="3682" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -282,10 +282,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OverviewScreen.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="OverviewScreen.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="88" column="16" selection-start="3162" selection-end="3216" vertical-scroll-proportion="0.0">
+            <state line="44" column="42" selection-start="1534" selection-end="1534" vertical-scroll-proportion="0.60215056">
               <folding>
                 <element signature="method#onActivityResult#0;class#OverviewScreen#0" expanded="false" />
                 <element signature="method#SectionsPagerAdapter#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
@@ -344,8 +344,8 @@
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/fragments/PlaylistSongFragment.java" />
         <option value="$PROJECT_DIR$/../overhear-api/src/com/afollestad/overhearapi/Playlist.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/MusicUtils.java" />
-        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" />
         <option value="$PROJECT_DIR$/src/com/afollestad/overhear/adapters/PlaylistAdapter.java" />
+        <option value="$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java" />
       </list>
     </option>
   </component>
@@ -705,7 +705,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32534248" sideWeight="0.4939394" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989726" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -904,22 +904,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="16" selection-start="3162" selection-end="3216" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="method#onActivityResult#0;class#OverviewScreen#0" expanded="false" />
-            <element signature="method#SectionsPagerAdapter#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
-            <element signature="method#getItem#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
-            <element signature="method#getCount#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
-            <element signature="method#showAboutDialog#0;class#OverviewScreen#0" expanded="false" />
-            <element signature="class#AboutDialog#0;class#OverviewScreen#0" expanded="false" />
-            <element signature="method#AboutDialog#0;class#AboutDialog#0;class#OverviewScreen#0" expanded="false" />
-            <element signature="method#onCreateDialog#0;class#AboutDialog#0;class#OverviewScreen#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/MusicUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="94" column="25" selection-start="3890" selection-end="3890" vertical-scroll-proportion="0.0">
@@ -940,8 +924,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/adapters/PlaylistAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="76" selection-start="3719" selection-end="3719" vertical-scroll-proportion="0.5163044">
+        <state line="87" column="39" selection-start="3682" selection-end="3682" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afollestad/overhear/ui/OverviewScreen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="42" selection-start="1534" selection-end="1534" vertical-scroll-proportion="0.60215056">
+          <folding>
+            <element signature="method#onActivityResult#0;class#OverviewScreen#0" expanded="false" />
+            <element signature="method#SectionsPagerAdapter#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
+            <element signature="method#getItem#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
+            <element signature="method#getCount#0;class#SectionsPagerAdapter#0;class#OverviewScreen#0" expanded="false" />
+            <element signature="method#showAboutDialog#0;class#OverviewScreen#0" expanded="false" />
+            <element signature="class#AboutDialog#0;class#OverviewScreen#0" expanded="false" />
+            <element signature="method#AboutDialog#0;class#AboutDialog#0;class#OverviewScreen#0" expanded="false" />
+            <element signature="method#onCreateDialog#0;class#AboutDialog#0;class#OverviewScreen#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
