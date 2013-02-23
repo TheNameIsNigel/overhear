@@ -15,10 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.Recents;
-import com.afollestad.overhear.TaggedFragmentAdapter;
-import com.afollestad.overhear.Twitter;
+import com.afollestad.overhear.*;
 import com.afollestad.overhear.fragments.*;
 
 import java.util.Locale;
@@ -89,7 +86,7 @@ public class OverviewScreen extends Activity {
                 showAboutDialog(this);
                 return true;
             case R.id.createPlaylist:
-                //TODO
+                MusicUtils.createNewPlaylistDialog(this).show();
                 return true;
             case R.id.clearRecents:
                 Recents.clear(this);

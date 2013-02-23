@@ -80,4 +80,9 @@
     <string name="create_playlist">New Playlist</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
+    <string name="playlist_delete_confirm">Are you sure you want to delete the playlist \"{name}\"?</string>
+    <string name="yes_str">Yes</string>
+    <string name="no_str">No</string>
+    <string name="new_playlist_name_hint">Playlist name</string>
+
 </resources>

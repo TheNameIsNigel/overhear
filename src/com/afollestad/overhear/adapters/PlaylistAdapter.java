@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import com.afollestad.overhear.MusicUtils;
 import com.afollestad.overhear.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.fragments.PlaylistSongFragment;
@@ -63,7 +64,7 @@ public class PlaylistAdapter extends CursorAdapter {
                                 return true;
                             }
                             case R.id.delete: {
-                                //TODO
+                                MusicUtils.createPlaylistDeleteDialog(context, playlist).show();
                                 return true;
                             }
                         }

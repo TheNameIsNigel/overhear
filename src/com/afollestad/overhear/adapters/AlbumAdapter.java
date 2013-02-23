@@ -1,6 +1,7 @@
 package com.afollestad.overhear.adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -67,9 +68,12 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.addToPlaylist:
-                                MusicUtils.createPlaylistChooseDialog(context, null, album).show();
+                            case R.id.addToPlaylist: {
+                                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, null, album);
+                                if(diag != null)
+                                    diag.show();
                                 return true;
+                            }
                             case R.id.playAll: {
                                 context.startService(new Intent(context, MusicService.class)
                                         .setAction(MusicService.ACTION_PLAY_ALL).putExtra("album_id", album.getAlbumId()));
