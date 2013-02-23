@@ -60,7 +60,7 @@ public class PlaylistAdapter extends CursorAdapter {
                                 return true;
                             }
                             case R.id.rename: {
-                                //TODO
+                                MusicUtils.createNewPlaylistDialog(context, playlist).show();
                                 return true;
                             }
                             case R.id.delete: {

@@ -60,7 +60,7 @@ public class MusicUtils {
 
     public static AlertDialog createPlaylistChooseDialog(final Activity context, final Song songAdd, final Album albumAdd) {
         final ArrayList<Playlist> playlists = Playlist.getAllPlaylists(context);
-        if(playlists.size() == 0) {
+        if (playlists.size() == 0) {
             Toast.makeText(context, R.string.no_playlists, Toast.LENGTH_SHORT).show();
             return null;
         }
@@ -92,28 +92,40 @@ public class MusicUtils {
         return builder.create();
     }
 
-    public static Dialog createNewPlaylistDialog(final Activity context) {
+    public static Dialog createNewPlaylistDialog(final Activity context, final Playlist toRename) {
         final Dialog diag = new Dialog(context, R.style.DarkTheme_DialogCustom);
         diag.setContentView(R.layout.input_dialog);
         diag.setCancelable(true);
-        diag.setTitle(R.string.create_playlist);
-        final EditText input = (EditText)diag.findViewById(R.id.input);
+        if (toRename != null) {
+            diag.setTitle(R.string.rename);
+        } else {
+            diag.setTitle(R.string.create_playlist);
+        }
+        final EditText input = (EditText) diag.findViewById(R.id.input);
         input.setHint(R.string.new_playlist_name_hint);
         input.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 diag.findViewById(R.id.ok).setEnabled(!input.getText().toString().trim().isEmpty());
             }
+
             @Override
-            public void afterTextChanged(Editable editable) { }
+            public void afterTextChanged(Editable editable) {
+            }
         });
         diag.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 diag.dismiss();
-                Playlist.create(context, input.getText().toString());
+                if (toRename != null) {
+                    toRename.rename(context, input.getText().toString().trim());
+                } else {
+                    Playlist.create(context, input.getText().toString().trim());
+                }
                 context.sendBroadcast(new Intent(MusicService.PLAYLIST_UPDATED));
             }
         });

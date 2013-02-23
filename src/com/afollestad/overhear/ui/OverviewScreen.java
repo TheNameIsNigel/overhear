@@ -86,7 +86,7 @@ public class OverviewScreen extends Activity {
                 showAboutDialog(this);
                 return true;
             case R.id.createPlaylist:
-                MusicUtils.createNewPlaylistDialog(this).show();
+                MusicUtils.createNewPlaylistDialog(this, null).show();
                 return true;
             case R.id.clearRecents:
                 Recents.clear(this);
