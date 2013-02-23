@@ -39,6 +39,11 @@ public class Recents {
         context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
 	}
 
+    public static void clear(Context context) {
+        context.getContentResolver().delete(PROVIDER_URI, null, null);
+        context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
+    }
+
     public static Album getMostRecent(Context context) {
         Cursor cursor = context.getContentResolver().query(PROVIDER_URI, null, null, null, SORT);
         if(!cursor.moveToFirst()) {

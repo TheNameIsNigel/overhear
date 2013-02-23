@@ -400,8 +400,6 @@ public class MusicService extends Service {
                                 MediaStore.Audio.Media.ALBUM_ID + " = " + intent.getIntExtra("album_id", 0),
                         MediaStore.Audio.Media.TRACK
                 };
-            } else if(intent.hasExtra("playlist")) {
-
             } else {
                 song = Song.fromJSON(intent.getStringExtra("song"));
                 scope = intent.getStringArrayExtra("scope");

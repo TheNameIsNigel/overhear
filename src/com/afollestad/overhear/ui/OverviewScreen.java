@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.Recents;
 import com.afollestad.overhear.TaggedFragmentAdapter;
 import com.afollestad.overhear.Twitter;
 import com.afollestad.overhear.fragments.*;
@@ -50,15 +51,13 @@ public class OverviewScreen extends Activity {
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
-                //To change body of implemented methods use File | Settings | File Templates.
             }
             @Override
             public void onPageSelected(int i) {
-                //TODO hide or show overfloe menu items based on the current page
+                invalidateOptionsMenu();
             }
             @Override
             public void onPageScrollStateChanged(int i) {
-                //To change body of implemented methods use File | Settings | File Templates.
             }
         });
     }
@@ -66,6 +65,8 @@ public class OverviewScreen extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.overview_screen, menu);
+        menu.findItem(R.id.createPlaylist).setVisible(mViewPager.getCurrentItem() == 4);
+        menu.findItem(R.id.clearRecents).setVisible(mViewPager.getCurrentItem() == 0);
         return true;
     }
 
@@ -86,6 +87,12 @@ public class OverviewScreen extends Activity {
                 return true;
             case R.id.about:
                 showAboutDialog(this);
+                return true;
+            case R.id.createPlaylist:
+                //TODO
+                return true;
+            case R.id.clearRecents:
+                Recents.clear(this);
                 return true;
         }
         return false;

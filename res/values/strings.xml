@@ -7,7 +7,7 @@
     <string name="songs_str">Songs</string>
     <string name="genres_str">Genres</string>
     <string name="playlists_str">Playlists</string>
-    <string name="no_recents">No recent</string>
+    <string name="no_recents">No recents</string>
     <string name="no_artists">No artists</string>
     <string name="no_albums">No albums</string>
     <string name="no_songs">No songs</string>
@@ -76,7 +76,8 @@
     <string name="view_album">View Album</string>
     <string name="view_artist">View Artist</string>
 
-    <string name="create_playlist">Create Playlist</string>
+    <string name="clear_recents">Clear Recents</string>
+    <string name="create_playlist">New Playlist</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
 </resources>
