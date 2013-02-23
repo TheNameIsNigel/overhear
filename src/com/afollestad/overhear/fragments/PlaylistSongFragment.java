@@ -6,7 +6,6 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.*;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -101,7 +100,7 @@ public class PlaylistSongFragment extends ListFragment implements LoaderCallback
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         playlist = Playlist.fromJSON(getArguments().getString("playlist"));
-        return new CursorLoader(getActivity(), playlist.getSongUri(), null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+        return new CursorLoader(getActivity(), playlist.getSongUri(), null, null, null, null);
 	}
 
 	@Override
