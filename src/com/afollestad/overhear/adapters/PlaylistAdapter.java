@@ -3,11 +3,13 @@ package com.afollestad.overhear.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import com.afollestad.overhear.MusicUtils;
@@ -74,6 +76,37 @@ public class PlaylistAdapter extends CursorAdapter {
                 menu.show();
             }
         });
+
+        ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
+        ImageView peakTwo = (ImageView) view.findViewById(R.id.peak_two);
+        peakOne.setImageResource(R.anim.peak_meter_1);
+        peakTwo.setImageResource(R.anim.peak_meter_2);
+        AnimationDrawable mPeakOneAnimation = (AnimationDrawable) peakOne.getDrawable();
+        AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
+
+        Song focused = Queue.getFocused(context);
+        if (focused != null && playlist.getId() == focused.getFromPlaylist()) {
+            peakOne.setVisibility(View.VISIBLE);
+            peakTwo.setVisibility(View.VISIBLE);
+            if (focused.isPlaying()) {
+                if (!mPeakOneAnimation.isRunning()) {
+                    mPeakOneAnimation.start();
+                    mPeakTwoAnimation.start();
+                }
+            } else {
+                mPeakOneAnimation.stop();
+                mPeakOneAnimation.selectDrawable(0);
+                mPeakTwoAnimation.stop();
+                mPeakTwoAnimation.selectDrawable(0);
+            }
+        } else {
+            peakOne.setVisibility(View.GONE);
+            peakTwo.setVisibility(View.GONE);
+            if (mPeakOneAnimation.isRunning()) {
+                mPeakOneAnimation.stop();
+                mPeakTwoAnimation.stop();
+            }
+        }
 
         return view;
     }
