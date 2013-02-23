@@ -96,7 +96,7 @@ public class MusicUtils {
         final Dialog diag = new Dialog(context, R.style.DarkTheme_DialogCustom);
         diag.setContentView(R.layout.input_dialog);
         diag.setCancelable(true);
-        diag.setTitle(R.string.sleep_timer_str);
+        diag.setTitle(R.string.create_playlist);
         final EditText input = (EditText)diag.findViewById(R.id.input);
         input.setHint(R.string.new_playlist_name_hint);
         input.addTextChangedListener(new TextWatcher() {
