@@ -24,6 +24,7 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.service.MusicService.MusicBinder;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 
 import java.util.Timer;
@@ -40,6 +41,7 @@ public class NowPlayingViewer extends Activity {
 
     private Song song;
     private Album album;
+    private Playlist playlist;
     private Timer timer;
     private AnimationDrawable seekThumb;
     private Handler mHandler = new Handler();
@@ -283,7 +285,10 @@ public class NowPlayingViewer extends Activity {
         findViewById(R.id.meta).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (album != null) {
+                if(playlist != null) {
+                    startActivity(new Intent(getApplicationContext(), PlaylistViewer.class)
+                            .putExtra("playlist", playlist.getJSON().toString()));
+                } else {
                     startActivity(new Intent(getApplicationContext(), AlbumViewer.class)
                             .putExtra("album", album.getJSON().toString()));
                 }
@@ -314,6 +319,11 @@ public class NowPlayingViewer extends Activity {
     public void load(boolean albumChanged) {
         song = Queue.getFocused(this);
         album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
+        if(song.getFromPlaylist() > -1) {
+            playlist = Playlist.get(this, song.getFromPlaylist());
+        } else {
+            playlist = null;
+        }
         if (albumChanged) {
             AlbumAdapter.retrieveAlbumArt(this, album, (AImageView) findViewById(R.id.cover));
         }
