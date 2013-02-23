@@ -14,8 +14,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import com.afollestad.overhear.MusicUtils;
-import com.afollestad.overhear.Queue;
+import com.afollestad.overhear.utils.MusicUtils;
+import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhear.ui.ArtistViewer;
@@ -61,8 +61,7 @@ public class SongAdapter extends CursorAdapter {
                         switch (menuItem.getItemId()) {
                             case R.id.addToPlaylist: {
                                 AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, song, null);
-                                if(diag != null)
-                                    diag.show();
+                                diag.show();
                                 return true;
                             }
                             case R.id.addToQueue: {

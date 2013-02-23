@@ -4,5 +4,6 @@
           android:showAsAction="ifRoom"/>
     <item android:id="@+id/shopArtist" android:title="@string/shop_artist_str" android:icon="@drawable/shop"
           android:showAsAction="ifRoom"/>
+    <item android:id="@+id/addToPlaylist" android:title="@string/add_to_playlist" />
     <item android:id="@+id/tweetPlaying" android:title="@string/tweet_now_playing"/>
 </menu>

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.afollestad.overhear.Queue;
+import com.afollestad.overhear.utils.*;
 import com.afollestad.overhear.R;
 import com.afollestad.overhearapi.Song;
 import twitter4j.*;
@@ -20,7 +20,7 @@ public class TweetNowPlaying extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_tweet_now_playing); 
-		twitter = com.afollestad.overhear.Twitter.getTwitterInstance(getApplicationContext(), true);
+		twitter = com.afollestad.overhear.utils.Twitter.getTwitterInstance(getApplicationContext(), true);
 		loadInitialText();
 		findViewById(R.id.tweetBtn).setOnClickListener(new View.OnClickListener() {
 			@Override

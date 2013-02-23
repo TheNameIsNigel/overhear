@@ -48,7 +48,7 @@
     <string name="search_str">Search</string>
 
     <string name="sleep_timer_str">Sleep Timer</string>
-    <string name="search_hint">Type your query...</string>
+    <string name="search_hint">Type your query…</string>
     <string name="no_results_str">No results</string>
     <string name="sleep_in_x">Sleep in {x} minutes</string>
     <string name="sleep_in_one">Sleep in 1 minute</string>
@@ -67,7 +67,7 @@
     <string name="none_str">None</string>
     <string name="alternate_accounts">Alternate Accounts</string>
 
-    <string name="redownloading_art">Downloading album art...</string>
+    <string name="redownloading_art">Downloading album art…</string>
     <string name="redownload_art">Download Artwork</string>
     <string name="add_to_playlist">Add to Playlist</string>
     <string name="add_to_queue">Add to Queue</string>
@@ -78,11 +78,13 @@
 
     <string name="clear_recents">Clear Recents</string>
     <string name="create_playlist">New Playlist</string>
+    <string name="create_playlist_ellipsis">New Playlist…</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
-    <string name="playlist_delete_confirm">Are you sure you want to delete the playlist \"{name}\"?</string>
+    <string name="playlist_delete_confirm">Are you sure you want to delete the playlist {name}?</string>
     <string name="yes_str">Yes</string>
     <string name="no_str">No</string>
     <string name="new_playlist_name_hint">Playlist name</string>
+    <string name="added_to_playist">\"{name}\" added to {list}!</string>
 
 </resources>

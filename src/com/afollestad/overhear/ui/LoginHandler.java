@@ -88,7 +88,7 @@ public class LoginHandler extends Activity {
 			}
 		});
 
-		twitter = com.afollestad.overhear.Twitter.getTwitterInstance(this, false);
+		twitter = com.afollestad.overhear.utils.Twitter.getTwitterInstance(this, false);
 		new Thread(new Runnable() {
 			public void run() {
 				try {

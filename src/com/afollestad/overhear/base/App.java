@@ -1,4 +1,4 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.base;
 
 import android.app.Application;
 import com.afollestad.aimage.ImageManager;

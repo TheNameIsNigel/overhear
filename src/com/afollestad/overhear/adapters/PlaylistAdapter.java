@@ -12,8 +12,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import com.afollestad.overhear.MusicUtils;
-import com.afollestad.overhear.Queue;
+import com.afollestad.overhear.utils.MusicUtils;
+import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.fragments.PlaylistSongFragment;
 import com.afollestad.overhearapi.Playlist;
@@ -54,7 +54,7 @@ public class PlaylistAdapter extends CursorAdapter {
                         final ArrayList<Song> listSongs = playlist.getSongs(context);
                         switch (menuItem.getItemId()) {
                             case R.id.playAll: {
-                                PlaylistSongFragment.performOnClick(context, listSongs.get(0), playlist, position);
+                                PlaylistSongFragment.performClick(context, listSongs.get(0), playlist, position);
                                 return true;
                             }
                             case R.id.addToQueue: {

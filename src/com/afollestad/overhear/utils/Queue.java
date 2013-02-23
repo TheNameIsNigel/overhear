@@ -1,4 +1,4 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.utils;
 
 import android.content.ContentValues;
 import android.content.Context;

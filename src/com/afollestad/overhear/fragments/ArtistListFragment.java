@@ -51,19 +51,6 @@ public class ArtistListFragment extends Fragment implements LoaderCallbacks<Curs
         getActivity().registerReceiver(mStatusReceiver, filter);
 	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(adapter != null)
-            adapter.notifyDataSetChanged();
-    }
-	
-	@Override
-	public void onStop() {
-		super.onStop();
-		getActivity().unregisterReceiver(mStatusReceiver);
-	}
-
 	@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -86,12 +73,6 @@ public class ArtistListFragment extends Fragment implements LoaderCallbacks<Curs
 		adapter = new ArtistAdapter(getActivity(), 0, null, new String[] { }, new int[] { }, 0);
 		view.setAdapter(adapter);
 		return view;
-	}
-	
-	public GridView getGridView() {
-		if(getView() == null)
-			return null;
-		return (GridView)getView();
 	}
 	
 	@Override

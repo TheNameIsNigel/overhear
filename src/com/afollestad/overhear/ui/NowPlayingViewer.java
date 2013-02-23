@@ -1,6 +1,7 @@
 package com.afollestad.overhear.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.*;
 import android.graphics.drawable.AnimationDrawable;
@@ -23,6 +24,10 @@ import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.service.MusicService.MusicBinder;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
+import com.afollestad.overhear.utils.MusicUtils;
+import com.afollestad.overhear.utils.Queue;
+import com.afollestad.overhear.utils.SleepTimer;
+import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
@@ -133,6 +138,10 @@ public class NowPlayingViewer extends Activity {
                 return true;
             case R.id.shopArtist:
                 MusicUtils.browseArtist(getApplicationContext(), song.getArtist());
+                return true;
+            case R.id.addToPlaylist:
+                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(this, song, null);
+                diag.show();
                 return true;
             case R.id.tweetPlaying:
                 if (Twitter.getTwitterInstance(getApplicationContext(), true) == null)

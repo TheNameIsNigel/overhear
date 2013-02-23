@@ -1,4 +1,4 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.utils;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

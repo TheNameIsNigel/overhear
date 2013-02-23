@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.Twitter;
+import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.fragments.PlaylistSongFragment;
 import com.afollestad.overhearapi.Playlist;
 

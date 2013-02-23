@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.SleepTimer;
+import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
 

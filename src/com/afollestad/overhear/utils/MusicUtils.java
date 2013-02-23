@@ -1,4 +1,4 @@
-package com.afollestad.overhear;
+package com.afollestad.overhear.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Playlist;
@@ -58,13 +59,12 @@ public class MusicUtils {
         }
     }
 
+    private static Playlist newList;
+
     public static AlertDialog createPlaylistChooseDialog(final Activity context, final Song songAdd, final Album albumAdd) {
         final ArrayList<Playlist> playlists = Playlist.getAllPlaylists(context);
-        if (playlists.size() == 0) {
-            Toast.makeText(context, R.string.no_playlists, Toast.LENGTH_SHORT).show();
-            return null;
-        }
         ArrayList<CharSequence> items = new ArrayList<CharSequence>();
+        items.add(context.getString(R.string.create_playlist_ellipsis));
         for (Playlist list : playlists) {
             items.add(list.getName());
         }
@@ -73,26 +73,46 @@ public class MusicUtils {
                 .setTitle(R.string.add_to_playlist)
                 .setItems(items.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
-                        Playlist list = playlists.get(which);
-                        if (songAdd != null) {
-                            list.insertSong(context, songAdd);
-                        } else if (albumAdd != null) {
-                            ArrayList<Song> albumSongs = Song.getAllFromScope(context, new String[]{
-                                    MediaStore.Audio.Media.ALBUM + " = '" + albumAdd.getName().replace("'", "''") + "' AND " +
-                                            MediaStore.Audio.Media.ARTIST + " = '" + albumAdd.getArtist().getName().replace("'", "''") + "'",
-                                    MediaStore.Audio.Media.TRACK
+                        dialog.dismiss();
+                        if(which == 0) {
+                            Dialog createDiag = createNewPlaylistDialog(context, null);
+                            createDiag.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialogInterface) {
+                                    addToPlaylist(context, songAdd, albumAdd, newList);
+                                    newList = null;
+                                }
                             });
-                            list.insertSongs(context, albumSongs);
+                            createDiag.show();
+                        } else {
+                            Playlist list = playlists.get(which - 1);
+                            addToPlaylist(context, songAdd, albumAdd, list);
                         }
-                        context.sendBroadcast(new Intent(MusicService.PLAYLIST_UPDATED));
-
                     }
                 });
         return builder.create();
     }
 
+    private static void addToPlaylist(Activity context, Song songAdd, Album albumAdd, Playlist list) {
+        if (songAdd != null) {
+            list.insertSong(context, songAdd);
+            Toast.makeText(context, context.getString(R.string.added_to_playist).replace("{name}", songAdd.getTitle())
+                    .replace("{list}", list.getName()), Toast.LENGTH_SHORT).show();
+        } else if (albumAdd != null) {
+            ArrayList<Song> albumSongs = Song.getAllFromScope(context, new String[]{
+                    MediaStore.Audio.Media.ALBUM + " = '" + albumAdd.getName().replace("'", "''") + "' AND " +
+                            MediaStore.Audio.Media.ARTIST + " = '" + albumAdd.getArtist().getName().replace("'", "''") + "'",
+                    MediaStore.Audio.Media.TRACK
+            });
+            list.insertSongs(context, albumSongs);
+            Toast.makeText(context, context.getString(R.string.added_to_playist).replace("{name}", albumAdd.getName())
+                    .replace("{list}", list.getName()), Toast.LENGTH_SHORT).show();
+        }
+        context.sendBroadcast(new Intent(MusicService.PLAYLIST_UPDATED));
+    }
+
     public static Dialog createNewPlaylistDialog(final Activity context, final Playlist toRename) {
+        newList = null;
         final Dialog diag = new Dialog(context, R.style.DarkTheme_DialogCustom);
         diag.setContentView(R.layout.input_dialog);
         diag.setCancelable(true);
@@ -124,7 +144,7 @@ public class MusicUtils {
                 if (toRename != null) {
                     toRename.rename(context, input.getText().toString().trim());
                 } else {
-                    Playlist.create(context, input.getText().toString().trim());
+                    newList = Playlist.create(context, input.getText().toString().trim());
                 }
                 context.sendBroadcast(new Intent(MusicService.PLAYLIST_UPDATED));
             }

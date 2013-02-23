@@ -18,7 +18,11 @@ import android.widget.Toast;
 import com.afollestad.aimage.Dimension;
 import com.afollestad.aimage.ImageListener;
 import com.afollestad.overhear.*;
+import com.afollestad.overhear.base.App;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
+import com.afollestad.overhear.utils.Queue;
+import com.afollestad.overhear.utils.Recents;
+import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
@@ -127,6 +131,7 @@ public class MusicService extends Service {
     public static final String ACTION_STOP = "com.afollestad.overhear.action.STOP";
     public static final String ACTION_SKIP = "com.afollestad.overhear.action.SKIP";
     public static final String ACTION_REWIND = "com.afollestad.overhear.action.REWIND";
+    public static final String ACTION_CLEAR_NOTIFICATION = "com.afollestad.overhear.action.CLEAR_NOTIFICATION";
 
 
     private boolean requestAudioFocus() {
@@ -436,6 +441,11 @@ public class MusicService extends Service {
                 pauseTrack();
             else
                 resumeTrack();
+        } else if(action.equals(ACTION_CLEAR_NOTIFICATION)) {
+            Song focused = Queue.getFocused(this);
+            if(focused != null && !focused.isPlaying()) {
+                stopForeground(true);
+            }
         }
         return START_STICKY;
     }

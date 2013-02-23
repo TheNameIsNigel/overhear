@@ -17,9 +17,13 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.*;
+import com.afollestad.overhear.base.App;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.ui.ArtistViewer;
+import com.afollestad.overhear.utils.MusicUtils;
+import com.afollestad.overhear.utils.Queue;
+import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
@@ -70,8 +74,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                         switch (menuItem.getItemId()) {
                             case R.id.addToPlaylist: {
                                 AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, null, album);
-                                if(diag != null)
-                                    diag.show();
+                                diag.show();
                                 return true;
                             }
                             case R.id.playAll: {

@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.Twitter;
+import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.ui.ArtistViewer;
 import com.afollestad.overhear.ui.LoginHandler;
 import com.afollestad.overhearapi.Artist;
@@ -128,7 +128,7 @@ public class BioListFragment extends Fragment {
     }
 
     private ResponseList<User> getPossibleUsers() {
-        twitter4j.Twitter twitter = com.afollestad.overhear.Twitter.getTwitterInstance(getActivity(), false);
+        twitter4j.Twitter twitter = Twitter.getTwitterInstance(getActivity(), false);
         try {
             return twitter.searchUsers(artist.getName(), 0);
         } catch (TwitterException e) {
@@ -180,7 +180,7 @@ public class BioListFragment extends Fragment {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    twitter4j.Twitter twitter = com.afollestad.overhear.Twitter.getTwitterInstance(getActivity(), true);
+                    twitter4j.Twitter twitter = Twitter.getTwitterInstance(getActivity(), true);
                     if (twitter == null) {
                         mHandler.post(new Runnable() {
                             public void run() {
@@ -203,7 +203,7 @@ public class BioListFragment extends Fragment {
                         return;
                     }
 
-                    final long altTwit = com.afollestad.overhear.Twitter.getSocialAccount(getActivity(), artist);
+                    final long altTwit = Twitter.getSocialAccount(getActivity(), artist);
                     if (altTwit > 0) {
                         twitterUser = twitter.showUser(altTwit);
                     } else if (altTwit == -1) {

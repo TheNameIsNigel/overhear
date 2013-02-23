@@ -7,10 +7,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.App;
-import com.afollestad.overhear.MusicUtils;
+import com.afollestad.overhear.base.App;
+import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.WebArtUtils;
+import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.LastFM;
 
