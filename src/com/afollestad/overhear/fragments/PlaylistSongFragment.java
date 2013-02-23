@@ -23,8 +23,11 @@ public class PlaylistSongFragment extends ListFragment implements LoaderCallback
 	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(adapter != null)
-				adapter.notifyDataSetChanged();
+            if (intent.getAction().equals(MusicService.RECENTS_UPDATED)) {
+                getLoaderManager().restartLoader(0, null, PlaylistSongFragment.this);
+            } else if (intent.getAction().equals(MusicService.PLAYING_STATE_CHANGED) && adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
 		}
 	};
 
@@ -41,7 +44,8 @@ public class PlaylistSongFragment extends ListFragment implements LoaderCallback
 	public void onStart() {
 		super.onStart();
 		IntentFilter filter = new IntentFilter();
-		filter.addAction(MusicService.PLAYING_STATE_CHANGED);
+        filter.addAction(MusicService.RECENTS_UPDATED);
+        filter.addAction(MusicService.PLAYING_STATE_CHANGED);
 		getActivity().registerReceiver(mStatusReceiver, filter);
 	}
 
