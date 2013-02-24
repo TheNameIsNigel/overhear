@@ -10,27 +10,26 @@ import android.provider.MediaStore;
 import android.widget.CursorAdapter;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.ArtistAdapter;
-import com.afollestad.overhear.base.OverhearGridFragment;
+import com.afollestad.overhear.base.OverhearListFragment;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.ArtistViewer;
 import com.afollestad.overhearapi.Artist;
 
-public class ArtistListFragment extends OverhearGridFragment {
+public class ArtistListFragment extends OverhearListFragment {
 
-    private ArtistAdapter adapter;
-    private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
+	private ArtistAdapter adapter;
+	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (adapter != null)
-                adapter.notifyDataSetChanged();
+        	if(adapter != null)
+    			adapter.notifyDataSetChanged();
         }
     };
 
+	public ArtistListFragment() { }
 
-    public ArtistListFragment() {
-    }
 
-    @Override
+	@Override
     public Uri getLoaderUri() {
         return MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
     }

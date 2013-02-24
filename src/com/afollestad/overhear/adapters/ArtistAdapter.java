@@ -51,6 +51,9 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 
         Artist artist = Artist.fromCursor(getCursor());
         ((TextView) view.findViewById(R.id.title)).setText(artist.getName());
+        ((TextView) view.findViewById(R.id.artist)).setText(context.getString(R.string.artist_details)
+        		.replace("{albums}", "" + artist.getAlbumCount())
+        		.replace("{tracks}", "" + artist.getTrackCount()));
 
         AImageView image = (AImageView) view.findViewById(R.id.image);
         retrieveArtistArt(context, artist, image);
@@ -78,12 +81,25 @@ public class ArtistAdapter extends SimpleCursorAdapter {
                 mPeakTwoAnimation.stop();
             }
         }
+        
+        int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
+        if (position == 0) {
+            if (getCount() == 1) {
+                view.setPadding(0, pad, 0, pad);
+            } else {
+                view.setPadding(0, pad, 0, 0);
+            }
+        } else if (position == getCount() - 1) {
+            view.setPadding(0, 0, 0, pad);
+        } else {
+            view.setPadding(0, 0, 0, 0);
+        }
 
         return view;
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.artist_item, null);
+        return LayoutInflater.from(context).inflate(R.layout.album_artist_item, null);
     }
 }

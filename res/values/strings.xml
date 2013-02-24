@@ -86,5 +86,6 @@
     <string name="no_str">No</string>
     <string name="new_playlist_name_hint">Playlist name</string>
     <string name="added_to_playist">\"{name}\" added to {list}!</string>
+    <string name="artist_details">{albums} albums, {tracks} tracks</string>
 
 </resources>

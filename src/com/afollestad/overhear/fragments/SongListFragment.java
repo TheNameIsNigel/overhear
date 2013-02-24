@@ -36,13 +36,11 @@ public class SongListFragment extends OverhearListFragment {
     @Override
     public Uri getLoaderUri() {
         Uri uri = null;
-        String[] scope = null;
         if (getArguments() != null && getArguments().containsKey("genre")) {
             genre = Genre.fromJSON(getArguments().getString("genre"));
             uri = MediaStore.Audio.Genres.Members.getContentUri("external", genre.getId());
         } else {
             uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-            scope = getScope(null);
         }
         return uri;
     }

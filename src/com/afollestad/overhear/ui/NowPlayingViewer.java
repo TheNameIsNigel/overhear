@@ -399,7 +399,7 @@ public class NowPlayingViewer extends OverhearActivity {
             startActivity(new Intent(this, SleepTimerViewer.class));
             return;
         }
-        final Dialog diag = new Dialog(this, R.style.DarkTheme_DialogCustom);
+        final Dialog diag = new Dialog(this);
         diag.setContentView(R.layout.sleep_timer_dialog);
         diag.setCancelable(true);
         diag.setTitle(R.string.sleep_timer_str);

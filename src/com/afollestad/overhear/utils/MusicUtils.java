@@ -113,7 +113,7 @@ public class MusicUtils {
 
     public static Dialog createNewPlaylistDialog(final Activity context, final Playlist toRename) {
         newList = null;
-        final Dialog diag = new Dialog(context, R.style.DarkTheme_DialogCustom);
+        final Dialog diag = new Dialog(context);
         diag.setContentView(R.layout.input_dialog);
         diag.setCancelable(true);
         if (toRename != null) {

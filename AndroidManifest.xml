@@ -33,7 +33,7 @@
 
         <activity android:name="com.afollestad.overhear.ui.TweetNowPlaying"
                   android:configChanges="keyboardHidden|orientation|screenSize"
-                  android:label="@string/now_playing_hash" android:theme="@style/DarkTheme.DialogCustom"/>
+                  android:label="@string/now_playing_hash" android:theme="@android:style/Theme.Holo.Dialog"/>
 
         <activity android:name="com.afollestad.overhear.ui.NowPlayingViewer"
                   android:label="@string/title_activity_now_playing_viewer"

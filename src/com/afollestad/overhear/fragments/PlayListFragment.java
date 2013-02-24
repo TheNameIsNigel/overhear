@@ -58,7 +58,7 @@ public class PlayListFragment extends OverhearListFragment {
 
     @Override
     public BroadcastReceiver getReceiver() {
-        return null;
+        return mStatusReceiver;
     }
 
     @Override
