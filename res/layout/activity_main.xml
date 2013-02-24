@@ -8,11 +8,10 @@
 		android:layout_width="match_parent" android:layout_height="fill_parent"
 		android:layout_above="@+id/nowPlaying" tools:context=".OverviewScreen">
 
-		<android.support.v4.view.PagerTitleStrip
-			android:id="@+id/pager_title_strip" android:layout_width="match_parent"
-			android:layout_height="wrap_content" android:layout_gravity="top"
-			android:background="#33b5e5" android:paddingBottom="4dp"
-			android:paddingTop="4dp" android:textColor="#fff" android:fontFamily="sans-serif-condensed" />
+        <com.viewpagerindicator.TitlePageIndicator
+                android:id="@+id/pager_title_strip"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent" android:fontFamily="sans-serif-condensed" />
 
 	</android.support.v4.view.ViewPager>
 

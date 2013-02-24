@@ -22,6 +22,7 @@ import com.afollestad.overhear.fragments.*;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.Twitter;
+import com.viewpagerindicator.TitlePageIndicator;
 
 import java.util.Locale;
 
@@ -50,7 +51,10 @@ public class OverviewScreen extends OverhearActivity {
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setCurrentItem(2);
 
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.pager_title_strip);
+        titleIndicator.setViewPager(mViewPager);
+
+        titleIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
             }

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../aimage/aimage.iml" filepath="$PROJECT_DIR$/../aimage/aimage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Android-ViewPagerIndicator/library/library1.iml" filepath="$PROJECT_DIR$/../Android-ViewPagerIndicator/library/library1.iml" />
       <module fileurl="file://$PROJECT_DIR$/overhear.iml" filepath="$PROJECT_DIR$/overhear.iml" />
       <module fileurl="file://$PROJECT_DIR$/../overhear-api/overhear-api.iml" filepath="$PROJECT_DIR$/../overhear-api/overhear-api.iml" />
     </modules>
