@@ -27,7 +27,7 @@ public class OverhearListActivity extends ListActivity {
     public void onStart() {
         super.onStart();
         if (!mChangedConfig) {
-            ((App)getApplication()).bind();
+            Overhear.get(this).bind();
         }
     }
 
@@ -35,7 +35,7 @@ public class OverhearListActivity extends ListActivity {
     public void onStop() {
         super.onStop();
         if(!isChangingConfigurations()) {
-            ((App)getApplication()).unbind();
+            Overhear.get(this).unbind();
         }
     }
 }

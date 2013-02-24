@@ -17,7 +17,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.*;
-import com.afollestad.overhear.base.App;
+import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.ui.ArtistViewer;
@@ -49,7 +49,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         if (url == null) {
             new LastfmGetAlbumImage(context, context.getApplication(), view, false).execute(album);
         } else {
-            view.setManager(((App) context.getApplication()).getManager()).setSource(url).load();
+            view.setManager(Overhear.get(context).getManager()).setSource(url).load();
         }
     }
 

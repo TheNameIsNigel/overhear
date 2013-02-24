@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.afollestad.aimage.Dimension;
 import com.afollestad.aimage.ImageListener;
 import com.afollestad.overhear.*;
-import com.afollestad.overhear.base.App;
+import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.utils.Recents;
@@ -176,7 +176,7 @@ public class MusicService extends Service {
         task.execute(album);
         try {
             String url = task.get();
-            ((App) getApplication()).getManager().get(url, null, new ImageListener() {
+            Overhear.get(this).getManager().get(url, null, new ImageListener() {
                 @Override
                 public void onImageReceived(final String source, final Bitmap bitmap) {
                     mRemoteControlClient
@@ -212,7 +212,7 @@ public class MusicService extends Service {
         task.execute(album);
         try {
             String url = task.get();
-            ((App) getApplication()).getManager().get(url, new Dimension(this, 130f), new ImageListener() {
+            Overhear.get(this).getManager().get(url, new Dimension(this, 130f), new ImageListener() {
                 @Override
                 public void onImageReceived(final String source, final Bitmap bitmap) {
                     Notification update = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, bitmap, isPlaying());

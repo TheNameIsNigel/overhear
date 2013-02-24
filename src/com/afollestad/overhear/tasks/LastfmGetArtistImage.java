@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.base.App;
+import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Artist;
@@ -18,6 +18,8 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
     private WeakReference<AImageView> view;
 
     public LastfmGetArtistImage(Activity context, AImageView view) {
+        if(view != null)
+            view.setTag(this);
         this.context = new WeakReference<Activity>(context);
         this.view = new WeakReference<AImageView>(view);
     }
@@ -43,7 +45,10 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
         if(view == null || view.get() == null) {
             return;
         } else if(result != null) {
-            view.get().setManager(((App)context.get().getApplication()).getManager()).setSource(result).load();
+            if(view.get().getTag() != this) {
+                return;
+            }
+            view.get().setManager(Overhear.get(context.get()).getManager()).setSource(result).load();
         }
         super.onPostExecute(result);
     }

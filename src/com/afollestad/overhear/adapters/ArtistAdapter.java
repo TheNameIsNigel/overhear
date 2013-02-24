@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.base.App;
+import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.utils.WebArtUtils;
@@ -34,7 +34,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         if (url == null) {
             new LastfmGetArtistImage(context, view).execute(artist);
         } else {
-            view.setManager(((App) context.getApplication()).getManager()).setSource(url).load();
+            view.setManager(Overhear.get(context).getManager()).setSource(url).load();
         }
     }
 
