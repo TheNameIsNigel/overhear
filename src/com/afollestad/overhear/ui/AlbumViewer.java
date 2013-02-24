@@ -1,6 +1,7 @@
 package com.afollestad.overhear.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -124,6 +125,10 @@ public class AlbumViewer extends OverhearActivity {
                 startActivity(new Intent(this, OverviewScreen.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();
+                return true;
+            case R.id.addToPlaylist:
+                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(this, null, album);
+                diag.show();
                 return true;
             case R.id.shopArtist:
                 MusicUtils.browseArtist(getApplicationContext(), artist.getName());
