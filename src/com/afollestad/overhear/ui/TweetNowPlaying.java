@@ -1,17 +1,20 @@
 package com.afollestad.overhear.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.afollestad.overhear.utils.*;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhearapi.Song;
-import twitter4j.*;
+import twitter4j.ResponseList;
+import twitter4j.StatusUpdate;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
-public class TweetNowPlaying extends Activity {
+public class TweetNowPlaying extends OverhearActivity {
 
 	private twitter4j.Twitter twitter;
     private ResponseList<User> twitterMatches;

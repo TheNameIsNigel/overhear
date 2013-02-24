@@ -15,17 +15,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import com.afollestad.overhear.*;
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.TaggedFragmentAdapter;
 import com.afollestad.overhear.fragments.*;
-import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.Twitter;
 
 import java.util.Locale;
 
-public class OverviewScreen extends Activity {
+public class OverviewScreen extends OverhearActivity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
@@ -62,12 +62,6 @@ public class OverviewScreen extends Activity {
             public void onPageScrollStateChanged(int i) {
             }
         });
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        startService(new Intent(this, MusicService.class).setAction(MusicService.ACTION_CLEAR_NOTIFICATION));
     }
 
     @Override

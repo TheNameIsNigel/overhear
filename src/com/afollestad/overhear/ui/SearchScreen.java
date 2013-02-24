@@ -1,6 +1,5 @@
 package com.afollestad.overhear.ui;
 
-import android.app.ListActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +16,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SearchAdapter;
+import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
@@ -25,7 +25,7 @@ import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
 
-public class SearchScreen extends ListActivity {
+public class SearchScreen extends OverhearListActivity {
 
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override

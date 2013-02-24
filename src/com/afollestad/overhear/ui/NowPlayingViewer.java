@@ -19,8 +19,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.*;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
+import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.service.MusicService.MusicBinder;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
@@ -35,7 +36,7 @@ import com.afollestad.overhearapi.Song;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class NowPlayingViewer extends Activity {
+public class NowPlayingViewer extends OverhearActivity {
 
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override

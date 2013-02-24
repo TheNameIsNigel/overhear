@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.afollestad.aimage.views.AImageView;
+import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.TaggedFragmentAdapter;
@@ -23,7 +24,7 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
-public class ArtistViewer extends Activity {
+public class ArtistViewer extends OverhearActivity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;

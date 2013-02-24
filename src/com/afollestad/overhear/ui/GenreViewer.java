@@ -8,11 +8,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.utils.Twitter;
+import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.fragments.SongListFragment;
+import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Genre;
 
-public class GenreViewer extends Activity {
+public class GenreViewer extends OverhearActivity {
 
 	public final static int TWEET_PLAYING_LOGIN = 400;
 	@Override

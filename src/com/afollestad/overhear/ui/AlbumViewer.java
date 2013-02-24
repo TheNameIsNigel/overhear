@@ -11,20 +11,21 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
+import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
+import com.afollestad.overhear.utils.MusicUtils;
+import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AlbumViewer extends Activity {
+public class AlbumViewer extends OverhearActivity {
 
     private Album album;
     private Artist artist;

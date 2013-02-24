@@ -1,6 +1,5 @@
 package com.afollestad.overhear.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SleepTimerViewer extends Activity {
+public class SleepTimerViewer extends OverhearActivity {
 
     Calendar sleepTime;
     Timer timer;
