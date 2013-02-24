@@ -39,6 +39,10 @@ public class Queue {
             return -1;
         }
         Song focused = getFocused(context);
+        if(focused == null) {
+            return -1;
+        }
+
         Cursor cursor = openCursor(context, null);
         ArrayList<Integer> matchIndexes = new ArrayList<Integer>();
 
@@ -61,7 +65,7 @@ public class Queue {
             }
 
             boolean sameAlbum = focused.getFromPlaylist() == 0 &&
-                    (!lastAlbum.getName().equals(currentSong.getAlbum()) || !lastAlbum.getArtist().equals(currentSong.getArtist()));
+                    (lastAlbum != null && (!lastAlbum.getName().equals(currentSong.getAlbum()) || !lastAlbum.getArtist().equals(currentSong.getArtist())));
             boolean samePlaylist = focused.getFromPlaylist() > 0 &&
                     focused.getFromPlaylist() == currentSong.getFromPlaylist();
 
