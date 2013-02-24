@@ -2,12 +2,12 @@ package com.afollestad.overhear.service;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.KeyEvent;
 import android.widget.RemoteViews;
 import com.afollestad.overhear.R;
@@ -22,7 +22,6 @@ public class NotificationViewCreator {
 		Notification.Builder builder = new Notification.Builder(context);
 		builder.setContent(createView(context, false, nowPlaying, art, playing));
 		builder.setOngoing(true);
-        builder.setPriority(Notification.PRIORITY_MAX);
 		builder.setSmallIcon(R.drawable.stat_notify_music);
 
         Intent nowPlayingIntent = new Intent(context, NowPlayingViewer.class).
@@ -36,7 +35,10 @@ public class NotificationViewCreator {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			return NotificationViewCreator16.createNotification(context, builder, nowPlaying, art, playing);
 		}
-        return builder.getNotification();
+
+        Notification noti = builder.getNotification();
+        noti.flags = Notification.FLAG_HIGH_PRIORITY;
+        return noti;
 	}
 	
 	protected static RemoteViews createView(Context context, boolean big, Song nowPlaying, Bitmap art, boolean playing) {

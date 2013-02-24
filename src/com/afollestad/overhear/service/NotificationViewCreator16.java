@@ -11,6 +11,7 @@ import com.afollestad.overhearapi.Song;
 public class NotificationViewCreator16 {
 
 	public static Notification createNotification(Context context, Notification.Builder builder, Song nowPlaying, Bitmap art, boolean playing) {
+        builder.setPriority(Notification.PRIORITY_HIGH);
 		Notification status = builder.build();
         status.bigContentView = NotificationViewCreator.createView(context, true, nowPlaying, art, playing);
         return status;
