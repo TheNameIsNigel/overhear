@@ -62,7 +62,7 @@ public class WebArtProvider extends ContentProvider {
             case 2:
                 return ARTIST_ART;
             default:
-                throw new IllegalArgumentException("Invalid web art provider table found in the URI " + uri.toString());
+                throw new IllegalArgumentException("Invalid web art provider table found in the URI " + uri.toString() + ". Expected 'artists' or 'albums'.");
         }
     }
 
