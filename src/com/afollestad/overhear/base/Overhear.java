@@ -9,6 +9,11 @@ import com.afollestad.overhear.service.MusicService;
 
 public class Overhear extends Application {
 
+	/**
+	 * This isn't used directly by any code in the app.
+	 */
+	public Overhear() { }
+	
     private ImageManager manager;
     private int boundActivities;
 
