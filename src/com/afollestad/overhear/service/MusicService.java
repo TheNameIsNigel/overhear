@@ -260,6 +260,15 @@ public class MusicService extends Service {
             queue = Queue.getQueue(this);
             queuePos = skipPos;
         }
+        if(queuePos == -1) {
+        	queuePos = 0;
+        	for(int i = 0; i < queue.size(); i++) {
+        		if(queue.get(i).getId() == song.getId()) {
+        			queuePos = i;
+        		}
+        		break;
+        	}
+        }
         playTrack(queue.get(queuePos));
     }
 

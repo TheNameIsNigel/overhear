@@ -37,6 +37,9 @@ public class NowPlayingBarFragment extends Fragment {
         }
     };
 
+    public NowPlayingBarFragment() {
+    }
+    
     private Album album;
     private Song focused;
 
