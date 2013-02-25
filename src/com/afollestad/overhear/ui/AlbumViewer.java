@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -111,7 +112,9 @@ public class AlbumViewer extends OverhearActivity {
         albumCover.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(getApplicationContext(), R.string.redownloading_art, Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getApplicationContext(), R.string.redownloading_art, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 0);
+                toast.show();
                 new LastfmGetAlbumImage(getApplicationContext(), getApplication(), albumCover, true).execute(album);
                 return true;
             }

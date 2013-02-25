@@ -25,6 +25,7 @@ import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.utils.Store;
 import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator.OnCenterItemClickListener;
 
 import java.util.Locale;
 
@@ -68,6 +69,15 @@ public class OverviewScreen extends OverhearActivity {
             public void onPageScrollStateChanged(int i) {
             }
         });
+        titleIndicator.setOnCenterItemClickListener(new OnCenterItemClickListener() {
+			@Override
+			public void onCenterItemClick(int position) {
+				Fragment frag = getFragmentManager().findFragmentByTag("page:" + position);
+				if(frag instanceof ListFragment) {
+					((ListFragment)frag).getListView().smoothScrollToPosition(0);
+				}
+			}
+		});
     }
     
     @Override

@@ -349,7 +349,9 @@ public class NowPlayingViewer extends OverhearActivity {
         findViewById(R.id.cover).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(getApplicationContext(), R.string.redownloading_art, Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getApplicationContext(), R.string.redownloading_art, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 0);
+                toast.show();
                 new LastfmGetAlbumImage(getApplicationContext(), getApplication(), (AImageView) findViewById(R.id.cover), true).execute(album);
                 return true;
             }
