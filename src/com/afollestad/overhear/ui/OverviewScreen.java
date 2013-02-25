@@ -56,7 +56,6 @@ public class OverviewScreen extends OverhearActivity {
 
         TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.pager_title_strip);
         titleIndicator.setViewPager(mViewPager);
-
         titleIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {

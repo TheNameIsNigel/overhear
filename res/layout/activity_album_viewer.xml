@@ -1,50 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                android:layout_height="match_parent" tools:context=".AlbumViewer">
+	xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+	android:layout_height="match_parent" tools:context=".AlbumViewer">
 
-    <LinearLayout android:id="@+id/header"
-                  android:layout_width="fill_parent" android:layout_height="@dimen/artist_viewer_header"
-                  android:orientation="horizontal">
+	<LinearLayout android:id="@+id/header"
+		android:layout_width="fill_parent" android:layout_height="@dimen/artist_viewer_header"
+		android:orientation="horizontal">
 
-        <com.afollestad.aimage.views.AImageView android:id="@+id/albumCover" android:scaleType="fitXY"
-                                                android:layout_width="fill_parent" android:layout_height="fill_parent"
-                                                android:layout_weight="1"/>
+		<com.afollestad.aimage.views.AImageView
+			android:id="@+id/albumCover" android:scaleType="fitXY"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:layout_weight="1" />
 
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="fill_parent" android:layout_weight="1">
+		<RelativeLayout android:layout_width="match_parent"
+			android:layout_height="fill_parent" android:layout_weight="1">
 
-            <com.afollestad.aimage.views.AImageView android:id="@+id/artistCover" android:clickable="true"
-                                                    android:focusable="true"
-                                                    android:adjustViewBounds="true"
-                                                    android:background="?android:attr/selectableItemBackground"
-                                                    android:scaleType="fitXY" android:layout_width="fill_parent"
-                                                    android:layout_height="fill_parent"/>
+			<com.afollestad.aimage.views.AImageView
+				android:id="@+id/artistCover" android:clickable="true"
+				android:focusable="true" android:adjustViewBounds="true"
+				android:background="?android:attr/selectableItemBackground"
+				android:scaleType="fitXY" android:layout_width="fill_parent"
+				android:layout_height="fill_parent" />
 
-            <TextView android:id="@+id/artistName" android:layout_width="fill_parent"
-                      android:background="@color/black_transparent" android:padding="10dp"
-                      android:layout_height="wrap_content" android:layout_alignBottom="@+id/artistCover"
-                      android:textColor="#FFFFFF" android:textStyle="bold"
-                      android:shadowColor="#000000" android:shadowDx="2" android:shadowDy="2"
-                      android:shadowRadius="4" android:singleLine="true" android:fontFamily="sans-serif-condensed"/>
+			<TextView android:id="@+id/artistName" android:layout_width="fill_parent"
+				android:background="@color/black_transparent" android:padding="10dp"
+				android:layout_height="wrap_content" android:layout_alignBottom="@+id/artistCover"
+				android:textColor="#FFFFFF" android:textStyle="bold"
+				android:shadowColor="#000000" android:shadowDx="2" android:shadowDy="2"
+				android:shadowRadius="4" android:singleLine="true"
+				android:fontFamily="sans-serif-condensed" />
 
-        </RelativeLayout>
+		</RelativeLayout>
 
-    </LinearLayout>
+	</LinearLayout>
 
-    <View android:id="@+id/headerDivider" android:layout_below="@+id/header"
-          android:background="@android:color/holo_blue_light"
-          android:layout_width="fill_parent" android:layout_height="2dp"/>
+	<View android:id="@+id/headerDivider" android:layout_below="@+id/header"
+		android:background="@android:color/holo_blue_light"
+		android:layout_width="fill_parent" android:layout_height="2dp" />
 
-    <FrameLayout android:id="@+id/songList" android:layout_width="fill_parent"
-                 android:layout_height="fill_parent" android:layout_below="@+id/headerDivider"
-                 android:layout_above="@+id/nowPlaying"/>
+	<FrameLayout android:id="@+id/songList"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:layout_below="@+id/headerDivider" android:layout_above="@+id/nowPlaying" />
 
-    <FrameLayout
-            android:id="@+id/nowPlaying"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            tools:layout="@layout/now_playing_bar"/>
+	<FrameLayout android:id="@+id/nowPlaying"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true" tools:layout="@layout/now_playing_bar" />
 
 </RelativeLayout>

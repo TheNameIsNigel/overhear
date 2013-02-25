@@ -3,6 +3,7 @@ package com.afollestad.overhear.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -19,6 +20,9 @@ import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Artist;
+import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator.OnCenterItemClickListener;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,11 +49,37 @@ public class ArtistViewer extends OverhearActivity {
         super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_artist_viewer);
+        
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setCurrentItem(1);
+        
+        TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.pager_title_strip);
+        titleIndicator.setViewPager(mViewPager);
+        titleIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+            }
+            @Override
+            public void onPageSelected(int i) {
+                invalidateOptionsMenu();
+            }
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
+        titleIndicator.setOnCenterItemClickListener(new OnCenterItemClickListener() {
+			@Override
+			public void onCenterItemClick(int position) {
+				Fragment frag = getFragmentManager().findFragmentByTag("page:" + position);
+				if(frag instanceof ListFragment) {
+					((ListFragment)frag).getListView().smoothScrollToPosition(0);
+				}
+			}
+		});
+        
         try {
             artist = Artist.fromJSON(new JSONObject(getIntent().getStringExtra("artist")));
         } catch (JSONException e) {
