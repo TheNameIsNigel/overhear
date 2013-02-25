@@ -17,10 +17,10 @@
 			android:textColor="@color/white" android:textSize="18sp" />
 
 		<TextView android:id="@+id/status_bar_artist_name" style="@style/StatusBarText"
-			android:paddingTop="2dp" />
+			android:paddingTop="2dp" android:fontFamily="sans-serif-light" />
 
 		<TextView android:id="@+id/status_bar_album_name" style="@style/StatusBarText"
-			android:paddingTop="2dp" />
+			android:paddingTop="2dp" android:fontFamily="sans-serif-light" />
 
 	</LinearLayout>
 

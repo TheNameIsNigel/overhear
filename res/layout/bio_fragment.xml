@@ -14,7 +14,7 @@
             <TextView android:id="@+id/bioHeaderOne" style="?android:listSeparatorTextViewStyle"
                       android:layout_width="fill_parent" android:layout_height="wrap_content"
                       android:textSize="18sp" android:text="@string/updates_str"
-                      android:textColor="@android:color/holo_blue_light" android:fontFamily="sans-serif-condensed"/>
+                      android:textColor="@android:color/holo_blue_light" />
 
             <Button android:id="@+id/bioUpdatesAction" android:enabled="false"
                     android:layout_below="@+id/bioHeaderOne" android:layout_width="fill_parent"
@@ -41,7 +41,7 @@
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content" android:layout_below="@+id/socialUpdates"
                   android:text="@string/bio_str" android:textSize="18sp"
-                  android:textColor="@android:color/holo_blue_light" android:fontFamily="sans-serif-condensed"/>
+                  android:textColor="@android:color/holo_blue_light" />
 
         <TextView android:id="@+id/bioAbout" android:layout_width="wrap_content"
                   android:layout_height="wrap_content" android:layout_below="@+id/bioHeaderTwo"

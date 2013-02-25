@@ -23,12 +23,11 @@
 				android:layout_height="fill_parent" />
 
 			<TextView android:id="@+id/artistName" android:layout_width="fill_parent"
-				android:background="@color/black_transparent" android:padding="10dp"
+				android:background="@color/black_transparent" android:padding="12dp"
 				android:layout_height="wrap_content" android:layout_alignBottom="@+id/artistCover"
 				android:textColor="#FFFFFF" android:textStyle="bold"
 				android:shadowColor="#000000" android:shadowDx="2" android:shadowDy="2"
-				android:shadowRadius="4" android:singleLine="true"
-				android:fontFamily="sans-serif-condensed" />
+				android:shadowRadius="4" android:singleLine="true" />
 
 		</RelativeLayout>
 
