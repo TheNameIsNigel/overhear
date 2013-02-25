@@ -34,8 +34,8 @@
 	</LinearLayout>
 
 	<View android:id="@+id/headerDivider" android:layout_below="@+id/header"
-		android:background="@android:color/holo_blue_light"
-		android:layout_width="fill_parent" android:layout_height="2dp" />
+		android:background="?theme_base" android:layout_width="fill_parent"
+		android:layout_height="2dp" />
 
 	<FrameLayout android:id="@+id/songList"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"

@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                android:layout_height="match_parent" android:padding="3dp"
-                tools:context=".TweetNowPlaying">
+	xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+	android:layout_height="match_parent" android:padding="3dp"
+	tools:context=".TweetNowPlaying">
 
-    <EditText android:id="@+id/tweetText" android:layout_width="fill_parent"
-              android:layout_height="wrap_content" android:gravity="top"
-              android:inputType="textMultiLine" android:maxLength="140"
-              android:fontFamily="sans-serif-light">
-        <requestFocus/>
-    </EditText>
+	<EditText android:id="@+id/tweetText" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:gravity="top"
+		android:inputType="textMultiLine" android:maxLength="140"
+		android:fontFamily="sans-serif-light">
+		<requestFocus />
+	</EditText>
 
-    <LinearLayout style="?android:attr/buttonBarStyle"
-                  android:layout_below="@+id/tweetText" android:layout_marginTop="5dp"
-                  android:layout_width="fill_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:paddingLeft="2dip"
-                  android:paddingRight="2dip" android:measureWithLargestChild="true">
-        <Button android:id="@+id/cancel" style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dip" android:layout_height="wrap_content"
-                android:layout_weight="1" android:text="@android:string/cancel"
-                android:fontFamily="sans-serif-condensed"/>
-        <Button android:id="@+id/tweetBtn" style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dip" android:layout_height="wrap_content"
-                android:layout_weight="1" android:text="@string/tweet_str"
-                android:fontFamily="sans-serif-condensed"/>
-    </LinearLayout>
+	<LinearLayout style="?android:attr/buttonBarStyle"
+		android:layout_below="@+id/tweetText" android:layout_marginTop="5dp"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="horizontal" android:paddingLeft="2dip"
+		android:paddingRight="2dip" android:measureWithLargestChild="true">
+		<Button android:id="@+id/cancel" style="?android:attr/buttonBarButtonStyle"
+			android:layout_width="0dip" android:layout_height="wrap_content"
+			android:layout_weight="1" android:text="@android:string/cancel"
+			android:fontFamily="sans-serif-condensed" />
+		<Button android:id="@+id/tweetBtn" style="?android:attr/buttonBarButtonStyle"
+			android:layout_width="0dip" android:layout_height="wrap_content"
+			android:layout_weight="1" android:text="@string/tweet_str"
+			android:fontFamily="sans-serif-condensed" />
+	</LinearLayout>
 
 </RelativeLayout>
