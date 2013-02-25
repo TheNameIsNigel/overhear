@@ -246,7 +246,8 @@ public class MusicService extends Service {
         lastPlaying = song;
     }
 
-    private void playAll(Song song, String[] scope, int queuePos, Playlist list) {
+    @SuppressWarnings("unused")
+	private void playAll(Song song, String[] scope, int queuePos, Playlist list) {
         Log.i("OVERHEAR SERVICE", "playAll(\"" + (song != null ? song.getData() : "null") + "\")");
         ArrayList<Song> queue = null;
         int skipPos = Queue.canQueueSkip(this, song);
