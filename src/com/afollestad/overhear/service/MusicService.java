@@ -405,6 +405,12 @@ public class MusicService extends Service {
                                 MediaStore.Audio.Media.ALBUM_ID + " = " + intent.getIntExtra("album_id", 0),
                         MediaStore.Audio.Media.TRACK
                 };
+            } else if(intent.hasExtra("artist")) {
+            	scope = new String[]{
+                        MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
+                                MediaStore.Audio.Media.ARTIST + " = '" + intent.getStringExtra("artist").replace("'", "''") + "'",
+                        MediaStore.Audio.Media.ALBUM
+            	};
             } else {
                 song = Song.fromJSON(intent.getStringExtra("song"));
                 scope = intent.getStringArrayExtra("scope");

@@ -1,20 +1,29 @@
 package com.afollestad.overhear.adapters;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.base.Overhear;
+import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.utils.WebArtUtils;
+import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetArtistImage;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Song;
@@ -49,15 +58,55 @@ public class ArtistAdapter extends SimpleCursorAdapter {
             }
         }
 
-        Artist artist = Artist.fromCursor(getCursor());
+        final Artist artist = Artist.fromCursor(getCursor());
         ((TextView) view.findViewById(R.id.title)).setText(artist.getName());
         ((TextView) view.findViewById(R.id.artist)).setText(context.getString(R.string.artist_details)
         		.replace("{albums}", "" + artist.getAlbumCount())
         		.replace("{tracks}", "" + artist.getTrackCount()));
 
-        AImageView image = (AImageView) view.findViewById(R.id.image);
+        final AImageView image = (AImageView) view.findViewById(R.id.image);
         retrieveArtistArt(context, artist, image);
 
+        View options = view.findViewById(R.id.options);
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu menu = new PopupMenu(context, view);
+                menu.inflate(R.menu.artist_item_popup);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.addToPlaylist: {
+                                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, null, null, artist);
+                                diag.show();
+                                return true;
+                            }
+                            case R.id.playAll: {
+                                context.startService(new Intent(context, MusicService.class)
+                                        .setAction(MusicService.ACTION_PLAY_ALL).putExtra("artist", artist.getName()));
+                                return true;
+                            }
+                            case R.id.addToQueue: {
+                                ArrayList<Song> content = Song.getAllFromScope(context, new String[]{
+                                        MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
+                                                MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
+                                        MediaStore.Audio.Media.ALBUM});
+                                Queue.addToQueue(context, content);
+                                return true;
+                            }
+                            case R.id.redownloadArt: {
+                                new LastfmGetArtistImage(context, image).execute(artist);
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
+                menu.show();
+            }
+        });
+        
         ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
         ImageView peakTwo = (ImageView) view.findViewById(R.id.peak_two);
         peakOne.setImageResource(R.anim.peak_meter_1);

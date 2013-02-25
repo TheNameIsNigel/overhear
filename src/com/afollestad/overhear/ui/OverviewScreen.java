@@ -1,5 +1,6 @@
 package com.afollestad.overhear.ui;
 
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import com.afollestad.overhear.fragments.*;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.Twitter;
+import com.afollestad.overhear.utils.Store;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import java.util.Locale;
@@ -49,7 +51,7 @@ public class OverviewScreen extends OverhearActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(4);
-        mViewPager.setCurrentItem(2);
+        mViewPager.setCurrentItem(Store.i(this, "focused_tab", 1));
 
         TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.pager_title_strip);
         titleIndicator.setViewPager(mViewPager);
@@ -66,6 +68,12 @@ public class OverviewScreen extends OverhearActivity {
             public void onPageScrollStateChanged(int i) {
             }
         });
+    }
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	Store.put(this, "focused_tab", mViewPager.getCurrentItem());
     }
 
     @Override
@@ -152,6 +160,7 @@ public class OverviewScreen extends OverhearActivity {
     }
 
 
+    @SuppressLint("CommitTransaction")
     public static void showAboutDialog(Activity activity) {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -160,7 +169,6 @@ public class OverviewScreen extends OverhearActivity {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
-
         new AboutDialog().show(ft, "dialog_about");
     }
 

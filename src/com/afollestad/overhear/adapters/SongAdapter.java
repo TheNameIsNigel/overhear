@@ -60,7 +60,7 @@ public class SongAdapter extends CursorAdapter {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.addToPlaylist: {
-                                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, song, null);
+                                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, song, null, null);
                                 diag.show();
                                 return true;
                             }

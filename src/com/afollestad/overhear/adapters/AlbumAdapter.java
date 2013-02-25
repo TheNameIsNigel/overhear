@@ -73,7 +73,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.addToPlaylist: {
-                                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, null, album);
+                                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, null, album, null);
                                 diag.show();
                                 return true;
                             }

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 
@@ -61,7 +62,7 @@ public class MusicUtils {
 
     private static Playlist newList;
 
-    public static AlertDialog createPlaylistChooseDialog(final Activity context, final Song songAdd, final Album albumAdd) {
+    public static AlertDialog createPlaylistChooseDialog(final Activity context, final Song songAdd, final Album albumAdd, final Artist artistAdd) {
         final ArrayList<Playlist> playlists = Playlist.getAllPlaylists(context);
         ArrayList<CharSequence> items = new ArrayList<CharSequence>();
         items.add(context.getString(R.string.create_playlist_ellipsis));
@@ -79,21 +80,21 @@ public class MusicUtils {
                             createDiag.setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
                                 public void onDismiss(DialogInterface dialogInterface) {
-                                    addToPlaylist(context, songAdd, albumAdd, newList);
+                                    addToPlaylist(context, songAdd, albumAdd, artistAdd, newList);
                                     newList = null;
                                 }
                             });
                             createDiag.show();
                         } else {
                             Playlist list = playlists.get(which - 1);
-                            addToPlaylist(context, songAdd, albumAdd, list);
+                            addToPlaylist(context, songAdd, albumAdd, artistAdd, list);
                         }
                     }
                 });
         return builder.create();
     }
 
-    private static void addToPlaylist(Activity context, Song songAdd, Album albumAdd, Playlist list) {
+    private static void addToPlaylist(Activity context, Song songAdd, Album albumAdd, Artist artistAdd, Playlist list) {
         if (songAdd != null) {
             list.insertSong(context, songAdd);
             Toast.makeText(context, context.getString(R.string.added_to_playist).replace("{name}", songAdd.getTitle())
@@ -106,6 +107,14 @@ public class MusicUtils {
             });
             list.insertSongs(context, albumSongs);
             Toast.makeText(context, context.getString(R.string.added_to_playist).replace("{name}", albumAdd.getName())
+                    .replace("{list}", list.getName()), Toast.LENGTH_SHORT).show();
+        } else if(artistAdd != null) {
+        	ArrayList<Song> artistSongs = Song.getAllFromScope(context, new String[]{
+                        MediaStore.Audio.Media.ARTIST + " = '" + artistAdd.getName().replace("'", "''") + "'",
+                    MediaStore.Audio.Media.ALBUM
+            });
+            list.insertSongs(context, artistSongs);
+            Toast.makeText(context, context.getString(R.string.added_to_playist).replace("{name}", artistAdd.getName())
                     .replace("{list}", list.getName()), Toast.LENGTH_SHORT).show();
         }
         context.sendBroadcast(new Intent(MusicService.PLAYLIST_UPDATED));

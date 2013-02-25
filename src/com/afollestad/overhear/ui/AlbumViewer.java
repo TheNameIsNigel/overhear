@@ -127,7 +127,7 @@ public class AlbumViewer extends OverhearActivity {
                 finish();
                 return true;
             case R.id.addToPlaylist:
-                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(this, null, album);
+                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(this, null, album, null);
                 diag.show();
                 return true;
             case R.id.shopArtist:

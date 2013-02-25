@@ -141,7 +141,7 @@ public class NowPlayingViewer extends OverhearActivity {
                 MusicUtils.browseArtist(getApplicationContext(), song.getArtist());
                 return true;
             case R.id.addToPlaylist:
-                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(this, song, null);
+                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(this, song, null, null);
                 diag.show();
                 return true;
             case R.id.tweetPlaying:

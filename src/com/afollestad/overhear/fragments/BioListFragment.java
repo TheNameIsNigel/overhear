@@ -178,7 +178,8 @@ public class BioListFragment extends Fragment {
     private void loadTwitter() {
         final Handler mHandler = new Handler();
         new Thread(new Runnable() {
-            public void run() {
+            @SuppressWarnings("unused")
+			public void run() {
                 try {
                     twitter4j.Twitter twitter = Twitter.getTwitterInstance(getActivity(), true);
                     if (twitter == null) {
