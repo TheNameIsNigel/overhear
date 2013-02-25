@@ -340,19 +340,37 @@ public class NowPlayingViewer extends OverhearActivity {
         ((TextView) findViewById(R.id.track)).setText(song.getTitle());
         ((TextView) findViewById(R.id.artistAlbum)).setText(song.getArtist() + " - " + album.getName());
 
-        findViewById(R.id.cover).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                disappearListener.onTouch(view, null);
-            }
-        });
+        findViewById(R.id.cover).setOnTouchListener(new OnSwipeTouchListener(this) {
+			@Override
+			public void onSwipeTop() {
+				Toast.makeText(getApplicationContext(), R.string.redownloading_art, Toast.LENGTH_SHORT).show();
+                new LastfmGetAlbumImage(getApplicationContext(), getApplication(), (AImageView) findViewById(R.id.cover), true).execute(album);
+			}
+			@Override
+			public void onSwipeRight() {
+				findViewById(R.id.previous).performClick();
+			}
+			@Override
+			public void onSwipeLeft() {
+				findViewById(R.id.next).performClick();
+			}
+			@Override
+			public void onSwipeBottom() {
+				findViewById(R.id.meta).performClick();
+			}
+			@Override
+			public void onBasicTouch(View v, MotionEvent event) {
+				disappearListener.onTouch(v, event);
+			}
+			@Override
+			public void onDoubleTap() {
+				findViewById(R.id.play).performClick();
+			}
+		});
+        
         findViewById(R.id.cover).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast toast = Toast.makeText(getApplicationContext(), R.string.redownloading_art, Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.TOP, 0, 0);
-                toast.show();
-                new LastfmGetAlbumImage(getApplicationContext(), getApplication(), (AImageView) findViewById(R.id.cover), true).execute(album);
                 return true;
             }
         });
