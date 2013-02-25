@@ -24,6 +24,7 @@ import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Genre;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 
@@ -247,13 +248,15 @@ public class MusicService extends Service {
     }
 
     @SuppressWarnings("unused")
-	private void playAll(Song song, String[] scope, int queuePos, Playlist list) {
+	private void playAll(Song song, String[] scope, int queuePos, Playlist list, Genre genre) {
         Log.i("OVERHEAR SERVICE", "playAll(\"" + (song != null ? song.getData() : "null") + "\")");
         ArrayList<Song> queue = null;
         int skipPos = Queue.canQueueSkip(this, song);
         if (skipPos == -1) {
             if(list != null)
                 queue = list.getSongs(this);
+            else if(genre != null)
+            	queue = genre.getSongs(this);
             else
                 queue = Song.getAllFromScope(getApplicationContext(), scope);
             queue = Queue.setQueue(this, queue);
@@ -434,9 +437,12 @@ public class MusicService extends Service {
                 }
             }
             Playlist list = null;
+            Genre genre = null;
             if(intent.hasExtra("playlist"))
                 list = Playlist.fromJSON(intent.getStringExtra("playlist"));
-            playAll(song, scope, intent.getIntExtra("position", 0), list);
+            if(intent.hasExtra("genre"))
+            	genre = Genre.fromJSON(intent.getStringExtra("genre"));
+            playAll(song, scope, intent.getIntExtra("position", 0), list, genre);
         } else if (action.equals(ACTION_PAUSE)) {
             pauseTrack();
         } else if (action.equals(ACTION_SLEEP_TIMER)) {

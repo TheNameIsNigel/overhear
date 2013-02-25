@@ -98,11 +98,7 @@ public class SongListFragment extends OverhearListFragment {
     @Override
     public void onItemClick(int position, Cursor cursor) {
         Song song = Song.fromCursor(adapter.getCursor());
-        int passPos = position;
-        if (getArguments() != null && getArguments().containsKey("genre")) {
-        	passPos = -1;
-        }
-        performOnClick(getActivity(), song, getScope(song), passPos);
+        performOnClick(getActivity(), song, genre, getScope(song), position);
     }
 
     @Override
@@ -112,12 +108,17 @@ public class SongListFragment extends OverhearListFragment {
     }
 
 
-    public static void performOnClick(Activity context, Song song, String[] scope, int position) {
-        context.startService(new Intent(context, MusicService.class)
-                .setAction(MusicService.ACTION_PLAY_ALL)
-                .putExtra("song", song.getJSON().toString())
-                .putExtra("scope", scope)
-                .putExtra("position", position));
+    public static void performOnClick(Activity context, Song song, Genre genre, String[] scope, int position) {
+    	Intent intent = new Intent(context, MusicService.class)
+        	.setAction(MusicService.ACTION_PLAY_ALL)
+        	.putExtra("song", song.getJSON().toString())
+        	.putExtra("position", position);
+    	if(genre != null) {
+    		intent.putExtra("genre", genre.getJSON().toString());
+    	} else {
+    		intent.putExtra("scope", scope);
+    	}
+        context.startService(intent);
     }
 
     private String[] getScope(Song genreSong) {
@@ -133,7 +134,7 @@ public class SongListFragment extends OverhearListFragment {
             } else if (getArguments().containsKey("artist_name")) {
                 where += " AND " + MediaStore.Audio.Media.ARTIST + " = '" + getArguments().getString("artist_name").replace("'", "''") + "'";
             } else if (getArguments().containsKey("genre")) {
-                where += " AND " + MediaStore.Audio.Media.ALBUM + " = '" + genreSong.getAlbum().replace("'", "''") + "'";
+                sort = null;
             }
         }
 
