@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<attr name="theme_base" format="color">@color/holo_blue</attr>
-</resources>

@@ -14,7 +14,7 @@
 			<TextView android:id="@+id/bioHeaderOne" style="?android:listSeparatorTextViewStyle"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:textSize="18sp" android:text="@string/updates_str"
-				android:textColor="?theme_base" />
+				android:textColor="@color/holo_blue" />
 
 			<Button android:id="@+id/bioUpdatesAction" android:enabled="false"
 				android:layout_below="@+id/bioHeaderOne" android:layout_width="fill_parent"
@@ -40,7 +40,7 @@
 		<TextView android:id="@+id/bioHeaderTwo" style="?android:listSeparatorTextViewStyle"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:layout_below="@+id/socialUpdates" android:text="@string/bio_str"
-			android:textSize="18sp" android:textColor="?theme_base" />
+			android:textSize="18sp" android:textColor="@color/holo_blue" />
 
 		<TextView android:id="@+id/bioAbout" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_below="@+id/bioHeaderTwo"

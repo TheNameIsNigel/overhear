@@ -6,8 +6,8 @@
 	<com.viewpagerindicator.TitlePageIndicator
 		android:id="@+id/pager_title_strip" android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:fontFamily="sans-serif-condensed"
-		android:textColor="?theme_base" app:selectedColor="?theme_base"
-		app:footerColor="?theme_base" app:footerLineHeight="1dp" />
+		android:textColor="@color/holo_blue" app:selectedColor="@color/holo_blue"
+		app:footerColor="@color/holo_blue" app:footerLineHeight="1dp" />
 
 	<android.support.v4.view.ViewPager
 		android:id="@+id/pager" android:layout_below="@+id/pager_title_strip"
