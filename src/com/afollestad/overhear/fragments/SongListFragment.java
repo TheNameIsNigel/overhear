@@ -98,7 +98,11 @@ public class SongListFragment extends OverhearListFragment {
     @Override
     public void onItemClick(int position, Cursor cursor) {
         Song song = Song.fromCursor(adapter.getCursor());
-        performOnClick(getActivity(), song, getScope(song), position);
+        int passPos = position;
+        if (getArguments() != null && getArguments().containsKey("genre")) {
+        	passPos = -1;
+        }
+        performOnClick(getActivity(), song, getScope(song), passPos);
     }
 
     @Override
