@@ -4,4 +4,4 @@
 	android:textAppearance="?android:attr/textAppearanceMedium"
 	android:paddingLeft="10dp" android:paddingRight="5dp"
 	android:paddingTop="20dp" android:paddingBottom="20dp"
-	android:singleLine="true" android:fontFamily="sans-serif-condensed" />
+	android:singleLine="true" />

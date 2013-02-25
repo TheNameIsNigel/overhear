@@ -4,7 +4,7 @@
     <dimen name="list_side_padding">20dp</dimen>
     <dimen name="list_top_padding">15dp</dimen>
     <dimen name="album_list_cover">75dp</dimen>
-    <dimen name="artist_viewer_header">160dp</dimen>
+    <dimen name="artist_viewer_header">140dp</dimen>
     
     <dimen name="status_bar_button_width_height">48dp</dimen>
     <dimen name="status_bar_album_art">64dp</dimen>

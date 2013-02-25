@@ -23,8 +23,7 @@
 
 			<TextView android:id="@+id/track" style="@style/StatusBarText"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:gravity="center_horizontal" android:textAppearance="?android:attr/textAppearanceMedium"
-				android:fontFamily="sans-serif-condensed" />
+				android:gravity="center_horizontal" android:textAppearance="?android:attr/textAppearanceMedium" />
 
 			<TextView android:id="@+id/artistAlbum" style="@style/StatusBarText"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
