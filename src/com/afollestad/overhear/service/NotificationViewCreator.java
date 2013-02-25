@@ -2,12 +2,12 @@ package com.afollestad.overhear.service;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.KeyEvent;
 import android.widget.RemoteViews;
 import com.afollestad.overhear.R;
