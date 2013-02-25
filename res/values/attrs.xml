@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<item name="theme_base" type="color" format="color">@color/holo_blue</item>
+</resources>

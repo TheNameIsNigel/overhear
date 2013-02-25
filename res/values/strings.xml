@@ -14,20 +14,11 @@
     <string name="no_genres">No genres</string>
     <string name="no_playlists">No playlists</string>
     <string name="bio_str">Bio</string>
-    <string name="menu_settings">Settings</string>
-    <string name="now_playing">Now playing</string>
-    <string name="play_str">Play</string>
-    <string name="pause_str">Pause</string>
-    <string name="next_str">Next</string>
-    <string name="previous_str">Previous</string>
-    <string name="info_str">Info</string>
-    <string name="about_str">About</string>
     <string name="updates_str">Updates</string>
     <string name="shop_artist_str">Shop Artist</string>
     <string name="no_audio_focus">Another app currently has audio focus.</string>
 
     <string name="social_update_source">{time} via {user} on {network}</string>
-    <string name="failed_load_artist_updates">Failed to load social updates</string>
     <string name="failed_load_artist_bio">Error occurred while loading bio</string>
     <string name="login_str">Login</string>
     <string name="login_twitter">Login to Twitter</string>

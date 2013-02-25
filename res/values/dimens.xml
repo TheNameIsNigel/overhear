@@ -4,21 +4,15 @@
     <dimen name="list_side_padding">20dp</dimen>
     <dimen name="list_top_padding">15dp</dimen>
     <dimen name="album_list_cover">75dp</dimen>
-    <dimen name="split_view_image">160dp</dimen>
     <dimen name="artist_viewer_header">160dp</dimen>
-    <dimen name="grid_item_spacing">4dp</dimen>
-    <dimen name="grid_preferred_item_padding">10.0dip</dimen>
-    <dimen name="item_normal_height">48.0dip</dimen>
     
     <dimen name="status_bar_button_width_height">48dp</dimen>
     <dimen name="status_bar_album_art">64dp</dimen>
     <dimen name="status_bar_album_art_big">130dp</dimen>
     
     <dimen name="now_playing_bar">50dp</dimen>
-    <dimen name="now_playing_button">45dp</dimen>
     
     <dimen name="now_playing_screen_cover">360dp</dimen>
-    <dimen name="now_playing_screen_cover_land">220dp</dimen>
     <dimen name="now_playing_screen_control">60dp</dimen>
     <dimen name="now_playing_screen_controls_width">220dp</dimen>
 
