@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
@@ -23,17 +25,25 @@ public class Recents {
 	 */
 	public static void add(Context context, Song song) {
 		Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
-        long queueId = 1;
-        Album mostRecent = getMostRecent(context);
-        if(mostRecent != null)
-            queueId = mostRecent.getQueueId() + 1;
-        album.setQueueId(queueId);
-
+		if(album == null) {
+			String artist = song.getArtist();
+			if(artist == null || artist.trim().isEmpty()) {
+				artist = context.getString(R.string.unknown_str);
+			}
+			album = new Album(context.getString(R.string.unknown_str), artist);
+		}
+		
         ContentValues values = album.getContentValues(true);
 		int updated = context.getContentResolver().update(PROVIDER_URI, values,
                 MediaStore.Audio.AlbumColumns.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
                 MediaStore.Audio.AlbumColumns.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'", null);
 		if(updated == 0) {
+			values = album.getContentValues(true);
+			long queueId = 1;
+	        Album mostRecent = getMostRecent(context);
+	        if(mostRecent != null)
+	            queueId = mostRecent.getQueueId() + 1;
+	        album.setQueueId(queueId);
 			context.getContentResolver().insert(PROVIDER_URI, values);
 		}
         context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
