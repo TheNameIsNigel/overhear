@@ -88,8 +88,8 @@ public class OverviewScreen extends OverhearActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.overview_screen, menu);
-        menu.findItem(R.id.createPlaylist).setVisible(mViewPager.getCurrentItem() == 4);
-        menu.findItem(R.id.clearRecents).setVisible(mViewPager.getCurrentItem() == 0);
+        menu.findItem(R.id.createPlaylist).setVisible(mViewPager.getCurrentItem() == 0);
+        menu.findItem(R.id.clearRecents).setVisible(mViewPager.getCurrentItem() == 1);
         return true;
     }
 
