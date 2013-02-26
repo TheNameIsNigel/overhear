@@ -24,6 +24,9 @@ public class WebArtUtils {
     }
 
     public static String getImageURL(Context context, Album album) {
+    	if(album == null) {
+    		return null;
+    	}
         Cursor cursor = context.getContentResolver().query(ALBUMS_URI, null,
                 WebArt.getAlbumWhereStatement(album), null, WebArt.NAME);
         String toreturn = null;
@@ -45,6 +48,9 @@ public class WebArtUtils {
     }
 
     public static String getImageURL(Context context, Artist artist) {
+    	if(artist == null) {
+    		return null;
+    	}
         Cursor cursor = context.getContentResolver().query(ARTISTS_URI, null,
                 WebArt.getArtistWhereStatement(artist), null, WebArt.NAME);
         String toreturn = null;

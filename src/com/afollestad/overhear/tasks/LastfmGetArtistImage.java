@@ -26,6 +26,9 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
 
     @Override
     protected String doInBackground(Artist... arts) {
+    	if(arts.length == 0 || arts[0] == null) {
+    		return null;
+    	}
         String url = null;
         if (MusicUtils.isOnline(context.get()) && arts[0] != null) {
             try {

@@ -19,7 +19,7 @@ public class RecentsProvider extends ContentProvider {
     
     @Override
 	public boolean onCreate() {
-    	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, 1) {
+    	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, 2) {
 			@Override
 			public void onCreate(SQLiteDatabase db) { }
 			@Override

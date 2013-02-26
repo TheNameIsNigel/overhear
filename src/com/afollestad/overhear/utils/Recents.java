@@ -33,6 +33,7 @@ public class Recents {
 			album = new Album(context.getString(R.string.unknown_str), artist);
 		}
 		
+		album.setDateQueued(null); //Sets time to right now
         ContentValues values = album.getContentValues(true);
 		int updated = context.getContentResolver().update(PROVIDER_URI, values,
                 MediaStore.Audio.AlbumColumns.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
@@ -64,5 +65,5 @@ public class Recents {
         return toreturn;
     }
 
-    public final static String SORT = Song.QUEUE_ID + " DESC LIMIT 15";
+    public final static String SORT = Album.DATE_QUEUED + " DESC LIMIT 15";
 }
