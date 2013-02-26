@@ -80,6 +80,10 @@ public class BioListFragment extends Fragment {
         view.findViewById(R.id.socialUpdates).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+            	twitter4j.Twitter twitter = Twitter.getTwitterInstance(getActivity(), true);
+            	if(twitter == null) {
+            		return false;
+            	}
                 if (possibleUsers == null) {
                     new Thread(new Runnable() {
                         @Override
