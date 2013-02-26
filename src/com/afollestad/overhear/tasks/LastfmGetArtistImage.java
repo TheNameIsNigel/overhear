@@ -30,7 +30,7 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
         if (MusicUtils.isOnline(context.get()) && arts[0] != null) {
             try {
                 Log.i("Overhear", "Getting artist information from LastFM for: " + arts[0].getName());
-                url = LastFM.getArtistInfo(arts[0].getName(), false).getBioImageURL();
+                url = LastFM.getArtistInfo(arts[0].getName()).getBioImageURL();
                 WebArtUtils.setImageURL(context.get(), arts[0], url);
                 return url;
             } catch (Exception e) {

@@ -150,7 +150,7 @@ public class BioListFragment extends Fragment {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    final ArtistInfo info = LastFM.getArtistInfo(artist.getName(), true);
+                    final ArtistInfo info = LastFM.getArtistInfo(artist.getName());
                     mHandler.post(new Runnable() {
                         public void run() {
                             if (getView() != null) {
