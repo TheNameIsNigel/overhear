@@ -129,7 +129,7 @@ public class SongListFragment extends OverhearListFragment {
             if (getArguments().containsKey("artist_id")) {
                 where += " AND " + MediaStore.Audio.Media.ARTIST_ID + " = " + getArguments().getInt("artist_id");
             } else if (getArguments().containsKey("album_id")) {
-                where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + getArguments().getInt("album_id");
+            	where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + getArguments().getInt("album_id");
             } else if (getArguments().containsKey("artist_name")) {
                 where += " AND " + MediaStore.Audio.Media.ARTIST + " = '" + getArguments().getString("artist_name").replace("'", "''") + "'";
             } else if (getArguments().containsKey("genre")) {

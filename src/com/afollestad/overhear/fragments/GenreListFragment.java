@@ -26,7 +26,7 @@ public class GenreListFragment extends OverhearListFragment {
 
     @Override
     public String getLoaderSelection() {
-        return null;
+        return MediaStore.Audio.Genres.NAME + " != '' AND " + MediaStore.Audio.Genres.NAME + " IS NOT NULL";
     }
 
     @Override
