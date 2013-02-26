@@ -26,7 +26,7 @@
 				android:layout_below="@+id/bioHeaderOne" android:layout_marginTop="7dp"
 				android:paddingLeft="10dp" android:textSize="18sp"
 				android:paddingRight="10dp" android:textColor="@color/white"
-				android:lineSpacingExtra="5dp" />
+				android:lineSpacingExtra="5dp" android:fontFamily="sans-serif-light" />
 
 			<TextView android:id="@+id/bioUpdateSource"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -47,7 +47,8 @@
 			android:layout_marginTop="7dp" android:paddingLeft="10dp"
 			android:text="@string/loading_str" android:textColor="@color/white"
 			android:paddingRight="10dp" android:textSize="18sp"
-			android:textColorLink="@color/white" android:lineSpacingExtra="5dp" />
+			android:textColorLink="@color/white" android:lineSpacingExtra="5dp"
+			android:fontFamily="sans-serif-light" />
 
 	</RelativeLayout>
 

@@ -52,7 +52,7 @@ public class OverviewScreen extends OverhearActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(4);
-        mViewPager.setCurrentItem(Store.i(this, "focused_tab", 1));
+        mViewPager.setCurrentItem(Store.i(this, "focused_tab", 2));
 
         TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.pager_title_strip);
         titleIndicator.setViewPager(mViewPager);
@@ -131,38 +131,42 @@ public class OverviewScreen extends OverhearActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0:
-                    return new RecentsListFragment();
+            	case 0:
+            		return new PlayListFragment();
                 case 1:
-                    return new ArtistListFragment();
+                    return new RecentsListFragment();
                 case 2:
-                    return new AlbumListFragment();
+                    return new ArtistListFragment();
                 case 3:
-                    return new GenreListFragment();
+                    return new AlbumListFragment();
                 case 4:
-                    return new PlayListFragment();
+                    return new SongListFragment();
+                case 5:
+                    return new GenreListFragment();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 5;
+            return 6;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.recent_str).toUpperCase(Locale.getDefault());
-                case 1:
-                    return getString(R.string.artists_str).toUpperCase(Locale.getDefault());
-                case 2:
-                    return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
-                case 3:
-                    return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
-                case 4:
                     return getString(R.string.playlists_str).toUpperCase(Locale.getDefault());
+                case 1:
+                    return getString(R.string.recent_str).toUpperCase(Locale.getDefault());
+                case 2:
+                    return getString(R.string.artists_str).toUpperCase(Locale.getDefault());
+                case 3:
+                    return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
+                case 4:
+                    return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
+                case 5:
+                	return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
             }
             return null;
         }

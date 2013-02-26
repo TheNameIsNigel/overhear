@@ -172,7 +172,7 @@ public class NowPlayingBarFragment extends Fragment {
                             !lastPlayed.get().getArtist().equals(focused.getArtist())) ||
                     playing.get().getDrawable() == null) {
                 album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
-                if(albumChanged) {
+                if(albumChanged && album != null) {
                     AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
                 }
             }
