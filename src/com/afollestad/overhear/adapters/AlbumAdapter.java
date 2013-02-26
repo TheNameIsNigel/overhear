@@ -23,6 +23,7 @@ import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.ui.ArtistViewer;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Queue;
+import com.afollestad.overhear.utils.ViewUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
@@ -154,14 +155,14 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
         if (position == 0) {
             if (getCount() == 1) {
-                view.setPadding(0, pad, 0, pad);
+            	ViewUtils.relativeMargins(view, pad, pad);
             } else {
-                view.setPadding(0, pad, 0, 0);
+            	ViewUtils.relativeMargins(view, pad, 0);
             }
         } else if (position == getCount() - 1) {
-            view.setPadding(0, 0, 0, pad);
+        	ViewUtils.relativeMargins(view, 0, pad);
         } else {
-            view.setPadding(0, 0, 0, 0);
+        	ViewUtils.relativeMargins(view, 0, 0);
         }
 
         return view;

@@ -21,6 +21,7 @@ import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Queue;
+import com.afollestad.overhear.utils.ViewUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhear.service.MusicService;
@@ -134,14 +135,14 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
         if (position == 0) {
             if (getCount() == 1) {
-                view.setPadding(0, pad, 0, pad);
+            	ViewUtils.relativeMargins(view, pad, pad);
             } else {
-                view.setPadding(0, pad, 0, 0);
+            	ViewUtils.relativeMargins(view, pad, 0);
             }
         } else if (position == getCount() - 1) {
-            view.setPadding(0, 0, 0, pad);
+        	ViewUtils.relativeMargins(view, 0, pad);
         } else {
-            view.setPadding(0, 0, 0, 0);
+        	ViewUtils.relativeMargins(view, 0, 0); 
         }
 
         return view;
