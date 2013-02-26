@@ -56,11 +56,9 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else {
+            } else if (forceDownload) {
                 WebArtUtils.setImageURL(context.get(), als[0], "flag:force_download");
-                if (forceDownload) {
-                    Toast.makeText(context.get(), R.string.download_queued, Toast.LENGTH_SHORT).show();
-                }
+                return "flag:force_download";
             }
         }
         return url;
@@ -74,7 +72,11 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
             if(view.get().getTag() != this) {
                 return;
             }
-            view.get().setManager(((Overhear)app.get()).getManager()).setSource(result).load();
+            if(result.equals("flag:force_download")) {
+            	Toast.makeText(context.get(), R.string.download_queued, Toast.LENGTH_SHORT).show();
+            } else {
+            	view.get().setManager(((Overhear)app.get()).getManager()).setSource(result).load();
+            }
         }
         super.onPostExecute(result);
     }
