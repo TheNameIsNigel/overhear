@@ -296,6 +296,8 @@ public class MusicService extends Service {
 
 	private void playAll(Song song, String[] scope, int queuePos, Playlist list, Genre genre) {
         Log.i("OVERHEAR SERVICE", "playAll(\"" + (song != null ? song.getData() : "null") + "\")");
+        
+        int idToPlay = -1;
         if (!MusicUtils.queueContains(getQueue(), song)) {
         	ArrayList<Song> queue = null;
             if(list != null)
@@ -305,9 +307,16 @@ public class MusicService extends Service {
             else
                 queue = Song.getAllFromScope(getApplicationContext(), scope);
             this.q = MusicUtils.getSongIdArray(queue);
+            if(queuePos > -1)
+            	this.qp = getQueue().get(queuePos);
+            else
+            	this.qp = getQueue().get(0);
+            idToPlay = getQueue().get(this.qp);
+        } else {
+        	idToPlay = song.getId();
         }
                 
-        playTrack(song.getId());
+        playTrack(idToPlay);
     }
 
     private void resumeTrack() {
