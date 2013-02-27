@@ -6,11 +6,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,7 +19,6 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.service.MusicService;
-import com.afollestad.overhear.service.QueueItem;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Playlist;
@@ -30,9 +27,6 @@ import com.afollestad.overhearapi.Song;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class MusicUtils {
 
@@ -196,34 +190,12 @@ public class MusicUtils {
         return builder.create();
     }
     
-    public static ArrayList<QueueItem> getQueueItemArray(ArrayList<Song> songs) {
-    	ArrayList<QueueItem> toreturn = new ArrayList<QueueItem>();
+    public static ArrayList<Integer> getQueueItemArray(ArrayList<Song> songs) {
+    	ArrayList<Integer> toreturn = new ArrayList<Integer>();
     	for(Song s : songs) {
-    		toreturn.add(new QueueItem(s));
+    		toreturn.add(s.getId());
     	}
     	return toreturn;
-    }
-    
-    public static boolean queueContains(ArrayList<QueueItem> queue, Song song) {
-    	if(song == null) {
-    		return false;
-    	}
-    	for(QueueItem a : queue) {
-    		if(a.getSongId() == song.getId() && a.getPlaylistId() == song.getPlaylistId()) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    public static int findInQueue(ArrayList<QueueItem> queue, Song song) {
-    	for(int index = 0; index < queue.size(); index++) {
-    		QueueItem curItem = queue.get(index);
-    		if(curItem.getSongId() == song.getId() && curItem.getPlaylistId() == song.getPlaylistId()) {
-    			return index;
-    		}
-    	}
-    	return -1;
     }
     
     public static void addToQueue(Activity context, Song song) {
@@ -233,11 +205,11 @@ public class MusicUtils {
     	if(context instanceof OverhearActivity) {
     		if(((OverhearActivity)context).getService() == null)
     			return;
-    		((OverhearActivity)context).getService().addToQueue(song);
+    		((OverhearActivity)context).getService().getQueue().add(song);
     	} else {
     		if(((OverhearListActivity)context).getService() == null)
     			return;
-    		((OverhearListActivity)context).getService().addToQueue(song);
+    		((OverhearListActivity)context).getService().getQueue().add(song);
     	}
     }
     
@@ -248,11 +220,11 @@ public class MusicUtils {
     	if(context instanceof OverhearActivity) {
     		if(((OverhearActivity)context).getService() == null)
     			return;
-    		((OverhearActivity)context).getService().addToQueue(songs);
+    		((OverhearActivity)context).getService().getQueue().add(songs);
     	} else {
     		if(((OverhearListActivity)context).getService() == null)
     			return;
-    		((OverhearListActivity)context).getService().addToQueue(songs);
+    		((OverhearListActivity)context).getService().getQueue().add(songs);
     	}
     }
     
@@ -260,19 +232,17 @@ public class MusicUtils {
     	if(context == null) {
     		return null;
     	}
-    	QueueItem item = null;
+    	Song song = null;
     	if(context instanceof OverhearActivity) {
     		if(((OverhearActivity)context).getService() == null)
     			return null;
-    		item = ((OverhearActivity)context).getService().getFocused();
+    		song = ((OverhearActivity)context).getService().getQueue().getFocused();
     	} else {
     		if(((OverhearListActivity)context).getService() == null)
     			return null;
-    		item = ((OverhearListActivity)context).getService().getFocused();
+    		song = ((OverhearListActivity)context).getService().getQueue().getFocused();
     	}
-    	if(item == null)
-    		return null;
-    	return item.getSong(context);
+    	return song;
     }
     
     public static boolean isPlaying(Activity context) {
@@ -288,35 +258,5 @@ public class MusicUtils {
     			return false;
     		return ((OverhearListActivity)context).getService().isPlaying();
     	}
-    }
-    
-    public static void persistentQueue(Context context, ArrayList<QueueItem> queue, int queuePos) {
-    	JSONArray queueArray = new JSONArray();
-    	for(QueueItem val : queue) {
-    		queueArray.put(val.getJSON());
-    	}
-    	
-    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    	prefs.edit().putString("queue", queueArray.toString()).putInt("queue_pos", queuePos).commit();
-    }
-    
-    public static ArrayList<QueueItem> getPersistedQueue(Context context) {
-    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    	try {
-			JSONArray array = new JSONArray(prefs.getString("queue", "[]"));
-			ArrayList<QueueItem> toreturn = new ArrayList<QueueItem>();
-			for(int i = 0; i < array.length(); i++) {
-				toreturn.add(QueueItem.fromJSON(array.getJSONObject(i)));
-			}
-			return toreturn;
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-    	return null;
-    }
-    
-    public static int getPersistedQueuePos(Context context) {
-    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    	return prefs.getInt("queue_pos", -1);
     }
 }

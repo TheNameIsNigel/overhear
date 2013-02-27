@@ -48,7 +48,7 @@ public class PlaylistAdapter extends CursorAdapter {
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        final ArrayList<Song> listSongs = playlist.getSongs(context);
+                        final ArrayList<Song> listSongs = playlist.getSongs(context, null);
                         switch (menuItem.getItemId()) {
                             case R.id.playAll: {
                                 PlaylistSongFragment.performClick(context, listSongs.get(0), playlist, position);
