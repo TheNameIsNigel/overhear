@@ -270,6 +270,8 @@ public class MusicUtils {
     			return null;
     		item = ((OverhearListActivity)context).getService().getFocused();
     	}
+    	if(item == null)
+    		return null;
     	return item.getSong(context);
     }
     
