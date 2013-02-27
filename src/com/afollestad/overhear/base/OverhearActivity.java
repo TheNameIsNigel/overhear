@@ -40,11 +40,16 @@ public abstract class OverhearActivity extends Activity {
     }
 
     @Override
+    public void onResume() {
+    	super.onResume();
+    	bindService(new Intent(this, MusicService.class), mConnection, Context.BIND_AUTO_CREATE);
+    }
+    
+    @Override
     public void onStart() {
         super.onStart();
         if (!mChangedConfig) {
         	Overhear.get(this).bind();
-        	bindService(new Intent(this, MusicService.class), mConnection, Context.BIND_AUTO_CREATE);
         }
     }
 
@@ -53,10 +58,14 @@ public abstract class OverhearActivity extends Activity {
         super.onStop();
         if(!isChangingConfigurations()) {
             Overhear.get(this).unbind();
-            //TODO make sure the connection is maintained on orientation change
-            if(mService != null)
-            	unbindService(mConnection);
         }
+    }
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	if(mService != null)
+        	unbindService(mConnection);
     }
     
     
@@ -66,6 +75,7 @@ public abstract class OverhearActivity extends Activity {
         	MusicBinder binder = (MusicBinder)service;
         	mService = binder.getService();
         	onBound();
+        	sendBroadcast(new Intent(MusicService.PLAYING_STATE_CHANGED));
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {

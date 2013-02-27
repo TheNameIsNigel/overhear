@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.utils.Queue;
+import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.service.MusicService;
@@ -157,8 +157,8 @@ public class NowPlayingBarFragment extends Fragment {
         if (getActivity() == null) {
             return;
         }
-        focused = Queue.getFocused(getActivity());
-        if (focused != null && focused.isPlaying()) {
+        focused = MusicUtils.getFocused(getActivity());
+        if (focused != null && MusicUtils.isPlaying(getActivity())) {
             playPause.get().setImageResource(R.drawable.pause);
         } else {
             playPause.get().setImageResource(R.drawable.play);

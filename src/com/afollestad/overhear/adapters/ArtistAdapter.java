@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.utils.MusicUtils;
-import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.utils.ViewUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.utils.WebArtUtils;
@@ -93,7 +92,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
                                         MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
                                                 MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
                                         MediaStore.Audio.Media.ALBUM});
-                                Queue.addToQueue(context, content);
+                                MusicUtils.addToQueue(context, content);
                                 return true;
                             }
                             case R.id.redownloadArt: {
@@ -115,11 +114,11 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         AnimationDrawable mPeakOneAnimation = (AnimationDrawable) peakOne.getDrawable();
         AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
 
-        Song focused = Queue.getFocused(context);
+        Song focused = MusicUtils.getFocused(context);
         if (focused != null && artist.getName().equals(focused.getArtist())) {
             peakOne.setVisibility(View.VISIBLE);
             peakTwo.setVisibility(View.VISIBLE);
-            if (focused.isPlaying()) {
+            if (MusicUtils.isPlaying(context)) {
                 if (!mPeakOneAnimation.isRunning()) {
                     mPeakOneAnimation.start();
                     mPeakTwoAnimation.start();

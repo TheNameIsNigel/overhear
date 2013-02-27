@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
@@ -186,5 +188,91 @@ public class MusicUtils {
                     }
                 });
         return builder.create();
+    }
+    
+    public static ArrayList<Integer> getSongIdArray(ArrayList<Song> songs) {
+    	ArrayList<Integer> toreturn = new ArrayList<Integer>();
+    	for(Song s : songs) {
+    		toreturn.add(s.getId());
+    	}
+    	return toreturn;
+    }
+    
+    public static boolean arrayContains(ArrayList<Integer> array, int id) {
+    	for(int a : array) {
+    		if(a == id) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    public static int findInArray(ArrayList<Integer> array, int id) {
+    	for(int index = 0; index < array.size(); index++) {
+    		if(array.get(index) == id) {
+    			return index;
+    		}
+    	}
+    	return -1;
+    }
+    
+    public static void addToQueue(Activity context, Song song) {
+    	if(context == null) {
+    		return;
+    	}
+    	if(context instanceof OverhearActivity) {
+    		if(((OverhearActivity)context).getService() == null)
+    			return;
+    		((OverhearActivity)context).getService().addToQueue(song);
+    	} else {
+    		if(((OverhearListActivity)context).getService() == null)
+    			return;
+    		((OverhearListActivity)context).getService().addToQueue(song);
+    	}
+    }
+    
+    public static void addToQueue(Activity context, ArrayList<Song> songs) {
+    	if(context == null) {
+    		return;
+    	}
+    	if(context instanceof OverhearActivity) {
+    		if(((OverhearActivity)context).getService() == null)
+    			return;
+    		((OverhearActivity)context).getService().addToQueue(songs);
+    	} else {
+    		if(((OverhearListActivity)context).getService() == null)
+    			return;
+    		((OverhearListActivity)context).getService().addToQueue(songs);
+    	}
+    }
+    
+    public static Song getFocused(Activity context) {
+    	if(context == null) {
+    		return null;
+    	}
+    	if(context instanceof OverhearActivity) {
+    		if(((OverhearActivity)context).getService() == null)
+    			return null;
+    		return ((OverhearActivity)context).getService().getFocused();
+    	} else {
+    		if(((OverhearListActivity)context).getService() == null)
+    			return null;
+    		return ((OverhearListActivity)context).getService().getFocused();
+    	}
+    }
+    
+    public static boolean isPlaying(Activity context) {
+    	if(context == null) {
+    		return false;
+    	}
+    	if(context instanceof OverhearActivity) {
+    		if(((OverhearActivity)context).getService() == null)
+    			return false;
+    		return ((OverhearActivity)context).getService().isPlaying();
+    	} else {
+    		if(((OverhearListActivity)context).getService() == null)
+    			return false;
+    		return ((OverhearListActivity)context).getService().isPlaying();
+    	}
     }
 }

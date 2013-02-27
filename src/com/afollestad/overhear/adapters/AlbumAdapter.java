@@ -22,7 +22,6 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.ui.ArtistViewer;
 import com.afollestad.overhear.utils.MusicUtils;
-import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.utils.ViewUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Album;
@@ -88,7 +87,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                                         MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
                                                 MediaStore.Audio.Media.ALBUM_ID + " = " + album.getAlbumId(),
                                         MediaStore.Audio.Media.TRACK});
-                                Queue.addToQueue(context, content);
+                                MusicUtils.addToQueue(context, content);
                                 return true;
                             }
                             case R.id.redownloadArt: {
@@ -115,11 +114,11 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         AnimationDrawable mPeakOneAnimation = (AnimationDrawable) peakOne.getDrawable();
         AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
 
-        Song focused = Queue.getFocused(context);
+        Song focused = MusicUtils.getFocused(context);
         if (focused != null && album.getName().equals(focused.getAlbum()) && album.getArtist().getName().equals(focused.getArtist())) {
             peakOne.setVisibility(View.VISIBLE);
             peakTwo.setVisibility(View.VISIBLE);
-            if (focused.isPlaying()) {
+            if (MusicUtils.isPlaying(context)) {
                 if (!mPeakOneAnimation.isRunning()) {
                     mPeakOneAnimation.start();
                     mPeakTwoAnimation.start();

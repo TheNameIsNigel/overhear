@@ -24,7 +24,6 @@ import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.utils.MusicUtils;
-import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Album;
@@ -107,7 +106,6 @@ public class NowPlayingViewer extends OverhearActivity {
                 });
             }
         }, 250, 250);
-        load(true);
     }
 
     public void onPause() {
@@ -321,13 +319,13 @@ public class NowPlayingViewer extends OverhearActivity {
      * Loads song/album/artist info and album art
      */
     public void load(boolean albumChanged) {
-        song = Queue.getFocused(this);
+        song = MusicUtils.getFocused(this);
         album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
-        if(song.getFromPlaylist() > -1) {
-            playlist = Playlist.get(this, song.getFromPlaylist());
-        } else {
-            playlist = null;
-        }
+//        TODO if(song.getFromPlaylist() > -1) {
+//            playlist = Playlist.get(this, song.getFromPlaylist());
+//        } else {
+//            playlist = null;
+//        }
         if (albumChanged) {
             AlbumAdapter.retrieveAlbumArt(this, album, (AImageView) findViewById(R.id.cover));
         }
@@ -461,6 +459,7 @@ public class NowPlayingViewer extends OverhearActivity {
 
 	@Override
 	public void onBound() {
+		load(true);
 		hookToPlayer();
 	}
 }

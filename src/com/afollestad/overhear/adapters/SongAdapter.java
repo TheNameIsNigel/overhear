@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import com.afollestad.overhear.utils.MusicUtils;
-import com.afollestad.overhear.utils.Queue;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhear.ui.ArtistViewer;
@@ -65,7 +64,7 @@ public class SongAdapter extends CursorAdapter {
                                 return true;
                             }
                             case R.id.addToQueue: {
-                                Queue.addToQueue(context, song);
+                            	MusicUtils.addToQueue(context, song);
                                 return true;
                             }
                             case R.id.viewAlbum: {
@@ -95,11 +94,11 @@ public class SongAdapter extends CursorAdapter {
         AnimationDrawable mPeakOneAnimation = (AnimationDrawable) peakOne.getDrawable();
         AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
 
-        Song focused = Queue.getFocused(context);
+        Song focused = MusicUtils.getFocused(context);
         if (focused != null && song.getId() == focused.getId()) {
             peakOne.setVisibility(View.VISIBLE);
             peakTwo.setVisibility(View.VISIBLE);
-            if (focused.isPlaying()) {
+            if (MusicUtils.isPlaying(context)) {
                 if (!mPeakOneAnimation.isRunning()) {
                     mPeakOneAnimation.start();
                     mPeakTwoAnimation.start();

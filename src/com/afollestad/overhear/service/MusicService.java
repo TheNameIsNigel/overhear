@@ -20,7 +20,7 @@ import com.afollestad.aimage.ImageListener;
 import com.afollestad.overhear.*;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
-import com.afollestad.overhear.utils.Queue;
+import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhearapi.Album;
@@ -41,7 +41,53 @@ public class MusicService extends Service {
     private boolean wasPlayingBeforeLoss;
     private Toast toast;
     private boolean initialized;
+    
     private Song lastPlaying;
+    private ArrayList<Integer> q;
+    private int qp = -1;
+    
+    public Song getFocused() {
+    	if(getQueuePos() == -1) {
+    		return null;
+    	} else if(getQueue().size() == 0) {
+    		return null;
+    	}
+    	return Song.fromId(this, getQueue().get(getQueuePos()));
+    }
+    
+    public int getQueuePos() {
+    	return qp;
+    }
+    
+    public ArrayList<Integer> getQueue() {
+    	if(q == null)
+    		q = new ArrayList<Integer>();
+    	return q;
+    }
+    
+    public void addToQueue(Song song) {
+    	getQueue().add(song.getId());
+    }
+    
+    public void addToQueue(ArrayList<Song> songs) {
+    	for(Song s : songs)
+    		addToQueue(s);
+    }
+    
+    public boolean canIncrementQueue() {
+    	if((getQueuePos() + 1) >= (q.size() - 1)) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public boolean canDecrementQueue() {
+    	if((getQueuePos() - 1) < 0 || q.size() == 0) {
+    		return false;
+    	}
+    	return true; 
+    }
+    
 
     private static MediaPlayer player;
     private AudioManager audioManager;
@@ -164,7 +210,7 @@ public class MusicService extends Service {
     }
 
     private void updateRemoteControl(final int state) {
-        Song nowPlaying = Queue.getFocused(this);
+        Song nowPlaying = getFocused();
         mRemoteControlClient
                 .editMetadata(false)
                 .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
@@ -226,7 +272,8 @@ public class MusicService extends Service {
         }
     }
 
-    private void playTrack(Song song) {
+    private void playTrack(int id) {
+    	Song song = Song.fromId(this, id);
         Log.i("OVERHEAR SERVICE", "playTrack(\"" + song.getData() + "\")");
         if (!initializeRemoteControl()) {
             if (toast != null)
@@ -236,7 +283,7 @@ public class MusicService extends Service {
             return;
         }
 
-        Queue.setFocused(this, song, true);
+        qp = MusicUtils.findInArray(getQueue(), id);
         Recents.add(this, song);
         initializeMediaPlayer(song.getData());
         initializeNotification(song);
@@ -247,70 +294,56 @@ public class MusicService extends Service {
         lastPlaying = song;
     }
 
-    @SuppressWarnings("unused")
 	private void playAll(Song song, String[] scope, int queuePos, Playlist list, Genre genre) {
         Log.i("OVERHEAR SERVICE", "playAll(\"" + (song != null ? song.getData() : "null") + "\")");
-        ArrayList<Song> queue = null;
-        int skipPos = Queue.canQueueSkip(this, song);
-        if (skipPos == -1) {
+        if (!MusicUtils.arrayContains(getQueue(), song.getId())) {
+        	ArrayList<Song> queue = null;
             if(list != null)
                 queue = list.getSongs(this);
             else if(genre != null)
             	queue = genre.getSongs(this);
             else
                 queue = Song.getAllFromScope(getApplicationContext(), scope);
-            queue = Queue.setQueue(this, queue);
-        } else {
-            queue = Queue.getQueue(this);
-            queuePos = skipPos;
+            this.q = MusicUtils.getSongIdArray(queue);
         }
-        if(queuePos == -1) {
-        	queuePos = 0;
-        	for(int i = 0; i < queue.size(); i++) {
-        		if(queue.get(i).getId() == song.getId()) {
-        			queuePos = i;
-        		}
-        		break;
-        	}
-        }
-        playTrack(queue.get(queuePos));
+                
+        playTrack(song.getId());
     }
 
     private void resumeTrack() {
         Log.i("OVERHEAR SERVICE", "resumeTrack()");
-        Song last = Queue.getFocused(this);
-        if (player != null && last != null && initialized) {
+        
+        if (player != null && getQueuePos() > -1 && initialized) {
             if (!initializeRemoteControl()) {
                 return;
             }
-            Queue.setFocused(this, last, true);
+            Song last = getFocused();
             try {
                 player.start();
             } catch (IllegalStateException e) {
                 e.printStackTrace();
-                playTrack(last);
+                playTrack(last.getId());
                 return;
             }
             initializeNotification(last);
             sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
             mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
-        } else if (last != null) {
-            Log.i("OVERHEAR SERVICE", "No paused state found");
-            playTrack(last);
-        } else {
+        }
+//        } else if (last != null) {
+////            Log.i("OVERHEAR SERVICE", "No paused state found");
+////            playTrack(last.getId());
+        else {
             Log.i("OVERHEAR SERVICE", "No song to resume");
         }
     }
 
     private void pauseTrack() {
         Log.i("OVERHEAR SERVICE", "pauseTrack()");
-        Song focused = Queue.getFocused(this);
         if (mRemoteControlClient != null)
             mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
-        Queue.setFocused(this, focused, false);
         if (player != null && player.isPlaying()) {
             player.pause();
-            initializeNotification(focused);
+            initializeNotification(getFocused());
         } else {
             stopTrack();
         }
@@ -328,7 +361,6 @@ public class MusicService extends Service {
         if (mRemoteControlClient != null)
             mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
         getAudioManager().abandonAudioFocus(afl);
-        Queue.clearPlaying(this);
         stopForeground(true);
         stopSelf();
         sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
@@ -336,8 +368,8 @@ public class MusicService extends Service {
 
     private boolean nextTrack() {
         Log.i("OVERHEAR SERVICE", "nextTrack()");
-        if (Queue.increment(this, true)) {
-            playTrack(Queue.getFocused(this));
+        if (canIncrementQueue()) {
+            playTrack(getQueue().get(getQueuePos() + 1));
         } else {
             stopTrack();
             return false;
@@ -352,8 +384,8 @@ public class MusicService extends Service {
             player.seekTo(0);
             sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
         } else {
-            if (Queue.decrement(this, true)) {
-                playTrack(Queue.getFocused(this));
+            if (canDecrementQueue()) {
+                playTrack(getQueue().get(getQueuePos() - 1));
             } else {
                 stopTrack();
                 return;
@@ -405,7 +437,7 @@ public class MusicService extends Service {
         String action = intent.getAction();
         if (action.equals(ACTION_PLAY)) {
             if (intent.hasExtra("song")) {
-                playTrack(Song.fromJSON(intent.getStringExtra("song")));
+                playTrack(Song.fromJSON(intent.getStringExtra("song")).getId());
             } else {
                 resumeTrack();
             }
@@ -464,10 +496,8 @@ public class MusicService extends Service {
             else
                 resumeTrack();
         } else if(action.equals(ACTION_CLEAR_NOTIFICATION)) {
-            Song focused = Queue.getFocused(this);
-            if(focused != null && !focused.isPlaying()) {
+            if(!isPlaying())
                 stopForeground(true);
-            }
         }
         return START_STICKY;
     }
