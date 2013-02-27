@@ -308,9 +308,9 @@ public class MusicService extends Service {
                 queue = Song.getAllFromScope(getApplicationContext(), scope);
             this.q = MusicUtils.getSongIdArray(queue);
             if(queuePos > -1)
-            	this.qp = getQueue().get(queuePos);
+            	this.qp = queuePos;
             else
-            	this.qp = getQueue().get(0);
+            	this.qp = 0;
             idToPlay = getQueue().get(this.qp);
         } else {
         	idToPlay = song.getId();
