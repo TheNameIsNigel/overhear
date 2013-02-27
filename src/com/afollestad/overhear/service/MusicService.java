@@ -43,7 +43,7 @@ public class MusicService extends Service {
     private boolean initialized;
     
     private Song lastPlaying;
-    private ArrayList<Integer> q;
+    private ArrayList<QueueItem> q;
     private int qp = -1;
     
     public Song getFocused() {
@@ -52,21 +52,21 @@ public class MusicService extends Service {
     	} else if(getQueue().size() == 0) {
     		return null;
     	}
-    	return Song.fromId(this, getQueue().get(getQueuePos()));
+    	return getQueue().get(getQueuePos()).getSong(this);
     }
     
     public int getQueuePos() {
     	return qp;
     }
     
-    public ArrayList<Integer> getQueue() {
+    public ArrayList<QueueItem> getQueue() {
     	if(q == null)
-    		q = new ArrayList<Integer>();
+    		q = new ArrayList<QueueItem>();
     	return q;
     }
     
     public void addToQueue(Song song) {
-    	getQueue().add(song.getId());
+    	q.add(new QueueItem(song.getId(), song.getPlaylistId()));
     }
     
     public void addToQueue(ArrayList<Song> songs) {
@@ -274,7 +274,7 @@ public class MusicService extends Service {
 
     private void playTrack(int id) {
     	Song song = Song.fromId(this, id);
-        Log.i("OVERHEAR SERVICE", "playTrack(\"" + song.getData() + "\")");
+        Log.i("OVERHEAR SERVICE", "playTrack(" + song.getTitle() + ")");
         if (!initializeRemoteControl()) {
             if (toast != null)
                 toast.cancel();
@@ -283,7 +283,7 @@ public class MusicService extends Service {
             return;
         }
 
-        qp = MusicUtils.findInQueue(getQueue(), id);
+        qp = MusicUtils.findInQueue(getQueue(), song);
         Recents.add(this, song);
         initializeMediaPlayer(song.getData());
         initializeNotification(song);
@@ -306,12 +306,12 @@ public class MusicService extends Service {
             	queue = genre.getSongs(this);
             else
                 queue = Song.getAllFromScope(getApplicationContext(), scope);
-            this.q = MusicUtils.getSongIdArray(queue);
+            this.q = MusicUtils.getQueueItemArray(queue);
             if(queuePos > -1)
             	this.qp = queuePos;
             else
             	this.qp = 0;
-            idToPlay = getQueue().get(this.qp);
+            idToPlay = getQueue().get(this.qp).getSongId();
         } else {
         	idToPlay = song.getId();
         }
@@ -378,7 +378,7 @@ public class MusicService extends Service {
     private boolean nextTrack() {
         Log.i("OVERHEAR SERVICE", "nextTrack()");
         if (canIncrementQueue()) {
-            playTrack(getQueue().get(getQueuePos() + 1));
+            playTrack(getQueue().get(getQueuePos() + 1).getSongId());
         } else {
             stopTrack();
             return false;
@@ -394,7 +394,7 @@ public class MusicService extends Service {
             sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
         } else {
             if (canDecrementQueue()) {
-                playTrack(getQueue().get(getQueuePos() - 1));
+                playTrack(getQueue().get(getQueuePos() - 1).getSongId());
             } else {
                 stopTrack();
                 return;
@@ -515,7 +515,7 @@ public class MusicService extends Service {
 
     @Override
     public void onDestroy() {
-    	ArrayList<Integer> queue = getQueue();
+    	ArrayList<QueueItem> queue = getQueue();
     	MusicUtils.persistentQueue(this, queue, getQueuePos());
         Log.i("MusicService", "onDestroy() - Persisted " + queue.size() + " queue items, position " + getQueuePos());
         if (player != null && player.isPlaying()) {

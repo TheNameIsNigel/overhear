@@ -21,6 +21,7 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.service.MusicService;
+import com.afollestad.overhear.service.QueueItem;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Playlist;
@@ -195,29 +196,30 @@ public class MusicUtils {
         return builder.create();
     }
     
-    public static ArrayList<Integer> getSongIdArray(ArrayList<Song> songs) {
-    	ArrayList<Integer> toreturn = new ArrayList<Integer>();
+    public static ArrayList<QueueItem> getQueueItemArray(ArrayList<Song> songs) {
+    	ArrayList<QueueItem> toreturn = new ArrayList<QueueItem>();
     	for(Song s : songs) {
-    		toreturn.add(s.getId());
+    		toreturn.add(new QueueItem(s.getId(), s.getPlaylistId()));
     	}
     	return toreturn;
     }
     
-    public static boolean queueContains(ArrayList<Integer> queue, Song song) {
+    public static boolean queueContains(ArrayList<QueueItem> queue, Song song) {
     	if(song == null) {
     		return false;
     	}
-    	for(int a : queue) {
-    		if(a == song.getId()) {
+    	for(QueueItem a : queue) {
+    		if(a.getSongId() == song.getId() && a.getPlaylistId() == song.getPlaylistId()) {
     			return true;
     		}
     	}
     	return false;
     }
     
-    public static int findInQueue(ArrayList<Integer> queue, int id) {
+    public static int findInQueue(ArrayList<QueueItem> queue, Song song) {
     	for(int index = 0; index < queue.size(); index++) {
-    		if(queue.get(index) == id) {
+    		QueueItem curItem = queue.get(index);
+    		if(curItem.getSongId() == song.getId() && curItem.getPlaylistId() == song.getPlaylistId()) {
     			return index;
     		}
     	}
@@ -284,23 +286,23 @@ public class MusicUtils {
     	}
     }
     
-    public static void persistentQueue(Context context, ArrayList<Integer> queue, int queuePos) {
+    public static void persistentQueue(Context context, ArrayList<QueueItem> queue, int queuePos) {
     	JSONArray queueArray = new JSONArray();
-    	for(Integer val : queue) {
-    		queueArray.put(val);
+    	for(QueueItem val : queue) {
+    		queueArray.put(val.getJSON());
     	}
     	
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
     	prefs.edit().putString("queue", queueArray.toString()).putInt("queue_pos", queuePos).commit();
     }
     
-    public static ArrayList<Integer> getPersistedQueue(Context context) {
+    public static ArrayList<QueueItem> getPersistedQueue(Context context) {
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
     	try {
 			JSONArray array = new JSONArray(prefs.getString("queue", "[]"));
-			ArrayList<Integer> toreturn = new ArrayList<Integer>();
+			ArrayList<QueueItem> toreturn = new ArrayList<QueueItem>();
 			for(int i = 0; i < array.length(); i++) {
-				toreturn.add(array.getInt(i));
+				toreturn.add(QueueItem.fromJSON(array.getJSONObject(i)));
 			}
 			return toreturn;
 		} catch (JSONException e) {

@@ -54,7 +54,6 @@ public class PlaylistSongFragment extends OverhearListFragment {
     public CursorAdapter getAdapter() {
         if(adapter == null) {
             adapter = new SongAdapter(getActivity(), null, 0);
-            adapter.setShowTrackNumber(true);
         }
         return adapter;
     }

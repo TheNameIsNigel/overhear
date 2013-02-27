@@ -56,7 +56,6 @@ public class AlbumViewer extends OverhearActivity {
             Fragment songFrag = new SongListFragment();
             Bundle args = new Bundle();
             args.putInt("album_id", album.getAlbumId());
-            args.putBoolean("show_track_number", true);
             songFrag.setArguments(args);
             ft.add(R.id.songList, songFrag);
 

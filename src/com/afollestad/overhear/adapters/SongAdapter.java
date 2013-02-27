@@ -29,24 +29,19 @@ public class SongAdapter extends CursorAdapter {
         this.activity = (Activity)context;
     }
 
-    private boolean showTrackNumher = false;
     private Activity activity;
-
-    public void setShowTrackNumber(boolean show) {
-        this.showTrackNumher = show;
-    }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.song_item, null);
     }
 
-    public static View getViewForSong(final Activity context, final Song song, View view, int trackNumber) {
+    public static View getViewForSong(final Activity context, final Song song, View view) {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }
 
-        ((TextView) view.findViewById(R.id.title)).setText((trackNumber > -1 ? (trackNumber + 1) + ". " : "") + song.getTitle());
+        ((TextView) view.findViewById(R.id.title)).setText(song.getTitle());
 
         View options = view.findViewById(R.id.options);
         options.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +119,6 @@ public class SongAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         Song song = Song.fromCursor(cursor);
-        getViewForSong(activity, song, view, showTrackNumher ? cursor.getPosition() : -1);
+        getViewForSong(activity, song, view);
     }
 }
