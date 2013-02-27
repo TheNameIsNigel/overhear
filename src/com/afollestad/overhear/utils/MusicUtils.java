@@ -6,9 +6,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,6 +29,9 @@ import com.afollestad.overhearapi.Song;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class MusicUtils {
 
@@ -277,5 +282,35 @@ public class MusicUtils {
     			return false;
     		return ((OverhearListActivity)context).getService().isPlaying();
     	}
+    }
+    
+    public static void persistentQueue(Context context, ArrayList<Integer> queue, int queuePos) {
+    	JSONArray queueArray = new JSONArray();
+    	for(Integer val : queue) {
+    		queueArray.put(val);
+    	}
+    	
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    	prefs.edit().putString("queue", queueArray.toString()).putInt("queue_pos", queuePos).commit();
+    }
+    
+    public static ArrayList<Integer> getPersistedQueue(Context context) {
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    	try {
+			JSONArray array = new JSONArray(prefs.getString("queue", "[]"));
+			ArrayList<Integer> toreturn = new ArrayList<Integer>();
+			for(int i = 0; i < array.length(); i++) {
+				toreturn.add(array.getInt(i));
+			}
+			return toreturn;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    	return null;
+    }
+    
+    public static int getPersistedQueuePos(Context context) {
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    	return prefs.getInt("queue_pos", -1);
     }
 }

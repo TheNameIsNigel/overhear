@@ -429,6 +429,8 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        q = MusicUtils.getPersistedQueue(this);
+        qp = MusicUtils.getPersistedQueuePos(this);
         registerReceiver(receiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
     }
 
@@ -513,7 +515,9 @@ public class MusicService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.i("MusicService", "onDestroy()");
+    	ArrayList<Integer> queue = getQueue();
+    	MusicUtils.persistentQueue(this, queue, getQueuePos());
+        Log.i("MusicService", "onDestroy() - Persisted " + queue.size() + " queue items, position " + getQueuePos());
         if (player != null && player.isPlaying()) {
             player.stop();
             player.release();

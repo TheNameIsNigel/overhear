@@ -15,6 +15,7 @@ public class RecentsProvider extends ContentProvider {
     private SQLiteOpenHelper mOpenHelper;
     private static final String DBNAME = "overhear";
     private static final String TABLE_RECENTS = "recents";
+    private static final String TABLE_QUEUE = "queue";
     private SQLiteDatabase db;
     
     @Override
@@ -34,6 +35,8 @@ public class RecentsProvider extends ContentProvider {
 			}
     	};
     	db = mOpenHelper.getWritableDatabase();
+    	//TODO remove when cleanup of old queue style is no longer needed
+    	db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUEUE);
     	db.execSQL(Album.getCreateTableStatement(TABLE_RECENTS));
     	return true;
 	}
