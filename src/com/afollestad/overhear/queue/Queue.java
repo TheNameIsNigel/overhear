@@ -105,16 +105,8 @@ public class Queue {
     	} else if(items.size() == 0) {
     		return null;
     	}
-    	
     	QueueItem item = items.get(getPosition());
-    	Song song = null;
-    	if(item.getPlaylistId() > -1) {
-//    		song = Playlist.get(context, lists.get(getPosition())).getSongs(context,
-//    				MediaStore.Audio.Media.DATA + " = ''");
-    	} else {
-    		song = item.getSong(context);
-    	}
-    	return song;
+    	return item.getSong(context);
     }
 	
 	public void persist(Context context) {

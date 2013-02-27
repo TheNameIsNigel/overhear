@@ -54,6 +54,10 @@ public class OverviewScreen extends OverhearActivity {
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setCurrentItem(Store.i(this, "focused_tab", 2));
 
+        //TODO remove when no longer needed
+        if(getExternalCacheDir().exists())
+        	getExternalCacheDir().delete();
+        
         TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.pager_title_strip);
         titleIndicator.setViewPager(mViewPager);
         titleIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

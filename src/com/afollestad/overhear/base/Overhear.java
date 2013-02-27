@@ -1,9 +1,13 @@
 package com.afollestad.overhear.base;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Environment;
+
 import com.afollestad.aimage.ImageManager;
 import com.afollestad.overhear.service.MusicService;
 
@@ -18,8 +22,11 @@ public class Overhear extends Application {
     private int boundActivities;
 
     public ImageManager getManager() {
-        if(manager == null)
-            manager = new ImageManager(this);
+        if(manager == null) {
+        	File cacheDir = new File(Environment.getExternalStorageDirectory(), "Overhear");
+        	cacheDir.mkdirs();
+            manager = new ImageManager(this, cacheDir);
+        }
         return manager;
     }
 

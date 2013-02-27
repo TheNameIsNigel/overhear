@@ -41,8 +41,6 @@ public class MusicService extends Service {
     private boolean wasPlayingBeforeLoss;
     private Toast toast;
     private boolean initialized;
-    
-    private Song lastPlaying;
     private Queue queue;
     
     public Queue getQueue() {
@@ -248,9 +246,7 @@ public class MusicService extends Service {
         initializeNotification(song);
         updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING, song);
 
-        sendBroadcast(new Intent(PLAYING_STATE_CHANGED)
-                .putExtra("album_changed", lastPlaying == null || !lastPlaying.getAlbum().equals(song.getAlbum())));
-        lastPlaying = song;
+        sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
     }
 
 	private void playAll(Song song, String[] scope, int queuePos, Playlist list, Genre genre) {
