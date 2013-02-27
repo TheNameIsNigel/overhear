@@ -5,14 +5,15 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 
 public class QueueItem {
 
 	private QueueItem() { }
-    public QueueItem(int songId, long playlistId) {
-    	this.songId = songId;
-    	this.playlistId = playlistId;
+    public QueueItem(Song song) {
+    	this.songId = song.getId();
+    	this.playlistId = song.getPlaylistId();
     }
 
     private int songId;
@@ -27,7 +28,11 @@ public class QueueItem {
     }
     
     public Song getSong(Context context) {
-    	return Song.fromId(context, getSongId());
+    	if(this.playlistId > 0) {
+    		return Playlist.get(context, this.playlistId).getSong(context, getSongId());
+    	} else {
+    		return Song.fromId(context, getSongId());
+    	}
     }
     
     public JSONObject getJSON() {

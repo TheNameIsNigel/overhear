@@ -199,7 +199,7 @@ public class MusicUtils {
     public static ArrayList<QueueItem> getQueueItemArray(ArrayList<Song> songs) {
     	ArrayList<QueueItem> toreturn = new ArrayList<QueueItem>();
     	for(Song s : songs) {
-    		toreturn.add(new QueueItem(s.getId(), s.getPlaylistId()));
+    		toreturn.add(new QueueItem(s));
     	}
     	return toreturn;
     }
@@ -263,11 +263,11 @@ public class MusicUtils {
     	if(context instanceof OverhearActivity) {
     		if(((OverhearActivity)context).getService() == null)
     			return null;
-    		return ((OverhearActivity)context).getService().getFocused();
+    		return ((OverhearActivity)context).getService().getFocused().getSong(context);
     	} else {
     		if(((OverhearListActivity)context).getService() == null)
     			return null;
-    		return ((OverhearListActivity)context).getService().getFocused();
+    		return ((OverhearListActivity)context).getService().getFocused().getSong(context);
     	}
     }
     

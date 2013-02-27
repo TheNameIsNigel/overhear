@@ -35,6 +35,7 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
                     break;
                 case KeyEvent.KEYCODE_HEADSETHOOK:
                 case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                case KeyEvent.KEYCODE_MEDIA_PLAY:
                     command = MusicService.ACTION_TOGGLE_PLAYBACK;
                     break;
                 case KeyEvent.KEYCODE_MEDIA_NEXT:
@@ -46,14 +47,11 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                 	command = MusicService.ACTION_PAUSE;
                     break;
-                case KeyEvent.KEYCODE_MEDIA_PLAY:
-                	command = MusicService.ACTION_PLAY;
-                    break;
             }
 
             if (command != null) {
                 if (action == KeyEvent.ACTION_DOWN) {
-                    if (mDown && command.equals(MusicService.ACTION_PLAY)) {
+                    if (mDown && command.equals(MusicService.ACTION_TOGGLE_PLAYBACK)) {
                         //TODO long press action
                     	Toast.makeText(context, "Headset long pressed", Toast.LENGTH_LONG).show();
                     } else if (event.getRepeatCount() == 0) {

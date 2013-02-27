@@ -46,13 +46,13 @@ public class MusicService extends Service {
     private ArrayList<QueueItem> q;
     private int qp = -1;
     
-    public Song getFocused() {
+    public QueueItem getFocused() {
     	if(getQueuePos() == -1) {
     		return null;
     	} else if(getQueue().size() == 0) {
     		return null;
     	}
-    	return getQueue().get(getQueuePos()).getSong(this);
+    	return getQueue().get(getQueuePos());
     }
     
     public int getQueuePos() {
@@ -66,7 +66,7 @@ public class MusicService extends Service {
     }
     
     public void addToQueue(Song song) {
-    	q.add(new QueueItem(song.getId(), song.getPlaylistId()));
+    	q.add(new QueueItem(song));
     }
     
     public void addToQueue(ArrayList<Song> songs) {
@@ -172,7 +172,6 @@ public class MusicService extends Service {
 
     public static final String ACTION_SLEEP_TIMER = "com.afollestad.overhear.action.SLEEP_TIMER";
     public static final String ACTION_TOGGLE_PLAYBACK = "com.afollestad.overhear.action.TOGGLE_PLAYBACK";
-    public static final String ACTION_PLAY = "com.afollestad.overhear.action.PLAY";
     public static final String ACTION_PLAY_ALL = "com.afollestad.overhear.action.PLAY_ALL";
     public static final String ACTION_PAUSE = "com.afollestad.overhear.action.PAUSE";
     public static final String ACTION_STOP = "com.afollestad.overhear.action.STOP";
@@ -210,7 +209,7 @@ public class MusicService extends Service {
     }
 
     private void updateRemoteControl(final int state) {
-        Song nowPlaying = getFocused();
+        Song nowPlaying = getFocused().getSong(this);
         mRemoteControlClient
                 .editMetadata(false)
                 .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
@@ -272,9 +271,9 @@ public class MusicService extends Service {
         }
     }
 
-    private void playTrack(int id) {
-    	Song song = Song.fromId(this, id);
-        Log.i("OVERHEAR SERVICE", "playTrack(" + song.getTitle() + ")");
+    private void playTrack(QueueItem item) {
+    	Song song = item.getSong(this);
+        Log.i("OVERHEAR SERVICE", "playTrack(" + song.getTitle() + ", " + song.getId() + ")");
         if (!initializeRemoteControl()) {
             if (toast != null)
                 toast.cancel();
@@ -297,26 +296,31 @@ public class MusicService extends Service {
 	private void playAll(Song song, String[] scope, int queuePos, Playlist list, Genre genre) {
         Log.i("OVERHEAR SERVICE", "playAll(\"" + (song != null ? song.getData() : "null") + "\")");
         
-        int idToPlay = -1;
         if (!MusicUtils.queueContains(getQueue(), song)) {
+        	
+        	// The queue doesn't contain the song being played, load it's scope into the queue now
         	ArrayList<Song> queue = null;
-            if(list != null)
+            if(list != null) {
+            	// Load the queue from a playlist
                 queue = list.getSongs(this);
-            else if(genre != null)
+            } else if(genre != null) {
+            	// Load the queue from a genre
             	queue = genre.getSongs(this);
-            else
+            } else {
+            	// Load the queue from another scope (e.g. all songs, albums, artists, etc.)
                 queue = Song.getAllFromScope(getApplicationContext(), scope);
+            }
+            
             this.q = MusicUtils.getQueueItemArray(queue);
-            if(queuePos > -1)
+            if(queuePos > -1) {
             	this.qp = queuePos;
-            else
+            } else {
             	this.qp = 0;
-            idToPlay = getQueue().get(this.qp).getSongId();
-        } else {
-        	idToPlay = song.getId();
+            }
+            
         }
                 
-        playTrack(idToPlay);
+        playTrack(getQueue().get(this.qp));
     }
 
     private void resumeTrack() {
@@ -326,15 +330,15 @@ public class MusicService extends Service {
             if (!initializeRemoteControl()) {
                 return;
             }
-            Song last = getFocused();
+            QueueItem last = getFocused();
             try {
                 player.start();
             } catch (IllegalStateException e) {
                 e.printStackTrace();
-                playTrack(last.getId());
+                playTrack(last);
                 return;
             }
-            initializeNotification(last);
+            initializeNotification(last.getSong(this));
             sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
             mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
         }
@@ -352,7 +356,7 @@ public class MusicService extends Service {
             mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
         if (player != null && player.isPlaying()) {
             player.pause();
-            initializeNotification(getFocused());
+            initializeNotification(getFocused().getSong(this));
         } else {
             stopTrack();
         }
@@ -378,7 +382,7 @@ public class MusicService extends Service {
     private boolean nextTrack() {
         Log.i("OVERHEAR SERVICE", "nextTrack()");
         if (canIncrementQueue()) {
-            playTrack(getQueue().get(getQueuePos() + 1).getSongId());
+            playTrack(getQueue().get(getQueuePos() + 1));
         } else {
             stopTrack();
             return false;
@@ -394,7 +398,7 @@ public class MusicService extends Service {
             sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
         } else {
             if (canDecrementQueue()) {
-                playTrack(getQueue().get(getQueuePos() - 1).getSongId());
+                playTrack(getQueue().get(getQueuePos() - 1));
             } else {
                 stopTrack();
                 return;
@@ -446,13 +450,7 @@ public class MusicService extends Service {
             return START_STICKY;
         }
         String action = intent.getAction();
-        if (action.equals(ACTION_PLAY)) {
-            if (intent.hasExtra("song")) {
-                playTrack(Song.fromJSON(intent.getStringExtra("song")).getId());
-            } else {
-                resumeTrack();
-            }
-        } else if (action.equals(ACTION_PLAY_ALL)) {
+        if (action.equals(ACTION_PLAY_ALL)) {
             String[] scope = null;
             Song song = null;
             if (intent.hasExtra("album_id")) {
