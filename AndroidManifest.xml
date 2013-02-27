@@ -67,9 +67,6 @@
 		<provider android:name="com.afollestad.overhear.providers.RecentsProvider"
 			android:authorities="com.afollestad.overhear.recentsprovider"
 			android:exported="true" />
-		<provider android:name="com.afollestad.overhear.providers.QueueProvider"
-			android:authorities="com.afollestad.overhear.queueprovider"
-			android:exported="true" />
 		<provider android:name="com.afollestad.overhear.providers.WebArtProvider"
 			android:authorities="com.afollestad.overhear.webartprovider"
 			android:exported="true" />
