@@ -170,4 +170,8 @@ public class ArtistViewer extends OverhearActivity {
         }
         return false;
     }
+    
+    @Override
+	public void onBound() {		
+	}
 }

@@ -128,4 +128,8 @@ public class TweetNowPlaying extends OverhearActivity {
             }
         }).start();
     }
+
+	@Override
+	public void onBound() {		
+	}
 }

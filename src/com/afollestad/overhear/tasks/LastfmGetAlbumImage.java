@@ -35,7 +35,7 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
 
     @Override
     protected String doInBackground(Album... als) {
-    	if(als.length == 0 || als[0] == null) {
+    	if(als.length == 0 || als[0] == null || als[0].getAlbumId() == -1) {
     		return null;
     	}
         String url = WebArtUtils.getImageURL(context.get(), als[0]);

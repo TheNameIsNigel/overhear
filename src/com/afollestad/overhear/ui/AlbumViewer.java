@@ -148,4 +148,8 @@ public class AlbumViewer extends OverhearActivity {
         }
         return false;
     }
+    
+    @Override
+	public void onBound() {		
+	}
 }

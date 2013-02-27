@@ -9,7 +9,6 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.view.*;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -23,7 +22,6 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.service.MusicService;
-import com.afollestad.overhear.service.MusicService.MusicBinder;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Queue;
@@ -51,7 +49,6 @@ public class NowPlayingViewer extends OverhearActivity {
     private Timer timer;
     private AnimationDrawable seekThumb;
     private Handler mHandler = new Handler();
-    private MusicService mService;
 
     private View.OnTouchListener disappearListener = new View.OnTouchListener() {
         @Override
@@ -99,7 +96,6 @@ public class NowPlayingViewer extends OverhearActivity {
 
     public void onResume() {
         super.onResume();
-        bindService(new Intent(this, MusicService.class), mConnection, Context.BIND_AUTO_CREATE);
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -116,8 +112,6 @@ public class NowPlayingViewer extends OverhearActivity {
 
     public void onPause() {
         super.onPause();
-        if (mService != null)
-            unbindService(mConnection);
         timer.cancel();
         timer.purge();
         timer = null;
@@ -226,10 +220,10 @@ public class NowPlayingViewer extends OverhearActivity {
      * Hooks UI elements to the music service media player.
      */
     public void hookToPlayer() {
-        if (mService == null) {
+        if (getService() == null) {
             return;
         }
-        final MediaPlayer player = mService.getPlayer(false);
+        final MediaPlayer player = getService().getPlayer(false);
         if (player == null) {
             Toast.makeText(getApplicationContext(), "Unable to hook to the music player.", Toast.LENGTH_LONG).show();
             return;
@@ -253,7 +247,7 @@ public class NowPlayingViewer extends OverhearActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    if (mService != null && mService.isPlayerInitialized() && mService.isPlaying()) {
+                    if (getService() != null && getService().isPlayerInitialized() && getService().isPlaying()) {
                         player.seekTo(progress);
                     } else {
                         startService(new Intent(getApplicationContext(), MusicService.class)
@@ -380,16 +374,16 @@ public class NowPlayingViewer extends OverhearActivity {
      * Updates the play button, seek bar, and position indicators.
      */
     public void update() {
-        if (mService == null) {
+        if (getService() == null) {
             return;
         }
 
-        MediaPlayer player = mService.getPlayer(true);
+        MediaPlayer player = getService().getPlayer(true);
         SeekBar seek = (SeekBar) findViewById(R.id.seek);
         TextView progress = (TextView) findViewById(R.id.progress);
         TextView remaining = (TextView) findViewById(R.id.remaining);
 
-        if (player != null && mService.isPlayerInitialized()) {
+        if (player != null && getService().isPlayerInitialized()) {
             if (player.isPlaying()) {
                 ((ImageButton) findViewById(R.id.play)).setImageResource(R.drawable.pause);
             } else {
@@ -465,18 +459,8 @@ public class NowPlayingViewer extends OverhearActivity {
         diag.show();
     }
 
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            MusicBinder binder = (MusicBinder) service;
-            mService = binder.getService();
-            hookToPlayer();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mService = null;
-        }
-    };
+	@Override
+	public void onBound() {
+		hookToPlayer();
+	}
 }

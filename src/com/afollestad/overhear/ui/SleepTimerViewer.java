@@ -100,4 +100,8 @@ public class SleepTimerViewer extends OverhearActivity {
         sleptAt.setVisibility(View.GONE);
         ((TextView)findViewById(R.id.text)).setText(Song.getDurationString(diff));
     }
+    
+    @Override
+	public void onBound() {		
+	}
 }

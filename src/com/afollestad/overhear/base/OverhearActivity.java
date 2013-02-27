@@ -1,15 +1,31 @@
 package com.afollestad.overhear.base;
 
+import com.afollestad.overhear.service.MusicService;
+import com.afollestad.overhear.service.MusicService.MusicBinder;
+
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 
 /**
  * @author Aidan Follestad
  */
-public class OverhearActivity extends Activity {
+public abstract class OverhearActivity extends Activity {
 
     private boolean mChangedConfig;
+    private MusicService mService;
 
+    public MusicService getService() {
+    	return mService;
+    }
+    
+    public abstract void onBound();
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +43,8 @@ public class OverhearActivity extends Activity {
     public void onStart() {
         super.onStart();
         if (!mChangedConfig) {
-            Overhear.get(this).bind();
+        	Overhear.get(this).bind();
+        	bindService(new Intent(this, MusicService.class), mConnection, Context.BIND_AUTO_CREATE);
         }
     }
 
@@ -36,6 +53,23 @@ public class OverhearActivity extends Activity {
         super.onStop();
         if(!isChangingConfigurations()) {
             Overhear.get(this).unbind();
+            //TODO make sure the connection is maintained on orientation change
+            if(mService != null)
+            	unbindService(mConnection);
         }
     }
+    
+    
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+        	MusicBinder binder = (MusicBinder)service;
+        	mService = binder.getService();
+        	onBound();
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+        	mService = null;
+        }
+    };
 }

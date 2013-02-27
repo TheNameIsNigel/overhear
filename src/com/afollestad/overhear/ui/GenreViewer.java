@@ -70,4 +70,8 @@ public class GenreViewer extends OverhearActivity {
 		}
 		return false;
 	}
+	
+	@Override
+	public void onBound() {		
+	}
 }

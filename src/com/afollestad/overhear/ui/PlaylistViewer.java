@@ -70,4 +70,8 @@ public class PlaylistViewer extends OverhearActivity {
 		}
 		return false;
 	}
+	
+	@Override
+	public void onBound() {		
+	}
 }

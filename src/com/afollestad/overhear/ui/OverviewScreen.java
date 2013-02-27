@@ -236,4 +236,8 @@ public class OverviewScreen extends OverhearActivity {
                     .create();
         }
     }
+    
+    @Override
+	public void onBound() {		
+	}
 }

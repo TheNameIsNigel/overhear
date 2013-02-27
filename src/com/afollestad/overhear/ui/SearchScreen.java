@@ -176,4 +176,8 @@ public class SearchScreen extends OverhearListActivity {
         super.onDestroy();
         unregisterReceiver(mStatusReceiver);
     }
+    
+    @Override
+	public void onBound() {		
+	}
 }
