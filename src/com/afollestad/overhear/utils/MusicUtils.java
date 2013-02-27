@@ -198,18 +198,21 @@ public class MusicUtils {
     	return toreturn;
     }
     
-    public static boolean arrayContains(ArrayList<Integer> array, int id) {
-    	for(int a : array) {
-    		if(a == id) {
+    public static boolean queueContains(ArrayList<Integer> queue, Song song) {
+    	if(song == null) {
+    		return false;
+    	}
+    	for(int a : queue) {
+    		if(a == song.getId()) {
     			return true;
     		}
     	}
     	return false;
     }
     
-    public static int findInArray(ArrayList<Integer> array, int id) {
-    	for(int index = 0; index < array.size(); index++) {
-    		if(array.get(index) == id) {
+    public static int findInQueue(ArrayList<Integer> queue, int id) {
+    	for(int index = 0; index < queue.size(); index++) {
+    		if(queue.get(index) == id) {
     			return index;
     		}
     	}

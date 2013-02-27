@@ -283,7 +283,7 @@ public class MusicService extends Service {
             return;
         }
 
-        qp = MusicUtils.findInArray(getQueue(), id);
+        qp = MusicUtils.findInQueue(getQueue(), id);
         Recents.add(this, song);
         initializeMediaPlayer(song.getData());
         initializeNotification(song);
@@ -296,7 +296,7 @@ public class MusicService extends Service {
 
 	private void playAll(Song song, String[] scope, int queuePos, Playlist list, Genre genre) {
         Log.i("OVERHEAR SERVICE", "playAll(\"" + (song != null ? song.getData() : "null") + "\")");
-        if (!MusicUtils.arrayContains(getQueue(), song.getId())) {
+        if (!MusicUtils.queueContains(getQueue(), song)) {
         	ArrayList<Song> queue = null;
             if(list != null)
                 queue = list.getSongs(this);
