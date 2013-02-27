@@ -260,15 +260,17 @@ public class MusicUtils {
     	if(context == null) {
     		return null;
     	}
+    	QueueItem item = null;
     	if(context instanceof OverhearActivity) {
     		if(((OverhearActivity)context).getService() == null)
     			return null;
-    		return ((OverhearActivity)context).getService().getFocused().getSong(context);
+    		item = ((OverhearActivity)context).getService().getFocused();
     	} else {
     		if(((OverhearListActivity)context).getService() == null)
     			return null;
-    		return ((OverhearListActivity)context).getService().getFocused().getSong(context);
+    		item = ((OverhearListActivity)context).getService().getFocused();
     	}
+    	return item.getSong(context);
     }
     
     public static boolean isPlaying(Activity context) {
