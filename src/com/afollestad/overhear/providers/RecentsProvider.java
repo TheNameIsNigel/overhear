@@ -1,5 +1,6 @@
 package com.afollestad.overhear.providers;
 
+import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhearapi.Album;
 
 import android.content.ContentProvider;
@@ -14,13 +15,14 @@ public class RecentsProvider extends ContentProvider {
 
     private SQLiteOpenHelper mOpenHelper;
     private static final String DBNAME = "overhear";
-    private static final String TABLE_RECENTS = "recents";
+    private static final String TABLE_RECENTS_OLD = "recents";
+    private static final String TABLE_RECENTS = "recently_played";
     private static final String TABLE_QUEUE = "queue";
     private SQLiteDatabase db;
     
     @Override
 	public boolean onCreate() {
-    	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, 2) {
+    	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
 			@Override
 			public void onCreate(SQLiteDatabase db) { }
 			@Override
@@ -37,6 +39,7 @@ public class RecentsProvider extends ContentProvider {
     	db = mOpenHelper.getWritableDatabase();
     	//TODO remove when cleanup of old queue style is no longer needed
     	db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUEUE);
+    	db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECENTS_OLD);
     	db.execSQL(Album.getCreateTableStatement(TABLE_RECENTS));
     	return true;
 	}

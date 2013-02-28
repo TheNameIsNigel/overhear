@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
+
+import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhearapi.WebArt;
 
 public class WebArtProvider extends ContentProvider {
@@ -28,7 +30,7 @@ public class WebArtProvider extends ContentProvider {
 
     @Override
 	public boolean onCreate() {
-    	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, 2) {
+    	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
 			@Override
 			public void onCreate(SQLiteDatabase db) { }
 			@Override

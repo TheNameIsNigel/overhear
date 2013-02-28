@@ -1,5 +1,7 @@
 package com.afollestad.overhear.providers;
 
+import com.afollestad.overhear.base.Overhear;
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -17,7 +19,7 @@ public class ArtistSocialAccountProvider extends ContentProvider {
 
     @Override
 	public boolean onCreate() {
-    	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, 2) {
+    	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
 			@Override
 			public void onCreate(SQLiteDatabase db) { }
 			@Override

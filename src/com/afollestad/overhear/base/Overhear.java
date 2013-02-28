@@ -18,6 +18,8 @@ public class Overhear extends Application {
 	 */
 	public Overhear() { }
 	
+	public final static int DATABASE_VERSION = 3;
+	
     private ImageManager manager;
     private int boundActivities;
 
