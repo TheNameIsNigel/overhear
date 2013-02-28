@@ -273,15 +273,6 @@ public class MusicService extends Service {
 				break;
 			}
 			case QueueItem.SCOPE_ALBUM: {
-				if(album == null) {
-					try {
-						song = item.getSong(this);
-						album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
-					} catch(Exception e) {
-						e.printStackTrace();
-						break;
-					}
-				}
 				queue = Song.getAllFromScope(this, new String[] {
 						MediaStore.Audio.Media.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
 								MediaStore.Audio.Media.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'",
@@ -290,15 +281,6 @@ public class MusicService extends Service {
 				break;
 			}
 			case QueueItem.SCOPE_ARTIST: {
-				if(artist == null) {
-					try {
-						song = item.getSong(this);
-						artist = Artist.getArtist(this, song.getArtist());
-					} catch(Exception e) {
-						e.printStackTrace();
-						break;
-					}
-				}
 				queue = Song.getAllFromScope(this, new String[] {
 						MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
 						MediaStore.Audio.Media.ALBUM
@@ -306,15 +288,6 @@ public class MusicService extends Service {
 				break;
 			}
 			case QueueItem.SCOPE_PLAYLIST: {
-				if(list == null) {
-					try {
-						song = item.getSong(this);
-						list = Playlist.get(this, song.getPlaylistId());
-					} catch(Exception e) {
-						e.printStackTrace();
-						break;
-					}
-				}
 				queue = list.getSongs(this, null);
 				break;
 			}
