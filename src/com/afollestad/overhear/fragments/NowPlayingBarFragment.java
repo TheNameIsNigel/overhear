@@ -73,9 +73,7 @@ public class NowPlayingBarFragment extends Fragment {
         if(getActivity() != null) {
             try {
                 getActivity().unregisterReceiver(mStatusReceiver);
-            } catch(Exception e) {
-                //Supress
-            }
+            } catch(Exception e) { }
         }
         super.onDestroy();
     }
