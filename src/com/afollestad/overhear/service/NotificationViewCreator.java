@@ -50,16 +50,21 @@ public class NotificationViewCreator {
             views.setImageViewBitmap(R.id.status_bar_album_art, art);
         }
         
-        PendingIntent pi = PendingIntent.getService(context, 1, new Intent(MusicService.ACTION_REWIND), PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent si = new Intent(context, MusicService.class);
+        si.setAction(MusicService.ACTION_REWIND);
+        PendingIntent pi = PendingIntent.getService(context, 1, si, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_previous, pi);
         
-        pi = PendingIntent.getService(context, 2, new Intent(MusicService.ACTION_TOGGLE_PLAYBACK), PendingIntent.FLAG_UPDATE_CURRENT);
+        si.setAction(MusicService.ACTION_TOGGLE_PLAYBACK);
+        pi = PendingIntent.getService(context, 2, si, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_play, pi);
         
-        pi = PendingIntent.getService(context, 2, new Intent(MusicService.ACTION_SKIP), PendingIntent.FLAG_UPDATE_CURRENT);
+        si.setAction(MusicService.ACTION_SKIP);
+        pi = PendingIntent.getService(context, 2, si, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_next, pi);
         
-        pi = PendingIntent.getService(context, 2, new Intent(MusicService.ACTION_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
+        si.setAction(MusicService.ACTION_STOP);
+        pi = PendingIntent.getService(context, 2, si, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_collapse, pi);
         
         if(playing)
