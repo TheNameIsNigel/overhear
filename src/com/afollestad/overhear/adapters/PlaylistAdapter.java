@@ -12,6 +12,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
@@ -59,7 +61,7 @@ public class PlaylistAdapter extends CursorAdapter {
                                 return true;
                             }
                             case R.id.addToQueue: {
-                            	MusicUtils.addToQueue(context, listSongs);
+                            	MusicUtils.addToQueue(context, listSongs, QueueItem.SCOPE_PLAYLIST);
                                 return true;
                             }
                             case R.id.rename: {

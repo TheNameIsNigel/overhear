@@ -58,24 +58,25 @@ public class Queue {
     	return true; 
     }
     
-    public void add(Song song) {
-    	items.add(new QueueItem(song));
+    public void add(Song song, int scope) {
+    	items.add(new QueueItem(song, scope));
     }
    
-    public void add(ArrayList<Song> songs) {
+    public void add(ArrayList<Song> songs, int scope) {
     	for(Song s : songs)
-    		add(s);
+    		add(s, scope);
     }
     
-    public void set(ArrayList<Song> songs) {
+    public void set(ArrayList<Song> songs, int scope) {
     	items.clear();
-    	add(songs);
+    	add(songs, scope);
     }
     
     public int find(QueueItem item) {
     	for(int index = 0; index < items.size(); index++) {
     		if(items.get(index).getSongId() == item.getSongId() &&
-    				items.get(index).getPlaylistId() == item.getPlaylistId()) {
+    				items.get(index).getPlaylistId() == item.getPlaylistId() &&
+    				items.get(index).getScope() == item.getScope()) {
     			return index;
     		}
     	}
@@ -92,7 +93,8 @@ public class Queue {
     	}
     	for(int index = 0; index < items.size(); index++) {
     		if(items.get(index).getSongId() == song.getSongId() &&
-    				items.get(index).getPlaylistId() == song.getPlaylistId()) {
+    				items.get(index).getPlaylistId() == song.getPlaylistId() &&
+    				items.get(index).getScope() == song.getScope()) {
     			return true;
     		}
     	}

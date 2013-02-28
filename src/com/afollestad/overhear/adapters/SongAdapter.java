@@ -63,7 +63,7 @@ public class SongAdapter extends CursorAdapter {
 							return true;
 						}
 						case R.id.addToQueue: {
-							MusicUtils.addToQueue(context, song);
+							MusicUtils.addToQueue(context, song, QueueItem.SCOPE_SINGULAR);
 							return true;
 						}
 						case R.id.viewAlbum: {

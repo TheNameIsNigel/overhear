@@ -20,6 +20,7 @@ import com.afollestad.overhear.*;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.ui.ArtistViewer;
@@ -81,7 +82,9 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                             }
                             case R.id.playAll: {
                                 context.startService(new Intent(context, MusicService.class)
-                                        .setAction(MusicService.ACTION_PLAY_ALL).putExtra("album_id", album.getAlbumId()));
+                                        .setAction(MusicService.ACTION_PLAY_ALL)
+                                        .putExtra("scope", QueueItem.SCOPE_ALBUM)
+                                        .putExtra("album", album.getJSON().toString()));
                                 return true;
                             }
                             case R.id.addToQueue: {
@@ -89,7 +92,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                                         MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
                                                 MediaStore.Audio.Media.ALBUM_ID + " = " + album.getAlbumId(),
                                         MediaStore.Audio.Media.TRACK});
-                                MusicUtils.addToQueue(context, content);
+                                MusicUtils.addToQueue(context, content, QueueItem.SCOPE_ALBUM);
                                 return true;
                             }
                             case R.id.redownloadArt: {

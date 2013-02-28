@@ -109,14 +109,14 @@ public class ArtistViewer extends OverhearActivity {
                 case 0: {
                     SongListFragment songs = new SongListFragment();
                     Bundle args = new Bundle();
-                    args.putString("artist_name", artist.getName());
+                    args.putString("artist", artist.getJSON().toString());
                     songs.setArguments(args);
                     return songs;
                 }
                 case 1: {
                     AlbumListFragment albums = new AlbumListFragment();
                     Bundle args = new Bundle();
-                    args.putString("artist_name", artist.getName());
+                    args.putString("artist", artist.getJSON().toString());
                     albums.setArguments(args);
                     return albums;
                 }

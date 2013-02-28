@@ -201,33 +201,33 @@ public class MusicUtils {
     	return toreturn;
     }
     
-    public static void addToQueue(Activity context, Song song) {
+    public static void addToQueue(Activity context, Song song, int scope) {
     	if(context == null) {
     		return;
     	}
     	if(context instanceof OverhearActivity) {
     		if(((OverhearActivity)context).getService() == null)
     			return;
-    		((OverhearActivity)context).getService().getQueue().add(song);
+    		((OverhearActivity)context).getService().getQueue().add(song, scope);
     	} else {
     		if(((OverhearListActivity)context).getService() == null)
     			return;
-    		((OverhearListActivity)context).getService().getQueue().add(song);
+    		((OverhearListActivity)context).getService().getQueue().add(song, scope);
     	}
     }
     
-    public static void addToQueue(Activity context, ArrayList<Song> songs) {
+    public static void addToQueue(Activity context, ArrayList<Song> songs, int scope) {
     	if(context == null) {
     		return;
     	}
     	if(context instanceof OverhearActivity) {
     		if(((OverhearActivity)context).getService() == null)
     			return;
-    		((OverhearActivity)context).getService().getQueue().add(songs);
+    		((OverhearActivity)context).getService().getQueue().add(songs, scope);
     	} else {
     		if(((OverhearListActivity)context).getService() == null)
     			return;
-    		((OverhearListActivity)context).getService().getQueue().add(songs);
+    		((OverhearListActivity)context).getService().getQueue().add(songs, scope);
     	}
     }
 }

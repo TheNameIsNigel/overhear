@@ -24,6 +24,7 @@ import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Genre;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
@@ -253,27 +254,77 @@ public class MusicService extends Service {
 		Recents.add(this, item.getSong(this));
 	}
 
-	private void playAll(Song song, String[] scope, int queuePos, Playlist list, Genre genre) {
+	private void playAll(Song song, int scope, int queuePos, Album album, Artist artist, Playlist list, Genre genre) {
 		QueueItem item = null;
 		if(song != null)
-			item = new QueueItem(song);
+			item = new QueueItem(song, scope);
 		Log.i("OVERHEAR SERVICE", "playAll(" + (item != null ? item.getSongId() : "null") + ")");
 
 		if (!queue.contains(item)) {
 			// The queue doesn't contain the song being played, load it's scope into the queue now
 			ArrayList<Song> queue = null;
-			if(list != null) {
-				// Load the queue from a playlist
+			switch(scope) {
+			case QueueItem.SCOPE_SINGULAR:
+				queue = new ArrayList<Song>();
+				queue.add(song);
+				break;
+			case QueueItem.SCOPE_All_SONGS: {
+				queue = Song.getAllFromScope(this, new String[] { null, null });
+				break;
+			}
+			case QueueItem.SCOPE_ALBUM: {
+				if(album == null) {
+					try {
+						song = item.getSong(this);
+						album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
+					} catch(Exception e) {
+						e.printStackTrace();
+						break;
+					}
+				}
+				queue = Song.getAllFromScope(this, new String[] {
+						MediaStore.Audio.Media.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
+								MediaStore.Audio.Media.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'",
+								MediaStore.Audio.Media.TRACK
+				});
+				break;
+			}
+			case QueueItem.SCOPE_ARTIST: {
+				if(artist == null) {
+					try {
+						song = item.getSong(this);
+						artist = Artist.getArtist(this, song.getArtist());
+					} catch(Exception e) {
+						e.printStackTrace();
+						break;
+					}
+				}
+				queue = Song.getAllFromScope(this, new String[] {
+						MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
+						MediaStore.Audio.Media.TRACK
+				}); 
+				break;
+			}
+			case QueueItem.SCOPE_PLAYLIST: {
+				if(list == null) {
+					try {
+						song = item.getSong(this);
+						list = Playlist.get(this, song.getPlaylistId());
+					} catch(Exception e) {
+						e.printStackTrace();
+						break;
+					}
+				}
 				queue = list.getSongs(this, null);
-			} else if(genre != null) {
-				// Load the queue from a genre
+				break;
+			}
+			case QueueItem.SCOPE_GENRE: {
 				queue = genre.getSongs(this);
-			} else {
-				// Load the queue from another scope (e.g. all songs, albums, artists, etc.)
-				queue = Song.getAllFromScope(getApplicationContext(), scope);
+				break;
+			}
 			}
 
-			this.queue.set(queue);
+			this.queue.set(queue, scope);
 			if(queuePos > -1) {
 				this.queue.move(queuePos);
 			} else {
@@ -409,42 +460,20 @@ public class MusicService extends Service {
 		}
 		String action = intent.getAction();
 		if (action.equals(ACTION_PLAY_ALL)) {
-			String[] scope = null;
-			Song song = null;
-			if (intent.hasExtra("album_id")) {
-				scope = new String[]{
-						MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
-								MediaStore.Audio.Media.ALBUM_ID + " = " + intent.getIntExtra("album_id", 0),
-								MediaStore.Audio.Media.TRACK
-				};
-			} else if(intent.hasExtra("artist")) {
-				scope = new String[]{
-						MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
-								MediaStore.Audio.Media.ARTIST + " = '" + intent.getStringExtra("artist").replace("'", "''") + "'",
-								MediaStore.Audio.Media.ALBUM
-				};
-			} else {
-				song = Song.fromJSON(intent.getStringExtra("song"));
-				if(!intent.hasExtra("playlist")) {
-					scope = intent.getStringArrayExtra("scope");
-					if (scope == null) {
-						scope = new String[]{
-								MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
-										MediaStore.Audio.Media.ALBUM + " = '" + song.getAlbum().replace("'", "''") + "' AND " +
-										MediaStore.Audio.Media.ARTIST + " = '" + song.getArtist().replace("'", "''") + "'",
-										MediaStore.Audio.Media.TRACK
-						};
-					}
-				}
-			}
+			Song song = Song.fromJSON(intent.getStringExtra("song"));
+			Album album = null;
+			Artist artist = null;
 			Playlist list = null;
 			Genre genre = null;
+			if(intent.hasExtra("album"))
+				album = Album.fromJSON(intent.getStringExtra("album"));
+			if(intent.hasExtra("artist"))
+				artist = Artist.fromJSON(intent.getStringExtra("artist"));
 			if(intent.hasExtra("playlist"))
 				list = Playlist.fromJSON(intent.getStringExtra("playlist"));
 			if(intent.hasExtra("genre"))
 				genre = Genre.fromJSON(intent.getStringExtra("genre"));
-			
-			playAll(song, scope, intent.getIntExtra("position", 0), list, genre);
+			playAll(song, intent.getIntExtra("scope", 0), intent.getIntExtra("position", 0), album, artist, list, genre);
 		} else if (action.equals(ACTION_PAUSE)) {
 			pauseTrack();
 		} else if (action.equals(ACTION_SLEEP_TIMER)) {

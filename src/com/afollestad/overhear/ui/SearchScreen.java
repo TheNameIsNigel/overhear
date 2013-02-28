@@ -18,6 +18,7 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SearchAdapter;
 import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.fragments.SongListFragment;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
@@ -115,7 +116,7 @@ public class SearchScreen extends OverhearListActivity {
         super.onListItemClick(l, v, position, id);
         switch (adapter.getItemViewType(position)) {
             case 1:
-                SongListFragment.performOnClick(this, (Song) adapter.getItem(position), null, null, -1);
+                SongListFragment.performOnClick(this, (Song) adapter.getItem(position), null, QueueItem.SCOPE_ALBUM, -1);
                 break;
             case 2:
                 startActivity(new Intent(this, AlbumViewer.class).putExtra("album",

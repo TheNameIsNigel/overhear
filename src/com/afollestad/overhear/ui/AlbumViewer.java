@@ -24,8 +24,6 @@ import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class AlbumViewer extends OverhearActivity {
 
@@ -54,7 +52,7 @@ public class AlbumViewer extends OverhearActivity {
 			
 			Fragment songFrag = new SongListFragment();
 			Bundle args = new Bundle();
-			args.putInt("album_id", album.getAlbumId());
+			args.putString("album", album.getJSON().toString());
 			songFrag.setArguments(args);
 			ft.add(R.id.songList, songFrag);
 			
@@ -84,12 +82,8 @@ public class AlbumViewer extends OverhearActivity {
 	}
 
 	private void load() {
-		try {
-			album = Album.fromJSON(this, new JSONObject(getIntent().getStringExtra("album")));
-			artist = album.getArtist();
-		} catch (JSONException e) {
-			throw new java.lang.Error(e.getMessage());
-		}
+		album = Album.fromJSON(getIntent().getStringExtra("album"));
+		artist = album.getArtist();
 
 		if (findViewById(R.id.artistCover) != null) {
 			((TextView) findViewById(R.id.artistName)).setText(artist.getName());

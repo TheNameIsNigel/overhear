@@ -12,7 +12,10 @@ import android.widget.CursorAdapter;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhear.base.OverhearListFragment;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
+import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Genre;
 import com.afollestad.overhearapi.Song;
 
@@ -95,7 +98,7 @@ public class SongListFragment extends OverhearListFragment {
     @Override
     public void onItemClick(int position, Cursor cursor) {
         Song song = Song.fromCursor(adapter.getCursor());
-        performOnClick(getActivity(), song, genre, getScope(song), position);
+        performOnClick(getActivity(), song, genre, getScopeInt(), position);
     }
 
     @Override
@@ -105,36 +108,63 @@ public class SongListFragment extends OverhearListFragment {
     }
 
 
-    public static void performOnClick(Activity context, Song song, Genre genre, String[] scope, int position) {
+    public static void performOnClick(Activity context, Song song, Genre genre, int scope, int position) {
     	Intent intent = new Intent(context, MusicService.class)
         	.setAction(MusicService.ACTION_PLAY_ALL)
         	.putExtra("song", song.getJSON().toString())
+        	.putExtra("scope", scope)
         	.putExtra("position", position);
     	if(genre != null) {
     		intent.putExtra("genre", genre.getJSON().toString());
-    	} else {
-    		intent.putExtra("scope", scope);
     	}
         context.startService(intent);
     }
 
     private String[] getScope(Song genreSong) {
-        String sort = MediaStore.Audio.Media.TITLE;
+        String sort = null;
         String where = MediaStore.Audio.Media.IS_MUSIC + " = 1";
 
         if (getArguments() != null) {
-            sort = MediaStore.Audio.Media.TRACK;
-            if (getArguments().containsKey("artist_id")) {
-                where += " AND " + MediaStore.Audio.Media.ARTIST_ID + " = " + getArguments().getInt("artist_id");
-            } else if (getArguments().containsKey("album_id")) {
-            	where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + getArguments().getInt("album_id");
-            } else if (getArguments().containsKey("artist_name")) {
-                where += " AND " + MediaStore.Audio.Media.ARTIST + " = '" + getArguments().getString("artist_name").replace("'", "''") + "'";
-            } else if (getArguments().containsKey("genre")) {
-                sort = null;
+            switch(getScopeInt()) {
+            case QueueItem.SCOPE_All_SONGS: {
+            	sort = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
+            	break;
+            }
+            case QueueItem.SCOPE_ARTIST: {
+            	Artist artist = Artist.fromJSON(getArguments().getString("artist"));
+            	sort = MediaStore.Audio.Media.ALBUM;
+            	where += " AND " + MediaStore.Audio.Media.ARTIST_ID + " = " + artist.getId();
+            	break;
+            }
+            case QueueItem.SCOPE_ALBUM: {
+            	Album album = Album.fromJSON(getArguments().getString("album"));
+            	sort = MediaStore.Audio.Media.TRACK;
+            	where += " AND " + MediaStore.Audio.Media.ALBUM_ID + " = " + album.getAlbumId();
+            	break;
+            }
+            case QueueItem.SCOPE_GENRE: {
+            	sort = null;
+            	break;
+            }
             }
         }
 
         return new String[]{where, sort};
+    }
+    
+    public int getScopeInt() {
+    	if (getArguments() != null) {
+            if (getArguments().containsKey("artist")) {
+            	return QueueItem.SCOPE_ARTIST;
+            } else if (getArguments().containsKey("album")) {
+            	return QueueItem.SCOPE_ALBUM;
+            } else if (getArguments().containsKey("genre")) {
+            	return QueueItem.SCOPE_GENRE;
+            } else {
+            	return QueueItem.SCOPE_All_SONGS;
+            }
+        } else {
+        	return QueueItem.SCOPE_All_SONGS;
+        }
     }
 }

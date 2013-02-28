@@ -9,12 +9,13 @@ import com.afollestad.overhearapi.Song;
 
 public class QueueItem {
 
-	private QueueItem(int id, long playlist, String data) {
+	private QueueItem(int id, long playlist, String data, int scope) {
 		this.songId = id;
 		this.playlistId = playlist;
 		this.data = data;
+		this.scope = scope;
 	}
-	public QueueItem(Song song) {
+	public QueueItem(Song song, int scope) {
 		this.songId = song.getId();
 		this.playlistId = song.getPlaylistId();
 		this.data = song.getData();
@@ -23,6 +24,14 @@ public class QueueItem {
 	private int songId;
 	private long playlistId;
 	private String data;
+	private int scope;
+
+	public final static int SCOPE_SINGULAR = 0;
+	public final static int SCOPE_All_SONGS = 1;
+	public final static int SCOPE_ALBUM = 2;
+	public final static int SCOPE_PLAYLIST = 3;
+	public final static int SCOPE_GENRE = 4;
+	public final static int SCOPE_ARTIST = 5;
 	
 	public int getSongId() {
 		return songId;
@@ -34,6 +43,10 @@ public class QueueItem {
 	
 	public String getData() {
 		return data;
+	}
+	
+	public int getScope() {
+		return scope;
 	}
 	
 	public Song getSong(Context context) {
@@ -51,6 +64,7 @@ public class QueueItem {
 			json.put("song_id", getSongId());
 			json.put("playlist_id", getPlaylistId());
 			json.put("data", getData());
+			json.put("scope", getScope());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -60,9 +74,10 @@ public class QueueItem {
 	public static QueueItem fromJSON(JSONObject json) {
 		try {
 			return new QueueItem(
-					json.getInt("song_id"), 
-					json.getLong("playlist_id"), 
-					json.getString("data"));
+					json.optInt("song_id", -1), 
+					json.optLong("playlist_id", -1), 
+					json.optString("data"),
+					json.optInt("scope", 0));
 		} catch(Exception e) {
 			return null;
 		}

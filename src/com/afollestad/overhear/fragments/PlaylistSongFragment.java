@@ -11,6 +11,7 @@ import android.widget.CursorAdapter;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhear.base.OverhearListFragment;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
@@ -92,6 +93,7 @@ public class PlaylistSongFragment extends OverhearListFragment {
                 .setAction(MusicService.ACTION_PLAY_ALL)
                 .putExtra("song", song.getJSON().toString())
                 .putExtra("playlist", list.getJSON().toString())
+                .putExtra("scope", QueueItem.SCOPE_PLAYLIST)
                 .putExtra("position", position));
     }
 }
