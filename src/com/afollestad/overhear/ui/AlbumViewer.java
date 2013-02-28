@@ -49,18 +49,23 @@ public class AlbumViewer extends OverhearActivity {
 		setContentView(R.layout.activity_album_viewer);
 		load();
 
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment songFrag = new SongListFragment();
-		Bundle args = new Bundle();
-		args.putInt("album_id", album.getAlbumId());
-		songFrag.setArguments(args);
-		ft.add(R.id.songList, songFrag);
-		Fragment nowFrag = new NowPlayingBarFragment();
-		args = new Bundle();
-		args.putBoolean("disable_long_click", true);
-		nowFrag.setArguments(args);
-		ft.add(R.id.nowPlaying, nowFrag);
-		ft.commit();
+		if(savedInstanceState == null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			
+			Fragment songFrag = new SongListFragment();
+			Bundle args = new Bundle();
+			args.putInt("album_id", album.getAlbumId());
+			songFrag.setArguments(args);
+			ft.add(R.id.songList, songFrag);
+			
+			Fragment nowFrag = new NowPlayingBarFragment();
+			args = new Bundle();
+			args.putBoolean("disable_long_click", true);
+			nowFrag.setArguments(args);
+			ft.add(R.id.nowPlaying, nowFrag);
+			
+			ft.commit();
+		}
 	}
 
 	@Override

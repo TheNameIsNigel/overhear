@@ -30,13 +30,15 @@ public class GenreViewer extends OverhearActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_genre_viewer);
 
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment newFragment = new SongListFragment();
-		Bundle args = new Bundle();
-		args.putString("genre", getIntent().getStringExtra("genre"));
-		newFragment.setArguments(args);
-		ft.add(R.id.songList, newFragment);
-		ft.commit();
+		if(savedInstanceState == null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			Fragment newFragment = new SongListFragment();
+			Bundle args = new Bundle();
+			args.putString("genre", getIntent().getStringExtra("genre"));
+			newFragment.setArguments(args);
+			ft.add(R.id.songList, newFragment);
+			ft.commit();
+		}
 
 		setTitle(Genre.fromJSON(getIntent().getStringExtra("genre")).getName());
 	}

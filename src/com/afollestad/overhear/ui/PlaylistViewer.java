@@ -30,13 +30,15 @@ public class PlaylistViewer extends OverhearActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_genre_viewer);
 
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment newFragment = new PlaylistSongFragment();
-		Bundle args = new Bundle();
-		args.putString("playlist", getIntent().getStringExtra("playlist"));
-		newFragment.setArguments(args);
-		ft.add(R.id.songList, newFragment);
-		ft.commit();
+		if(savedInstanceState == null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			Fragment newFragment = new PlaylistSongFragment();
+			Bundle args = new Bundle();
+			args.putString("playlist", getIntent().getStringExtra("playlist"));
+			newFragment.setArguments(args);
+			ft.add(R.id.songList, newFragment);
+			ft.commit();
+		}
 
 		setTitle(Playlist.fromJSON(getIntent().getStringExtra("playlist")).getName());
 	}
