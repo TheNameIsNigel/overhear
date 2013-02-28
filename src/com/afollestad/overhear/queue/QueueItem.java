@@ -19,6 +19,7 @@ public class QueueItem {
 		this.songId = song.getId();
 		this.playlistId = song.getPlaylistId();
 		this.data = song.getData();
+		this.scope = scope;
 	}
 	
 	private int songId;

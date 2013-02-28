@@ -83,8 +83,13 @@ public class Queue {
     	return -1;
     }
     
-    public void move(int position) {
+    public boolean move(int position) {
+    	if(position > (items.size() - 1) || items.size() == 0 || position < 0) {
+    		this.pos = -1;
+    		return false;
+    	}
     	this.pos = position;
+    	return true;
     }
     
     public boolean contains(QueueItem song) {
