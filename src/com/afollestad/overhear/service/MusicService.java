@@ -258,9 +258,8 @@ public class MusicService extends Service {
 		QueueItem item = null;
 		if(song != null)
 			item = new QueueItem(song, scope);
-		Log.i("OVERHEAR SERVICE", "playAll(" + (item != null ? item.getSongId() : "null") + ")");
 
-		if (!queue.contains(item)) {
+		if (item == null || !queue.contains(item)) {
 			// The queue doesn't contain the song being played, load it's scope into the queue now
 			ArrayList<Song> queue = null;
 			switch(scope) {
@@ -271,6 +270,8 @@ public class MusicService extends Service {
 			case QueueItem.SCOPE_All_SONGS: {
 				queue = Song.getAllFromScope(this, new String[] { null, 
 						MediaStore.Audio.Media.TITLE });
+				if(item == null)
+					item = new QueueItem(queue.get(0), QueueItem.SCOPE_All_SONGS);
 				break;
 			}
 			case QueueItem.SCOPE_ALBUM: {
@@ -279,25 +280,34 @@ public class MusicService extends Service {
 								MediaStore.Audio.Media.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'",
 								MediaStore.Audio.Media.TRACK
 				});
+				if(item == null)
+					item = new QueueItem(queue.get(0), QueueItem.SCOPE_ALBUM);
 				break;
 			}
 			case QueueItem.SCOPE_ARTIST: {
 				queue = Song.getAllFromScope(this, new String[] {
 						MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
 						MediaStore.Audio.Media.ALBUM
-				}); 
+				});
+				if(item == null)
+					item = new QueueItem(queue.get(0), QueueItem.SCOPE_ARTIST);
 				break;
 			}
 			case QueueItem.SCOPE_PLAYLIST: {
 				queue = list.getSongs(this, null);
+				if(item == null)
+					item = new QueueItem(queue.get(0), QueueItem.SCOPE_PLAYLIST);
 				break;
 			}
 			case QueueItem.SCOPE_GENRE: {
 				queue = genre.getSongs(this);
+				if(item == null)
+					item = new QueueItem(queue.get(0), QueueItem.SCOPE_GENRE);
 				break;
 			}
 			}
 
+			Log.i("OVERHEAR SERVICE", "playAll(" + (item != null ? item.getSongId() : "null") + ")");
 			this.queue.set(queue, scope);
 			if(queuePos > -1) {
 				this.queue.move(queuePos);
@@ -305,6 +315,7 @@ public class MusicService extends Service {
 				this.queue.move(0);
 			}	
 		} else {
+			Log.i("OVERHEAR SERVICE", "playAll(" + (item != null ? item.getSongId() : "null") + ")");
 			this.queue.move(this.queue.find(item));
 		}
 

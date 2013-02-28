@@ -89,7 +89,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 							context.startService(new Intent(context, MusicService.class)
 							.setAction(MusicService.ACTION_PLAY_ALL)
 							.putExtra("scope", QueueItem.SCOPE_ARTIST)
-							.putExtra("artist", artist.getName()));
+							.putExtra("artist", artist.getJSON().toString()));
 							return true;
 						}
 						case R.id.addToQueue: {
