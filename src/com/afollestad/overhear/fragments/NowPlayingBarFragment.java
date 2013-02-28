@@ -158,12 +158,15 @@ public class NowPlayingBarFragment extends Fragment {
             return;
         }
         
-        boolean isPlaying = false; 
+        boolean isPlaying = false;
+        focused = null;
         if(getActivity() instanceof OverhearActivity) {
-        	focused = ((OverhearActivity)getActivity()).getService().getQueue().getFocused();
+        	if(((OverhearActivity)getActivity()).getService() != null)
+        		focused = ((OverhearActivity)getActivity()).getService().getQueue().getFocused();
         	isPlaying = ((OverhearActivity)getActivity()).getService().isPlaying();
         } else {
-        	focused = ((OverhearListActivity)getActivity()).getService().getQueue().getFocused();
+        	if(((OverhearListActivity)getActivity()).getService() != null)
+        		focused = ((OverhearListActivity)getActivity()).getService().getQueue().getFocused();
         	isPlaying = ((OverhearListActivity)getActivity()).getService().isPlaying();
         }
         
