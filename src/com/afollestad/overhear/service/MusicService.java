@@ -269,7 +269,8 @@ public class MusicService extends Service {
 				queue.add(song);
 				break;
 			case QueueItem.SCOPE_All_SONGS: {
-				queue = Song.getAllFromScope(this, new String[] { null, null });
+				queue = Song.getAllFromScope(this, new String[] { null, 
+						MediaStore.Audio.Media.TITLE });
 				break;
 			}
 			case QueueItem.SCOPE_ALBUM: {

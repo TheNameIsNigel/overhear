@@ -132,13 +132,12 @@ public class SongListFragment extends OverhearListFragment {
 	}
 
 	private String[] getScope(Song genreSong) {
-		String sort = null;
+		String sort = MediaStore.Audio.Media.TITLE;
 		String where = MediaStore.Audio.Media.IS_MUSIC + " = 1";
 
 		if (getArguments() != null) {
 			switch(getScopeInt()) {
 			case QueueItem.SCOPE_All_SONGS: {
-				sort = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
 				break;
 			}
 			case QueueItem.SCOPE_ARTIST: {
