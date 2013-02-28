@@ -339,12 +339,11 @@ public class MusicService extends Service {
 
 	private void resumeTrack() {
 		Log.i("OVERHEAR SERVICE", "resumeTrack()");
-
-		if (player != null && queue.getPosition() > -1 && initialized) {
+		QueueItem last = queue.getFocusedItem();
+		if (player != null && last != null && queue.getPosition() > -1 && initialized) {
 			if (!initializeRemoteControl()) {
 				return;
 			}
-			QueueItem last = queue.getFocusedItem();
 			try {
 				player.start();
 			} catch (IllegalStateException e) {
@@ -355,6 +354,9 @@ public class MusicService extends Service {
 			initializeNotification(last);
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+		} else if(last != null) {
+			Log.i("OVERHEAR SERVICE", "No pause state found, restarting focused song");
+			playTrack(last, true);
 		} else {
 			Log.i("OVERHEAR SERVICE", "No song to resume");
 		}
