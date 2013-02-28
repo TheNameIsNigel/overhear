@@ -301,7 +301,7 @@ public class MusicService extends Service {
 				}
 				queue = Song.getAllFromScope(this, new String[] {
 						MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
-						MediaStore.Audio.Media.TRACK
+						MediaStore.Audio.Media.ALBUM
 				}); 
 				break;
 			}

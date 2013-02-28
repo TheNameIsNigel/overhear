@@ -14,6 +14,7 @@ import com.afollestad.overhear.base.OverhearListFragment;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Artist;
 
 public class AlbumListFragment extends OverhearListFragment {
 
@@ -36,9 +37,9 @@ public class AlbumListFragment extends OverhearListFragment {
 
     @Override
     public String getLoaderSelection() {
-        if(getArguments() != null && getArguments().containsKey("artist_name")) {
-            String name = getArguments().getString("artist_name").replace("'", "''");
-            return MediaStore.Audio.AlbumColumns.ARTIST + " = '" + name + "'";
+        if(getArguments() != null && getArguments().containsKey("artist")) {
+            Artist artist = Artist.fromJSON(getArguments().getString("artist"));
+            return MediaStore.Audio.AlbumColumns.ARTIST + " = '" + artist.getName().replace("'", "''") + "'";
         }
         return null;
     }
