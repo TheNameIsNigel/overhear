@@ -99,16 +99,22 @@ public class Queue {
     	return false;
     }
     
-    public Song getFocused() {
+    public QueueItem getFocusedItem() {
     	if(getPosition() == -1) {
     		return null;
     	} else if(items.size() == 0) {
     		return null;
     	}
-    	QueueItem item = items.get(getPosition());
+    	return items.get(getPosition()); 
+    }
+    
+    public Song getFocused() {
+    	QueueItem item = getFocusedItem();
+    	if(item == null)
+    		return null;
     	return item.getSong(context);
     }
-	
+    
 	public void persist(Context context) {
 		SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
 		

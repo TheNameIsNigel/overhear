@@ -2,13 +2,11 @@ package com.afollestad.overhear.service;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.app.TaskStackBuilder;
-import android.view.KeyEvent;
 import android.widget.RemoteViews;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.ui.NowPlayingViewer;
@@ -52,34 +50,17 @@ public class NotificationViewCreator {
             views.setImageViewBitmap(R.id.status_bar_album_art, art);
         }
         
-        ComponentName rec = new ComponentName(context.getPackageName(),
-                MediaButtonIntentReceiver.class.getName());
-        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-        mediaButtonIntent.setComponent(rec);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 1, new Intent(MusicService.ACTION_REWIND), PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.status_bar_previous, pi);
         
-        KeyEvent mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
-        PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(context,
-                4, mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.status_bar_previous, mediaPendingIntent);
+        pi = PendingIntent.getBroadcast(context, 2, new Intent(MusicService.ACTION_TOGGLE_PLAYBACK), PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.status_bar_play, pi);
         
-        mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
-        mediaPendingIntent = PendingIntent.getBroadcast(context,
-                1, mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.status_bar_play, mediaPendingIntent);
+        pi = PendingIntent.getBroadcast(context, 2, new Intent(MusicService.ACTION_SKIP), PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.status_bar_next, pi);
         
-        mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
-        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
-        mediaPendingIntent = PendingIntent.getBroadcast(context, 2,
-                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.status_bar_next, mediaPendingIntent);
-        
-        mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_STOP);
-        mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
-        mediaPendingIntent = PendingIntent.getBroadcast(context, 3,
-                mediaButtonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.status_bar_collapse, mediaPendingIntent);
+        pi = PendingIntent.getBroadcast(context, 2, new Intent(MusicService.ACTION_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.status_bar_collapse, pi);
         
         if(playing)
         	views.setImageViewResource(R.id.status_bar_play, R.drawable.pause);

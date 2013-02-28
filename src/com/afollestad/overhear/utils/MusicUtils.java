@@ -232,9 +232,8 @@ public class MusicUtils {
     }
     
     public static Song getFocused(Activity context) {
-    	if(context == null) {
+    	if(context == null)
     		return null;
-    	}
     	Song song = null;
     	if(context instanceof OverhearActivity) {
     		if(((OverhearActivity)context).getService() == null)

@@ -320,17 +320,22 @@ public class NowPlayingViewer extends OverhearActivity {
      */
     public void load(boolean albumChanged) {
         song = MusicUtils.getFocused(this);
+        if(song == null)
+        	return;
         album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
-//        TODO if(song.getFromPlaylist() > -1) {
-//            playlist = Playlist.get(this, song.getFromPlaylist());
-//        } else {
-//            playlist = null;
-//        }
-        if (albumChanged) {
+        if(song.getPlaylistId() > -1) {
+            playlist = Playlist.get(this, song.getPlaylistId());
+        } else {
+            playlist = null;
+        }
+        if (albumChanged && album != null) {
             AlbumAdapter.retrieveAlbumArt(this, album, (AImageView) findViewById(R.id.cover));
         }
         ((TextView) findViewById(R.id.track)).setText(song.getTitle());
-        ((TextView) findViewById(R.id.artistAlbum)).setText(song.getArtist() + " - " + album.getName());
+        ((TextView) findViewById(R.id.artistAlbum)).setText(
+        		(song != null ? song.getArtist() : getString(R.string.unknown_str)) + " - " + 
+        		(album != null ? album.getName() : getString(R.string.unknown_str))
+        );
 
         findViewById(R.id.cover).setOnTouchListener(new OnSwipeTouchListener(this) {
 			@Override
