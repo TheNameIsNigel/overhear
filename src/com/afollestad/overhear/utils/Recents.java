@@ -22,31 +22,36 @@ public class Recents {
 	/**
 	 * Adds a song's album to the recent history database.
 	 */
-	public static void add(Context context, Song song) {
-		Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
-		if(album == null) {
-			String artist = song.getArtist();
-			if(artist == null || artist.trim().isEmpty()) {
-				artist = context.getString(R.string.unknown_str);
+	public static void add(final Context context, final Song song) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
+				if(album == null) {
+					String artist = song.getArtist();
+					if(artist == null || artist.trim().isEmpty()) {
+						artist = context.getString(R.string.unknown_str);
+					}
+					album = new Album(context.getString(R.string.unknown_str), artist);
+				}
+				
+				album.setDateQueued(null); //Sets time to right now
+				int updated = context.getContentResolver().update(PROVIDER_URI, album.getContentValues(true, false),
+		                MediaStore.Audio.AlbumColumns.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
+		                MediaStore.Audio.AlbumColumns.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'", 
+		                null);
+				if(updated == 0) {
+			        long biggestId = getBiggestId(context);
+			        if(biggestId == -1)
+			            biggestId = 1;
+			        else
+			        	biggestId++;
+			        album.setQueueId(biggestId);
+					context.getContentResolver().insert(PROVIDER_URI, album.getContentValues(true, true));
+				}
+		        context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
 			}
-			album = new Album(context.getString(R.string.unknown_str), artist);
-		}
-		
-		album.setDateQueued(null); //Sets time to right now
-		int updated = context.getContentResolver().update(PROVIDER_URI, album.getContentValues(true, false),
-                MediaStore.Audio.AlbumColumns.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
-                MediaStore.Audio.AlbumColumns.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'", 
-                null);
-		if(updated == 0) {
-	        long biggestId = getBiggestId(context);
-	        if(biggestId == -1)
-	            biggestId = 1;
-	        else
-	        	biggestId++;
-	        album.setQueueId(biggestId);
-			context.getContentResolver().insert(PROVIDER_URI, album.getContentValues(true, true));
-		}
-        context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
+		}).start();
 	}
 
     public static void clear(Context context) {

@@ -253,8 +253,11 @@ public class MusicService extends Service {
 		Recents.add(this, item.getSong(this));
 	}
 
-	private void playAll(QueueItem item, String[] scope, int queuePos, Playlist list, Genre genre) {
-		Log.i("OVERHEAR SERVICE", "playAll(" + item.getSongId() + ")");
+	private void playAll(Song song, String[] scope, int queuePos, Playlist list, Genre genre) {
+		QueueItem item = null;
+		if(song != null)
+			item = new QueueItem(song);
+		Log.i("OVERHEAR SERVICE", "playAll(" + (item != null ? item.getSongId() : "null") + ")");
 
 		if (!queue.contains(item)) {
 			// The queue doesn't contain the song being played, load it's scope into the queue now
@@ -440,7 +443,8 @@ public class MusicService extends Service {
 				list = Playlist.fromJSON(intent.getStringExtra("playlist"));
 			if(intent.hasExtra("genre"))
 				genre = Genre.fromJSON(intent.getStringExtra("genre"));
-			playAll(new QueueItem(song), scope, intent.getIntExtra("position", 0), list, genre);
+			
+			playAll(song, scope, intent.getIntExtra("position", 0), list, genre);
 		} else if (action.equals(ACTION_PAUSE)) {
 			pauseTrack();
 		} else if (action.equals(ACTION_SLEEP_TIMER)) {
