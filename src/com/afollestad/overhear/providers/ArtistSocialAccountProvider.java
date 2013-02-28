@@ -10,6 +10,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
 
+/**
+ * The provider used to store the IDs of Twitter accounts that are associated with artists. When
+ * you select a different account for an artist in the artist viewer, it's saved in this provider. 
+ * 
+ * @author Aidan Follestad
+ */
 public class ArtistSocialAccountProvider extends ContentProvider {
 
     private SQLiteOpenHelper mOpenHelper;

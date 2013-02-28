@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 /**
+ * The base of any activity that isn't a list activity, used for convenience (handles common functions that every
+ * activity uses, reducing the amount of code and complexity among activity Java files).
+ * 
  * @author Aidan Follestad
  */
 public abstract class OverhearActivity extends Activity {

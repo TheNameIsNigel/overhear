@@ -12,6 +12,12 @@ import android.util.Log;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhearapi.WebArt;
 
+/**
+ * The provider used to store the URLs to album and artist art from last.fm. Basically a method of caching, it 
+ * prevents future lookups for artist/album info.
+ * 
+ * @author Aidan Follestad
+ */
 public class WebArtProvider extends ContentProvider {
 
     private SQLiteOpenHelper mOpenHelper;

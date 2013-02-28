@@ -8,6 +8,11 @@ import android.net.Uri;
 import com.afollestad.overhearapi.Artist;
 import twitter4j.TwitterFactory;
 
+/**
+ * Convenience methods for getting Twitter account related functionality.  
+ * 
+ * @author Aidan Follestad
+ */
 public class Twitter {
 
     public final static Uri ALTERNATE_TWITTER_URI = Uri.parse("content://com.afollestad.overhear.artistsocialaccounts");

@@ -17,6 +17,11 @@ import com.afollestad.overhearapi.LastFM;
 import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 
+/**
+ * Handles retrieving art for albums from the cache, or last.fm if not available. 
+ * 
+ * @author Aidan Follestad
+ */
 public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
 
     private WeakReference<Context> context;

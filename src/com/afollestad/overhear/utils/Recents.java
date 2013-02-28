@@ -12,7 +12,8 @@ import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
 
 /**
- * Various utilities for modifying the recent history.
+ * Convenience methods for accessing the recents content provider. 
+ * 
  * @author Aidan Follestad
  */
 public class Recents {

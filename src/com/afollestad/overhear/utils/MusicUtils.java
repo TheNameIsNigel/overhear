@@ -28,6 +28,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+/**
+ * Convenience methods for various important functions in the app.  
+ * 
+ * @author Aidan Follestad
+ */
 public class MusicUtils {
 
     public static boolean isOnline(Context context) {

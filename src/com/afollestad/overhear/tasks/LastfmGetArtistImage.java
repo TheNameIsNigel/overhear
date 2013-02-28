@@ -12,6 +12,11 @@ import com.afollestad.overhearapi.LastFM;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * Handles retrieving art for artists from the cache, or last.fm if not available. 
+ * 
+ * @author Aidan Follestad
+ */
 public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
 
     private WeakReference<Activity> context;

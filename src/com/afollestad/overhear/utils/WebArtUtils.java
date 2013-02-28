@@ -8,6 +8,11 @@ import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.WebArt;
 
+/**
+ * Convenience methods for accessing the web art content provider. 
+ * 
+ * @author Aidan Follestad
+ */
 public class WebArtUtils {
 
     public final static Uri ALBUMS_URI = Uri.parse("content://com.afollestad.overhear.webartprovider/albums");

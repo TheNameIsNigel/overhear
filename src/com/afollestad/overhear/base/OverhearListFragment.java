@@ -15,6 +15,12 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import com.afollestad.overhear.R;
 
+/**
+ * The base of all list fragments, used for convenience (handles common functions that every
+ * fragment uses, reducing the amount of code and complexity among activity Java files).
+ * 
+ * @author Aidan Follestad
+ */
 public abstract class OverhearListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     @Override

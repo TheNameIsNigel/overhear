@@ -9,6 +9,11 @@ import com.afollestad.overhear.service.MusicService;
 
 import java.util.Calendar;
 
+/**
+ * Convenience methods for the sleep timer. 
+ * 
+ * @author Aidan Follestad
+ */
 public class SleepTimer {
 
     public static PendingIntent getIntent(Context context, boolean nullIfNotInit) {

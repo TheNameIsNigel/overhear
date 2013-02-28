@@ -3,6 +3,11 @@ package com.afollestad.overhear.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+/**
+ * Convenience methods for commonly accessed local preferences. 
+ * 
+ * @author Aidan Follestad
+ */
 public class Store {
 
 	public static int i(Context context, String key, int def) {

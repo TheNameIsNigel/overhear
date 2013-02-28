@@ -11,6 +11,11 @@ import android.os.Environment;
 import com.afollestad.aimage.ImageManager;
 import com.afollestad.overhear.service.MusicService;
 
+/**
+ * Holds variables that need to be persisted when activities are killed. 
+ * 
+ * @author Aidan Follestad
+ */
 public class Overhear extends Application {
 
 	/**

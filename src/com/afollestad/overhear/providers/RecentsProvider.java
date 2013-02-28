@@ -11,6 +11,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
 
+/**
+ * The provider used to store a list of recently played music.
+ * 
+ * @author Aidan Follestad
+ */
 public class RecentsProvider extends ContentProvider {
 
     private SQLiteOpenHelper mOpenHelper;
