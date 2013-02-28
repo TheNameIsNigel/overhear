@@ -4,16 +4,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.afollestad.overhearapi.Song;
 
 public class QueueItem {
 
-	public QueueItem(int songId, long playlistId, String data) {
-		this.songId = songId;
-		this.playlistId = playlistId;
+	private QueueItem(int id, long playlist, String data) {
+		this.songId = id;
+		this.playlistId = playlist;
 		this.data = data;
+	}
+	public QueueItem(Song song) {
+		this.songId = song.getId();
+		this.playlistId = song.getPlaylistId();
+		this.data = song.getData();
 	}
 	
 	private int songId;
@@ -36,9 +40,6 @@ public class QueueItem {
 		if(getPlaylistId() > -1) {
 			Song song = Song.fromData(context, getData());
 			song.setPlaylistId(getPlaylistId());
-			try {
-				Toast.makeText(context, "getSong(" + getSongId() + " -> " + song.getId() + "): " + (song != null ? song.getTitle() : "null"), Toast.LENGTH_LONG).show(); 
-			} catch(Exception e) { }
 			return song;
 		}
 		return Song.fromId(context, getSongId());

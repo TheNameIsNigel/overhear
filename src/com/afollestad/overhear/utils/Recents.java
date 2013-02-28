@@ -1,6 +1,5 @@
 package com.afollestad.overhear.utils;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -34,18 +33,18 @@ public class Recents {
 		}
 		
 		album.setDateQueued(null); //Sets time to right now
-        ContentValues values = album.getContentValues(true, false);
-		int updated = context.getContentResolver().update(PROVIDER_URI, values,
+		int updated = context.getContentResolver().update(PROVIDER_URI, album.getContentValues(true, false),
                 MediaStore.Audio.AlbumColumns.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
-                MediaStore.Audio.AlbumColumns.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'", null);
+                MediaStore.Audio.AlbumColumns.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'", 
+                null);
 		if(updated == 0) {
-			long queueId = 1;
-	        Album mostRecent = getMostRecent(context);
-	        if(mostRecent != null)
-	            queueId = mostRecent.getQueueId() + 1;
-	        album.setQueueId(queueId);
-	        values = album.getContentValues(true, true);
-			context.getContentResolver().insert(PROVIDER_URI, values);
+	        long biggestId = getBiggestId(context);
+	        if(biggestId == -1)
+	            biggestId = 1;
+	        else
+	        	biggestId++;
+	        album.setQueueId(biggestId);
+			context.getContentResolver().insert(PROVIDER_URI, album.getContentValues(true, true));
 		}
         context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
 	}
@@ -55,12 +54,12 @@ public class Recents {
         context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
     }
 
-    public static Album getMostRecent(Context context) {
-        Cursor cursor = context.getContentResolver().query(PROVIDER_URI, null, null, null, SORT);
+    public static long getBiggestId(Context context) {
+        Cursor cursor = context.getContentResolver().query(PROVIDER_URI, null, null, null, Song.QUEUE_ID + " DESC");
         if(!cursor.moveToFirst()) {
-            return null;
+            return -1;
         }
-        Album toreturn = Album.fromCursor(cursor);
+        long toreturn = cursor.getLong(cursor.getColumnIndex(Song.QUEUE_ID));
         cursor.close();
         return toreturn;
     }

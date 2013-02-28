@@ -59,7 +59,7 @@ public class Queue {
     }
     
     public void add(Song song) {
-    	items.add(new QueueItem(song.getId(), song.getPlaylistId(), song.getData()));
+    	items.add(new QueueItem(song));
     }
    
     public void add(ArrayList<Song> songs) {
@@ -72,10 +72,10 @@ public class Queue {
     	add(songs);
     }
     
-    public int find(Song song) {
+    public int find(QueueItem item) {
     	for(int index = 0; index < items.size(); index++) {
-    		if(items.get(index).getSongId() == song.getId() &&
-    				items.get(index).getPlaylistId() == song.getPlaylistId()) {
+    		if(items.get(index).getSongId() == item.getSongId() &&
+    				items.get(index).getPlaylistId() == item.getPlaylistId()) {
     			return index;
     		}
     	}
@@ -86,12 +86,12 @@ public class Queue {
     	this.pos = position;
     }
     
-    public boolean contains(Song song) {
+    public boolean contains(QueueItem song) {
     	if(song == null) {
     		return false;
     	}
     	for(int index = 0; index < items.size(); index++) {
-    		if(items.get(index).getSongId() == song.getId() &&
+    		if(items.get(index).getSongId() == song.getSongId() &&
     				items.get(index).getPlaylistId() == song.getPlaylistId()) {
     			return true;
     		}
@@ -110,23 +110,23 @@ public class Queue {
     
     public Song getFocused() {
     	QueueItem item = getFocusedItem();
-    	if(item == null)
+    	if(item == null) {
+    		Log.i("QUEUE", "getFocused() = null");
     		return null;
-    	return item.getSong(context);
+    	}
+    	Song toreturn = item.getSong(context);
+    	Log.i("QUEUE", "getFocused() = " + toreturn.getTitle());
+    	return toreturn;
     }
     
 	public void persist(Context context) {
 		SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
-		
 		JSONArray array = new JSONArray();
 		for(QueueItem item : getItems())
 			array.put(item.getJSON());
 		prefs.putString("queue", array.toString());
-		
 		prefs.putInt("pos", getPosition());
-		
 		prefs.commit();
-		
-		Log.i("MusicService", "onDestroy() - Persisted " + items.size() + " queue items, position " + pos);
+		Log.i("Queue", "Persisted " + items.size() + " queue items, position " + pos);
 	}
 }
