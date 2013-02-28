@@ -78,7 +78,6 @@ public abstract class OverhearActivity extends Activity {
         	MusicBinder binder = (MusicBinder)service;
         	mService = binder.getService();
         	onBound();
-        	sendBroadcast(new Intent(MusicService.PLAYING_STATE_CHANGED));
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {

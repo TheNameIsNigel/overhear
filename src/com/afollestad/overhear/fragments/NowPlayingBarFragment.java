@@ -55,7 +55,7 @@ public class NowPlayingBarFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle sis) {
-        super.onCreate(sis);
+        super.onCreate(sis);       
         IntentFilter filter = new IntentFilter();
         filter.addAction(MusicService.PLAYING_STATE_CHANGED);
         getActivity().registerReceiver(mStatusReceiver, filter);
@@ -69,13 +69,13 @@ public class NowPlayingBarFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
+    	super.onStop();
         if(getActivity() != null) {
-            try {
-                getActivity().unregisterReceiver(mStatusReceiver);
-            } catch(Exception e) { }
+        	try {
+        		getActivity().unregisterReceiver(mStatusReceiver);
+        	} catch(Exception e) { }
         }
-        super.onDestroy();
     }
 
     @Override
@@ -152,12 +152,11 @@ public class NowPlayingBarFragment extends Fragment {
     }
 
     public void update() {
-        if (getActivity() == null) {
+        if (getActivity() == null)
             return;
-        }
-        
         boolean isPlaying = false;
         focused = null;
+        
         if(getActivity() instanceof OverhearActivity) {
         	if(((OverhearActivity)getActivity()).getService() != null) {
         		focused = ((OverhearActivity)getActivity()).getService().getQueue().getFocused();

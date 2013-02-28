@@ -29,7 +29,6 @@ public class TweetNowPlaying extends OverhearActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_tweet_now_playing);
         twitter = com.afollestad.overhear.utils.Twitter.getTwitterInstance(getApplicationContext(), true);
-        loadInitialText();
         findViewById(R.id.tweetBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +74,9 @@ public class TweetNowPlaying extends OverhearActivity {
     }
 
     private void loadInitialText() {
+    	if(getService() == null || getService().getQueue() == null) {
+        	return;
+        }
         final TextView text = (TextView) findViewById(R.id.tweetText);
         final Button send = (Button) findViewById(R.id.tweetBtn);
         final Song last = getService().getQueue().getFocused();
@@ -134,6 +136,7 @@ public class TweetNowPlaying extends OverhearActivity {
     }
 
 	@Override
-	public void onBound() {		
+	public void onBound() {
+		loadInitialText();
 	}
 }

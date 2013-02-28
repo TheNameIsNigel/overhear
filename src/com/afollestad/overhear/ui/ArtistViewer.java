@@ -18,6 +18,7 @@ import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
+import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhearapi.Artist;
 import com.viewpagerindicator.TitlePageIndicator;
@@ -176,6 +177,7 @@ public class ArtistViewer extends OverhearActivity {
     }
     
     @Override
-	public void onBound() {		
+	public void onBound() {
+    	((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
 	}
 }

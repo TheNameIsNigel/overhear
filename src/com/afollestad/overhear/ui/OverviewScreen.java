@@ -247,6 +247,7 @@ public class OverviewScreen extends OverhearActivity {
     }
     
     @Override
-	public void onBound() {		
+	public void onBound() {
+    	((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
 	}
 }
