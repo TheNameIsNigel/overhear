@@ -144,6 +144,11 @@ public class NowPlayingViewer extends OverhearActivity {
                 return true;
             case R.id.sleepTimer:
                 showSleepTimerDialog();
+                return true;
+            case R.id.redownloadArt:
+            	Toast.makeText(getApplicationContext(), R.string.redownloading_art, Toast.LENGTH_SHORT).show();
+            	new LastfmGetAlbumImage(this, getApplication(), (AImageView) findViewById(R.id.cover), true).execute(album);
+            	return true;
         }
         return false;
     }
