@@ -113,12 +113,9 @@ public class Queue {
     public Song getFocused() {
     	QueueItem item = getFocusedItem();
     	if(item == null) {
-    		Log.i("QUEUE", "getFocused() = null");
     		return null;
     	}
-    	Song toreturn = item.getSong(context);
-    	Log.i("QUEUE", "getFocused() = " + toreturn.getTitle());
-    	return toreturn;
+    	return item.getSong(context);
     }
     
 	public void persist(Context context) {
