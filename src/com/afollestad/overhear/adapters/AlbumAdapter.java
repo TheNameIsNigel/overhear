@@ -119,13 +119,16 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         Song focused = null;
         boolean isPlaying = false; 
         if(context instanceof OverhearActivity) {
-        	focused = ((OverhearActivity)context).getService().getQueue().getFocused();
-        	isPlaying = ((OverhearActivity)context).getService().isPlaying();
-        } else {
-        	focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
-        	isPlaying = ((OverhearListActivity)context).getService().isPlaying();
-        }
-        
+			if(((OverhearActivity)context).getService() != null) {
+				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
+				isPlaying = ((OverhearActivity)context).getService().isPlaying();
+			}
+		} else {
+			if(((OverhearListActivity)context).getService() != null) {
+				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
+				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
+			}
+		}        
         if (focused != null && album.getName().equals(focused.getAlbum()) && album.getArtist().getName().equals(focused.getArtist())) {
             peakOne.setVisibility(View.VISIBLE);
             peakTwo.setVisibility(View.VISIBLE);

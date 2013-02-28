@@ -95,12 +95,16 @@ public class SongAdapter extends CursorAdapter {
         Song focused = null;
         boolean isPlaying = false; 
         if(context instanceof OverhearActivity) {
-        	focused = ((OverhearActivity)context).getService().getQueue().getFocused();
-        	isPlaying = ((OverhearActivity)context).getService().isPlaying();
-        } else {
-        	focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
-        	isPlaying = ((OverhearListActivity)context).getService().isPlaying();
-        }
+			if(((OverhearActivity)context).getService() != null) {
+				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
+				isPlaying = ((OverhearActivity)context).getService().isPlaying();
+			}
+		} else {
+			if(((OverhearListActivity)context).getService() != null) {
+				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
+				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
+			}
+		}
         
         if (focused != null && song.getId() == focused.getId()) {
             peakOne.setVisibility(View.VISIBLE);

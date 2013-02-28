@@ -3,15 +3,19 @@ package com.afollestad.overhear.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.fragments.PlaylistSongFragment;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
@@ -74,36 +78,49 @@ public class PlaylistAdapter extends CursorAdapter {
             }
         });
 
-//        TODO ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
-//        ImageView peakTwo = (ImageView) view.findViewById(R.id.peak_two);
-//        peakOne.setImageResource(R.anim.peak_meter_1);
-//        peakTwo.setImageResource(R.anim.peak_meter_2);
-//        AnimationDrawable mPeakOneAnimation = (AnimationDrawable) peakOne.getDrawable();
-//        AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
+        ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
+        ImageView peakTwo = (ImageView) view.findViewById(R.id.peak_two);
+        peakOne.setImageResource(R.anim.peak_meter_1);
+        peakTwo.setImageResource(R.anim.peak_meter_2);
+        AnimationDrawable mPeakOneAnimation = (AnimationDrawable) peakOne.getDrawable();
+        AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
 
-//        TODO Song focused = MusicUtils.getFocused(context);
-//        if (focused != null && playlist.getId() == focused.getFromPlaylist()) {
-//            peakOne.setVisibility(View.VISIBLE);
-//            peakTwo.setVisibility(View.VISIBLE);
-//            if (focused.isPlaying()) {
-//                if (!mPeakOneAnimation.isRunning()) {
-//                    mPeakOneAnimation.start();
-//                    mPeakTwoAnimation.start();
-//                }
-//            } else {
-//                mPeakOneAnimation.stop();
-//                mPeakOneAnimation.selectDrawable(0);
-//                mPeakTwoAnimation.stop();
-//                mPeakTwoAnimation.selectDrawable(0);
-//            }
-//        } else {
-//            peakOne.setVisibility(View.GONE);
-//            peakTwo.setVisibility(View.GONE);
-//            if (mPeakOneAnimation.isRunning()) {
-//                mPeakOneAnimation.stop();
-//                mPeakTwoAnimation.stop();
-//            }
-//        }
+        Song focused = null;
+        boolean isPlaying = false; 
+        if(context instanceof OverhearActivity) {
+			if(((OverhearActivity)context).getService() != null) {
+				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
+				isPlaying = ((OverhearActivity)context).getService().isPlaying();
+			}
+		} else {
+			if(((OverhearListActivity)context).getService() != null) {
+				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
+				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
+			}
+		}
+        
+        if (focused != null && playlist.getId() == focused.getPlaylistId()) {
+            peakOne.setVisibility(View.VISIBLE);
+            peakTwo.setVisibility(View.VISIBLE);
+            if (isPlaying) {
+                if (!mPeakOneAnimation.isRunning()) {
+                    mPeakOneAnimation.start();
+                    mPeakTwoAnimation.start();
+                }
+            } else {
+                mPeakOneAnimation.stop();
+                mPeakOneAnimation.selectDrawable(0);
+                mPeakTwoAnimation.stop();
+                mPeakTwoAnimation.selectDrawable(0);
+            }
+        } else {
+            peakOne.setVisibility(View.GONE);
+            peakTwo.setVisibility(View.GONE);
+            if (mPeakOneAnimation.isRunning()) {
+                mPeakOneAnimation.stop();
+                mPeakTwoAnimation.stop();
+            }
+        }
 
         return view;
     }
