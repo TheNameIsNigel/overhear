@@ -84,7 +84,6 @@ public class ArtistViewer extends OverhearActivity {
             artist = Artist.fromJSON(new JSONObject(getIntent().getStringExtra("artist")));
         } catch (JSONException e) {
             e.printStackTrace();
-            //throw new Error(e.getMessage());
         }
         setTitle(artist.getName());
         if (findViewById(R.id.cover) != null) {

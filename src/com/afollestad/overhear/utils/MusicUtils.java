@@ -31,6 +31,9 @@ import java.util.ArrayList;
 public class MusicUtils {
 
     public static boolean isOnline(Context context) {
+    	if(context == null) {
+    		return false;
+    	}
         boolean state = false;
         ConnectivityManager cm = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);

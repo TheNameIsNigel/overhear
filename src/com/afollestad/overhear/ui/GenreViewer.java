@@ -30,18 +30,15 @@ public class GenreViewer extends OverhearActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_genre_viewer);
 
-		if (savedInstanceState == null) {
-	        // First-time init; create fragment to embed in activity.
-	        FragmentTransaction ft = getFragmentManager().beginTransaction();
-	        Fragment newFragment = new SongListFragment();
-	        Bundle args = new Bundle();
-	        args.putString("genre", getIntent().getStringExtra("genre"));
-	        newFragment.setArguments(args);
-	        ft.add(R.id.songList, newFragment);
-	        ft.commit();
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment newFragment = new SongListFragment();
+		Bundle args = new Bundle();
+		args.putString("genre", getIntent().getStringExtra("genre"));
+		newFragment.setArguments(args);
+		ft.add(R.id.songList, newFragment);
+		ft.commit();
 
-            setTitle(Genre.fromJSON(getIntent().getStringExtra("genre")).getName());
-	    }
+		setTitle(Genre.fromJSON(getIntent().getStringExtra("genre")).getName());
 	}
 
 	@Override
@@ -54,9 +51,9 @@ public class GenreViewer extends OverhearActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case android.R.id.home:
-            startActivity(new Intent(this, OverviewScreen.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-            finish();
+			startActivity(new Intent(this, OverviewScreen.class)
+			.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+			finish();
 			return true;
 		case R.id.tweetPlaying:
 			if(Twitter.getTwitterInstance(getApplicationContext(), true) == null)
@@ -64,13 +61,13 @@ public class GenreViewer extends OverhearActivity {
 			else
 				startActivity(new Intent(this, TweetNowPlaying.class));
 			return true;
-        case R.id.search:
-                startActivity(new Intent(this, SearchScreen.class));
-                return true;
+		case R.id.search:
+			startActivity(new Intent(this, SearchScreen.class));
+			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void onBound() {		
 	}
