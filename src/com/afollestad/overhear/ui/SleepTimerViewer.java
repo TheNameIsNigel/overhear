@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhearapi.Song;
 import com.afollestad.overhearapi.Utils;
@@ -107,6 +108,7 @@ public class SleepTimerViewer extends OverhearActivity {
     }
     
     @Override
-	public void onBound() {		
+	public void onBound() {
+    	((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
 	}
 }

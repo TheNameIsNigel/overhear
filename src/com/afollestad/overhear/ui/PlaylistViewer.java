@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.PlaylistSongFragment;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Playlist;
@@ -76,6 +77,7 @@ public class PlaylistViewer extends OverhearActivity {
 	}
 
 	@Override
-	public void onBound() {		
+	public void onBound() {
+		((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
 	}
 }

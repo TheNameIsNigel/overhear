@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Genre;
@@ -76,6 +77,7 @@ public class GenreViewer extends OverhearActivity {
 	}
 
 	@Override
-	public void onBound() {		
+	public void onBound() {
+		((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
 	}
 }
