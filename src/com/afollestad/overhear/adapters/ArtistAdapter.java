@@ -19,6 +19,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.base.Overhear;
+import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.ViewUtils;
 import com.afollestad.overhear.R;
@@ -114,11 +116,20 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         AnimationDrawable mPeakOneAnimation = (AnimationDrawable) peakOne.getDrawable();
         AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
 
-        Song focused = MusicUtils.getFocused(context);
+        Song focused = null;
+        boolean isPlaying = false; 
+        if(context instanceof OverhearActivity) {
+        	focused = ((OverhearActivity)context).getService().getQueue().getFocused();
+        	isPlaying = ((OverhearActivity)context).getService().isPlaying();
+        } else {
+        	focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
+        	isPlaying = ((OverhearListActivity)context).getService().isPlaying();
+        }
+        
         if (focused != null && artist.getName().equals(focused.getArtist())) {
             peakOne.setVisibility(View.VISIBLE);
             peakTwo.setVisibility(View.VISIBLE);
-            if (MusicUtils.isPlaying(context)) {
+            if (isPlaying) {
                 if (!mPeakOneAnimation.isRunning()) {
                     mPeakOneAnimation.start();
                     mPeakTwoAnimation.start();

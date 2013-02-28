@@ -12,9 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
+import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhear.ui.NowPlayingViewer;
@@ -156,8 +157,17 @@ public class NowPlayingBarFragment extends Fragment {
         if (getActivity() == null) {
             return;
         }
-        focused = MusicUtils.getFocused(getActivity());
-        if (focused != null && MusicUtils.isPlaying(getActivity())) {
+        
+        boolean isPlaying = false; 
+        if(getActivity() instanceof OverhearActivity) {
+        	focused = ((OverhearActivity)getActivity()).getService().getQueue().getFocused();
+        	isPlaying = ((OverhearActivity)getActivity()).getService().isPlaying();
+        } else {
+        	focused = ((OverhearListActivity)getActivity()).getService().getQueue().getFocused();
+        	isPlaying = ((OverhearListActivity)getActivity()).getService().isPlaying();
+        }
+        
+        if (focused != null && isPlaying) {
             playPause.get().setImageResource(R.drawable.pause);
         } else {
             playPause.get().setImageResource(R.drawable.play);
@@ -183,7 +193,6 @@ public class NowPlayingBarFragment extends Fragment {
             lastPlayed = null;
             previous.get().setEnabled(false);
             next.get().setEnabled(false);
-            //TODO default now playing image
         }
     }
 }

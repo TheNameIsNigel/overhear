@@ -230,35 +230,4 @@ public class MusicUtils {
     		((OverhearListActivity)context).getService().getQueue().add(songs);
     	}
     }
-    
-    public static Song getFocused(Activity context) {
-    	if(context == null)
-    		return null;
-    	Song song = null;
-    	if(context instanceof OverhearActivity) {
-    		if(((OverhearActivity)context).getService() == null)
-    			return null;
-    		song = ((OverhearActivity)context).getService().getQueue().getFocused();
-    	} else {
-    		if(((OverhearListActivity)context).getService() == null)
-    			return null;
-    		song = ((OverhearListActivity)context).getService().getQueue().getFocused();
-    	}
-    	return song;
-    }
-    
-    public static boolean isPlaying(Activity context) {
-    	if(context == null) {
-    		return false;
-    	}
-    	if(context instanceof OverhearActivity) {
-    		if(((OverhearActivity)context).getService() == null)
-    			return false;
-    		return ((OverhearActivity)context).getService().isPlaying();
-    	} else {
-    		if(((OverhearListActivity)context).getService() == null)
-    			return false;
-    		return ((OverhearListActivity)context).getService().isPlaying();
-    	}
-    }
 }

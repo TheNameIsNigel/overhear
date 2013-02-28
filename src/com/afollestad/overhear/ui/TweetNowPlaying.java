@@ -7,7 +7,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
-import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Song;
@@ -73,7 +72,7 @@ public class TweetNowPlaying extends OverhearActivity {
     private void loadInitialText() {
         final TextView text = (TextView) findViewById(R.id.tweetText);
         final Button send = (Button) findViewById(R.id.tweetBtn);
-        final Song last = MusicUtils.getFocused(this);
+        final Song last = getService().getQueue().getFocused();
         if (last == null) {
             finish();
             return;

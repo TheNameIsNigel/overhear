@@ -319,9 +319,10 @@ public class NowPlayingViewer extends OverhearActivity {
      * Loads song/album/artist info and album art
      */
     public void load(boolean albumChanged) {
-        song = MusicUtils.getFocused(this);
+        song = getService().getQueue().getFocused();
         if(song == null)
         	return;
+        
         album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
         if(song.getPlaylistId() > -1) {
             playlist = Playlist.get(this, song.getPlaylistId());
