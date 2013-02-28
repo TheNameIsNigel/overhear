@@ -15,6 +15,11 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.PlaylistViewer;
 import com.afollestad.overhearapi.Playlist;
 
+/**
+ * Loads and displays a list of playlists on the device.
+ * 
+ * @author Aidan Follestad
+ */
 public class PlayListFragment extends OverhearListFragment {
 
     private PlaylistAdapter adapter;

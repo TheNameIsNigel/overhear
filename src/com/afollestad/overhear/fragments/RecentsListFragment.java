@@ -15,6 +15,11 @@ import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhearapi.Album;
 
+/**
+ * Loads and displays your recently played music from the recents content provider.
+ * 
+ * @author Aidan Follestad
+ */
 public class RecentsListFragment extends OverhearListFragment {
 
     private AlbumAdapter adapter;

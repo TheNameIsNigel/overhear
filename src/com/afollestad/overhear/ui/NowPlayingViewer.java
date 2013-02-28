@@ -33,6 +33,11 @@ import com.afollestad.overhearapi.Song;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Shows details about the currently playing song with large album art.
+ * 
+ * @author Aidan Follestad
+ */
 public class NowPlayingViewer extends OverhearActivity {
 
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {

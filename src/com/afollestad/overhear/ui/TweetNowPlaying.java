@@ -15,6 +15,11 @@ import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
+/**
+ * A dialog used to tweet the currently playing song.
+ * 
+ * @author Aidan Follestad
+ */
 public class TweetNowPlaying extends OverhearActivity {
 
     private twitter4j.Twitter twitter;

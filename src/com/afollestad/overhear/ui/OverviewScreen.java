@@ -29,6 +29,11 @@ import com.viewpagerindicator.TitlePageIndicator.OnCenterItemClickListener;
 
 import java.util.Locale;
 
+/**
+ * The main screen of the app.
+ * 
+ * @author Aidan Follestad
+ */
 public class OverviewScreen extends OverhearActivity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;

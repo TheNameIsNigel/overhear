@@ -16,6 +16,11 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 
+/**
+ * Loads and displays a list of songs from a playlist.
+ * 
+ * @author Aidan Follestad
+ */
 public class PlaylistSongFragment extends OverhearListFragment {
 
     private SongAdapter adapter;

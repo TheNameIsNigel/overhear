@@ -5,6 +5,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+/**
+ * Used in the now playing viewer for gestures on the album art view.
+ * 
+ * @author Aidan Follestad
+ */
 public abstract class OnSwipeTouchListener implements View.OnTouchListener {
 
     public OnSwipeTouchListener(Context context) {

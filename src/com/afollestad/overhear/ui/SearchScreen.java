@@ -26,6 +26,11 @@ import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
 
+/**
+ * Allows you to search for songs, albums, artists, etc.
+ * 
+ * @author Aidan Follestad
+ */
 public class SearchScreen extends OverhearListActivity {
 
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {

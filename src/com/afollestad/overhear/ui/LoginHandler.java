@@ -18,6 +18,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+/**
+ * Handles Twitter authentication.
+ * 
+ * @author Aidan Follestad
+ */
 @SuppressLint("SetJavaScriptEnabled")
 public class LoginHandler extends Activity {
 

@@ -13,6 +13,11 @@ import com.afollestad.overhear.fragments.PlaylistSongFragment;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Playlist;
 
+/**
+ * Displays songs within a playlist.
+ * 
+ * @author Aidan Follestad
+ */
 public class PlaylistViewer extends OverhearActivity {
 
 	public final static int TWEET_PLAYING_LOGIN = 400;

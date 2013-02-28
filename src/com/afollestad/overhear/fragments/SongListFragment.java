@@ -19,6 +19,11 @@ import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Genre;
 import com.afollestad.overhearapi.Song;
 
+/**
+ * Loads and displays a list of songs; used for displaying all songs, songs from albums, songs from artists, etc.
+ * 
+ * @author Aidan Follestad
+ */
 public class SongListFragment extends OverhearListFragment {
 
 	private SongAdapter adapter;

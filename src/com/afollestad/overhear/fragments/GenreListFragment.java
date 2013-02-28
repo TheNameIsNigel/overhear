@@ -13,6 +13,11 @@ import com.afollestad.overhear.base.OverhearListFragment;
 import com.afollestad.overhear.ui.GenreViewer;
 import com.afollestad.overhearapi.Genre;
 
+/**
+ * Loads and displays a list of genres based on all songs on the device.
+ * 
+ * @author Aidan Follestad
+ */
 public class GenreListFragment extends OverhearListFragment {
 
 	private GenreAdapter adapter;	

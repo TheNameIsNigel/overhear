@@ -25,6 +25,11 @@ import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 
+/**
+ * Displays songs in an album.
+ * 
+ * @author Aidan Follestad
+ */
 public class AlbumViewer extends OverhearActivity {
 
 	private Album album;

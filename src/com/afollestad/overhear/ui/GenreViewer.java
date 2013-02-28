@@ -13,6 +13,11 @@ import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Genre;
 
+/**
+ * Displays songs of a genre.
+ * 
+ * @author Aidan Follestad
+ */
 public class GenreViewer extends OverhearActivity {
 
 	public final static int TWEET_PLAYING_LOGIN = 400;

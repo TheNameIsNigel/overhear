@@ -17,6 +17,11 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Displays how much time is left until the sleep timer activates.
+ * 
+ * @author Aidan Follestad
+ */
 public class SleepTimerViewer extends OverhearActivity {
 
     Calendar sleepTime;

@@ -16,6 +16,11 @@ import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 
+/**
+ * Loads and displays a list of albums based on all songs on the device.
+ * 
+ * @author Aidan Follestad
+ */
 public class AlbumListFragment extends OverhearListFragment {
 
 	private AlbumAdapter adapter;

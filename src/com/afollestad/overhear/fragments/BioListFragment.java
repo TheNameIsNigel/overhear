@@ -30,6 +30,11 @@ import twitter4j.User;
 
 import java.util.ArrayList;
 
+/**
+ * Loads and displays bio information about an artist (e.g. tweets, last.fm information, etc.).
+ * 
+ * @author Aidan Follestad
+ */
 public class BioListFragment extends Fragment {
 
     public BioListFragment() {

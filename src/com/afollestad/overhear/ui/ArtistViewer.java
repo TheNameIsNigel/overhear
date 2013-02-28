@@ -28,6 +28,11 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
+/**
+ * Displays songs, albums, and bios of artists.
+ * 
+ * @author Aidan Follestad
+ */
 public class ArtistViewer extends OverhearActivity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;

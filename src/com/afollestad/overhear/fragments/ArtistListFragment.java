@@ -15,6 +15,11 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.ArtistViewer;
 import com.afollestad.overhearapi.Artist;
 
+/**
+ * Loads and displays a list of artists based on all songs on the device.
+ * 
+ * @author Aidan Follestad
+ */
 public class ArtistListFragment extends OverhearListFragment {
 
 	private ArtistAdapter adapter;
