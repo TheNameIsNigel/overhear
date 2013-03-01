@@ -51,6 +51,9 @@ public class PlaylistAdapter extends CursorAdapter {
             public void onClick(View view) {
                 PopupMenu menu = new PopupMenu(context, view);
                 menu.inflate(R.menu.playlist_item_popup);
+                final boolean isFavorites = playlist.getName().equals(context.getString(R.string.favorites_str)); 
+                if(isFavorites)
+                	menu.getMenu().findItem(R.id.delete).setTitle(R.string.clear_str);
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
@@ -69,7 +72,10 @@ public class PlaylistAdapter extends CursorAdapter {
                                 return true;
                             }
                             case R.id.delete: {
-                                MusicUtils.createPlaylistDeleteDialog(context, playlist).show();
+                            	if(isFavorites)
+                            		playlist.clear(context);
+                            	else
+                            		MusicUtils.createPlaylistDeleteDialog(context, playlist).show();
                                 return true;
                             }
                         }

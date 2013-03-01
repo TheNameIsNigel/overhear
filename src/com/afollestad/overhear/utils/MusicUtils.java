@@ -200,14 +200,19 @@ public class MusicUtils {
     public static boolean toggleFavorited(Context context, QueueItem songItem, Song toInsert) {
     	if(songItem == null)
     		return false;
-    	Playlist favorites = Playlist.get(context, context.getString(R.string.favorites_str));
-    	if(favorites == null) {
-    		favorites = Playlist.create(context, context.getString(R.string.favorites_str));
-    	}
+    	Playlist favorites = createFavoritesIfNotExists(context);
     	if(!favorites.removeSong(context, songItem.getSongId())) {
     		favorites.insertSong(context, toInsert);
     		return true;
     	}
     	return false;
+    }
+
+    public static Playlist createFavoritesIfNotExists(Context context) {
+    	Playlist favorites = Playlist.get(context, context.getString(R.string.favorites_str));
+    	if(favorites == null) {
+    		favorites = Playlist.create(context, context.getString(R.string.favorites_str));
+    	}
+    	return favorites;
     }
 }

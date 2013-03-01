@@ -83,5 +83,6 @@
     <string name="favorites_str">Favorites</string>
     <string name="favorite_str">Favorite</string>
     <string name="unfavorite_str">Unfavorite</string>
+    <string name="clear_str">Clear</string>
 
 </resources>
