@@ -63,12 +63,6 @@ public class NowPlayingBarFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        update(true);
-    }
-
-    @Override
     public void onStop() {
     	super.onStop();
         if(getActivity() != null) {
