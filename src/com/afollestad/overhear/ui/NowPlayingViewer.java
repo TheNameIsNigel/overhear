@@ -27,6 +27,7 @@ import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhear.utils.Twitter;
+import com.afollestad.overhear.views.OnSwipeTouchListener;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;

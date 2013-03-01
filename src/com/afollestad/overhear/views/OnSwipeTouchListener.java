@@ -1,4 +1,4 @@
-package com.afollestad.overhear.ui;
+package com.afollestad.overhear.views;
 
 import android.content.Context;
 import android.view.GestureDetector;
