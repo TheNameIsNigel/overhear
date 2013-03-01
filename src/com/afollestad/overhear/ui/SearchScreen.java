@@ -94,7 +94,7 @@ public class SearchScreen extends OverhearListActivity {
         cursor = openCursor(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, query, MediaStore.Audio.Media.TITLE);
         ArrayList<Song> songs = new ArrayList<Song>();
         while (cursor.moveToNext()) {
-            songs.add(Song.fromCursor(cursor));
+            songs.add(Song.fromCursor(cursor, false));
         }
         if (songs.size() > 0)
             adapter.add("Songs", songs.toArray());

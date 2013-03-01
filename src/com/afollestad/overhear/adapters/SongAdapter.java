@@ -135,7 +135,7 @@ public class SongAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		Song song = Song.fromCursor(cursor);
+		Song song = Song.fromCursor(cursor, false);
 		getViewForSong(activity, song, view);
 	}
 }

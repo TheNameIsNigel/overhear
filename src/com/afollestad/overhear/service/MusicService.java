@@ -43,6 +43,7 @@ public class MusicService extends Service {
 	private Toast toast;
 	private boolean initialized;
 	private Queue queue;
+	private Song lastFocused;
 
 	public Queue getQueue() {
 		if(queue == null)
@@ -169,8 +170,7 @@ public class MusicService extends Service {
 		return focused;
 	}
 
-	private void updateRemoteControl(final int state, QueueItem item) {
-		Song nowPlaying = item.getSong(this);
+	private void updateRemoteControl(final int state, Song nowPlaying) {
 		mRemoteControlClient
 		.editMetadata(false)
 		.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
@@ -210,8 +210,7 @@ public class MusicService extends Service {
 		}
 	}
 
-	private void initializeNotification(QueueItem item) {
-		final Song nowPlaying = item.getSong(this);
+	private void initializeNotification(final Song nowPlaying) {
 		Notification status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, null, isPlaying());
 		startForeground(100, status);
 
@@ -236,6 +235,8 @@ public class MusicService extends Service {
 
 	private void playTrack(QueueItem item, boolean moveQueue) {
 		Log.i("OVERHEAR SERVICE", "playTrack(" + item.getSongId() + ")");
+		
+		final Song itemSong = item.getSong(this);
 		if (!initializeRemoteControl()) {
 			if (toast != null)
 				toast.cancel();
@@ -248,16 +249,21 @@ public class MusicService extends Service {
 			queue.move(queue.find(item));
 
 		initializeMediaPlayer(item.getData());
-		initializeNotification(item);
-		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING, item);
-		sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
-		Recents.add(this, item.getSong(this));
+		initializeNotification(itemSong);
+		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING, itemSong);
+		sendBroadcast(new Intent(PLAYING_STATE_CHANGED)
+				.putExtra("album_changed", lastFocused == null || 
+					(!lastFocused.getAlbum().equals(itemSong.getAlbum()) ||
+					!lastFocused.getArtist().equals(itemSong.getArtist()))));
+		lastFocused = itemSong;
+		Recents.add(this, itemSong);
 	}
 
 	private void playAll(Song song, int scope, int queuePos, Album album, Artist artist, Playlist list, Genre genre) {
 		QueueItem item = null;
-		if(song != null)
+		if(song != null) {
 			item = new QueueItem(song, scope);
+		}
 
 		if (item == null || !queue.contains(item)) {
 			// The queue doesn't contain the song being played, load it's scope into the queue now
@@ -336,7 +342,7 @@ public class MusicService extends Service {
 				playTrack(last, true);
 				return;
 			}
-			initializeNotification(last);
+			initializeNotification(last.getSong(this));
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
 		} else if(last != null) {
@@ -353,7 +359,7 @@ public class MusicService extends Service {
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
 		if (player != null && player.isPlaying()) {
 			player.pause();
-			initializeNotification(queue.getFocusedItem());
+			initializeNotification(queue.getFocused());
 		} else {
 			stopTrack();
 		}

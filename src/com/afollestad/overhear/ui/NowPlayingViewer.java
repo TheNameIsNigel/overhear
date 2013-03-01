@@ -21,6 +21,7 @@ import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.utils.MusicUtils;
@@ -43,10 +44,11 @@ public class NowPlayingViewer extends OverhearActivity {
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            load(intent.getBooleanExtra("album_changed", false));
+            load(intent.getBooleanExtra("album_changed", true));
         }
     };
 
+    private QueueItem songItem;
     private Song song;
     private Album album;
     private Playlist playlist;
@@ -100,6 +102,7 @@ public class NowPlayingViewer extends OverhearActivity {
 
     public void onResume() {
         super.onResume();
+        this.invalidateOptionsMenu();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -123,37 +126,50 @@ public class NowPlayingViewer extends OverhearActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_now_playing, menu);
+        boolean favorited = MusicUtils.isFavorited(this, songItem);
+        menu.findItem(R.id.favorite).setIcon(favorited ? R.drawable.favorited : R.drawable.unfavorited);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home: {
                 startActivity(new Intent(this, OverviewScreen.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                 finish();
                 return true;
-            case R.id.shopArtist:
+            }
+            case R.id.shopArtist: {
                 MusicUtils.browseArtist(getApplicationContext(), song.getArtist());
                 return true;
-            case R.id.addToPlaylist:
+            }
+            case R.id.addToPlaylist: {
                 AlertDialog diag = MusicUtils.createPlaylistChooseDialog(this, song, null, null);
                 diag.show();
                 return true;
-            case R.id.tweetPlaying:
+            }
+            case R.id.tweetPlaying: {
                 if (Twitter.getTwitterInstance(getApplicationContext(), true) == null)
                     startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
                 else
                     startActivity(new Intent(this, TweetNowPlaying.class));
                 return true;
-            case R.id.sleepTimer:
+            }
+            case R.id.sleepTimer: {
                 showSleepTimerDialog();
                 return true;
-            case R.id.redownloadArt:
+            }
+            case R.id.redownloadArt: {
             	Toast.makeText(getApplicationContext(), R.string.redownloading_art, Toast.LENGTH_SHORT).show();
             	new LastfmGetAlbumImage(this, getApplication(), (AImageView) findViewById(R.id.cover), true).execute(album);
             	return true;
+        	}
+            case R.id.favorite: {
+            	MusicUtils.toggleFavorited(getApplicationContext(), songItem, song);
+				this.invalidateOptionsMenu();
+				return true;
+            }
         }
         return false;
     }
@@ -329,9 +345,11 @@ public class NowPlayingViewer extends OverhearActivity {
      * Loads song/album/artist info and album art
      */
     public void load(boolean albumChanged) {
-        song = getService().getQueue().getFocused();
-        if(song == null)
+        songItem = getService().getQueue().getFocusedItem();
+        if(songItem == null)
         	return;
+        song = songItem.getSong(this);
+        this.invalidateOptionsMenu();
         
         album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
         if(song.getPlaylistId() > -1) {
@@ -339,8 +357,10 @@ public class NowPlayingViewer extends OverhearActivity {
         } else {
             playlist = null;
         }
-        if (albumChanged && album != null) {
-            AlbumAdapter.retrieveAlbumArt(this, album, (AImageView) findViewById(R.id.cover));
+        
+        AImageView cover = (AImageView) findViewById(R.id.cover);
+        if (album != null && (albumChanged || cover.getDrawable() == null)) {
+            AlbumAdapter.retrieveAlbumArt(this, album, cover);
         }
         ((TextView) findViewById(R.id.track)).setText(song.getTitle());
         ((TextView) findViewById(R.id.artistAlbum)).setText(
@@ -383,7 +403,7 @@ public class NowPlayingViewer extends OverhearActivity {
             }
         });
     }
-
+    
     /**
      * Updates the play button, seek bar, and position indicators.
      */

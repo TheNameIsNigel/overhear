@@ -32,8 +32,8 @@ public class QueueItem {
 	
 	private int songId;
 	private long playlistId;
-	private String data;
 	private int scope;
+	private String data;
 
 	/**
 	 * The song was loaded outside of any scope.
@@ -75,7 +75,8 @@ public class QueueItem {
 	}
 	
 	/**
-	 * Gets the data of the song (the path to the actual media file).
+	 * Gets the data (path to the media file) of the song.
+	 * @return
 	 */
 	public String getData() {
 		return data;
@@ -89,14 +90,9 @@ public class QueueItem {
 	}
 	
 	/**
-	 * Gets a {@link Song} instance from the QueueItem, automatically handles converting playlist songs to global songs.
+	 * Gets a {@link Song} instance from the QueueItem.
 	 */
 	public Song getSong(Context context) {
-		if(getPlaylistId() > -1) {
-			Song song = Song.fromData(context, getData());
-			song.setPlaylistId(getPlaylistId());
-			return song;
-		}
 		return Song.fromId(context, getSongId());
 	}
 	
@@ -117,7 +113,7 @@ public class QueueItem {
 		try {
 			return new QueueItem(
 					json.optInt("song_id", -1), 
-					json.optLong("playlist_id", -1), 
+					json.optLong("playlist_id", -1),
 					json.optString("data"),
 					json.optInt("scope", 0));
 		} catch(Exception e) {

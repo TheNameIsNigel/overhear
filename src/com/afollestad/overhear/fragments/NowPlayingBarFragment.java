@@ -34,7 +34,7 @@ public class NowPlayingBarFragment extends Fragment {
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            update();
+            update(intent.getBooleanExtra("album_changed", true));
         }
     };
 
@@ -65,7 +65,7 @@ public class NowPlayingBarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        update();
+        update(true);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class NowPlayingBarFragment extends Fragment {
         });
     }
 
-    public void update() {
+    public void update(boolean albumChanged) {
         if (getActivity() == null)
             return;
         boolean isPlaying = false;
@@ -183,7 +183,7 @@ public class NowPlayingBarFragment extends Fragment {
                             !lastPlayed.get().getArtist().equals(focused.getArtist())) ||
                     playing.get().getDrawable() == null) {
                 album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
-                if(album != null) {
+                if(album != null && (albumChanged || playing.get().getDrawable() == null)) {
                     AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
                 }
             }

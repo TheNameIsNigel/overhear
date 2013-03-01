@@ -80,5 +80,8 @@
     <string name="artist_details">{albums} albums, {tracks} tracks</string>
     
     <string name="unknown_str">Unknown</string>
+    <string name="favorites_str">Favorites</string>
+    <string name="favorite_str">Favorite</string>
+    <string name="unfavorite_str">Unfavorite</string>
 
 </resources>

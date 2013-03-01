@@ -89,7 +89,7 @@ public class PlaylistSongFragment extends OverhearListFragment {
 
     @Override
     public void onItemClick(int position, Cursor cursor) {
-        Song song = Song.fromCursor(adapter.getCursor());
+        Song song = Song.fromCursor(adapter.getCursor(), true);
         performClick(getActivity(), song, playlist, position);
     }
 

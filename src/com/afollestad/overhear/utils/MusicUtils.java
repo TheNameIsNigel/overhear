@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
@@ -149,7 +150,9 @@ public class MusicUtils {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                diag.findViewById(R.id.ok).setEnabled(!input.getText().toString().trim().isEmpty());
+            	String name = input.getText().toString().trim();
+            	boolean foundName = Playlist.get(context, name) != null;
+                diag.findViewById(R.id.ok).setEnabled(!name.isEmpty() && !foundName);
             }
 
             @Override
@@ -234,5 +237,29 @@ public class MusicUtils {
     			return;
     		((OverhearListActivity)context).getService().getQueue().add(songs, scope);
     	}
+    }
+    
+    public static boolean isFavorited(Context context, QueueItem song) {
+    	if(song == null)
+    		return false;
+    	Playlist favorites = Playlist.get(context, context.getString(R.string.favorites_str));
+    	if(favorites == null) {
+    		return false;
+    	}
+    	return favorites.contains(context, song.getSongId());
+    }
+    
+    public static boolean toggleFavorited(Context context, QueueItem songItem, Song toInsert) {
+    	if(songItem == null)
+    		return false;
+    	Playlist favorites = Playlist.get(context, context.getString(R.string.favorites_str));
+    	if(favorites == null) {
+    		favorites = Playlist.create(context, context.getString(R.string.favorites_str));
+    	}
+    	if(!favorites.removeSong(context, songItem.getSongId())) {
+    		favorites.insertSong(context, toInsert);
+    		return true;
+    	}
+    	return false;
     }
 }

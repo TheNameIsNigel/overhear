@@ -102,7 +102,7 @@ public class SongListFragment extends OverhearListFragment {
 
 	@Override
 	public void onItemClick(int position, Cursor cursor) {
-		Song song = Song.fromCursor(adapter.getCursor());
+		Song song = Song.fromCursor(adapter.getCursor(), false);
 		Album album = null;
 		Artist artist = null;
 		if(getArguments() != null) {
