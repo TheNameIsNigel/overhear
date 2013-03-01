@@ -185,8 +185,9 @@ public class Queue {
     	return shuffle;
     }
     
-    public void setShuffleOn(boolean on) {
-    	this.shuffle = on;
+    public boolean toggleShuffle() {
+    	this.shuffle = !this.shuffle;
+    	return this.shuffle;
     }
     
     public void setRepeatMode(int mode) {
@@ -195,6 +196,23 @@ public class Queue {
     
     public int getRepeatMode() {
     	return repeatMode;
+    }
+    
+    /**
+     * Goes to the next queue mode based on the current (off to once, once to always, always to off).
+     */
+    public void nextRepeatMode() {
+    	switch(getRepeatMode()) {
+		case Queue.REPEAT_MODE_OFF:
+			setRepeatMode(Queue.REPEAT_MODE_ONCE);
+			break;
+		case Queue.REPEAT_MODE_ONCE:
+			setRepeatMode(Queue.REPEAT_MODE_ALL);
+			break;
+		case Queue.REPEAT_MODE_ALL:
+			setRepeatMode(Queue.REPEAT_MODE_OFF);
+			break;
+		}
     }
     
     /**

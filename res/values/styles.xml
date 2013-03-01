@@ -69,10 +69,13 @@
 		<item name="android:layout_gravity">center|right</item>
 		<item name="android:background">?android:listChoiceBackgroundIndicator</item>
 	</style>
+	
 	<style name="NowPlayingViewerButton">
 		<item name="android:layout_width">@dimen/now_playing_screen_control</item>
 		<item name="android:layout_height">@dimen/now_playing_screen_control</item>
 		<item name="android:layout_gravity">center</item>
+		<item name="android:padding">10dp</item>
+		<item name="android:scaleType">fitCenter</item>
 		<item name="android:background">?android:listChoiceBackgroundIndicator</item>
 	</style>
 	<style name="NowPlayingViewerButtonSecondary" parent="@style/NowPlayingViewerButton">
@@ -83,4 +86,5 @@
 		<item name="android:layout_width">@dimen/now_playing_screen_control_primary</item>
 		<item name="android:layout_height">@dimen/now_playing_screen_control_primary</item>
 	</style>
+	
 </resources>
