@@ -74,7 +74,7 @@ public class Queue {
 		if(items.size() > 0 && (isShuffleOn() || repeat)) {
 			return true;
 		} else {
-			return (getPosition() + 1) <= (items.size() - 1);
+			return (getPosition() + 1) < items.size();
 		}
 	}
 	

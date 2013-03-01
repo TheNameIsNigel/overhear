@@ -49,7 +49,6 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
             try {
                 context.get().getContentResolver().openInputStream(Uri.parse(url));
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
                 url = null;
             }
         }
