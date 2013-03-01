@@ -149,6 +149,27 @@ public class MusicUtils {
         return builder.create();
     }
     
+    public static AlertDialog createPlaylistClearDialog(final Activity context, final Playlist list) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setTitle(R.string.clear_str)
+                .setMessage(context.getString(R.string.playlist_clear_confirm).replace("{name}", list.getName()))
+                .setPositiveButton(R.string.yes_str, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        list.clear(context);
+                        context.sendBroadcast(new Intent(MusicService.PLAYLIST_UPDATED));
+                    }
+                })
+                .setNegativeButton(R.string.no_str, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        return builder.create();
+    }
+    
     public static ArrayList<Integer> getQueueItemArray(ArrayList<Song> songs) {
     	ArrayList<Integer> toreturn = new ArrayList<Integer>();
     	for(Song s : songs) {

@@ -73,7 +73,7 @@ public class PlaylistAdapter extends CursorAdapter {
                             }
                             case R.id.delete: {
                             	if(isFavorites)
-                            		playlist.clear(context);
+                            		MusicUtils.createPlaylistClearDialog(context, playlist).show();
                             	else
                             		MusicUtils.createPlaylistDeleteDialog(context, playlist).show();
                                 return true;
