@@ -81,6 +81,11 @@ public class Queue {
 		if(getItems().size() > 0 && repeat) {
 			return true;
 		} else {
+			if(isShuffleOn() && (getPosition() + 1) == (getItems().size() - 1)) {
+				// If shuffle is on and incrementing will go past the last queue song, go to the beginning of the queue
+				pos = 0;
+				return true;
+			}
 			return (getPosition() + 1) < getItems().size();
 		}
 	}
@@ -93,6 +98,11 @@ public class Queue {
 		if(getItems().size() > 0 && repeat) {
 			return true;
 		} else {
+			if(isShuffleOn() && (getPosition() - 1) < 0) {
+				// If shuffle is on and decrementing will go below the first queue song, go to the end of the queue
+				pos = getItems().size() - 1;
+				return true;
+			}
 			return (getPosition() - 1) >= 0 || getItems().size() == 0;
 		}
 	}
@@ -180,10 +190,10 @@ public class Queue {
     private static ArrayList<QueueItem> shuffle(ArrayList<QueueItem> items) {
     	Random random = new Random();
     	ArrayList<QueueItem> shuffledItems = new ArrayList<QueueItem>();
-    	ArrayList<QueueItem> unusedItems= new ArrayList<QueueItem>(items);
+    	ArrayList<QueueItem> unusedItems = items;
     	
     	while(unusedItems.size() > 0) {
-    		int nextPos = random.nextInt(unusedItems.size() - 1);
+    		int nextPos = random.nextInt(unusedItems.size());
     		shuffledItems.add(unusedItems.get(nextPos));
     		unusedItems.remove(nextPos);
     	}        
