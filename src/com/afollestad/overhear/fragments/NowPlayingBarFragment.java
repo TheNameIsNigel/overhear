@@ -56,12 +56,17 @@ public class NowPlayingBarFragment extends Fragment {
     @Override
     public void onCreate(Bundle sis) {
         super.onCreate(sis);       
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MusicService.PLAYING_STATE_CHANGED);
-        getActivity().registerReceiver(mStatusReceiver, filter);
         setRetainInstance(true);
     }
 
+    @Override
+    public void onStart() {
+    	super.onStart();
+    	IntentFilter filter = new IntentFilter();
+        filter.addAction(MusicService.PLAYING_STATE_CHANGED);
+        getActivity().registerReceiver(mStatusReceiver, filter);
+    }
+    
     @Override
     public void onStop() {
     	super.onStop();
