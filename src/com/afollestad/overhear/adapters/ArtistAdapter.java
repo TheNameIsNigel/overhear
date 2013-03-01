@@ -119,16 +119,16 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 		AnimationDrawable mPeakOneAnimation = (AnimationDrawable) peakOne.getDrawable();
 		AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
 
-		Song focused = null;
+		QueueItem focused = null;
 		boolean isPlaying = false; 
 		if(context instanceof OverhearActivity) {
 			if(((OverhearActivity)context).getService() != null) {
-				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
+				focused = ((OverhearActivity)context).getService().getQueue().getFocusedItem();
 				isPlaying = ((OverhearActivity)context).getService().isPlaying();
 			}
 		} else {
 			if(((OverhearListActivity)context).getService() != null) {
-				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
+				focused = ((OverhearListActivity)context).getService().getQueue().getFocusedItem();
 				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
 			}
 		}

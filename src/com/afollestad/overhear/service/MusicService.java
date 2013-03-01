@@ -43,7 +43,7 @@ public class MusicService extends Service {
 	private Toast toast;
 	private boolean initialized;
 	private Queue queue;
-	private Song lastFocused;
+	private QueueItem lastFocused;
 
 	public Queue getQueue() {
 		if(queue == null)
@@ -170,7 +170,7 @@ public class MusicService extends Service {
 		return focused;
 	}
 
-	private void updateRemoteControl(final int state, Song nowPlaying) {
+	private void updateRemoteControl(final int state, QueueItem nowPlaying) {
 		mRemoteControlClient
 		.editMetadata(false)
 		.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
@@ -210,7 +210,7 @@ public class MusicService extends Service {
 		}
 	}
 
-	private void initializeNotification(final Song nowPlaying) {
+	private void initializeNotification(final QueueItem nowPlaying) {
 		Notification status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, null, isPlaying());
 		startForeground(100, status);
 
@@ -236,7 +236,7 @@ public class MusicService extends Service {
 	private void playTrack(QueueItem item, boolean moveQueue) {
 		Log.i("OVERHEAR SERVICE", "playTrack(" + item.getSongId() + ")");
 		
-		final Song itemSong = item.getSong(this);
+		//final Song itemSong = item.getSong(this);
 		if (!initializeRemoteControl()) {
 			if (toast != null)
 				toast.cancel();
@@ -249,14 +249,14 @@ public class MusicService extends Service {
 			queue.move(queue.find(item));
 
 		initializeMediaPlayer(item.getData());
-		initializeNotification(itemSong);
-		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING, itemSong);
+		initializeNotification(item);
+		updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING, item);
 		sendBroadcast(new Intent(PLAYING_STATE_CHANGED)
 				.putExtra("album_changed", lastFocused == null || 
-					(!lastFocused.getAlbum().equals(itemSong.getAlbum()) ||
-					!lastFocused.getArtist().equals(itemSong.getArtist()))));
-		lastFocused = itemSong;
-		Recents.add(this, itemSong);
+					(!lastFocused.getAlbum().equals(item.getAlbum()) ||
+					!lastFocused.getArtist().equals(item.getArtist()))));
+		lastFocused = item;
+		Recents.add(this, item);
 	}
 
 	private void playAll(Song song, int scope, int queuePos, Album album, Artist artist, Playlist list, Genre genre) {
@@ -342,7 +342,7 @@ public class MusicService extends Service {
 				playTrack(last, true);
 				return;
 			}
-			initializeNotification(last.getSong(this));
+			initializeNotification(last);
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
 		} else if(last != null) {
@@ -359,7 +359,7 @@ public class MusicService extends Service {
 			mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
 		if (player != null && player.isPlaying()) {
 			player.pause();
-			initializeNotification(queue.getFocused());
+			initializeNotification(queue.getFocusedItem());
 		} else {
 			stopTrack();
 		}
@@ -437,9 +437,7 @@ public class MusicService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		queue = new Queue(this);
-		if(queue.getFocusedItem() != null) {
-			lastFocused = queue.getFocused();
-		}
+		lastFocused = queue.getFocusedItem();
 		registerReceiver(receiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
 	}
 

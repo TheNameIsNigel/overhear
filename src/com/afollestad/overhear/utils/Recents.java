@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Song;
@@ -23,7 +24,7 @@ public class Recents {
 	/**
 	 * Adds a song's album to the recent history database.
 	 */
-	public static void add(final Context context, final Song song) {
+	public static void add(final Context context, final QueueItem song) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

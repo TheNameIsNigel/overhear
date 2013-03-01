@@ -14,10 +14,14 @@ import com.afollestad.overhearapi.Song;
  */
 public class QueueItem {
 
-	private QueueItem(int id, long playlist, String data, int scope) {
+	private QueueItem(int id, long playlist, String title, String data, String artist, String album, long duration, int scope) {
 		this.songId = id;
 		this.playlistId = playlist;
+		this.title = title;
 		this.data = data;
+		this.artist = artist;
+		this.album = album;
+		this.duration = duration;
 		this.scope = scope;
 	}
 	/**
@@ -26,14 +30,22 @@ public class QueueItem {
 	public QueueItem(Song song, int scope) {
 		this.songId = song.getId();
 		this.playlistId = song.getPlaylistId();
+		this.title = song.getTitle();
 		this.data = song.getData();
+		this.artist = song.getArtist();
+		this.album = song.getAlbum();
+		this.duration = song.getDuration();
 		this.scope = scope;
 	}
 	
 	private int songId;
 	private long playlistId;
-	private int scope;
+	private String title;
 	private String data;
+	private String artist;
+	private String album;
+	private long duration;
+	private int scope;
 
 	/**
 	 * The song was loaded outside of any scope.
@@ -75,11 +87,40 @@ public class QueueItem {
 	}
 	
 	/**
+	 * Gets the name of the song.
+	 * @return
+	 */
+	public String getTitle() {
+		return title;
+	}
+	
+	/**
 	 * Gets the data (path to the media file) of the song.
 	 * @return
 	 */
 	public String getData() {
 		return data;
+	}
+	
+	/**
+	 * Gets the artist the song belongs to.
+	 */
+	public String getArtist() {
+		return artist;
+	}
+	
+	/**
+	 * Gets the album the song belongs to.
+	 */
+	public String getAlbum() {
+		return album;
+	}
+	
+	/**
+	 * Gets the duration (in milliseconds) of the song.
+	 */
+	public long getDuration() {
+		return duration;
 	}
 	
 	/**
@@ -101,7 +142,11 @@ public class QueueItem {
 		try {
 			json.put("song_id", getSongId());
 			json.put("playlist_id", getPlaylistId());
+			json.put("title", getTitle());
 			json.put("data", getData());
+			json.put("album", getAlbum());
+			json.put("artist", getArtist());
+			json.put("duration", getDuration());
 			json.put("scope", getScope());
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -114,7 +159,11 @@ public class QueueItem {
 			return new QueueItem(
 					json.optInt("song_id", -1), 
 					json.optLong("playlist_id", -1),
+					json.optString("title"),
 					json.optString("data"),
+					json.optString("artist"),
+					json.optString("album"),
+					json.optLong("duration"),
 					json.optInt("scope", 0));
 		} catch(Exception e) {
 			return null;
