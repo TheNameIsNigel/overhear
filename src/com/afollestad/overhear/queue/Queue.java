@@ -187,10 +187,16 @@ public class Queue {
     /**
      * Generates a random index within the bound of the queue and moves to that position.
      */
-    private static ArrayList<QueueItem> shuffle(ArrayList<QueueItem> items) {
+    private static ArrayList<QueueItem> shuffle(ArrayList<QueueItem> items, int firstSongIndex) {
     	Random random = new Random();
     	ArrayList<QueueItem> shuffledItems = new ArrayList<QueueItem>();
     	ArrayList<QueueItem> unusedItems = items;
+    	if(firstSongIndex > -1) {
+    		// The specified 'firstSong' will be the song at the beginning of the shuffled version of the queue
+    		shuffledItems.add(items.get(firstSongIndex));
+    		// Remove from the selection of possible shuffled queue songs so it's not repeated
+    		items.remove(firstSongIndex);
+    	}
     	
     	while(unusedItems.size() > 0) {
     		int nextPos = random.nextInt(unusedItems.size());
@@ -207,7 +213,7 @@ public class Queue {
     
     public boolean toggleShuffle() {
     	if(this.shuffledItems == null) {
-    		this.shuffledItems = shuffle(this.queueItems);
+    		this.shuffledItems = shuffle(this.queueItems, getPosition());
     		return true;
     	} else {
     		this.shuffledItems = null;
