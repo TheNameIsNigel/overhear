@@ -437,6 +437,9 @@ public class MusicService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		queue = new Queue(this);
+		if(queue.getFocusedItem() != null) {
+			lastFocused = queue.getFocused();
+		}
 		registerReceiver(receiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
 	}
 
