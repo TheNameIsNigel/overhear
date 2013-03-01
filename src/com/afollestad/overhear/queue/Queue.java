@@ -25,27 +25,31 @@ public class Queue {
 	 */
 	public Queue(Context context) {
 		this.context = context;
-		this.items = new ArrayList<QueueItem>();
+		this.queueItems = new ArrayList<QueueItem>();
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		try {
 			JSONArray array = new JSONArray(prefs.getString("queue", "[]"));
 			for(int i = 0; i < array.length(); i++)
-				items.add(QueueItem.fromJSON(array.getJSONObject(i))); 
+				queueItems.add(QueueItem.fromJSON(array.getJSONObject(i)));
+			array = new JSONArray(prefs.getString("shuffled_queue", "[]"));
+			if(array.length() > 0) {
+				this.shuffledItems = new ArrayList<QueueItem>();
+				for(int i = 0; i < array.length(); i++)
+					shuffledItems.add(QueueItem.fromJSON(array.getJSONObject(i)));
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		
 		this.pos = prefs.getInt("pos", -1);
-		this.shuffle = prefs.getBoolean("shuffle", false);
 		this.repeatMode = prefs.getInt("repeat_mode", REPEAT_MODE_OFF);
 	}
 	
 	private Context context;
-	private ArrayList<QueueItem> items;
+	private ArrayList<QueueItem> queueItems;
+	private ArrayList<QueueItem> shuffledItems;
 	private int pos = -1;
-	private Random random;
-	private boolean shuffle;
 	private int repeatMode;
 	
 	public final static int REPEAT_MODE_OFF = 0;
@@ -56,7 +60,10 @@ public class Queue {
 	 * Gets the items (songs) in the queue.
 	 */
 	public ArrayList<QueueItem> getItems() {
-		return items;
+		if(this.shuffledItems != null && this.shuffledItems.size() > 0) {
+			return this.shuffledItems;
+		}
+		return queueItems;
 	}
 	
 	/**
@@ -71,10 +78,10 @@ public class Queue {
 	 */
 	public boolean canIncrement() {
 		boolean repeat = getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL;
-		if(items.size() > 0 && (isShuffleOn() || repeat)) {
+		if(getItems().size() > 0 && repeat) {
 			return true;
 		} else {
-			return (getPosition() + 1) < items.size();
+			return (getPosition() + 1) < getItems().size();
 		}
 	}
 	
@@ -83,10 +90,10 @@ public class Queue {
 	 */
 	public boolean canDecrement() {
 		boolean repeat = getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL;
-		if(items.size() > 0 && (isShuffleOn() || repeat)) {
+		if(getItems().size() > 0 && repeat) {
 			return true;
 		} else {
-			return (getPosition() - 1) >= 0 || items.size() == 0;
+			return (getPosition() - 1) >= 0 || getItems().size() == 0;
 		}
 	}
 	
@@ -98,8 +105,6 @@ public class Queue {
 			// The position is maintained, and it's turned off if only need to repeat once.
 			if(getRepeatMode() == REPEAT_MODE_ONCE)
 				setRepeatMode(REPEAT_MODE_OFF);
-		} else if(isShuffleOn()) {
-			shuffle();
 		} else {
 			pos++;
 		}
@@ -114,8 +119,6 @@ public class Queue {
 			// The position is maintained, and it's turned off if only need to repeat once.
 			if(getRepeatMode() == REPEAT_MODE_ONCE)
 				setRepeatMode(REPEAT_MODE_OFF);
-		} else if(isShuffleOn()) {
-			shuffle();
 		} else {
 			pos--;
 		} 
@@ -126,7 +129,7 @@ public class Queue {
      * Adds a song to the queue. The scope indicates where the song was loaded from.
      */
     public void add(Song song, int scope) {
-    	items.add(new QueueItem(song, scope));
+    	queueItems.add(new QueueItem(song, scope));
     }
    
     /**
@@ -141,7 +144,7 @@ public class Queue {
      * Sets the entire queue, equivalent to clearing the queue and then using {@link #add(ArrayList, int)}.
      */
     public void set(ArrayList<Song> songs, int scope) {
-    	items.clear();
+    	queueItems.clear();
     	add(songs, scope);
     }
     
@@ -149,10 +152,10 @@ public class Queue {
      * Finds a song in the queue, returns the index of the song, or -1 if it's not found.
      */
     public int find(QueueItem item) {
-    	for(int index = 0; index < items.size(); index++) {
-    		if(items.get(index).getSongId() == item.getSongId() &&
-    				items.get(index).getPlaylistId() == item.getPlaylistId() &&
-    				items.get(index).getScope() == item.getScope()) {
+    	for(int index = 0; index < getItems().size(); index++) {
+    		if(getItems().get(index).getSongId() == item.getSongId() &&
+    				getItems().get(index).getPlaylistId() == item.getPlaylistId() &&
+    						getItems().get(index).getScope() == item.getScope()) {
     			return index;
     		}
     	}
@@ -163,7 +166,7 @@ public class Queue {
      * Moves to a position in the queue. Returns true if successful.
      */
     public boolean move(int position) {
-    	if(position > (items.size() - 1) || items.size() == 0 || position < 0) {
+    	if(position > (getItems().size() - 1) || getItems().size() == 0 || position < 0) {
     		this.pos = -1;
     		return false;
     	}
@@ -174,20 +177,32 @@ public class Queue {
     /**
      * Generates a random index within the bound of the queue and moves to that position.
      */
-    private boolean shuffle() {
-    	if(random == null)
-    		random = new Random();
-    	int nextPosition = random.nextInt(getItems().size() - 1);
-    	return this.move(nextPosition);
+    private static ArrayList<QueueItem> shuffle(ArrayList<QueueItem> items) {
+    	Random random = new Random();
+    	ArrayList<QueueItem> shuffledItems = new ArrayList<QueueItem>();
+    	ArrayList<QueueItem> unusedItems= new ArrayList<QueueItem>(items);
+    	
+    	while(unusedItems.size() > 0) {
+    		int nextPos = random.nextInt(unusedItems.size() - 1);
+    		shuffledItems.add(unusedItems.get(nextPos));
+    		unusedItems.remove(nextPos);
+    	}        
+    	
+        return shuffledItems;
     }
     
     public boolean isShuffleOn() {
-    	return shuffle;
+    	return this.shuffledItems != null;
     }
     
     public boolean toggleShuffle() {
-    	this.shuffle = !this.shuffle;
-    	return this.shuffle;
+    	if(this.shuffledItems == null) {
+    		this.shuffledItems = shuffle(this.queueItems);
+    		return true;
+    	} else {
+    		this.shuffledItems = null;
+    		return false;
+    	}
     }
     
     public void setRepeatMode(int mode) {
@@ -222,10 +237,10 @@ public class Queue {
     	if(song == null) {
     		return false;
     	}
-    	for(int index = 0; index < items.size(); index++) {
-    		if(items.get(index).getSongId() == song.getSongId() &&
-    				items.get(index).getPlaylistId() == song.getPlaylistId() &&
-    				items.get(index).getScope() == song.getScope()) {
+    	for(int index = 0; index < getItems().size(); index++) {
+    		if(getItems().get(index).getSongId() == song.getSongId() &&
+    				getItems().get(index).getPlaylistId() == song.getPlaylistId() &&
+    						getItems().get(index).getScope() == song.getScope()) {
     			return true;
     		}
     	}
@@ -238,10 +253,10 @@ public class Queue {
     public QueueItem getFocusedItem() {
     	if(getPosition() == -1) {
     		return null;
-    	} else if(items.size() == 0) {
+    	} else if(getItems().size() == 0) {
     		return null;
     	}
-    	return items.get(getPosition()); 
+    	return getItems().get(getPosition()); 
     }
     
     /**
@@ -265,10 +280,15 @@ public class Queue {
 		for(QueueItem item : getItems())
 			array.put(item.getJSON());
 		prefs.putString("queue", array.toString());
+		if(shuffledItems != null) {
+			array = new JSONArray();
+			for(QueueItem item : shuffledItems)
+				array.put(item.getJSON());
+			prefs.putString("shuffled_queue", array.toString());
+		}
 		prefs.putInt("pos", getPosition());
-		prefs.putBoolean("shuffle", isShuffleOn());
 		prefs.putInt("repeat_mode", getRepeatMode());
 		prefs.commit();
-		Log.i("Queue", "Persisted " + items.size() + " queue items, position " + pos);
+		Log.i("Queue", "Persisted " + getItems().size() + " queue items, position " + pos);
 	}
 }
