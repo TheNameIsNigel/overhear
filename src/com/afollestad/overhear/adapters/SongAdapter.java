@@ -107,7 +107,7 @@ public class SongAdapter extends CursorAdapter {
 			}
 		}
 
-		if (focused != null && song.getId() == focused.getSongId()) {
+		if (focused != null && song.getId() == focused.getSongId() && song.getPlaylistId() == focused.getPlaylistId()) {
 			peakOne.setVisibility(View.VISIBLE);
 			peakTwo.setVisibility(View.VISIBLE);
 			if (isPlaying) {

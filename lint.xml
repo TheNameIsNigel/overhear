@@ -8,6 +8,7 @@
     <issue id="MissingRegistered">
         <ignore path="res/layout-land/activity_album_viewer.xml" />
         <ignore path="res/layout-land/activity_artist_viewer.xml" />
+        <ignore path="res/layout/activity_album_viewer.xml" />
     </issue>
     <issue id="Registered" severity="ignore">
         <ignore path="src/com/afollestad/overhear/base/OverhearActivity.java" />

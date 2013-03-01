@@ -140,7 +140,7 @@ public class MusicService extends Service {
 	public static final String ACTION_SKIP = "com.afollestad.overhear.action.SKIP";
 	public static final String ACTION_REWIND = "com.afollestad.overhear.action.REWIND";
 	public static final String ACTION_CLEAR_NOTIFICATION = "com.afollestad.overhear.action.CLEAR_NOTIFICATION";
-
+	
 
 	private boolean requestAudioFocus() {
 		if (hasAudioFocus) {
@@ -384,8 +384,8 @@ public class MusicService extends Service {
 
 	private boolean nextTrack() {
 		Log.i("OVERHEAR SERVICE", "nextTrack()");
-		if (queue.increment()) {
-			playTrack(queue.getFocusedItem(), true);
+		if (queue.canIncrement()) {
+			playTrack(queue.increment(), true);
 		} else {
 			stopTrack();
 			return false;
@@ -400,8 +400,8 @@ public class MusicService extends Service {
 			player.seekTo(0);
 			sendBroadcast(new Intent(PLAYING_STATE_CHANGED));
 		} else {
-			if (queue.decrement()) {
-				playTrack(queue.getFocusedItem(), true);
+			if (queue.canDecrement()) {
+				playTrack(queue.decrement(), true);
 			} else {
 				stopTrack();
 				return;
@@ -416,7 +416,7 @@ public class MusicService extends Service {
 	public boolean isPlayerInitialized() {
 		return initialized;
 	}
-
+	
 
 	public class MusicBinder extends Binder {
 		public MusicService getService() {

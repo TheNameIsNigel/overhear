@@ -129,6 +129,7 @@ public class NowPlayingViewer extends OverhearActivity {
         getMenuInflater().inflate(R.menu.activity_now_playing, menu);
         boolean favorited = MusicUtils.isFavorited(this, songItem);
         menu.findItem(R.id.favorite).setIcon(favorited ? R.drawable.favorited : R.drawable.unfavorited);
+        menu.findItem(R.id.favorite).setTitle(favorited ? R.string.unfavorite_str : R.string.favorite_str);
         return true;
     }
 
@@ -289,6 +290,12 @@ public class NowPlayingViewer extends OverhearActivity {
                         .setAction(MusicService.ACTION_REWIND));
             }
         });
+        findViewById(R.id.shuffle).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//TODO
+			}
+		});
         findViewById(R.id.previous).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -311,6 +318,12 @@ public class NowPlayingViewer extends OverhearActivity {
                         .setAction(MusicService.ACTION_SKIP));
             }
         });
+        findViewById(R.id.repeat).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//TODO
+			}
+		});
         findViewById(R.id.meta).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

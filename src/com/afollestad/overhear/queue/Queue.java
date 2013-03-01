@@ -1,6 +1,7 @@
 package com.afollestad.overhear.queue;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,11 +37,20 @@ public class Queue {
 		}
 		
 		this.pos = prefs.getInt("pos", -1);
+		this.shuffle = prefs.getBoolean("shuffle", false);
+		this.repeatMode = prefs.getInt("repeat_mode", REPEAT_MODE_OFF);
 	}
 	
 	private Context context;
 	private ArrayList<QueueItem> items;
 	private int pos = -1;
+	private Random random;
+	private boolean shuffle;
+	private int repeatMode;
+	
+	public final static int REPEAT_MODE_OFF = 0;
+	public final static int REPEAT_MODE_ONCE = 1;
+	public final static int REPEAT_MODE_ALL = 2;
 
 	/**
 	 * Gets the items (songs) in the queue.
@@ -57,25 +67,57 @@ public class Queue {
 	}
 	
 	/**
-	 * Attempts to increment the queue (move to the next song), returns false if that's not possible (end of queue).
+	 * Checks if you can safely call the increment() method.
 	 */
-	public boolean increment() {
-    	if((getPosition() + 1) >= (items.size() - 1)) {
-    		return false;
-    	}
-    	pos++;
-    	return true;
+	public boolean canIncrement() {
+		if(isShuffleOn() || getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL) {
+			return true;
+		} else {
+			return (getPosition() + 1) >= (items.size() - 1);
+		}
+	}
+	
+	/**
+	 * Checks if you can safely call the decrement() method.
+	 */
+	public boolean canDecrement() {
+		if(isShuffleOn() || getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL) {
+			return true;
+		} else {
+			return (getPosition() - 1) < 0 || items.size() == 0;
+		}
+	}
+	
+	/**
+	 * Increments to the next position in the queue (you must use canIncrement() before calling this method).
+	 */
+	public QueueItem increment() {
+		if(getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL) {
+			// The position is maintained, and it's turned off if only need to repeat once.
+			if(getRepeatMode() == REPEAT_MODE_ONCE)
+				setRepeatMode(REPEAT_MODE_OFF);
+		} else if(isShuffleOn()) {
+			shuffle();
+		} else {
+			pos++;
+		}
+		return getFocusedItem();
     }
     
 	/**
-	 * Attempts to decrement the queue (move to the previous song), returns false if that's not possible (already at the beginning of the queue). 
+	 * Decrements to the last position in the queue (you must use canDecrement() before calling this method). 
 	 */
-    public boolean decrement() {
-    	if((getPosition() - 1) < 0 || items.size() == 0) {
-    		return false;
-    	}
-    	pos--;
-    	return true; 
+    public QueueItem decrement() {
+    	if(getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL) {
+			// The position is maintained, and it's turned off if only need to repeat once.
+			if(getRepeatMode() == REPEAT_MODE_ONCE)
+				setRepeatMode(REPEAT_MODE_OFF);
+		} else if(isShuffleOn()) {
+			shuffle();
+		} else {
+			pos--;
+		} 
+    	return getFocusedItem();
     }
     
     /**
@@ -125,6 +167,32 @@ public class Queue {
     	}
     	this.pos = position;
     	return true;
+    }
+
+    /**
+     * Generates a random index within the bound of the queue and moves to that position.
+     */
+    private boolean shuffle() {
+    	if(random == null)
+    		random = new Random();
+    	int nextPosition = random.nextInt(getItems().size() - 1);
+    	return this.move(nextPosition);
+    }
+    
+    public boolean isShuffleOn() {
+    	return shuffle;
+    }
+    
+    public void setShuffleOn(boolean on) {
+    	this.shuffle = on;
+    }
+    
+    public void setRepeatMode(int mode) {
+    	this.repeatMode = mode;
+    }
+    
+    public int getRepeatMode() {
+    	return repeatMode;
     }
     
     /**
@@ -178,6 +246,8 @@ public class Queue {
 			array.put(item.getJSON());
 		prefs.putString("queue", array.toString());
 		prefs.putInt("pos", getPosition());
+		prefs.putBoolean("shuffle", isShuffleOn());
+		prefs.putInt("repeat_mode", getRepeatMode());
 		prefs.commit();
 		Log.i("Queue", "Persisted " + items.size() + " queue items, position " + pos);
 	}
