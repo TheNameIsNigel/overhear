@@ -65,19 +65,19 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:layout_marginBottom="5dp">
 
-		    <ImageButton android:id="@+id/shuffle" style="@style/NowPlayingViewerButton"
+		    <ImageButton android:id="@+id/shuffle" style="@style/NowPlayingViewerButtonSecondary"
 				android:layout_weight="1" android:src="@drawable/shuffle" />
 		    
 			<ImageButton android:id="@+id/previous" style="@style/NowPlayingViewerButton"
 				android:layout_weight="1" android:src="@drawable/previous" />
 
-			<ImageButton android:id="@+id/play" style="@style/NowPlayingViewerButton"
+			<ImageButton android:id="@+id/play" style="@style/NowPlayingViewerButtonPrimary"
 				android:layout_weight="1" android:src="@drawable/play" />
 			
 			<ImageButton android:id="@+id/next" style="@style/NowPlayingViewerButton"
 				android:layout_weight="1" android:src="@drawable/next" />
 
-			<ImageButton android:id="@+id/repeat" style="@style/NowPlayingViewerButton"
+			<ImageButton android:id="@+id/repeat" style="@style/NowPlayingViewerButtonSecondary"
 				android:layout_weight="1" android:src="@drawable/repeat" />
 
 		</LinearLayout>

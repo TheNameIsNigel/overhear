@@ -70,10 +70,11 @@ public class Queue {
 	 * Checks if you can safely call the increment() method.
 	 */
 	public boolean canIncrement() {
-		if(isShuffleOn() || getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL) {
+		boolean repeat = getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL;
+		if(items.size() > 0 && (isShuffleOn() || repeat)) {
 			return true;
 		} else {
-			return (getPosition() + 1) >= (items.size() - 1);
+			return (getPosition() + 1) <= (items.size() - 1);
 		}
 	}
 	
@@ -81,10 +82,11 @@ public class Queue {
 	 * Checks if you can safely call the decrement() method.
 	 */
 	public boolean canDecrement() {
-		if(isShuffleOn() || getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL) {
+		boolean repeat = getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL;
+		if(items.size() > 0 && (isShuffleOn() || repeat)) {
 			return true;
 		} else {
-			return (getPosition() - 1) < 0 || items.size() == 0;
+			return (getPosition() - 1) >= 0 || items.size() == 0;
 		}
 	}
 	
