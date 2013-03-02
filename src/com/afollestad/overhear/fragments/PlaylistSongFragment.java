@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.widget.CursorAdapter;
 
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.adapters.SongAdapter;
+import com.afollestad.overhear.adapters.PlaylistSongAdapter;
 import com.afollestad.overhear.base.OverhearListFragment;
 import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
@@ -24,7 +24,7 @@ import com.afollestad.overhearapi.Song;
  */
 public class PlaylistSongFragment extends OverhearListFragment {
 
-    private SongAdapter adapter;
+    private PlaylistSongAdapter adapter;
     private Playlist playlist;
 
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
@@ -60,7 +60,8 @@ public class PlaylistSongFragment extends OverhearListFragment {
     @Override
     public CursorAdapter getAdapter() {
         if(adapter == null) {
-            adapter = new SongAdapter(getActivity(), null, 0);
+            adapter = new PlaylistSongAdapter(getActivity(), null, 0);
+            adapter.setPlaylist(playlist);
         }
         return adapter;
     }
@@ -91,6 +92,7 @@ public class PlaylistSongFragment extends OverhearListFragment {
     @Override
     public void onItemClick(int position, Cursor cursor) {
         Song song = Song.fromCursor(adapter.getCursor(), true);
+        song.setPlaylistId(playlist.getId());
         performClick(getActivity(), song, playlist, position);
     }
 
