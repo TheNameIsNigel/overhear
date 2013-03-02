@@ -31,7 +31,7 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
 
     @Override
     protected String doInBackground(Artist... arts) {
-    	if(arts.length == 0 || arts[0] == null) {
+    	if(arts.length == 0 || arts[0] == null || context == null || context.get() == null) {
     		return null;
     	}
         String url = null;

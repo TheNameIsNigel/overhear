@@ -85,5 +85,9 @@
     <string name="favorite_str">Favorite</string>
     <string name="unfavorite_str">Unfavorite</string>
     <string name="clear_str">Clear</string>
+    
+    <string name="repeat_off">Repeat Off</string>
+    <string name="repeat_once">Repeat Once</string>
+    <string name="repeat">Repeat</string>
 
 </resources>
