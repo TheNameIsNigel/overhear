@@ -77,7 +77,7 @@ public class Queue {
 		if(getItems().size() > 0 && repeat)
 			return true;
 		else
-			return (position + 1) < getItems().size();
+			return isShuffleOn() || (position + 1) < getItems().size();
 	}
 
 	/**
@@ -87,14 +87,8 @@ public class Queue {
 		boolean repeat = getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL;
 		if(getItems().size() > 0 && repeat) {
 			return true;
-		} else {
-			if(isShuffleOn() && (position - 1) < 0) {
-				// If shuffle is on and decrementing will go below the first queue song, go to the end of the queue
-				position = getItems().size() - 1;
-				return true;
-			}
-			return (position - 1) >= 0 || getItems().size() == 0;
-		}
+		} else
+			return isShuffleOn() || (position - 1) >= 0 || getItems().size() == 0;
 	}
 
 	/**
@@ -110,9 +104,6 @@ public class Queue {
 		} else {
 			if(shuffle) {
 				position = shuffler.nextInt(this);
-				if(position == -1) {
-					return null;
-				}
 			} else {
 				position++;
 			}
@@ -191,6 +182,10 @@ public class Queue {
 
 	public boolean toggleShuffle() {
 		this.shuffle = !this.shuffle;
+		if(this.shuffle)
+			this.shuffler.setPrevious(getPosition());
+		else
+			this.shuffler.reset();
 		return this.shuffle;
 	}
 
@@ -286,29 +281,33 @@ public class Queue {
 	
 		public Shuffler(Context context) {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			mPrevious = prefs.getInt("shuffler_previous", 0);
+			mPrevious = prefs.getInt("shuffle_previous", -1);
 		}
 		
-        private int mPrevious;
+		private int mPrevious = -1;
         private Random mRandom = new Random();
         
         public int nextInt(Queue queue) {
-            int ret;
+            int ret = 0;
             int interval = queue.getItems().size();
             do {
                 ret = mRandom.nextInt(interval);
-            } while (ret == mPrevious && interval > 1);
-            mPrevious = ret;
+            } while (ret == mPrevious);
             return ret;
+        }
+
+        public void setPrevious(int previous) {
+        	mPrevious = previous;
         }
         
         public void reset() {
-        	mPrevious = 0;
+        	mPrevious = -1;
         }
         
         public void persist(Context context) {
         	SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        	prefs.putInt("shuffler_previous", mPrevious).commit();
+    		prefs.putInt("shuffle_previous", mPrevious);
+    		prefs.commit();
         }
     }
 }
