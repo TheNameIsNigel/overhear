@@ -1,6 +1,7 @@
 package com.afollestad.overhear.queue;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,7 +109,7 @@ public class Queue {
 				setRepeatMode(REPEAT_MODE_OFF);
 		} else {
 			if(shuffle) {
-				position = shuffler.nextIndex(this);
+				position = shuffler.nextInt(this);
 				if(position == -1) {
 					return null;
 				}
@@ -126,14 +127,7 @@ public class Queue {
 		if(position == -1) {
 			position = 0;			
 		} else {
-			if(shuffle) {
-				position = shuffler.previousIndex();
-				if(position == -1) {
-					return null;
-				}
-			} else {
-				position--;
-			}
+			position--;
 		}
 		return getFocusedItem();
 	}
@@ -186,6 +180,7 @@ public class Queue {
 			return false;
 		}
 		this.position = position;
+		this.shuffler.reset();
 		return true;
 	}
 
@@ -196,8 +191,6 @@ public class Queue {
 
 	public boolean toggleShuffle() {
 		this.shuffle = !this.shuffle;
-		if(this.shuffle)
-			this.shuffler.appendHistory(getPosition());
 		return this.shuffle;
 	}
 
@@ -284,6 +277,38 @@ public class Queue {
 		prefs.putInt("repeat_mode", getRepeatMode());
 		prefs.commit();
 		
+		this.shuffler.persist(context);
 		Log.i("Queue", "Persisted " + getItems().size() + " queue items, position " + position);
 	}
+	
+	
+	private static class Shuffler {
+	
+		public Shuffler(Context context) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+			mPrevious = prefs.getInt("shuffler_previous", 0);
+		}
+		
+        private int mPrevious;
+        private Random mRandom = new Random();
+        
+        public int nextInt(Queue queue) {
+            int ret;
+            int interval = queue.getItems().size();
+            do {
+                ret = mRandom.nextInt(interval);
+            } while (ret == mPrevious && interval > 1);
+            mPrevious = ret;
+            return ret;
+        }
+        
+        public void reset() {
+        	mPrevious = 0;
+        }
+        
+        public void persist(Context context) {
+        	SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        	prefs.putInt("shuffler_previous", mPrevious).commit();
+        }
+    }
 }
