@@ -160,6 +160,7 @@ public class Queue {
 	public void set(ArrayList<Song> songs, int scope) {
 		items.clear();
 		add(songs, scope);
+		shuffler.reset();
 	}
 
 	/**
@@ -195,6 +196,8 @@ public class Queue {
 
 	public boolean toggleShuffle() {
 		this.shuffle = !this.shuffle;
+		if(this.shuffle)
+			this.shuffler.appendHistory(getPosition());
 		return this.shuffle;
 	}
 

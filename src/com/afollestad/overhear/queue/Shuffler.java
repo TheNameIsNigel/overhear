@@ -44,13 +44,12 @@ public class Shuffler {
 			return -1;
 		}
 		
-		int nextPos = random.nextInt(queue.getItems().size() - 1);
+		int nextPos = random.nextInt(queue.getItems().size());
 		do {
-			nextPos = random.nextInt(queue.getItems().size() - 1);
-		} while(
-				history.size() > 0 && 
-				(history.contains(Integer.valueOf(nextPos)) || 
-				history.get(history.size() - 1) + 1 == nextPos));
+			nextPos = random.nextInt(queue.getItems().size());
+			Log.i("Shuffler", "nextPos() = " + nextPos);
+		} while(history.size() > 0 && 
+				history.contains(Integer.valueOf(nextPos)));
 		history.add(Integer.valueOf(nextPos));	
 		return nextPos;
 	}
@@ -60,6 +59,15 @@ public class Shuffler {
 			return -1;
 		}
 		return history.get(history.size() - 1);
+	}
+	
+	public void appendHistory(int index) {
+		if(!history.contains(Integer.valueOf(index)))
+			history.add(Integer.valueOf(index));
+	}
+	
+	public void reset() {
+		history.clear();
 	}
 	
 	public void persist(Context context) {
