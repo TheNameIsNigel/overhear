@@ -85,7 +85,7 @@ public class OverviewScreen extends OverhearActivity {
 			public void onCenterItemClick(int position) {
 				Fragment frag = getFragmentManager().findFragmentByTag("page:" + position);
 				if(frag instanceof ListFragment) {
-					((ListFragment)frag).getListView().smoothScrollToPosition(0);
+					((ListFragment)frag).getListView().setSelection(0);
 				}
 			}
 		});
