@@ -134,7 +134,9 @@ public class QueueItem {
 	 * Gets a {@link Song} instance from the QueueItem.
 	 */
 	public Song getSong(Context context) {
-		return Song.fromId(context, getSongId());
+		Song song = Song.fromId(context, getSongId());
+		song.setPlaylistId(getPlaylistId());
+		return song;
 	}
 	
 	public JSONObject getJSON() {
