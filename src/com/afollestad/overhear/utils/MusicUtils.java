@@ -1,7 +1,11 @@
 package com.afollestad.overhear.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +19,7 @@ import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
+import com.afollestad.overhear.views.AboutDialog;
 import com.afollestad.overhear.views.PlaylistCreationDialog;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
@@ -235,5 +240,17 @@ public class MusicUtils {
     		favorites = Playlist.create(context, context.getString(R.string.favorites_str));
     	}
     	return favorites;
+    }
+    
+    @SuppressLint("CommitTransaction")
+    public static void showAboutDialog(Activity activity) {
+        FragmentManager fm = activity.getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment prev = fm.findFragmentByTag("dialog_about");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        new AboutDialog().show(ft, "dialog_about");
     }
 }
