@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Environment;
 import com.afollestad.aimage.ImageManager;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.service.MusicService;
 
 import java.io.File;
@@ -29,9 +29,9 @@ public class Overhear extends Application {
 
     public ImageManager getManager() {
         if(manager == null) {
-        	File cacheDir = new File(Environment.getExternalStorageDirectory(), "Overhear");
+        	File cacheDir = getExternalCacheDir();
         	cacheDir.mkdirs();
-            manager = new ImageManager(this, cacheDir);
+            manager = new ImageManager(this, cacheDir, R.drawable.default_song_album);
         }
         return manager;
     }

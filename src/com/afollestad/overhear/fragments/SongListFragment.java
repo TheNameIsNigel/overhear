@@ -59,7 +59,7 @@ public class SongListFragment extends OverhearListFragment {
 		if (genre != null) {
 			scope = new String[]{null, null};
 		} else {
-			scope = getScope(null);
+			scope = getScope();
 		}
 		return scope[0];
 	}
@@ -70,7 +70,7 @@ public class SongListFragment extends OverhearListFragment {
 		if (genre != null) {
 			scope = new String[]{null, null};
 		} else {
-			scope = getScope(null);
+			scope = getScope();
 		}
 		return scope[1];
 	}
@@ -136,7 +136,7 @@ public class SongListFragment extends OverhearListFragment {
 		context.startService(intent);
 	}
 
-	private String[] getScope(Song genreSong) {
+	private String[] getScope() {
 		String sort = MediaStore.Audio.Media.TITLE;
 		String where = MediaStore.Audio.Media.IS_MUSIC + " = 1";
 

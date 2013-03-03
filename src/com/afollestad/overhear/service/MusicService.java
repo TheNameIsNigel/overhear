@@ -189,7 +189,7 @@ public class MusicService extends Service {
 					.putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, bitmap)
 					.apply();
 				}
-			});
+			}, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -225,7 +225,7 @@ public class MusicService extends Service {
 					NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 					nm.notify(100, update);
 				}
-			});
+			}, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -75,11 +75,11 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
     protected void onPostExecute(String result) {
         if (view == null || view.get() == null) {
             return;
-        } else if (result != null) {
+        } else {
             if(view.get().getTag() != this) {
                 return;
             }
-            if(result.equals("flag:force_download")) {
+            if(result != null && result.equals("flag:force_download")) {
             	Toast.makeText(context.get(), R.string.download_queued, Toast.LENGTH_SHORT).show();
             } else {
             	view.get().setManager(((Overhear)app.get()).getManager()).setSource(result).load();
