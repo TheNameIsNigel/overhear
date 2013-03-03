@@ -36,6 +36,8 @@ public class Twitter {
     }
 
     public static void setSocialAccount(Context context, Artist artist, long userId) {
+        if(artist == null)
+            return;
         ContentValues values = new ContentValues();
         values.put("twitter_id", userId);
         int updated = context.getContentResolver().update(ALTERNATE_TWITTER_URI, values,

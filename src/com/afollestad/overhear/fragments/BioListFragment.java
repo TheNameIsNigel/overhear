@@ -147,6 +147,8 @@ public class BioListFragment extends Fragment {
     }
 
     private void loadLastFm() {
+        if(artist == null)
+            return;
         String currentBio = ((TextView) getView().findViewById(R.id.bioAbout)).getText().toString();
         if(!currentBio.equals(getString(R.string.loading_str))) {
             return;
@@ -185,6 +187,8 @@ public class BioListFragment extends Fragment {
     }
 
     private void loadTwitter() {
+        if(artist == null)
+            return;
         final Handler mHandler = new Handler();
         new Thread(new Runnable() {
             @SuppressWarnings("unused")

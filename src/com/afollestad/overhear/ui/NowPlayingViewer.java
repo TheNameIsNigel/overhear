@@ -333,7 +333,7 @@ public class NowPlayingViewer extends OverhearActivity {
 				if(playlist != null) {
 					startActivity(new Intent(getApplicationContext(), PlaylistViewer.class)
 					.putExtra("playlist", playlist.getJSON().toString()));
-				} else {
+				} else if(album != null) {
 					startActivity(new Intent(getApplicationContext(), AlbumViewer.class)
 					.putExtra("album", album.getJSON().toString()));
 				}
