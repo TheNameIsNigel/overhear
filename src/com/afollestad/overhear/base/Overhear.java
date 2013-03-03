@@ -1,15 +1,14 @@
 package com.afollestad.overhear.base;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Environment;
-
 import com.afollestad.aimage.ImageManager;
 import com.afollestad.overhear.service.MusicService;
+
+import java.io.File;
 
 /**
  * Holds variables that need to be persisted when activities are killed. 
