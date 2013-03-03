@@ -2,6 +2,7 @@ package com.afollestad.overhear.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 /**
  * Convenience methods for commonly accessed local preferences. 
