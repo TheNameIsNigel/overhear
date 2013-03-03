@@ -1,35 +1,24 @@
 package com.afollestad.overhear.adapters;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
-import com.afollestad.overhear.utils.MusicUtils;
-import com.afollestad.overhear.utils.ViewUtils;
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhear.queue.QueueItem;
-import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.tasks.LastfmGetArtistImage;
+import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Artist;
-import com.afollestad.overhearapi.Song;
 
 public class ArtistAdapter extends SimpleCursorAdapter {
 
@@ -40,13 +29,13 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 
 	private Activity context;
 
-	public static void retrieveArtistArt(Activity context, Artist artist, AImageView view) {
+	public static void retrieveArtistArt(Activity context, Artist artist, AImageView view, boolean fitView) {
 		view.setImageBitmap(null);
 		String url = WebArtUtils.getImageURL(context, artist);
 		if (url == null) {
 			new LastfmGetArtistImage(context, view).execute(artist);
 		} else {
-			view.setManager(Overhear.get(context).getManager()).setSource(url).load();
+			view.setManager(Overhear.get(context).getManager()).setSource(url).setFitView(fitView).load();
 		}
 	}
 
@@ -68,7 +57,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 				.replace("{tracks}", "" + artist.getTrackCount()));
 
 		final AImageView image = (AImageView) view.findViewById(R.id.image);
-		retrieveArtistArt(context, artist, image);
+		retrieveArtistArt(context, artist, image, true);
 
 		ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
 		ImageView peakTwo = (ImageView) view.findViewById(R.id.peak_two);

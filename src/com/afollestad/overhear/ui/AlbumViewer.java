@@ -101,7 +101,7 @@ public class AlbumViewer extends OverhearActivity {
 					.putExtra("artist", artist.getJSON().toString()));
 				}
 			});
-			ArtistAdapter.retrieveArtistArt(this, artist, (AImageView) findViewById(R.id.artistCover));
+			ArtistAdapter.retrieveArtistArt(this, artist, (AImageView) findViewById(R.id.artistCover), true);
 		}
 
 		final AImageView albumCover = (AImageView) findViewById(R.id.albumCover);

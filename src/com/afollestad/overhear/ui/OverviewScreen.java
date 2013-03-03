@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.base.OverhearGridFragment;
 import com.afollestad.overhear.base.TaggedFragmentAdapter;
 import com.afollestad.overhear.fragments.*;
 import com.afollestad.overhear.utils.MusicUtils;
@@ -95,6 +96,8 @@ public class OverviewScreen extends OverhearActivity {
                 Fragment frag = getFragmentManager().findFragmentByTag("page:" + tab.getPosition());
                 if (frag instanceof ListFragment) {
                     ((ListFragment) frag).getListView().setSelection(0);
+                } else if(frag instanceof OverhearGridFragment) {
+                    ((OverhearGridFragment)frag).getGridView().setSelection(0);
                 }
             }
         };

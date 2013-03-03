@@ -81,6 +81,8 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
             }
             if(result != null && result.equals("flag:force_download")) {
             	Toast.makeText(context.get(), R.string.download_queued, Toast.LENGTH_SHORT).show();
+                //Load the fallback image
+                view.get().setManager(((Overhear)app.get()).getManager()).setSource(null).load();
             } else {
             	view.get().setManager(((Overhear)app.get()).getManager()).setSource(result).load();
             }

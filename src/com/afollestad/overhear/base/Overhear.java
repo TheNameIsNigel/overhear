@@ -31,7 +31,9 @@ public class Overhear extends Application {
         if(manager == null) {
         	File cacheDir = getExternalCacheDir();
         	cacheDir.mkdirs();
-            manager = new ImageManager(this, cacheDir, R.drawable.default_song_album);
+            manager = new ImageManager(this)
+                    .setCacheDirectory(cacheDir)
+                    .setFallbackImage(R.drawable.default_song_album);
         }
         return manager;
     }

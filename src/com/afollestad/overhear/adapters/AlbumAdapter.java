@@ -47,12 +47,16 @@ public class AlbumAdapter extends SimpleCursorAdapter {
     }
 
     public static void retrieveAlbumArt(Activity context, Album album, AImageView view) {
-        view.setImageBitmap(null);
+        view.setManager(Overhear.get(context).getManager());
+        if(album == null) {
+            view.showFallback();
+            return;
+        }
         String url = WebArtUtils.getImageURL(context, album);
         if (url == null) {
             new LastfmGetAlbumImage(context, context.getApplication(), view, false).execute(album);
         } else {
-            view.setManager(Overhear.get(context).getManager()).setSource(url).load();
+            view.setSource(url).load();
         }
     }
 

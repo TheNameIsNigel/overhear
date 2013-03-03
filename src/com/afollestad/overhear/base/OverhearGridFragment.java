@@ -107,6 +107,10 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
         return view;
     }
 
+    public GridView getGridView() {
+        return (GridView)getView();
+    }
+
     /**
      * Cursor loader methods
      */

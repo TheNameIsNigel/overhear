@@ -1,33 +1,28 @@
 package com.afollestad.overhear.ui;
 
-import java.util.Locale;
-
-import android.app.ActionBar;
+import android.app.*;
 import android.app.ActionBar.Tab;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.afollestad.aimage.views.AImageView;
+import com.afollestad.overhear.R;
+import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.TaggedFragmentAdapter;
-import com.afollestad.overhear.utils.MusicUtils;
-import com.afollestad.overhear.R;
-import com.afollestad.overhear.utils.Twitter;
-import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
 import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
+import com.afollestad.overhear.utils.MusicUtils;
+import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Artist;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 /**
  * Displays songs, albums, and bios of artists.
@@ -64,7 +59,7 @@ public class ArtistViewer extends OverhearActivity {
 			e.printStackTrace();
 		}
 		if (findViewById(R.id.cover) != null) {
-			ArtistAdapter.retrieveArtistArt(this, artist, (AImageView) findViewById(R.id.cover));
+			ArtistAdapter.retrieveArtistArt(this, artist, (AImageView) findViewById(R.id.cover), false);
 		}
 		
 		setTitle(artist.getName());
