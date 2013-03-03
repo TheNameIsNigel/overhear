@@ -89,5 +89,6 @@
     <string name="repeat_off">Repeat Off</string>
     <string name="repeat_once">Repeat Once</string>
     <string name="repeat">Repeat</string>
+    <string name="remove_str">Remove</string>
 
 </resources>

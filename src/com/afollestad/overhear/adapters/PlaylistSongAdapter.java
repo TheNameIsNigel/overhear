@@ -46,7 +46,7 @@ public class PlaylistSongAdapter extends CursorAdapter {
 		return LayoutInflater.from(context).inflate(R.layout.song_item, null);
 	}
 
-	public static View getViewForSong(final Activity context, final Song song, View view) {
+	public static View getViewForSong(final Activity context, final Song song, View view, final Playlist list) {
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
 		}
@@ -58,7 +58,7 @@ public class PlaylistSongAdapter extends CursorAdapter {
 			@Override
 			public void onClick(View view) {
 				PopupMenu menu = new PopupMenu(context, view);
-				menu.inflate(R.menu.song_item_popup);
+				menu.inflate(R.menu.playlist_song_item_popup);
 				menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem menuItem) {
@@ -84,6 +84,10 @@ public class PlaylistSongAdapter extends CursorAdapter {
 							.putExtra("artist", artist.getJSON().toString()));
 							return true;
 						}
+                        case R.id.remove: {
+                            list.removeSong(context, song.getPlaylistRowId());
+                            return true;
+                        }
 						}
 						return false;
 					}
@@ -143,6 +147,6 @@ public class PlaylistSongAdapter extends CursorAdapter {
 	public void bindView(View view, Context context, Cursor cursor) {
 		Song song = Song.fromCursor(cursor, true);
 		song.setPlaylistId(list.getId());
-		getViewForSong(activity, song, view);
+		getViewForSong(activity, song, view, list);
 	}
 }
