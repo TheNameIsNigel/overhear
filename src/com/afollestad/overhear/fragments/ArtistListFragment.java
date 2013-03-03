@@ -124,7 +124,7 @@ public class ArtistListFragment extends OverhearGridFragment {
                         return true;
                     }
                     case R.id.redownloadArt: {
-                        new LastfmGetArtistImage(context, ((AImageView)view)).execute(artist);
+                        new LastfmGetArtistImage(context, ((AImageView)view.findViewById(R.id.image))).execute(artist);
                         return true;
                     }
                 }
