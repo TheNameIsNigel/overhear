@@ -24,20 +24,18 @@ import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.utils.Store;
-import com.viewpagerindicator.TitlePageIndicator;
-import com.viewpagerindicator.TitlePageIndicator.OnCenterItemClickListener;
 
 import java.util.Locale;
 
 /**
  * The main screen of the app.
- * 
+ *
  * @author Aidan Follestad
  */
 public class OverviewScreen extends OverhearActivity {
 
-    SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
 
     public final static int TWEET_PLAYING_LOGIN = 400;
 
@@ -53,48 +51,61 @@ public class OverviewScreen extends OverhearActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         MusicUtils.createFavoritesIfNotExists(this);
-        
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOffscreenPageLimit(4);
-        mViewPager.setCurrentItem(Store.i(this, "focused_tab", 2));
+        setupTabs();
 
         //TODO remove when no longer needed
-        if(getExternalCacheDir().exists())
-        	getExternalCacheDir().delete();
-        
-        TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.pager_title_strip);
-        titleIndicator.setViewPager(mViewPager);
-        titleIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        if (getExternalCacheDir().exists())
+            getExternalCacheDir().delete();
+    }
+
+    private void setupTabs() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setOffscreenPageLimit(5);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i2) {
-            }
-            @Override
-            public void onPageSelected(int i) {
-                invalidateOptionsMenu();
-            }
-            @Override
-            public void onPageScrollStateChanged(int i) {
+            public void onPageSelected(int position) {
+                getActionBar().setSelectedNavigationItem(position);
             }
         });
-        titleIndicator.setOnCenterItemClickListener(new OnCenterItemClickListener() {
-			@Override
-			public void onCenterItemClick(int position) {
-				Fragment frag = getFragmentManager().findFragmentByTag("page:" + position);
-				if(frag instanceof ListFragment) {
-					((ListFragment)frag).getListView().setSelection(0);
-				}
-			}
-		});
+
+        ActionBar.TabListener mTabListener = new ActionBar.TabListener() {
+            @Override
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+            }
+
+            @Override
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+                invalidateOptionsMenu();
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+                Fragment frag = getFragmentManager().findFragmentByTag("page:" + tab.getPosition());
+                if (frag instanceof ListFragment) {
+                    ((ListFragment) frag).getListView().setSelection(0);
+                }
+            }
+        };
+
+        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+            actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(mTabListener));
+        }
+        actionBar.setSelectedNavigationItem(Store.i(this, "focused_tab", 2));
     }
-    
+
     @Override
     public void onPause() {
-    	super.onPause();
-    	Store.put(this, "focused_tab", mViewPager.getCurrentItem());
+        super.onPause();
+        Store.put(this, "focused_tab", mViewPager.getCurrentItem());
     }
 
     @Override
@@ -143,8 +154,8 @@ public class OverviewScreen extends OverhearActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-            	case 0:
-            		return new PlayListFragment();
+                case 0:
+                    return new PlayListFragment();
                 case 1:
                     return new RecentsListFragment();
                 case 2:
@@ -178,7 +189,7 @@ public class OverviewScreen extends OverhearActivity {
                 case 4:
                     return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
                 case 5:
-                	return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
+                    return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
             }
             return null;
         }
@@ -248,9 +259,9 @@ public class OverviewScreen extends OverhearActivity {
                     .create();
         }
     }
-    
+
     @Override
-	public void onBound() {
-    	((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update(true);
-	}
+    public void onBound() {
+        ((NowPlayingBarFragment) getFragmentManager().findFragmentById(R.id.nowPlaying)).update(true);
+    }
 }
