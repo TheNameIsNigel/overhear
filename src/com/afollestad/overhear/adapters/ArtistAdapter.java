@@ -63,54 +63,12 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 
 		final Artist artist = Artist.fromCursor(getCursor());
 		((TextView) view.findViewById(R.id.title)).setText(artist.getName());
-		((TextView) view.findViewById(R.id.artist)).setText(context.getString(R.string.artist_details)
+		((TextView) view.findViewById(R.id.stats)).setText(context.getString(R.string.artist_details)
 				.replace("{albums}", "" + artist.getAlbumCount())
 				.replace("{tracks}", "" + artist.getTrackCount()));
 
 		final AImageView image = (AImageView) view.findViewById(R.id.image);
 		retrieveArtistArt(context, artist, image);
-
-		View options = view.findViewById(R.id.options);
-		options.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				PopupMenu menu = new PopupMenu(context, view);
-				menu.inflate(R.menu.artist_item_popup);
-				menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(MenuItem menuItem) {
-						switch (menuItem.getItemId()) {
-						case R.id.addToPlaylist: {
-							AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, null, null, artist);
-							diag.show();
-							return true;
-						}
-						case R.id.playAll: {
-							context.startService(new Intent(context, MusicService.class)
-							.setAction(MusicService.ACTION_PLAY_ALL)
-							.putExtra("scope", QueueItem.SCOPE_ARTIST)
-							.putExtra("artist", artist.getJSON().toString()));
-							return true;
-						}
-						case R.id.addToQueue: {
-							ArrayList<Song> content = Song.getAllFromScope(context, new String[]{
-									MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
-											MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
-											MediaStore.Audio.Media.ALBUM});
-							MusicUtils.addToQueue(context, content, QueueItem.SCOPE_ARTIST);
-							return true;
-						}
-						case R.id.redownloadArt: {
-							new LastfmGetArtistImage(context, image).execute(artist);
-							return true;
-						}
-						}
-						return false;
-					}
-				});
-				menu.show();
-			}
-		});
 
 		ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
 		ImageView peakTwo = (ImageView) view.findViewById(R.id.peak_two);
@@ -156,24 +114,11 @@ public class ArtistAdapter extends SimpleCursorAdapter {
 			}
 		}
 
-		int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
-		if (position == 0) {
-			if (getCount() == 1) {
-				ViewUtils.relativeMargins(view, pad, pad);
-			} else {
-				ViewUtils.relativeMargins(view, pad, 0);
-			}
-		} else if (position == getCount() - 1) {
-			ViewUtils.relativeMargins(view, 0, pad);
-		} else {
-			ViewUtils.relativeMargins(view, 0, 0); 
-		}
-
 		return view;
 	}
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		return LayoutInflater.from(context).inflate(R.layout.album_artist_item, null);
+		return LayoutInflater.from(context).inflate(R.layout.artist_item, null);
 	}
 }

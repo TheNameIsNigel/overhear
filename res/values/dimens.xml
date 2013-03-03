@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="gridview_image">180dp</dimen>
     <dimen name="list_side_padding">20dp</dimen>
     <dimen name="list_top_padding">15dp</dimen>
     <dimen name="album_list_cover">75dp</dimen>
+    <dimen name="artist_list_cover">140dp</dimen>
     <dimen name="artist_viewer_header">140dp</dimen>
+    <dimen name="gridview_image">160dp</dimen>
     
     <dimen name="status_bar_button_width_height">48dp</dimen>
     <dimen name="status_bar_album_art">64dp</dimen>
@@ -18,4 +19,6 @@
     <dimen name="now_playing_screen_control">50dp</dimen>
 
     <dimen name="list_header_side_padding">10dp</dimen>
+
+    <dimen name="triangle_options_width">40dp</dimen>
 </resources>

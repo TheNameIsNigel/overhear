@@ -43,7 +43,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.album_artist_item, null);
+        return LayoutInflater.from(context).inflate(R.layout.album_item, null);
     }
 
     public static void retrieveAlbumArt(Activity context, Album album, AImageView view) {
@@ -58,7 +58,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
 
     public static View getViewForAlbum(final Activity context, final Album album, View view) {
         if (view == null)
-            view = LayoutInflater.from(context).inflate(R.layout.album_artist_item, null);
+            view = LayoutInflater.from(context).inflate(R.layout.album_item, null);
         ((TextView) view.findViewById(R.id.title)).setText(album.getName());
         ((TextView) view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 
