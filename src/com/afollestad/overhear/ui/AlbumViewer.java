@@ -128,9 +128,6 @@ public class AlbumViewer extends OverhearActivity {
                 AlertDialog diag = MusicUtils.createPlaylistChooseDialog(this, null, album, null);
                 diag.show();
                 return true;
-            case R.id.shopArtist:
-                MusicUtils.browseArtist(getApplicationContext(), artist.getName());
-                return true;
             case R.id.tweetPlaying:
                 if (Twitter.getTwitterInstance(getApplicationContext(), true) == null)
                     startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);

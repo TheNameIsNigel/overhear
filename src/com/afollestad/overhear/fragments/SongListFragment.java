@@ -79,6 +79,7 @@ public class SongListFragment extends OverhearListFragment {
 	public CursorAdapter getAdapter() {
 		if (adapter == null) {
 			adapter = new SongAdapter(getActivity(), null, 0);
+            adapter.setIsAlbum(true);
 		}
 		return adapter;
 	}

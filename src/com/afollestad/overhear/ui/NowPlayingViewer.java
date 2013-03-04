@@ -143,10 +143,6 @@ public class NowPlayingViewer extends OverhearActivity {
 			finish();
 			return true;
 		}
-		case R.id.shopArtist: {
-			MusicUtils.browseArtist(getApplicationContext(), song.getArtist());
-			return true;
-		}
 		case R.id.addToPlaylist: {
 			AlertDialog diag = MusicUtils.createPlaylistChooseDialog(this, song, null, null);
 			diag.show();

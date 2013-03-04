@@ -34,13 +34,18 @@ public class SongAdapter extends CursorAdapter {
 	}
 
 	private Activity activity;
+    private boolean isAlbum;
+
+    public void setIsAlbum(boolean isAlbum) {
+        this.isAlbum = isAlbum;
+    }
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		return LayoutInflater.from(context).inflate(R.layout.song_item, null);
 	}
 
-	public static View getViewForSong(final Activity context, final Song song, View view) {
+	public static View getViewForSong(final Activity context, final Song song, View view, final boolean isAlbum) {
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
 		}
@@ -53,6 +58,8 @@ public class SongAdapter extends CursorAdapter {
 			public void onClick(View view) {
 				PopupMenu menu = new PopupMenu(context, view);
 				menu.inflate(R.menu.song_item_popup);
+                if(isAlbum)
+                    menu.getMenu().findItem(R.id.viewAlbum).setVisible(false);
 				menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem menuItem) {
@@ -136,6 +143,6 @@ public class SongAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		Song song = Song.fromCursor(cursor, false);
-		getViewForSong(activity, song, view);
+		getViewForSong(activity, song, view, isAlbum);
 	}
 }

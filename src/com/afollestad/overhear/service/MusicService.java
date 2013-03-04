@@ -33,6 +33,19 @@ import java.util.Calendar;
 
 public class MusicService extends Service {
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
+                pauseTrack();
+            } else if(intent.getAction().equals(ACTION_CLEAR_NOTIFICATION)) {
+                if(!isPlaying())
+                    stopForeground(true);
+            }
+        }
+    };
+
+
 	public MusicService() {
 	}
 
@@ -418,15 +431,6 @@ public class MusicService extends Service {
 		}
 	}
 
-	private BroadcastReceiver receiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
-				pauseTrack();
-			}
-		}
-	};
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -482,9 +486,6 @@ public class MusicService extends Service {
 				pauseTrack();
 			else
 				resumeTrack();
-		} else if(action.equals(ACTION_CLEAR_NOTIFICATION)) {
-			if(!isPlaying())
-				stopForeground(true);
 		}
 		return START_STICKY;
 	}
