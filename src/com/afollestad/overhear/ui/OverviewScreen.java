@@ -95,9 +95,11 @@ public class OverviewScreen extends OverhearActivity {
             public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
                 Fragment frag = getFragmentManager().findFragmentByTag("page:" + tab.getPosition());
                 if (frag instanceof ListFragment) {
-                    ((ListFragment) frag).getListView().setSelection(0);
+                    if(frag.getView() != null)
+                        ((ListFragment) frag).getListView().setSelection(0);
                 } else if(frag instanceof OverhearGridFragment) {
-                    ((OverhearGridFragment)frag).getGridView().setSelection(0);
+                    if(frag.getView() != null)
+                        ((OverhearGridFragment)frag).getGridView().setSelection(0);
                 }
             }
         };
