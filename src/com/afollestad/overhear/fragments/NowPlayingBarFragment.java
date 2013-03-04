@@ -19,7 +19,9 @@ import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhear.ui.NowPlayingViewer;
+import com.afollestad.overhear.ui.PlaylistViewer;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 
 import java.lang.ref.WeakReference;
@@ -42,6 +44,7 @@ public class NowPlayingBarFragment extends Fragment {
     }
     
     private Album album;
+    private Playlist playlist;
     private Song focused;
 
     private WeakReference<View> viewPlaying;
@@ -117,11 +120,15 @@ public class NowPlayingBarFragment extends Fragment {
             viewPlaying.get().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if (focused == null) {
+                    if (focused == null)
                         return true;
+                    if(playlist != null) {
+                        startActivity(new Intent(getActivity(), PlaylistViewer.class)
+                                .putExtra("playlist", playlist.getJSON().toString()));
+                    } else if(album != null) {
+                        startActivity(new Intent(getActivity(), AlbumViewer.class)
+                                .putExtra("album", album.getJSON().toString()));
                     }
-                    startActivity(new Intent(getActivity(), AlbumViewer.class)
-                            .putExtra("album", album.getJSON().toString()));
                     return false;
                 }
             });
@@ -177,6 +184,8 @@ public class NowPlayingBarFragment extends Fragment {
             previous.get().setEnabled(true);
             next.get().setEnabled(true);
 
+            if(focused.getPlaylistId() > 0)
+                playlist = Playlist.get(getActivity(), focused.getPlaylistId());
             if (lastPlayed == null || lastPlayed.get() == null ||
                     (!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
                             !lastPlayed.get().getArtist().equals(focused.getArtist())) ||
