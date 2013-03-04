@@ -45,7 +45,7 @@ public class Overhear extends Application {
     public void unbind() {
         boundActivities--;
         if(boundActivities == 0) {
-            startService(new Intent(this, MusicService.class).setAction(MusicService.ACTION_CLEAR_NOTIFICATION));
+            sendBroadcast(new Intent(MusicService.ACTION_CLEAR_NOTIFICATION));
         }
     }
 
