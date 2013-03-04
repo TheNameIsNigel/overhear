@@ -63,7 +63,7 @@ public abstract class OverhearListFragment extends ListFragment implements Loade
     public final void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setListAdapter(getAdapter());
-        getLoaderManager().initLoader(0, null, this);
+        getLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
