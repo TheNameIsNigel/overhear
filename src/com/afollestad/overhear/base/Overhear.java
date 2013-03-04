@@ -11,26 +11,28 @@ import com.afollestad.overhear.service.MusicService;
 import java.io.File;
 
 /**
- * Holds variables that need to be persisted when activities are killed. 
- * 
+ * Holds variables that need to be persisted when activities are killed.
+ *
  * @author Aidan Follestad
  */
 public class Overhear extends Application {
 
-	/**
-	 * This isn't used directly by any code in the app.
-	 */
-	public Overhear() { }
-	
-	public final static int DATABASE_VERSION = 3;
-	
+    /**
+     * This isn't used directly by any code in the app.
+     */
+    public Overhear() {
+    }
+
+    public final static int DATABASE_VERSION = 3;
+
     private ImageManager manager;
     private int boundActivities;
+    private Object LOCK = new Object();
 
     public ImageManager getManager() {
-        if(manager == null) {
-        	File cacheDir = getExternalCacheDir();
-        	cacheDir.mkdirs();
+        if (manager == null) {
+            File cacheDir = getExternalCacheDir();
+            cacheDir.mkdirs();
             manager = new ImageManager(this)
                     .setCacheDirectory(cacheDir)
                     .setFallbackImage(R.drawable.default_song_album);
@@ -39,21 +41,25 @@ public class Overhear extends Application {
     }
 
     public void bind() {
-        boundActivities++;
+        synchronized (LOCK) {
+            boundActivities++;
+        }
     }
 
     public void unbind() {
-        boundActivities--;
-        if(boundActivities == 0) {
-            sendBroadcast(new Intent(MusicService.ACTION_CLEAR_NOTIFICATION));
+        synchronized (LOCK) {
+            boundActivities--;
+            if (boundActivities == 0) {
+                sendBroadcast(new Intent(MusicService.ACTION_CLEAR_NOTIFICATION));
+            }
         }
     }
 
     public static Overhear get(Activity context) {
-        return (Overhear)context.getApplication();
+        return (Overhear) context.getApplication();
     }
 
     public static Overhear get(Service context) {
-        return (Overhear)context.getApplication();
+        return (Overhear) context.getApplication();
     }
 }
