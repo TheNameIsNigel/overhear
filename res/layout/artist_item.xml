@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
-        android:paddingRight="5dp"
+        android:paddingRight="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_alignBottom="@+id/image"
@@ -25,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/image"
+            android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/peak_one"
             android:gravity="center_vertical"
             android:orientation="vertical">
