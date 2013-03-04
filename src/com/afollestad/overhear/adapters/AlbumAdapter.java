@@ -47,6 +47,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
     }
 
     public static void retrieveAlbumArt(Activity context, Album album, AImageView view) {
+        view.setImageBitmap(null);
         view.setManager(Overhear.get(context).getManager());
         if(album == null) {
             view.showFallback();
