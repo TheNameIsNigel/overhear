@@ -19,6 +19,6 @@
     <dimen name="now_playing_screen_control">50dp</dimen>
 
     <dimen name="list_header_side_padding">10dp</dimen>
-
     <dimen name="triangle_options_width">40dp</dimen>
+    <dimen name="divider_height">3dp</dimen>
 </resources>

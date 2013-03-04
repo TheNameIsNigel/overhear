@@ -58,7 +58,7 @@
         android:layout_below="@+id/header"
         android:background="@color/holo_blue"
         android:layout_width="fill_parent"
-        android:layout_height="2dp"/>
+        android:layout_height="@dimen/divider_height"/>
 
     <FrameLayout
         android:id="@+id/songList"
