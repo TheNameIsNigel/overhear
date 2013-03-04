@@ -85,7 +85,7 @@ public class PlaylistSongAdapter extends CursorAdapter {
 							return true;
 						}
                         case R.id.remove: {
-                            list.removeSong(context, song.getPlaylistRowId());
+                            list.removeSongByRow(context, song.getPlaylistRowId());
                             return true;
                         }
 						}

@@ -227,7 +227,7 @@ public class MusicUtils {
     	if(songItem == null)
     		return false;
     	Playlist favorites = createFavoritesIfNotExists(context);
-    	if(!favorites.removeSong(context, songItem.getSongId())) {
+    	if(!favorites.removeSongById(context, songItem.getSongId())) {
     		favorites.insertSong(context, toInsert);
     		return true;
     	}
