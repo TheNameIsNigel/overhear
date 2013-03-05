@@ -47,7 +47,6 @@ public class NowPlayingBarFragment extends Fragment {
     private Playlist playlist;
     private Song focused;
 
-    private WeakReference<View> viewPlaying;
     private WeakReference<AImageView> playing;
     private WeakReference<ImageView> playPause;
     private WeakReference<ImageView> previous;
@@ -90,7 +89,6 @@ public class NowPlayingBarFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         playing = new WeakReference<AImageView>((AImageView) view.findViewById(R.id.playing));
-        viewPlaying = new WeakReference<View>(view.findViewById(R.id.viewPlaying));
         playPause = new WeakReference<ImageView>((ImageView) view.findViewById(R.id.play));
         previous = new WeakReference<ImageView>((ImageView) view.findViewById(R.id.previous));
         next = new WeakReference<ImageView>((ImageView) view.findViewById(R.id.next));
@@ -107,7 +105,7 @@ public class NowPlayingBarFragment extends Fragment {
                         .setAction(MusicService.ACTION_TOGGLE_PLAYBACK));
             }
         });
-        viewPlaying.get().setOnClickListener(new View.OnClickListener() {
+        getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 if (focused == null) {
@@ -117,7 +115,7 @@ public class NowPlayingBarFragment extends Fragment {
             }
         });
         if (getArguments() == null || !getArguments().getBoolean("disable_long_click", false)) {
-            viewPlaying.get().setOnLongClickListener(new View.OnLongClickListener() {
+            getView().setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     if (focused == null)

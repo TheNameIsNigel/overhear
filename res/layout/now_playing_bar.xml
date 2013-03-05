@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:background="?android:attr/selectableItemBackground">
+
     <View
         android:id="@+id/divider"
         android:background="@android:color/holo_blue_light"
@@ -11,56 +13,50 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:gravity="center_vertical"
         android:layout_height="@dimen/now_playing_bar"
-        android:background="@color/actionbar_grey">
+        android:orientation="horizontal">
+
+        <com.afollestad.aimage.views.HeightSquareAImageView
+            android:id="@+id/playing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:scaleType="fitXY"
+            android:layout_alignParentLeft="true"
+            android:duplicateParentState="true"/>
 
         <LinearLayout
-            android:id="@+id/viewPlaying"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/controls"
+            android:id="@+id/details"
+            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_toRightOf="@+id/playing"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_toLeftOf="@+id/controls">
 
-            <com.afollestad.aimage.views.AImageView
-                android:id="@+id/playing"
-                android:layout_width="@dimen/now_playing_bar"
-                android:layout_height="@dimen/now_playing_bar"
-                android:gravity="center"
-                android:layout_marginRight="5dp"
-                android:scaleType="fitXY"/>
+            <TextView
+                android:id="@+id/playingTrack"
+                style="@style/StatusBarText"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
-            <LinearLayout
-                android:layout_marginLeft="5dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/playingTrack"
-                    style="@style/StatusBarText"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/playingArtist"
-                    style="@style/StatusBarText"
-                    android:fontFamily="sans-serif-light"/>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/playingArtist"
+                style="@style/StatusBarText"
+                android:fontFamily="sans-serif-light"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/controls"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true">
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/previous"

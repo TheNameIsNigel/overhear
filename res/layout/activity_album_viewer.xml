@@ -56,7 +56,7 @@
     <View
         android:id="@+id/headerDivider"
         android:layout_below="@+id/header"
-        android:background="@color/holo_blue"
+        android:background="@android:color/holo_blue_dark"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/divider_height"/>
 
