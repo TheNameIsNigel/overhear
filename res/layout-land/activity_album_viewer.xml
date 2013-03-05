@@ -67,8 +67,9 @@
         android:layout_toRightOf="@+id/detailsArea"
         android:layout_above="@+id/nowPlaying"/>
 
-    <FrameLayout
+    <fragment
         android:id="@+id/nowPlaying"
+        android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

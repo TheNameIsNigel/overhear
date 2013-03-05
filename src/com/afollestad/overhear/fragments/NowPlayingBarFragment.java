@@ -42,7 +42,7 @@ public class NowPlayingBarFragment extends Fragment {
 
     public NowPlayingBarFragment() {
     }
-    
+
     private Album album;
     private Playlist playlist;
     private Song focused;
@@ -57,25 +57,26 @@ public class NowPlayingBarFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle sis) {
-        super.onCreate(sis);       
+        super.onCreate(sis);
         setRetainInstance(true);
     }
 
     @Override
     public void onStart() {
-    	super.onStart();
-    	IntentFilter filter = new IntentFilter();
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
         filter.addAction(MusicService.PLAYING_STATE_CHANGED);
         getActivity().registerReceiver(mStatusReceiver, filter);
     }
-    
+
     @Override
     public void onStop() {
-    	super.onStop();
-        if(getActivity() != null) {
-        	try {
-        		getActivity().unregisterReceiver(mStatusReceiver);
-        	} catch(Exception e) { }
+        super.onStop();
+        if (getActivity() != null) {
+            try {
+                getActivity().unregisterReceiver(mStatusReceiver);
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -114,23 +115,27 @@ public class NowPlayingBarFragment extends Fragment {
                 startActivity(new Intent(getActivity(), NowPlayingViewer.class));
             }
         });
-        if (getArguments() == null || !getArguments().getBoolean("disable_long_click", false)) {
-            getView().setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (focused == null)
-                        return true;
-                    if(playlist != null) {
-                        startActivity(new Intent(getActivity(), PlaylistViewer.class)
-                                .putExtra("playlist", playlist.getJSON().toString()));
-                    } else if(album != null) {
-                        startActivity(new Intent(getActivity(), AlbumViewer.class)
-                                .putExtra("album", album.getJSON().toString()));
+        getView().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (focused == null)
+                    return true;
+                if (playlist != null) {
+                    if (playlist.getId() != focused.getPlaylistId())
+                        return false;
+                    startActivity(new Intent(getActivity(), PlaylistViewer.class)
+                            .putExtra("playlist", playlist.getJSON().toString()));
+                } else if (album != null) {
+                    if (!album.getName().equals(focused.getAlbum()) ||
+                            !album.getArtist().equals(focused.getArtist())) {
+                        return false;
                     }
-                    return false;
+                    startActivity(new Intent(getActivity(), AlbumViewer.class)
+                            .putExtra("album", album.getJSON().toString()));
                 }
-            });
-        }
+                return false;
+            }
+        });
         next.get().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -160,19 +165,19 @@ public class NowPlayingBarFragment extends Fragment {
             return;
         boolean isPlaying = false;
         focused = null;
-        
-        if(getActivity() instanceof OverhearActivity) {
-        	if(((OverhearActivity)getActivity()).getService() != null) {
-        		focused = ((OverhearActivity)getActivity()).getService().getQueue().getFocused();
-        		isPlaying = ((OverhearActivity)getActivity()).getService().isPlaying();
-        	}
+
+        if (getActivity() instanceof OverhearActivity) {
+            if (((OverhearActivity) getActivity()).getService() != null) {
+                focused = ((OverhearActivity) getActivity()).getService().getQueue().getFocused();
+                isPlaying = ((OverhearActivity) getActivity()).getService().isPlaying();
+            }
         } else {
-        	if(((OverhearListActivity)getActivity()).getService() != null) {
-        		focused = ((OverhearListActivity)getActivity()).getService().getQueue().getFocused();
-        		isPlaying = ((OverhearListActivity)getActivity()).getService().isPlaying();
-        	}
+            if (((OverhearListActivity) getActivity()).getService() != null) {
+                focused = ((OverhearListActivity) getActivity()).getService().getQueue().getFocused();
+                isPlaying = ((OverhearListActivity) getActivity()).getService().isPlaying();
+            }
         }
-        
+
         if (focused != null && isPlaying) {
             playPause.get().setImageResource(R.drawable.pause);
         } else {
@@ -182,14 +187,14 @@ public class NowPlayingBarFragment extends Fragment {
             previous.get().setEnabled(true);
             next.get().setEnabled(true);
 
-            if(focused.getPlaylistId() > 0)
+            if (focused.getPlaylistId() > 0)
                 playlist = Playlist.get(getActivity(), focused.getPlaylistId());
             if (lastPlayed == null || lastPlayed.get() == null ||
                     (!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
                             !lastPlayed.get().getArtist().equals(focused.getArtist())) ||
                     playing.get().getDrawable() == null) {
                 album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
-                if(albumChanged || playing.get().getDrawable() == null) {
+                if (albumChanged || playing.get().getDrawable() == null) {
                     AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
                 }
             }
