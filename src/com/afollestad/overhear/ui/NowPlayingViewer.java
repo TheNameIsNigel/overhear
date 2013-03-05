@@ -3,7 +3,10 @@ package com.afollestad.overhear.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnSeekCompleteListener;
@@ -144,6 +147,10 @@ public class NowPlayingViewer extends OverhearActivity {
 			return true;
 		}
         case R.id.equalizer: {
+            if(MusicUtils.isInstalled(this, "com.bel.android.dspmanager")) {
+                MusicUtils.startApp(this, "com.bel.android.dspmanager", "com.bel.android.dspmanager.activity.DSPManager");
+                return true;
+            }
             startActivity(new Intent(new Intent(this, EqualizerViewer.class)));
             return true;
         }

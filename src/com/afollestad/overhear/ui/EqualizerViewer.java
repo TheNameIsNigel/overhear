@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.afollestad.overhear.R;
@@ -44,7 +45,20 @@ public class EqualizerViewer extends OverhearActivity {
         presetAdapter.add(getString(R.string.user_defined));
         for(int k = 0; k < m; k++)
             presetAdapter.add(getService().getEqualizer().getPresetName((short) k));
-        ((Spinner)findViewById(R.id.presetSpinner)).setAdapter(presetAdapter);
+        Spinner spinner = (Spinner)findViewById(R.id.presetSpinner);
+        spinner.setAdapter(presetAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int index, long id) {
+                if(index == 0)
+                    return;
+                getService().getEqualizer().usePreset((short)(index - 1));
+                loadBands();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
     private void loadBands() {
@@ -98,7 +112,7 @@ public class EqualizerViewer extends OverhearActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean isUser) {
                 if(isUser) {
-                    getService().getBassBoost().setStrength((short)progress);
+                    getService().getBassBoost().setStrength((short) progress);
                 }
             }
             @Override

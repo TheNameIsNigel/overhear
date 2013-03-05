@@ -1,14 +1,12 @@
 package com.afollestad.overhear.utils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -31,16 +29,16 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
- * Convenience methods for various important functions in the app.  
- * 
+ * Convenience methods for various important functions in the app.
+ *
  * @author Aidan Follestad
  */
 public class MusicUtils {
 
     public static boolean isOnline(Context context) {
-    	if(context == null) {
-    		return false;
-    	}
+        if (context == null) {
+            return false;
+        }
         boolean state = false;
         ConnectivityManager cm = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -85,8 +83,8 @@ public class MusicUtils {
                 .setItems(items.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        if(which == 0) {
-                        	final PlaylistCreationDialog createDiag = createNewPlaylistDialog(context, null);
+                        if (which == 0) {
+                            final PlaylistCreationDialog createDiag = createNewPlaylistDialog(context, null);
                             createDiag.setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
                                 public void onDismiss(DialogInterface dialogInterface) {
@@ -117,9 +115,9 @@ public class MusicUtils {
             list.insertSongs(context, albumSongs);
             Toast.makeText(context, context.getString(R.string.added_to_playist).replace("{name}", albumAdd.getName())
                     .replace("{list}", list.getName()), Toast.LENGTH_SHORT).show();
-        } else if(artistAdd != null) {
-        	ArrayList<Song> artistSongs = Song.getAllFromScope(context, new String[]{
-                        MediaStore.Audio.Media.ARTIST + " = '" + artistAdd.getName().replace("'", "''") + "'",
+        } else if (artistAdd != null) {
+            ArrayList<Song> artistSongs = Song.getAllFromScope(context, new String[]{
+                    MediaStore.Audio.Media.ARTIST + " = '" + artistAdd.getName().replace("'", "''") + "'",
                     MediaStore.Audio.Media.ALBUM
             });
             list.insertSongs(context, artistSongs);
@@ -130,7 +128,7 @@ public class MusicUtils {
     }
 
     public static PlaylistCreationDialog createNewPlaylistDialog(final Activity context, final Playlist toRename) {
-    	return new PlaylistCreationDialog(context).setRenamePlaylist(toRename);
+        return new PlaylistCreationDialog(context).setRenamePlaylist(toRename);
     }
 
     public static AlertDialog createPlaylistDeleteDialog(final Activity context, final Playlist list) {
@@ -153,7 +151,7 @@ public class MusicUtils {
                 });
         return builder.create();
     }
-    
+
     public static AlertDialog createPlaylistClearDialog(final Activity context, final Playlist list) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setTitle(R.string.clear_str)
@@ -174,74 +172,74 @@ public class MusicUtils {
                 });
         return builder.create();
     }
-    
+
     public static ArrayList<Integer> getQueueItemArray(ArrayList<Song> songs) {
-    	ArrayList<Integer> toreturn = new ArrayList<Integer>();
-    	for(Song s : songs) {
-    		toreturn.add(s.getId());
-    	}
-    	return toreturn;
+        ArrayList<Integer> toreturn = new ArrayList<Integer>();
+        for (Song s : songs) {
+            toreturn.add(s.getId());
+        }
+        return toreturn;
     }
-    
+
     public static void addToQueue(Activity context, Song song, int scope) {
-    	if(context == null) {
-    		return;
-    	}
-    	if(context instanceof OverhearActivity) {
-    		if(((OverhearActivity)context).getService() == null)
-    			return;
-    		((OverhearActivity)context).getService().getQueue().add(song, scope);
-    	} else {
-    		if(((OverhearListActivity)context).getService() == null)
-    			return;
-    		((OverhearListActivity)context).getService().getQueue().add(song, scope);
-    	}
+        if (context == null) {
+            return;
+        }
+        if (context instanceof OverhearActivity) {
+            if (((OverhearActivity) context).getService() == null)
+                return;
+            ((OverhearActivity) context).getService().getQueue().add(song, scope);
+        } else {
+            if (((OverhearListActivity) context).getService() == null)
+                return;
+            ((OverhearListActivity) context).getService().getQueue().add(song, scope);
+        }
     }
-    
+
     public static void addToQueue(Activity context, ArrayList<Song> songs, int scope) {
-    	if(context == null) {
-    		return;
-    	}
-    	if(context instanceof OverhearActivity) {
-    		if(((OverhearActivity)context).getService() == null)
-    			return;
-    		((OverhearActivity)context).getService().getQueue().add(songs, scope);
-    	} else {
-    		if(((OverhearListActivity)context).getService() == null)
-    			return;
-    		((OverhearListActivity)context).getService().getQueue().add(songs, scope);
-    	}
+        if (context == null) {
+            return;
+        }
+        if (context instanceof OverhearActivity) {
+            if (((OverhearActivity) context).getService() == null)
+                return;
+            ((OverhearActivity) context).getService().getQueue().add(songs, scope);
+        } else {
+            if (((OverhearListActivity) context).getService() == null)
+                return;
+            ((OverhearListActivity) context).getService().getQueue().add(songs, scope);
+        }
     }
-    
+
     public static boolean isFavorited(Context context, QueueItem song) {
-    	if(song == null)
-    		return false;
-    	Playlist favorites = Playlist.get(context, context.getString(R.string.favorites_str));
-    	if(favorites == null) {
-    		return false;
-    	}
-    	return favorites.contains(context, song.getSongId());
+        if (song == null)
+            return false;
+        Playlist favorites = Playlist.get(context, context.getString(R.string.favorites_str));
+        if (favorites == null) {
+            return false;
+        }
+        return favorites.contains(context, song.getSongId());
     }
-    
+
     public static boolean toggleFavorited(Context context, QueueItem songItem, Song toInsert) {
-    	if(songItem == null)
-    		return false;
-    	Playlist favorites = createFavoritesIfNotExists(context);
-    	if(!favorites.removeSongById(context, songItem.getSongId())) {
-    		favorites.insertSong(context, toInsert);
-    		return true;
-    	}
-    	return false;
+        if (songItem == null)
+            return false;
+        Playlist favorites = createFavoritesIfNotExists(context);
+        if (!favorites.removeSongById(context, songItem.getSongId())) {
+            favorites.insertSong(context, toInsert);
+            return true;
+        }
+        return false;
     }
 
     public static Playlist createFavoritesIfNotExists(Context context) {
-    	Playlist favorites = Playlist.get(context, context.getString(R.string.favorites_str));
-    	if(favorites == null) {
-    		favorites = Playlist.create(context, context.getString(R.string.favorites_str));
-    	}
-    	return favorites;
+        Playlist favorites = Playlist.get(context, context.getString(R.string.favorites_str));
+        if (favorites == null) {
+            favorites = Playlist.create(context, context.getString(R.string.favorites_str));
+        }
+        return favorites;
     }
-    
+
     @SuppressLint("CommitTransaction")
     public static void showAboutDialog(Activity activity) {
         FragmentManager fm = activity.getFragmentManager();
@@ -252,5 +250,20 @@ public class MusicUtils {
         }
         ft.addToBackStack(null);
         new AboutDialog().show(ft, "dialog_about");
+    }
+
+    public static boolean isInstalled(Context context, String pname) {
+        try {
+            ApplicationInfo info = context.getPackageManager().getApplicationInfo(pname, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    public static void startApp(Context context, String pname, String fullPath) {
+        Intent intent = new Intent("android.intent.category.LAUNCHER");
+        intent.setClassName(pname, fullPath);
+        context.startActivity(intent);
     }
 }
