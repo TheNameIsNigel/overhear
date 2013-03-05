@@ -95,8 +95,10 @@ public class EqualizerViewer extends OverhearActivity {
 
     private void loadBassBoost() {
         mBaseBoost = new BassBoost(0, getService().getMediaPlayer().getAudioSessionId());
-        ArrayAdapter<String> presetAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, R.array.bass_boost_settings);
+        ArrayAdapter<String> presetAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        for(String value : getResources().getStringArray(R.array.bass_boost_settings))
+            presetAdapter.add(value);
         ((Spinner)findViewById(R.id.bassBoostStrength)).setAdapter(presetAdapter);
     }
 
