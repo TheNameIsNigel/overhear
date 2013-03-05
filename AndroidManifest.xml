@@ -78,6 +78,7 @@
 
         <activity
             android:name="com.afollestad.overhear.ui.EqualizerViewer"
+            android:label="@string/equalizer_str"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
 
