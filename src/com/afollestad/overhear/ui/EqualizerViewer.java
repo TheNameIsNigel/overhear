@@ -11,7 +11,6 @@ import android.widget.*;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.fragments.NowPlayingBarFragment;
-import com.afollestad.overhear.utils.Store;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.views.VerticalSeekBar;
 
@@ -51,7 +50,6 @@ public class EqualizerViewer extends OverhearActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int index, long id) {
-                Store.put(getApplicationContext(), "preset_index", index);
                 if(index == 0)
                     return;
                 getService().getEqualizer().usePreset((short)(index - 1));
@@ -61,7 +59,6 @@ public class EqualizerViewer extends OverhearActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        spinner.setSelection(Store.i(getApplicationContext(), "preset_index", 0));
     }
 
     private void loadBands() {

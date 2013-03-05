@@ -24,6 +24,7 @@ import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.SleepTimer;
+import com.afollestad.overhear.utils.Store;
 import com.afollestad.overhearapi.*;
 
 import java.util.ArrayList;
@@ -226,20 +227,36 @@ public class MusicService extends Service {
         if (equalizer == null) {
             equalizer = new Equalizer(0, getMediaPlayer().getAudioSessionId());
             equalizer.setEnabled(true);
+            short lastPreset = (short)Store.i(getApplicationContext(), "equalization_preset", -1);
+            if(lastPreset > -1)
+                equalizer.usePreset(lastPreset);
         }
         if (bassBoost == null) {
             bassBoost = new BassBoost(0, getMediaPlayer().getAudioSessionId());
             bassBoost.setEnabled(true);
+            short lastStrength = (short)Store.i(getApplicationContext(), "bass_boost_strength", -1);
+            if(lastStrength > -1)
+                bassBoost.setStrength(lastStrength);
         }
     }
 
     private void persistEqualizer() {
         //TODO
         if (equalizer != null) {
+            try {
+                Store.put(getApplicationContext(), "equalization_preset", (int)equalizer.getCurrentPreset());
+            } catch(Exception e) {
+                Store.put(getApplicationContext(), "equalization_preset", -1);
+            }
             equalizer.release();
             equalizer = null;
         }
         if (bassBoost != null) {
+            try {
+                Store.put(getApplicationContext(), "bass_boost_strength", (int)bassBoost.getRoundedStrength());
+            } catch(Exception e) {
+                Store.put(getApplicationContext(), "bass_boost_strength", -1);
+            }
             bassBoost.release();
             bassBoost = null;
         }
@@ -464,12 +481,11 @@ public class MusicService extends Service {
     }
 
 
-public class MusicBinder extends Binder {
-    public MusicService getService() {
-        return MusicService.this;
+    public class MusicBinder extends Binder {
+        public MusicService getService() {
+            return MusicService.this;
+        }
     }
-
-}
 
     @Override
     public void onCreate() {
