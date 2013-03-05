@@ -13,18 +13,23 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp" android:paddingRight="10dp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-            <Spinner android:id="@+id/presetSpinner" android:layout_width="fill_parent" android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"/>
+            <Spinner
+                android:id="@+id/presetSpinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="15dp"/>
 
             <LinearLayout
                 android:id="@+id/bands"
                 android:layout_width="fill_parent"
                 android:layout_height="300dp"
                 android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:paddingTop="15dp" android:paddingBottom="15dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp"
                 android:layout_below="@+id/presetSpinner"/>
 
         </RelativeLayout>

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.audiofx.Equalizer;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.utils.Twitter;
+import com.afollestad.overhear.views.VerticalSeekBar;
 
 /**
  * The equalizer interface.
@@ -43,6 +43,7 @@ public class EqualizerViewer extends OverhearActivity {
         short m = mEqualizer.getNumberOfPresets();
         ArrayAdapter<String> presetAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        presetAdapter.add(getString(R.string.user_defined));
         for(int k=0; k <m ; k++)
             presetAdapter.add(mEqualizer.getPresetName((short) k));
         ((Spinner)findViewById(R.id.presetSpinner)).setAdapter(presetAdapter);
@@ -52,51 +53,25 @@ public class EqualizerViewer extends OverhearActivity {
         mEqualizer = new Equalizer(0, getService().getMediaPlayer().getAudioSessionId());
         mEqualizer.setEnabled(true);
         short bands = mEqualizer.getNumberOfBands();
-
         final short minEQLevel = mEqualizer.getBandLevelRange()[0];
         final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
-
         final LinearLayout mBandsView = (LinearLayout)findViewById(R.id.bands);
         mBandsView.removeAllViews();
 
         for (short i = 0; i < bands; i++) {
             final short band = i;
-
-            TextView freqTextView = new TextView(this);
-            freqTextView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.FILL_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            freqTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-            freqTextView.setText((mEqualizer.getCenterFreq(band) / 1000) + " Hz");
-            mBandsView.addView(freqTextView);
-
-            LinearLayout row = new LinearLayout(this);
-            row.setOrientation(LinearLayout.HORIZONTAL);
-
-            TextView minDbTextView = new TextView(this);
-            minDbTextView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            minDbTextView.setText((minEQLevel / 100) + " dB");
-
-            TextView maxDbTextView = new TextView(this);
-            maxDbTextView.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            maxDbTextView.setText((maxEQLevel / 100) + " dB");
-
+            LinearLayout bandView = (LinearLayout)getLayoutInflater().inflate(R.layout.equalizer_band, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.FILL_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.weight = 1;
-            SeekBar bar = new SeekBar(this);
-            bar.setLayoutParams(layoutParams);
+            bandView.setLayoutParams(layoutParams);
+
+            VerticalSeekBar bar = (VerticalSeekBar)bandView.findViewById(R.id.bar);
             bar.setMax(maxEQLevel - minEQLevel);
             bar.setProgress(mEqualizer.getBandLevel(band));
-
             bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                public void onProgressChanged(SeekBar seekBar, int progress,
-                                              boolean fromUser) {
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
                 }
 
@@ -107,12 +82,13 @@ public class EqualizerViewer extends OverhearActivity {
                 }
             });
 
-            row.addView(minDbTextView);
-            row.addView(bar);
-            row.addView(maxDbTextView);
-
-            mBandsView.addView(row);
+            TextView frequency = (TextView)bandView.findViewById(R.id.frequency);
+            frequency.setText((mEqualizer.getCenterFreq(band) / 1000) + "");
+            mBandsView.addView(bandView);
         }
+
+        mBandsView.requestLayout();
+        mBandsView.invalidate();
     }
 
     @Override

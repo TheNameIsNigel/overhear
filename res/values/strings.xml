@@ -92,5 +92,6 @@
     <string name="remove_str">Remove</string>
 
     <string name="equalizer_str">Equalizer</string>
+    <string name="user_defined">User defined</string>
 
 </resources>
