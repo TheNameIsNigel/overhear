@@ -11,6 +11,7 @@ import android.widget.*;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.fragments.NowPlayingBarFragment;
+import com.afollestad.overhear.utils.Store;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.views.VerticalSeekBar;
 
@@ -50,6 +51,7 @@ public class EqualizerViewer extends OverhearActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int index, long id) {
+                Store.put(getApplicationContext(), "preset_index", index);
                 if(index == 0)
                     return;
                 getService().getEqualizer().usePreset((short)(index - 1));
@@ -59,10 +61,12 @@ public class EqualizerViewer extends OverhearActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+        spinner.setSelection(Store.i(getApplicationContext(), "preset_index", 0));
     }
 
     private void loadBands() {
         short bands = getService().getEqualizer().getNumberOfBands();
+        final Spinner presetSpinner = (Spinner)findViewById(R.id.presetSpinner);
         final short minEQLevel = getService().getEqualizer().getBandLevelRange()[0];
         final short maxEQLevel = getService().getEqualizer().getBandLevelRange()[1];
         final LinearLayout mBandsView = (LinearLayout)findViewById(R.id.bands);
@@ -82,6 +86,7 @@ public class EqualizerViewer extends OverhearActivity {
             bar.setProgress(getService().getEqualizer().getBandLevel(band));
             bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    presetSpinner.setSelection(0);
                     getService().getEqualizer().setBandLevel(band, (short) (progress + minEQLevel));
                 }
 
