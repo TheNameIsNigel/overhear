@@ -121,12 +121,15 @@ public class NowPlayingBarFragment extends Fragment {
                 if (focused == null)
                     return true;
                 if (playlist != null) {
-                    if (playlist.getId() != focused.getPlaylistId())
+                    if (getActivity() instanceof PlaylistViewer &&
+                            playlist.getId() != focused.getPlaylistId()) {
                         return false;
+                    }
                     startActivity(new Intent(getActivity(), PlaylistViewer.class)
                             .putExtra("playlist", playlist.getJSON().toString()));
                 } else if (album != null) {
-                    if (!album.getName().equals(focused.getAlbum()) ||
+                    if (getActivity() instanceof AlbumViewer &&
+                            !album.getName().equals(focused.getAlbum()) ||
                             !album.getArtist().equals(focused.getArtist())) {
                         return false;
                     }
