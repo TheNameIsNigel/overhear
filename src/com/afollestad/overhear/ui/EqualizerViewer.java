@@ -126,7 +126,7 @@ public class EqualizerViewer extends OverhearActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.album_viewer, menu);
+        getMenuInflater().inflate(R.menu.equilizer_viewer, menu);
         return true;
     }
 

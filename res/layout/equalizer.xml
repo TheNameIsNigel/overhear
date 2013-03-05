@@ -17,14 +17,14 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp">
+            android:paddingBottom="10dp">
 
             <Spinner
                 android:id="@+id/presetSpinner"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="15dp"/>
 
             <LinearLayout
                 android:id="@+id/bands"
@@ -54,6 +54,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
                 android:layout_below="@id/bassBoostHeader"
                 android:max="1000"/>
 
