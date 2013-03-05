@@ -129,8 +129,8 @@ public class NowPlayingBarFragment extends Fragment {
                             .putExtra("playlist", playlist.getJSON().toString()));
                 } else if (album != null) {
                     if (getActivity() instanceof AlbumViewer &&
-                            !album.getName().equals(focused.getAlbum()) ||
-                            !album.getArtist().equals(focused.getArtist())) {
+                            (!album.getName().equals(focused.getAlbum()) ||
+                            !album.getArtist().equals(focused.getArtist()))) {
                         return false;
                     }
                     startActivity(new Intent(getActivity(), AlbumViewer.class)
