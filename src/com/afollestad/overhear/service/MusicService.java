@@ -10,23 +10,21 @@ import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
+import android.media.audiofx.BassBoost;
+import android.media.audiofx.Equalizer;
 import android.os.Binder;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.widget.Toast;
 import com.afollestad.aimage.ImageListener;
-import com.afollestad.overhear.*;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.queue.Queue;
 import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.SleepTimer;
-import com.afollestad.overhearapi.Album;
-import com.afollestad.overhearapi.Artist;
-import com.afollestad.overhearapi.Genre;
-import com.afollestad.overhearapi.Playlist;
-import com.afollestad.overhearapi.Song;
+import com.afollestad.overhearapi.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,6 +62,8 @@ public class MusicService extends Service {
 	}
 
 	private static MediaPlayer player;
+    private Equalizer equalizer;
+    private BassBoost bassBoost;
 	private AudioManager audioManager;
 	private RemoteControlClient mRemoteControlClient;
 
@@ -220,6 +220,27 @@ public class MusicService extends Service {
 			e.printStackTrace();
 		}
 	}
+
+    public void initializeEffects() {
+        if(equalizer != null) {
+            return;
+        }
+        getPlayer(false);
+        equalizer = new Equalizer(0, getMediaPlayer().getAudioSessionId());
+        equalizer.setEnabled(true);
+        bassBoost = new BassBoost(0, getMediaPlayer().getAudioSessionId());
+        bassBoost.setEnabled(true);
+    }
+
+    private void persistEqualizer() {
+        if(equalizer != null) {
+
+        }
+        if(bassBoost != null) {
+
+        }
+    }
+
 
 	private void initializeNotification(final QueueItem nowPlaying) {
 		Notification status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, null, isPlaying());
@@ -418,6 +439,14 @@ public class MusicService extends Service {
 
     public MediaPlayer getMediaPlayer() {
         return player;
+    }
+
+    public Equalizer getEqualizer() {
+        return equalizer;
+    }
+
+    public BassBoost getBassBoost() {
+        return bassBoost;
     }
 
 	public boolean isPlaying() {

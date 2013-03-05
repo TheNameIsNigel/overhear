@@ -46,7 +46,7 @@ public class EqualizerViewer extends OverhearActivity {
         ArrayAdapter<String> presetAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         presetAdapter.add(getString(R.string.user_defined));
-        for(int k=0; k <m ; k++)
+        for(int k = 0; k < m; k++)
             presetAdapter.add(mEqualizer.getPresetName((short) k));
         ((Spinner)findViewById(R.id.presetSpinner)).setAdapter(presetAdapter);
     }
@@ -54,6 +54,7 @@ public class EqualizerViewer extends OverhearActivity {
     private void loadBands() {
         mEqualizer = new Equalizer(0, getService().getMediaPlayer().getAudioSessionId());
         mEqualizer.setEnabled(true);
+
         short bands = mEqualizer.getNumberOfBands();
         final short minEQLevel = mEqualizer.getBandLevelRange()[0];
         final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
@@ -95,13 +96,30 @@ public class EqualizerViewer extends OverhearActivity {
 
     private void loadBassBoost() {
         mBaseBoost = new BassBoost(0, getService().getMediaPlayer().getAudioSessionId());
-        ArrayAdapter<String> presetAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-        presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for(String value : getResources().getStringArray(R.array.bass_boost_settings))
-            presetAdapter.add(value);
-        ((Spinner)findViewById(R.id.bassBoostStrength)).setAdapter(presetAdapter);
+        mBaseBoost.setEnabled(true);
 
-        //TODO changing of the bass boost value
+        SeekBar strengthBar = (SeekBar)findViewById(R.id.bassBoostStrength);
+        if(!mBaseBoost.getStrengthSupported()) {
+            strengthBar.setEnabled(false);
+            mBaseBoost.release();
+            mBaseBoost = null;
+            return;
+        }
+        strengthBar.setProgress(mBaseBoost.getRoundedStrength());
+        strengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean isUser) {
+                if(isUser) {
+                    mBaseBoost.setStrength((short)progress);
+                }
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
     }
 
     @Override

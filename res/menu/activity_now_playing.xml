@@ -8,6 +8,7 @@
     <item
         android:id="@+id/equalizer"
         android:title="@string/equalizer_str"
+        android:icon="@drawable/equalizer"
         android:showAsAction="ifRoom"/>
     <item
         android:id="@+id/sleepTimer"

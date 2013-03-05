@@ -9,7 +9,8 @@
         android:id="@+id/scroller"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:fadeScrollbars="true">
+        android:layout_above="@+id/nowPlaying"
+        android:layout_alignParentTop="true">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -39,19 +40,21 @@
                 android:textAllCaps="false"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:textSize="20sp"
                 android:text="@string/bass_boost"
                 android:textColor="@android:color/holo_blue_dark"
                 android:layout_below="@id/bands"/>
 
-            <Spinner
+            <SeekBar
                 android:id="@+id/bassBoostStrength"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_below="@id/bassBoostHeader"/>
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@id/bassBoostHeader"
+                android:max="1000"/>
 
         </RelativeLayout>
 

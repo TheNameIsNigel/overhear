@@ -94,11 +94,6 @@
     <string name="equalizer_str">Equalizer</string>
     <string name="user_defined">User defined</string>
     <string name="bass_boost">Bass Boost</string>
-
-    <string-array name="bass_boost_settings">
-        <item>Weakest</item>
-        <item>Moderate</item>
-        <item>Strongest</item>
-    </string-array>
+    <string name="enable_bass_boost">Enable bass boost</string>
 
 </resources>
