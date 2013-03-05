@@ -1,17 +1,15 @@
 package com.afollestad.overhear.queue;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import com.afollestad.overhearapi.Song;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import com.afollestad.overhearapi.Song;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Used for creating, modifying, managing, and modifying the music service's queue.
@@ -204,14 +202,14 @@ public class Queue {
 	public void nextRepeatMode() {
 		switch(getRepeatMode()) {
 		case Queue.REPEAT_MODE_OFF:
-			setRepeatMode(Queue.REPEAT_MODE_ONCE);
-			break;
-		case Queue.REPEAT_MODE_ONCE:
-			setRepeatMode(Queue.REPEAT_MODE_ALL);
+            setRepeatMode(Queue.REPEAT_MODE_ALL);
 			break;
 		case Queue.REPEAT_MODE_ALL:
-			setRepeatMode(Queue.REPEAT_MODE_OFF);
+            setRepeatMode(Queue.REPEAT_MODE_ONCE);
 			break;
+        case Queue.REPEAT_MODE_ONCE:
+            setRepeatMode(Queue.REPEAT_MODE_OFF);
+            break;
 		}
 	}
 
