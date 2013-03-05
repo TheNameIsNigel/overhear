@@ -221,7 +221,7 @@ public class MusicService extends Service {
 		}
 	}
 
-    public void initializeEffects() {
+    private void initializeEqualizerIfNull() {
         if(equalizer != null) {
             return;
         }
@@ -233,11 +233,14 @@ public class MusicService extends Service {
     }
 
     private void persistEqualizer() {
+        //TODO
         if(equalizer != null) {
-
+            equalizer.release();
+            equalizer = null;
         }
         if(bassBoost != null) {
-
+            bassBoost.release();
+            bassBoost = null;
         }
     }
 
@@ -438,6 +441,7 @@ public class MusicService extends Service {
 	}
 
     public MediaPlayer getMediaPlayer() {
+        initializeEqualizerIfNull();
         return player;
     }
 
@@ -532,6 +536,7 @@ public class MusicService extends Service {
 			player.release();
 			player = null;
 		}
+        persistEqualizer();
 		initialized = false;
 		unregisterReceiver(receiver);
 		getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);

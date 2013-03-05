@@ -48,7 +48,7 @@
 
     <string name="about_str">About</string>
     <string name="about_body"><![CDATA[
-        Coded by Aidan Follestad (@afollestad). Icon by Nathanel Titane (@nathaneltitane).<br/><br/>Follow Overhear! @OverhearApp
+        Coded by Aidan Follestad (@afollestad). Launcher, status bar, and non-stock action bar icons by Nathanel Titane (@nathaneltitane).<br/><br/>Follow Overhear! @OverhearApp
     ]]></string>
     <string name="app_name_and_version" translatable="false"><![CDATA[
         <b>Overhear</b>&nbsp;<font color="#888888">v%1$s</font>

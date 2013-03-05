@@ -2,8 +2,6 @@ package com.afollestad.overhear.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.audiofx.BassBoost;
-import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,8 +20,6 @@ import com.afollestad.overhear.views.VerticalSeekBar;
  */
 public class EqualizerViewer extends OverhearActivity {
 
-    private Equalizer mEqualizer;
-    private BassBoost mBaseBoost;
     public final static int TWEET_PLAYING_LOGIN = 400;
 
     @Override
@@ -42,22 +38,19 @@ public class EqualizerViewer extends OverhearActivity {
     }
 
     private void loadPresets() {
-        short m = mEqualizer.getNumberOfPresets();
+        short m = getService().getEqualizer().getNumberOfPresets();
         ArrayAdapter<String> presetAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         presetAdapter.add(getString(R.string.user_defined));
         for(int k = 0; k < m; k++)
-            presetAdapter.add(mEqualizer.getPresetName((short) k));
+            presetAdapter.add(getService().getEqualizer().getPresetName((short) k));
         ((Spinner)findViewById(R.id.presetSpinner)).setAdapter(presetAdapter);
     }
 
     private void loadBands() {
-        mEqualizer = new Equalizer(0, getService().getMediaPlayer().getAudioSessionId());
-        mEqualizer.setEnabled(true);
-
-        short bands = mEqualizer.getNumberOfBands();
-        final short minEQLevel = mEqualizer.getBandLevelRange()[0];
-        final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
+        short bands = getService().getEqualizer().getNumberOfBands();
+        final short minEQLevel = getService().getEqualizer().getBandLevelRange()[0];
+        final short maxEQLevel = getService().getEqualizer().getBandLevelRange()[1];
         final LinearLayout mBandsView = (LinearLayout)findViewById(R.id.bands);
         mBandsView.removeAllViews();
 
@@ -72,10 +65,10 @@ public class EqualizerViewer extends OverhearActivity {
 
             VerticalSeekBar bar = (VerticalSeekBar)bandView.findViewById(R.id.bar);
             bar.setMax(maxEQLevel - minEQLevel);
-            bar.setProgress(mEqualizer.getBandLevel(band));
+            bar.setProgress(getService().getEqualizer().getBandLevel(band));
             bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
+                    getService().getEqualizer().setBandLevel(band, (short) (progress + minEQLevel));
                 }
 
                 public void onStartTrackingTouch(SeekBar seekBar) {
@@ -86,7 +79,7 @@ public class EqualizerViewer extends OverhearActivity {
             });
 
             TextView frequency = (TextView)bandView.findViewById(R.id.frequency);
-            frequency.setText((mEqualizer.getCenterFreq(band) / 1000) + "");
+            frequency.setText((getService().getEqualizer().getCenterFreq(band) / 1000) + "");
             mBandsView.addView(bandView);
         }
 
@@ -95,22 +88,17 @@ public class EqualizerViewer extends OverhearActivity {
     }
 
     private void loadBassBoost() {
-        mBaseBoost = new BassBoost(0, getService().getMediaPlayer().getAudioSessionId());
-        mBaseBoost.setEnabled(true);
-
         SeekBar strengthBar = (SeekBar)findViewById(R.id.bassBoostStrength);
-        if(!mBaseBoost.getStrengthSupported()) {
+        if(!getService().getBassBoost().getStrengthSupported()) {
             strengthBar.setEnabled(false);
-            mBaseBoost.release();
-            mBaseBoost = null;
             return;
         }
-        strengthBar.setProgress(mBaseBoost.getRoundedStrength());
+        strengthBar.setProgress(getService().getBassBoost().getRoundedStrength());
         strengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean isUser) {
                 if(isUser) {
-                    mBaseBoost.setStrength((short)progress);
+                    getService().getBassBoost().setStrength((short)progress);
                 }
             }
             @Override
