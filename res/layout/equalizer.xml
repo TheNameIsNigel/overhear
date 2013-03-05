@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                xmlns:tools="http://schemas.android.com/tools"
+                tools:context=".EqualizerViewer">
+
+    <ScrollView
+        android:id="@+id/scroller"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp" android:paddingRight="10dp">
+
+            <Spinner android:id="@+id/presetSpinner" android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"/>
+
+            <LinearLayout
+                android:id="@+id/bands"
+                android:layout_width="fill_parent"
+                android:layout_height="300dp"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:paddingTop="15dp" android:paddingBottom="15dp"
+                android:layout_below="@+id/presetSpinner"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <fragment
+        android:id="@+id/nowPlaying"
+        android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        tools:layout="@layout/scroller"/>
+
+</RelativeLayout>

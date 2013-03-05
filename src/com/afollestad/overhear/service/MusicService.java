@@ -416,6 +416,10 @@ public class MusicService extends Service {
 		}
 	}
 
+    public MediaPlayer getMediaPlayer() {
+        return player;
+    }
+
 	public boolean isPlaying() {
 		return player != null && initialized && player.isPlaying();
 	}

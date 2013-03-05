@@ -91,4 +91,6 @@
     <string name="repeat">Repeat</string>
     <string name="remove_str">Remove</string>
 
+    <string name="equalizer_str">Equalizer</string>
+
 </resources>

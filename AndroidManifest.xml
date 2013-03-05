@@ -76,6 +76,10 @@
             android:name="com.afollestad.overhear.ui.PlaylistViewer"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
+        <activity
+            android:name="com.afollestad.overhear.ui.EqualizerViewer"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+
 
         <service
             android:name="com.afollestad.overhear.service.MusicService"
