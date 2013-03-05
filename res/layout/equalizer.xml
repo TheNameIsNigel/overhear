@@ -26,11 +26,30 @@
             <LinearLayout
                 android:id="@+id/bands"
                 android:layout_width="fill_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:orientation="horizontal"
                 android:layout_marginBottom="15dp"
                 android:layout_below="@+id/presetSpinner"/>
+
+            <TextView
+                android:id="@+id/bassBoostHeader"
+                style="?android:listSeparatorTextViewStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/bass_boost"
+                android:textColor="@android:color/holo_blue_dark"
+                android:layout_below="@id/bands"/>
+
+            <SeekBar
+                android:id="@+id/bassBoostBar"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bassBoostHeader"/>
 
         </RelativeLayout>
 

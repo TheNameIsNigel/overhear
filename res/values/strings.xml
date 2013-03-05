@@ -93,5 +93,6 @@
 
     <string name="equalizer_str">Equalizer</string>
     <string name="user_defined">User defined</string>
+    <string name="bass_boost">Bass Boost</string>
 
 </resources>

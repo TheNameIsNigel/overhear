@@ -2,6 +2,7 @@ package com.afollestad.overhear.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.audiofx.BassBoost;
 import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import com.afollestad.overhear.views.VerticalSeekBar;
 public class EqualizerViewer extends OverhearActivity {
 
     private Equalizer mEqualizer;
+    private BassBoost mBaseBoost;
     public final static int TWEET_PLAYING_LOGIN = 400;
 
     @Override
@@ -89,6 +91,10 @@ public class EqualizerViewer extends OverhearActivity {
 
         mBandsView.requestLayout();
         mBandsView.invalidate();
+    }
+
+    private void loadBassBoost() {
+        mBaseBoost = new BassBoost(0, getService().getMediaPlayer().getAudioSessionId());
     }
 
     @Override
