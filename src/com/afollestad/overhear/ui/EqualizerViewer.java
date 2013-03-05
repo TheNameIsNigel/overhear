@@ -100,6 +100,8 @@ public class EqualizerViewer extends OverhearActivity {
         for(String value : getResources().getStringArray(R.array.bass_boost_settings))
             presetAdapter.add(value);
         ((Spinner)findViewById(R.id.bassBoostStrength)).setAdapter(presetAdapter);
+
+        //TODO changing of the bass boost value
     }
 
     @Override
