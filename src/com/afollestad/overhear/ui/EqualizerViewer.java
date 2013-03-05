@@ -59,6 +59,8 @@ public class EqualizerViewer extends OverhearActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+        if(getService().getEqualizer().getCurrentPreset() > -1)
+            spinner.setSelection(getService().getEqualizer().getCurrentPreset() + 1);
     }
 
     private void loadBands() {
