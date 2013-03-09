@@ -23,8 +23,11 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
     private WeakReference<AImageView> view;
 
     public LastfmGetArtistImage(Activity context, AImageView view) {
-        if(view != null)
+        if(view != null) {
+            if(view.getTag() != null)
+                ((AsyncTask)view.getTag()).cancel(true);
             view.setTag(this);
+        }
         this.context = new WeakReference<Activity>(context);
         this.view = new WeakReference<AImageView>(view);
     }

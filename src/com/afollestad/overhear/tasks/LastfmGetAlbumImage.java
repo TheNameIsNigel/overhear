@@ -30,8 +30,11 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
     private boolean forceDownload;
 
     public LastfmGetAlbumImage(Context context, Application app, AImageView view, boolean forceDownload) {
-        if(view != null)
+        if(view != null) {
+            if(view.getTag() != null)
+                ((AsyncTask)view.getTag()).cancel(true);
             view.setTag(this);
+        }
         this.context = new WeakReference<Context>(context);
         this.view = new WeakReference<AImageView>(view);
         this.app = new WeakReference<Application>(app);
