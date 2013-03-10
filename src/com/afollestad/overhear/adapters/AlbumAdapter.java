@@ -170,6 +170,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
             view = convertView;
         }
 
+        getCursor().moveToPosition(position);
         Album album = Album.fromCursor(getCursor());
         view = getViewForAlbum(context, album, view);
 

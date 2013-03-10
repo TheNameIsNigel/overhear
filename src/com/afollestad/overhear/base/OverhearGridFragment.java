@@ -9,6 +9,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +48,6 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
     public abstract String getEmptyText();
 
     public abstract void onItemClick(int position, Cursor cursor);
-
-    public abstract void onItemLongClick(int position, Cursor cursor, View view);
 
     public abstract void onInitialize();
 
@@ -95,14 +94,6 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
                 OverhearGridFragment.this.onItemClick(position, getAdapter().getCursor());
             }
         });
-        view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                getAdapter().getCursor().moveToPosition(position);
-                OverhearGridFragment.this.onItemLongClick(position, getAdapter().getCursor(), view);
-                return true;
-            }
-        });
         view.setAdapter(getAdapter());
         return view;
     }
@@ -129,8 +120,10 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
     public final void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
         if(data == null)
             return;
-        if(getAdapter() != null)
+        if(getAdapter() != null) {
+            Log.e("OVERHEAR GRID", ((CursorLoader) arg0).getUri().toString());
             getAdapter().changeCursor(data);
+        }
     }
 
     @Override

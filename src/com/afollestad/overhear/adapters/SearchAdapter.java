@@ -88,9 +88,7 @@ public class SearchAdapter extends BaseAdapter {
                 view = AlbumAdapter.getViewForAlbum(context, (Album)items.get(i), convertView);
                 break;
             case 3:
-                if(view == null)
-                    view = LayoutInflater.from(context).inflate(R.layout.genre_item, null);
-                ((TextView)view).setText(((Artist)items.get(i)).getName());
+                view = ArtistAdapter.getViewForArtist(context, (Artist)items.get(i), convertView, false);
                 break;
         }
 
