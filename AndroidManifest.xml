@@ -60,7 +60,8 @@
         <activity
             android:name="com.afollestad.overhear.ui.SearchScreen"
             android:label="@string/search_str"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name="com.afollestad.overhear.ui.SleepTimerViewer"

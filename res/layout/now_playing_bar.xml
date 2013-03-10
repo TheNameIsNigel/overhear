@@ -7,7 +7,7 @@
 
     <View
         android:id="@+id/divider"
-        android:background="@android:color/holo_blue_light"
+        android:background="@android:color/holo_blue_dark"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/divider_height"/>
 

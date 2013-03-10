@@ -17,6 +17,7 @@ import android.widget.SearchView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SearchAdapter;
 import com.afollestad.overhear.base.OverhearListActivity;
+import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
 import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
@@ -147,7 +148,7 @@ public class SearchScreen extends OverhearListActivity {
             public boolean onQueryTextChange(String s) {
                 lastQuery = s;
                 mHandler.removeCallbacks(searchRunner);
-                mHandler.postDelayed(searchRunner, 250);
+                mHandler.postDelayed(searchRunner, 350);
                 return false;
             }
         });
@@ -185,6 +186,7 @@ public class SearchScreen extends OverhearListActivity {
     }
     
     @Override
-	public void onBound() {		
+	public void onBound() {
+        ((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update(true);
 	}
 }
