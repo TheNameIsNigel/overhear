@@ -49,6 +49,8 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
 
     public abstract void onItemClick(int position, Cursor cursor);
 
+    public abstract void onItemLongClick(int position, Cursor cursor, View view);
+
     public abstract void onInitialize();
 
     /**
@@ -92,6 +94,14 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 getAdapter().getCursor().moveToPosition(position);
                 OverhearGridFragment.this.onItemClick(position, getAdapter().getCursor());
+            }
+        });
+        view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                getAdapter().getCursor().moveToPosition(position);
+                OverhearGridFragment.this.onItemLongClick(position, getAdapter().getCursor(), view);
+                return true;
             }
         });
         view.setAdapter(getAdapter());

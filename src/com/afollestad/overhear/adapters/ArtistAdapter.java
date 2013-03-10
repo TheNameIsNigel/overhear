@@ -49,6 +49,44 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         }
     }
 
+    public static void showPopup(final Activity context, final Artist artist, final View view) {
+        PopupMenu menu = new PopupMenu(context, view);
+        menu.inflate(R.menu.artist_item_popup);
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.addToPlaylist: {
+                        AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, null, null, artist);
+                        diag.show();
+                        return true;
+                    }
+                    case R.id.playAll: {
+                        context.startService(new Intent(context, MusicService.class)
+                                .setAction(MusicService.ACTION_PLAY_ALL)
+                                .putExtra("scope", QueueItem.SCOPE_ARTIST)
+                                .putExtra("artist", artist.getJSON().toString()));
+                        return true;
+                    }
+                    case R.id.addToQueue: {
+                        ArrayList<Song> content = Song.getAllFromScope(context, new String[]{
+                                MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
+                                        MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
+                                MediaStore.Audio.Media.ALBUM});
+                        MusicUtils.addToQueue(context, content, QueueItem.SCOPE_ARTIST);
+                        return true;
+                    }
+                    case R.id.redownloadArt: {
+                        new LastfmGetArtistImage(context, ((AImageView)view.findViewById(R.id.image))).execute(artist);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+        menu.show();
+    }
+
     public static View getViewForArtist(final Activity context, final Artist artist, View view, boolean grid) {
         if (view == null) {
             if (grid)
@@ -66,48 +104,14 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         retrieveArtistArt(context, artist, image, true);
 
         View options = view.findViewById(R.id.options);
-        if(options == null)
-            options = view;
-        options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu menu = new PopupMenu(context, view);
-                menu.inflate(R.menu.artist_item_popup);
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.addToPlaylist: {
-                                AlertDialog diag = MusicUtils.createPlaylistChooseDialog(context, null, null, artist);
-                                diag.show();
-                                return true;
-                            }
-                            case R.id.playAll: {
-                                context.startService(new Intent(context, MusicService.class)
-                                        .setAction(MusicService.ACTION_PLAY_ALL)
-                                        .putExtra("scope", QueueItem.SCOPE_ARTIST)
-                                        .putExtra("artist", artist.getJSON().toString()));
-                                return true;
-                            }
-                            case R.id.addToQueue: {
-                                ArrayList<Song> content = Song.getAllFromScope(context, new String[]{
-                                        MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
-                                                MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
-                                        MediaStore.Audio.Media.ALBUM});
-                                MusicUtils.addToQueue(context, content, QueueItem.SCOPE_ARTIST);
-                                return true;
-                            }
-                            case R.id.redownloadArt: {
-                                new LastfmGetArtistImage(context, image).execute(artist);
-                                return true;
-                            }
-                        }
-                        return false;
-                    }
-                });
-                menu.show();
-            }
-        });
+        if(options != null) {
+            options.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopup(context, artist, view);
+                }
+            });
+        }
 
         ImageView peakOne = (ImageView) view.findViewById(R.id.peak_one);
         ImageView peakTwo = (ImageView) view.findViewById(R.id.peak_two);

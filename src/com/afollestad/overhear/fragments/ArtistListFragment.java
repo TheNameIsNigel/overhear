@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.CursorAdapter;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.ArtistAdapter;
@@ -78,6 +79,12 @@ public class ArtistListFragment extends OverhearGridFragment {
         Artist artist = Artist.fromCursor(getAdapter().getCursor());
         startActivity(new Intent(getActivity(), ArtistViewer.class)
                 .putExtra("artist", artist.getJSON().toString()));
+    }
+
+    @Override
+    public void onItemLongClick(int position, Cursor cursor, View view) {
+        Artist artist = Artist.fromCursor(getAdapter().getCursor());
+        ArtistAdapter.showPopup(getActivity(), artist, view);
     }
 
     @Override

@@ -264,8 +264,12 @@ public class MusicService extends Service {
 
 
     private void initializeNotification(final QueueItem nowPlaying) {
+        final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Notification status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, null, isPlaying());
-        startForeground(100, status);
+        if(!isPlaying())
+            startForeground(100, status);
+        else
+            nm.notify(100, status);
 
         Album album = Album.getAlbum(this, nowPlaying.getAlbum(), nowPlaying.getArtist());
         LastfmGetAlbumImage task = new LastfmGetAlbumImage(this, getApplication(), null, false);
@@ -277,7 +281,6 @@ public class MusicService extends Service {
                 public void onImageReceived(final String source, final Bitmap bitmap) {
                     Notification update = NotificationViewCreator.createNotification(
                             getApplicationContext(), nowPlaying, bitmap, isPlaying());
-                    NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     nm.notify(100, update);
                 }
             }, null);
