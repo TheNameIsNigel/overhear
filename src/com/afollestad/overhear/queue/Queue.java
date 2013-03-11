@@ -286,6 +286,11 @@ public class Queue {
         private Random mRandom = new Random();
         
         public int nextInt(Queue queue) {
+            if(queue.getItems().size() == 0) {
+                return -1;
+            } else if(queue.getItems().size() == 1) {
+                return 0;
+            }
             int ret = 0;
             int interval = queue.getItems().size();
             do {
