@@ -41,8 +41,9 @@ public class TweetNowPlaying extends OverhearActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_tweet_now_playing);
         twitter = com.afollestad.overhear.utils.Twitter.getTwitterInstance(getApplicationContext(), true);
-        if(twitter == null)
-            startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
+        if(twitter == null) {
+            startActivityForResult(new Intent(getApplicationContext(), LoginHandler.class), TWEET_PLAYING_LOGIN);
+        }
         findViewById(R.id.tweetBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
