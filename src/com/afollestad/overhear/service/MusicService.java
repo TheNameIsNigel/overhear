@@ -22,7 +22,6 @@ import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.queue.Queue;
 import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
-import com.afollestad.overhear.ui.TweetNowPlaying;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhear.utils.Store;
@@ -170,7 +169,6 @@ public class MusicService extends Service {
         if (focused) {
             Intent intent = new Intent(Intent.ACTION_MEDIA_BUTTON);
             ComponentName component = new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class);
-            getAudioManager().registerMediaButtonEventReceiver(component);
             intent.setComponent(component);
             mRemoteControlClient = new RemoteControlClient(PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0));
             mRemoteControlClient.setTransportControlFlags(
@@ -496,7 +494,13 @@ public class MusicService extends Service {
         super.onCreate();
         queue = new Queue(this);
         lastFocused = queue.getFocusedItem();
-        registerReceiver(receiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
+
+        IntentFilter ifilter = new IntentFilter();
+        ifilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        ifilter.addAction(ACTION_CLEAR_NOTIFICATION);
+        registerReceiver(receiver, ifilter);
+
+        getAudioManager().registerMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
     }
 
     @Override

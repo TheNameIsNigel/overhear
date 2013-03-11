@@ -28,7 +28,7 @@ public abstract class OverhearActivity extends Activity {
     
     public abstract void onBound();
     
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,7 @@ public abstract class OverhearActivity extends Activity {
     	super.onResume();
     	bindService(new Intent(this, MusicService.class), mConnection, Context.BIND_AUTO_CREATE);
     }
-    
+
     @Override
     public void onStart() {
         super.onStart();
@@ -63,7 +63,7 @@ public abstract class OverhearActivity extends Activity {
             Overhear.get(this).unbind();
         }
     }
-    
+
     @Override
     public void onPause() {
     	super.onPause();
