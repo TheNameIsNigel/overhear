@@ -12,6 +12,7 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhear.ui.OverviewScreen;
+import com.afollestad.overhear.ui.TweetNowPlaying;
 
 public class NotificationViewCreator {
 
@@ -41,14 +42,12 @@ public class NotificationViewCreator {
 	
 	protected static RemoteViews createView(Context context, boolean big, QueueItem nowPlaying, Bitmap art, boolean playing) {
 		RemoteViews views;
-		if(big) {
-			views = new RemoteViews(context.getPackageName(), R.layout.status_bar_big);
-		} else {
+		if(big)
+            views = new RemoteViews(context.getPackageName(), R.layout.status_bar_big);
+		else
 			views = new RemoteViews(context.getPackageName(), R.layout.status_bar);
-		}
-        if (art != null) {
+        if (art != null)
             views.setImageViewBitmap(R.id.status_bar_album_art, art);
-        }
         
         Intent si = new Intent(context, MusicService.class);
         si.setAction(MusicService.ACTION_REWIND);
@@ -60,11 +59,11 @@ public class NotificationViewCreator {
         views.setOnClickPendingIntent(R.id.status_bar_play, pi);
         
         si.setAction(MusicService.ACTION_SKIP);
-        pi = PendingIntent.getService(context, 2, si, PendingIntent.FLAG_UPDATE_CURRENT);
+        pi = PendingIntent.getService(context, 3, si, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_next, pi);
         
         si.setAction(MusicService.ACTION_STOP);
-        pi = PendingIntent.getService(context, 2, si, PendingIntent.FLAG_UPDATE_CURRENT);
+        pi = PendingIntent.getService(context, 4, si, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_collapse, pi);
         
         if(playing)
@@ -75,7 +74,10 @@ public class NotificationViewCreator {
         views.setTextViewText(R.id.status_bar_track_name, nowPlaying.getTitle());
         views.setTextViewText(R.id.status_bar_artist_name, nowPlaying.getArtist());
         if(big) {
-        	views.setTextViewText(R.id.status_bar_album_name, nowPlaying.getAlbum());	
+        	views.setTextViewText(R.id.status_bar_album_name, nowPlaying.getAlbum());
+            si = new Intent(context.getApplicationContext(), TweetNowPlaying.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            pi = PendingIntent.getActivity(context.getApplicationContext(), 5, si, PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setOnClickPendingIntent(R.id.status_bar_post, pi);
         }
         
         return views;

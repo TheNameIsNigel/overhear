@@ -28,10 +28,10 @@
     <string name="loading_str">Loading…</string>
     <string name="error_str">Error</string>
 
-    <string name="tweet_now_playing">Tweet #NowPlaying</string>
-    <string name="tweet_str">Tweet</string>
-    <string name="tweeted_str">Tweeted!</string>
-    <string name="failed_tweet_str">Failed to send your tweet… {error}</string>
+    <string name="tweet_now_playing">Post #NowPlaying</string>
+    <string name="tweet_str">Post</string>
+    <string name="tweeted_str">Posted!</string>
+    <string name="failed_tweet_str">Failed to create your post… {error}</string>
     <string name="now_playing_hash">#NowPlaying</string>
     <string name="title_activity_now_playing_viewer">Now Playing</string>
     <string name="now_playing_tweet_content">#NowPlaying - {title} by {artist} via @OverhearApp</string>
@@ -79,13 +79,13 @@
     <string name="new_playlist_name_hint">Playlist name</string>
     <string name="added_to_playist">\"{name}\" added to {list}!</string>
     <string name="artist_details">{albums} albums, {tracks} tracks</string>
-    
+
     <string name="unknown_str">Unknown</string>
     <string name="favorites_str">Favorites</string>
     <string name="favorite_str">Favorite</string>
     <string name="unfavorite_str">Unfavorite</string>
     <string name="clear_str">Clear</string>
-    
+
     <string name="repeat_off">Repeat Off</string>
     <string name="repeat_once">Repeat Once</string>
     <string name="repeat">Repeat</string>

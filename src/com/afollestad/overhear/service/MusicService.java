@@ -22,6 +22,7 @@ import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.queue.Queue;
 import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
+import com.afollestad.overhear.ui.TweetNowPlaying;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhear.utils.Store;

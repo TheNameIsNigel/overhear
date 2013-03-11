@@ -1,5 +1,7 @@
 package com.afollestad.overhear.ui;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,12 +25,24 @@ import twitter4j.User;
 public class TweetNowPlaying extends OverhearActivity {
 
     private twitter4j.Twitter twitter;
+    private final static int TWEET_PLAYING_LOGIN = 400;
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TWEET_PLAYING_LOGIN && resultCode == Activity.RESULT_CANCELED) {
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_tweet_now_playing);
         twitter = com.afollestad.overhear.utils.Twitter.getTwitterInstance(getApplicationContext(), true);
+        if(twitter == null)
+            startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
         findViewById(R.id.tweetBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

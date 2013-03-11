@@ -1,47 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-	<ImageView android:id="@+id/status_bar_album_art"
-		android:layout_width="@dimen/status_bar_album_art_big"
-		android:layout_height="@dimen/status_bar_album_art_big"
-		android:gravity="center" />
+    <ImageView
+        android:id="@+id/status_bar_album_art"
+        android:layout_width="@dimen/status_bar_album_art_big"
+        android:layout_height="@dimen/status_bar_album_art_big"
+        android:gravity="center"/>
 
-	<LinearLayout android:id="@+id/status_bar_meta"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_gravity="center_vertical" android:layout_marginTop="7dp"
-		android:layout_toRightOf="@+id/status_bar_album_art"
-		android:orientation="vertical" android:paddingLeft="10dp">
+    <LinearLayout
+        android:id="@+id/status_bar_meta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="7dp"
+        android:layout_toRightOf="@+id/status_bar_album_art"
+        android:layout_toLeftOf="@+id/status_bar_collapse"
+        android:orientation="vertical"
+        android:paddingLeft="10dp">
 
-		<TextView android:id="@+id/status_bar_track_name" style="@style/StatusBarText"
-			android:textColor="@color/white" android:textSize="18sp" />
+        <TextView
+            android:id="@+id/status_bar_track_name"
+            style="@style/StatusBarText"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
 
-		<TextView android:id="@+id/status_bar_artist_name" style="@style/StatusBarText"
-			android:paddingTop="2dp" android:fontFamily="sans-serif-light" />
+        <TextView
+            android:id="@+id/status_bar_artist_name"
+            style="@style/StatusBarText"
+            android:paddingTop="2dp"
+            android:fontFamily="sans-serif-light"/>
 
-		<TextView android:id="@+id/status_bar_album_name" style="@style/StatusBarText"
-			android:paddingTop="2dp" android:fontFamily="sans-serif-light" />
+        <TextView
+            android:id="@+id/status_bar_album_name"
+            style="@style/StatusBarText"
+            android:paddingTop="2dp"
+            android:fontFamily="sans-serif-light"/>
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<LinearLayout android:layout_width="fill_parent"
-		android:layout_alignBottom="@+id/status_bar_album_art"
-		android:layout_height="wrap_content" android:layout_below="@+id/status_bar_meta"
-		android:layout_gravity="center_vertical" android:layout_toRightOf="@+id/status_bar_album_art"
-		android:orientation="horizontal" android:paddingLeft="6dp">
+    <ImageButton
+        android:id="@+id/status_bar_collapse"
+        style="@style/StatusBarButton"
+        android:src="@drawable/collapse"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="5dp"/>
 
-		<ImageButton android:id="@+id/status_bar_previous" style="@style/StatusBarButton"
-			android:layout_weight="1" android:src="@drawable/previous" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_alignBottom="@+id/status_bar_album_art"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status_bar_meta"
+        android:layout_gravity="center_vertical"
+        android:layout_toRightOf="@+id/status_bar_album_art"
+        android:orientation="horizontal"
+        android:paddingLeft="6dp">
 
-		<ImageButton android:id="@+id/status_bar_play" style="@style/StatusBarButton"
-			android:layout_weight="1" android:src="@drawable/play" />
+        <ImageButton
+            android:id="@+id/status_bar_previous"
+            style="@style/StatusBarButton"
+            android:layout_weight="1"
+            android:src="@drawable/previous"/>
 
-		<ImageButton android:id="@+id/status_bar_next" style="@style/StatusBarButton"
-			android:layout_weight="1" android:src="@drawable/next" />
+        <ImageButton
+            android:id="@+id/status_bar_play"
+            style="@style/StatusBarButton"
+            android:layout_weight="1"
+            android:src="@drawable/play"/>
 
-		<ImageButton android:id="@+id/status_bar_collapse" style="@style/StatusBarButton"
-			android:layout_weight="1" android:src="@drawable/collapse" />
+        <ImageButton
+            android:id="@+id/status_bar_next"
+            style="@style/StatusBarButton"
+            android:layout_weight="1"
+            android:src="@drawable/next"/>
 
-	</LinearLayout>
+        <ImageButton
+            android:id="@+id/status_bar_post"
+            style="@style/StatusBarButton"
+            android:layout_weight="1"
+            android:src="@drawable/send"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
