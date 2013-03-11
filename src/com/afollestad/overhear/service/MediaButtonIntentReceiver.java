@@ -4,36 +4,27 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 public class MediaButtonIntentReceiver extends BroadcastReceiver {
 
+    private static final int DOUBLE_CLICK = 500;
     private static long mLastClickTime = 0;
-    private static boolean mDown = false;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {
-            KeyEvent event = (KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-            if (event == null) {
+        if (intent.getAction().equals(Intent.ACTION_MEDIA_BUTTON)) {
+            final KeyEvent event = (KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+            if (event == null)
                 return;
-            }
-
-            int keycode = event.getKeyCode();
-            int action = event.getAction();
-            long eventtime = event.getEventTime();
-            int buttonId = intent.getIntExtra("buttonId", 0);
-
-            // single quick press: pause/resume.
-            // double press: next track
-            // long press: TODO
+            final int keycode = event.getKeyCode();
+            final int action = event.getAction();
+            final long eventtime = event.getEventTime();
 
             String command = null;
             switch (keycode) {
                 case KeyEvent.KEYCODE_MEDIA_STOP:
                     command = MusicService.ACTION_STOP;
                     break;
-                case KeyEvent.KEYCODE_HEADSETHOOK:
                 case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                 case KeyEvent.KEYCODE_MEDIA_PLAY:
                     command = MusicService.ACTION_TOGGLE_PLAYBACK;
@@ -44,43 +35,31 @@ public class MediaButtonIntentReceiver extends BroadcastReceiver {
                 case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                     command = MusicService.ACTION_REWIND;
                     break;
+                case KeyEvent.KEYCODE_HEADSETHOOK:
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                	command = MusicService.ACTION_PAUSE;
+                    command = MusicService.ACTION_PAUSE;
                     break;
             }
-
             if (command != null) {
                 if (action == KeyEvent.ACTION_DOWN) {
-                    if (mDown && command.equals(MusicService.ACTION_TOGGLE_PLAYBACK)) {
-                        //TODO long press action
-                    	Toast.makeText(context, "Headset long pressed", Toast.LENGTH_LONG).show();
-                    } else if (event.getRepeatCount() == 0) {
+                    if (event.getRepeatCount() == 0) {
                         /**
-                         * only consider the first event in a sequence, not the repeat events
-                         * so that we don't trigger in cases where the first event went to
-                         * a different app (e.g. when the user ends a phone call by long pressing 
-                         * the headset button). The service may or may not be running, but we need to 
-                         * send it a command.
+                         * If another app received the broadcast first, this if statement will skip.
                          */
-                        Intent i = new Intent(context, MusicService.class);
+                        final Intent i = new Intent(context, MusicService.class);
                         if (keycode == KeyEvent.KEYCODE_HEADSETHOOK
-                                && eventtime - mLastClickTime < 300) {
-                        	i.setAction(MusicService.ACTION_SKIP);
-                            context.startService(i);
+                                && eventtime - mLastClickTime < DOUBLE_CLICK) {
+                            i.setAction(MusicService.ACTION_SKIP);
                             mLastClickTime = 0;
                         } else {
-                        	i.setAction(command);
-                            context.startService(i);
+                            i.setAction(command);
                             mLastClickTime = eventtime;
-                        }                      
-                        if (buttonId == 0) {
-                            mDown = true;
                         }
+                        context.startService(i);
                     }
                 }
-                if (isOrderedBroadcast()) {
+                if (isOrderedBroadcast())
                     abortBroadcast();
-                }
             }
         }
     }

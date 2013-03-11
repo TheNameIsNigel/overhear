@@ -54,10 +54,6 @@ public class NotificationViewCreator {
         PendingIntent pi = PendingIntent.getService(context, 1, si, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_previous, pi);
         
-        si.setAction(MusicService.ACTION_TOGGLE_PLAYBACK);
-        pi = PendingIntent.getService(context, 2, si, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.status_bar_play, pi);
-        
         si.setAction(MusicService.ACTION_SKIP);
         pi = PendingIntent.getService(context, 3, si, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_next, pi);
@@ -75,6 +71,11 @@ public class NotificationViewCreator {
         views.setTextViewText(R.id.status_bar_artist_name, nowPlaying.getArtist());
         if(big) {
         	views.setTextViewText(R.id.status_bar_album_name, nowPlaying.getAlbum());
+
+            si.setAction(MusicService.ACTION_TOGGLE_PLAYBACK);
+            pi = PendingIntent.getService(context, 2, si, PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setOnClickPendingIntent(R.id.status_bar_play, pi);
+
             si = new Intent(context.getApplicationContext(), TweetNowPlaying.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             pi = PendingIntent.getActivity(context.getApplicationContext(), 5, si, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setOnClickPendingIntent(R.id.status_bar_post, pi);
