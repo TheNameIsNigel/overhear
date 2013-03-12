@@ -186,6 +186,6 @@ public class SearchScreen extends OverhearListActivity {
     
     @Override
 	public void onBound() {
-        ((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update(true);
+        ((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
 	}
 }

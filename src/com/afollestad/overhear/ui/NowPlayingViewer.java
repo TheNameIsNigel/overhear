@@ -49,7 +49,7 @@ public class NowPlayingViewer extends OverhearActivity {
 	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			load(intent.getBooleanExtra("album_changed", true));
+			load();
 		}
 	};
 
@@ -367,12 +367,20 @@ public class NowPlayingViewer extends OverhearActivity {
 	/**
 	 * Loads song/album/artist info and album art
 	 */
-	public void load(boolean albumChanged) {
-		song = getService().getQueue().getFocused();
-		if(song == null)
-			return;
-		this.invalidateOptionsMenu();
+	public void load() {
+        QueueItem last = song;
+        song = getService().getQueue().getFocused();
+        if(song == null)
+            return;
+        boolean albumChanged = true;
+        if(last != null) {
+            if(last.getArtist(this).equals(song.getArtist(this)) &&
+                    last.getAlbum(this).equals(song.getAlbum(this))) {
+                albumChanged = false;
+            }
+        }
 
+		this.invalidateOptionsMenu();
 		album = Album.getAlbum(this, song.getAlbum(this), song.getArtist(this));
 		if(song.getPlaylistId() > -1) {
 			playlist = Playlist.get(this, song.getPlaylistId());
@@ -530,7 +538,7 @@ public class NowPlayingViewer extends OverhearActivity {
 
 	@Override
 	public void onBound() {
-		load(true);
+		load();
 		hookToPlayer();
 	}
 }

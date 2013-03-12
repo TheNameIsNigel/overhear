@@ -36,7 +36,7 @@ public class NowPlayingBarFragment extends Fragment {
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            update(intent.getBooleanExtra("album_changed", true));
+            update();
         }
     };
 
@@ -130,7 +130,7 @@ public class NowPlayingBarFragment extends Fragment {
                 } else if (album != null) {
                     if (getActivity() instanceof AlbumViewer &&
                             (!album.getName().equals(focused.getAlbum(getActivity())) ||
-                            !album.getArtist().equals(focused.getArtist(getActivity())))) {
+                                    !album.getArtist().equals(focused.getArtist(getActivity())))) {
                         return false;
                     }
                     startActivity(new Intent(getActivity(), AlbumViewer.class)
@@ -163,7 +163,7 @@ public class NowPlayingBarFragment extends Fragment {
         });
     }
 
-    public void update(boolean albumChanged) {
+    public void update() {
         if (getActivity() == null)
             return;
         boolean isPlaying = false;
@@ -182,21 +182,25 @@ public class NowPlayingBarFragment extends Fragment {
             }
         }
 
-        if (focused != null && isPlaying) {
-            playPause.get().setImageResource(R.drawable.pause);
-        } else {
-            playPause.get().setImageResource(R.drawable.play);
-        }
         if (focused != null) {
+            if (isPlaying)
+                playPause.get().setImageResource(R.drawable.pause);
+            else
+                playPause.get().setImageResource(R.drawable.play);
             previous.get().setEnabled(true);
             next.get().setEnabled(true);
 
             if (focused.getPlaylistId() > 0)
                 playlist = Playlist.get(getActivity(), focused.getPlaylistId());
-            if (lastPlayed == null || lastPlayed.get() == null ||
-                    (!lastPlayed.get().getAlbum(getActivity()).equals(focused.getAlbum(getActivity())) ||
-                            !lastPlayed.get().getArtist(getActivity()).equals(focused.getArtist(getActivity()))) ||
-                    playing.get().getDrawable() == null) {
+
+            boolean albumChanged = true;
+            if(lastPlayed != null && lastPlayed.get() != null &&
+                    lastPlayed.get().getAlbum(getActivity()).equals(focused.getAlbum(getActivity())) &&
+                    lastPlayed.get().getArtist(getActivity()).equals(focused.getArtist(getActivity()))) {
+                albumChanged = false;
+            }
+
+            if (albumChanged || playing.get().getDrawable() == null) {
                 album = Album.getAlbum(getActivity(), focused.getAlbum(getActivity()), focused.getArtist(getActivity()));
                 if (albumChanged || playing.get().getDrawable() == null) {
                     AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
@@ -205,10 +209,12 @@ public class NowPlayingBarFragment extends Fragment {
 
             track.get().setText(focused.getTitle(getActivity()));
             artist.get().setText(focused.getArtist(getActivity()));
-        } else {
-            lastPlayed = null;
-            previous.get().setEnabled(false);
-            next.get().setEnabled(false);
+            return;
         }
+
+        playPause.get().setImageResource(R.drawable.play);
+        lastPlayed = null;
+        previous.get().setEnabled(false);
+        next.get().setEnabled(false);
     }
 }
