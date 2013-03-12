@@ -65,7 +65,7 @@ public class SongListFragment extends OverhearListFragment {
 
     @Override
     public String[] getLoaderProjection() {
-        return QueueItem.getProjection();
+        return QueueItem.getProjection("_id");
     }
 
     @Override
