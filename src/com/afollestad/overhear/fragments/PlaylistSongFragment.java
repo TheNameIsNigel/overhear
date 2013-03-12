@@ -53,7 +53,7 @@ public class PlaylistSongFragment extends OverhearListFragment {
 
     @Override
     public String[] getLoaderProjection() {
-        return null;
+        return QueueItem.getProjection(MediaStore.Audio.Playlists.Members.AUDIO_ID);
     }
 
     @Override

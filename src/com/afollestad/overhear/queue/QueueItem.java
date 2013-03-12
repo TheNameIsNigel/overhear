@@ -2,9 +2,7 @@ package com.afollestad.overhear.queue;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.MediaStore;
-import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,16 +48,13 @@ public class QueueItem {
             return;
 
         String idCol = "_id";
-        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        if (playlistId > -1) {
+        if (playlistId > -1)
             idCol = MediaStore.Audio.Playlists.Members.AUDIO_ID;
-            uri = Playlist.getSongUri(getPlaylistId());
-        }
-        Cursor cursor = context.getContentResolver().query(uri,
-                getProjection(idCol), idCol + " = " + songId, null, null);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                getProjection(idCol), idCol + " = " + getSongId(), null, null);
 
         cursor.moveToFirst();
-        if(!idCol.equals("_id"))
+        if (playlistId > -1)
             playlistRow = cursor.getInt(cursor.getColumnIndex("_id"));
         album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
         artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
@@ -240,8 +235,11 @@ public class QueueItem {
     }
 
     public static QueueItem fromCursor(Cursor cursor, long playlist, int scope) {
+        String idCol = "_id";
+        if(playlist > -1)
+            idCol = MediaStore.Audio.Playlists.Members.AUDIO_ID;
         return new QueueItem(
-                cursor.getInt(cursor.getColumnIndex("_id")),
+                cursor.getInt(cursor.getColumnIndex(idCol)),
                 playlist,
                 scope
         );
