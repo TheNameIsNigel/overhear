@@ -46,12 +46,8 @@ public class QueueItem {
     private void loadMeta(Context context) {
         if (album != null && artist != null && title != null)
             return;
-
-        String idCol = "_id";
-        if (playlistId > -1)
-            idCol = MediaStore.Audio.Playlists.Members.AUDIO_ID;
         Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                getProjection(idCol), idCol + " = " + getSongId(), null, null);
+                getProjection("_id"), "_id = " + getSongId(), null, null);
 
         cursor.moveToFirst();
         if (playlistId > -1)
