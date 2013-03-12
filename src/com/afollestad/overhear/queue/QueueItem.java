@@ -2,7 +2,9 @@ package com.afollestad.overhear.queue;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
+import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,10 +50,14 @@ public class QueueItem {
             return;
 
         String idCol = "_id";
-        if (playlistId > -1)
+        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        if (playlistId > -1) {
             idCol = MediaStore.Audio.Playlists.Members.AUDIO_ID;
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            uri = Playlist.getSongUri(getPlaylistId());
+        }
+        Cursor cursor = context.getContentResolver().query(uri,
                 getProjection(idCol), idCol + " = " + songId, null, null);
+
         cursor.moveToFirst();
         if(!idCol.equals("_id"))
             playlistRow = cursor.getInt(cursor.getColumnIndex("_id"));
