@@ -202,9 +202,8 @@ public class NowPlayingBarFragment extends Fragment {
 
             if (albumChanged || playing.get().getDrawable() == null) {
                 album = Album.getAlbum(getActivity(), focused.getAlbum(getActivity()), focused.getArtist(getActivity()));
-                if (albumChanged || playing.get().getDrawable() == null) {
-                    AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
-                }
+                playing.get().showFallback();
+                AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
             }
 
             track.get().setText(focused.getTitle(getActivity()));
