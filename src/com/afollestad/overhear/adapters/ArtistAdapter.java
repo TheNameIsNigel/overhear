@@ -26,7 +26,6 @@ import com.afollestad.overhear.tasks.LastfmGetArtistImage;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Artist;
-import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
 
@@ -69,11 +68,11 @@ public class ArtistAdapter extends SimpleCursorAdapter {
                         return true;
                     }
                     case R.id.addToQueue: {
-                        ArrayList<Song> content = Song.getAllFromScope(context, new String[]{
+                        ArrayList<QueueItem> content = QueueItem.getAll(context,
                                 MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
                                         MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
-                                MediaStore.Audio.Media.ALBUM});
-                        MusicUtils.addToQueue(context, content, QueueItem.SCOPE_ARTIST);
+                                MediaStore.Audio.Media.ALBUM_KEY + ", " + MediaStore.Audio.Media.TRACK, -1, QueueItem.SCOPE_ARTIST);
+                        MusicUtils.addToQueue(context, content);
                         return true;
                     }
                     case R.id.redownloadArt: {
@@ -124,17 +123,17 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         boolean isPlaying = false;
         if (context instanceof OverhearActivity) {
             if (((OverhearActivity) context).getService() != null) {
-                focused = ((OverhearActivity) context).getService().getQueue().getFocusedItem();
+                focused = ((OverhearActivity) context).getService().getQueue().getFocused();
                 isPlaying = ((OverhearActivity) context).getService().isPlaying();
             }
         } else {
             if (((OverhearListActivity) context).getService() != null) {
-                focused = ((OverhearListActivity) context).getService().getQueue().getFocusedItem();
+                focused = ((OverhearListActivity) context).getService().getQueue().getFocused();
                 isPlaying = ((OverhearListActivity) context).getService().isPlaying();
             }
         }
 
-        if (focused != null && artist.getName().equals(focused.getArtist())) {
+        if (focused != null && artist.getName().equals(focused.getArtist(context))) {
             peakOne.setVisibility(View.VISIBLE);
             peakTwo.setVisibility(View.VISIBLE);
             if (isPlaying) {

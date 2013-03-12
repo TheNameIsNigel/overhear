@@ -16,13 +16,13 @@ import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhear.ui.PlaylistViewer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Playlist;
-import com.afollestad.overhearapi.Song;
 
 import java.lang.ref.WeakReference;
 
@@ -45,7 +45,7 @@ public class NowPlayingBarFragment extends Fragment {
 
     private Album album;
     private Playlist playlist;
-    private Song focused;
+    private QueueItem focused;
 
     private WeakReference<AImageView> playing;
     private WeakReference<ImageView> playPause;
@@ -53,7 +53,7 @@ public class NowPlayingBarFragment extends Fragment {
     private WeakReference<ImageView> next;
     private WeakReference<TextView> track;
     private WeakReference<TextView> artist;
-    private WeakReference<Song> lastPlayed;
+    private WeakReference<QueueItem> lastPlayed;
 
     @Override
     public void onCreate(Bundle sis) {
@@ -129,8 +129,8 @@ public class NowPlayingBarFragment extends Fragment {
                             .putExtra("playlist", playlist.getJSON().toString()));
                 } else if (album != null) {
                     if (getActivity() instanceof AlbumViewer &&
-                            (!album.getName().equals(focused.getAlbum()) ||
-                            !album.getArtist().equals(focused.getArtist()))) {
+                            (!album.getName().equals(focused.getAlbum(getActivity())) ||
+                            !album.getArtist().equals(focused.getArtist(getActivity())))) {
                         return false;
                     }
                     startActivity(new Intent(getActivity(), AlbumViewer.class)
@@ -167,6 +167,7 @@ public class NowPlayingBarFragment extends Fragment {
         if (getActivity() == null)
             return;
         boolean isPlaying = false;
+        lastPlayed = new WeakReference<QueueItem>(focused);
         focused = null;
 
         if (getActivity() instanceof OverhearActivity) {
@@ -193,18 +194,17 @@ public class NowPlayingBarFragment extends Fragment {
             if (focused.getPlaylistId() > 0)
                 playlist = Playlist.get(getActivity(), focused.getPlaylistId());
             if (lastPlayed == null || lastPlayed.get() == null ||
-                    (!lastPlayed.get().getAlbum().equals(focused.getAlbum()) ||
-                            !lastPlayed.get().getArtist().equals(focused.getArtist())) ||
+                    (!lastPlayed.get().getAlbum(getActivity()).equals(focused.getAlbum(getActivity())) ||
+                            !lastPlayed.get().getArtist(getActivity()).equals(focused.getArtist(getActivity()))) ||
                     playing.get().getDrawable() == null) {
-                album = Album.getAlbum(getActivity(), focused.getAlbum(), focused.getArtist());
+                album = Album.getAlbum(getActivity(), focused.getAlbum(getActivity()), focused.getArtist(getActivity()));
                 if (albumChanged || playing.get().getDrawable() == null) {
                     AlbumAdapter.retrieveAlbumArt(getActivity(), album, playing.get());
                 }
             }
 
-            track.get().setText(focused.getTitle());
-            artist.get().setText(focused.getArtist());
-            lastPlayed = new WeakReference<Song>(focused);
+            track.get().setText(focused.getTitle(getActivity()));
+            artist.get().setText(focused.getArtist(getActivity()));
         } else {
             lastPlayed = null;
             previous.get().setEnabled(false);

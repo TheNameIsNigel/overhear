@@ -18,7 +18,7 @@ import com.afollestad.overhear.R;
 /**
  * The base of all list fragments, used for convenience (handles common functions that every
  * fragment uses, reducing the amount of code and complexity among activity Java files).
- * 
+ *
  * @author Aidan Follestad
  */
 public abstract class OverhearListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -33,6 +33,8 @@ public abstract class OverhearListFragment extends ListFragment implements Loade
     public abstract Uri getLoaderUri();
 
     public abstract String getLoaderSelection();
+
+    public abstract String[] getLoaderProjection();
 
     public abstract String getLoaderSort();
 
@@ -55,7 +57,7 @@ public abstract class OverhearListFragment extends ListFragment implements Loade
     @Override
     public final void onResume() {
         super.onResume();
-        if(getAdapter() != null)
+        if (getAdapter() != null)
             getAdapter().notifyDataSetChanged();
     }
 
@@ -69,14 +71,14 @@ public abstract class OverhearListFragment extends ListFragment implements Loade
     @Override
     public final void onStart() {
         super.onStart();
-        if(getReceiver() != null)
+        if (getReceiver() != null)
             getActivity().registerReceiver(getReceiver(), getFilter());
     }
 
     @Override
     public final void onStop() {
         super.onStop();
-        if(getReceiver() != null)
+        if (getReceiver() != null)
             getActivity().unregisterReceiver(getReceiver());
     }
 
@@ -90,7 +92,7 @@ public abstract class OverhearListFragment extends ListFragment implements Loade
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(view.findViewById(R.id.options) != null)
+                if (view.findViewById(R.id.options) != null)
                     view.findViewById(R.id.options).performClick();
                 return true;
             }
@@ -114,7 +116,7 @@ public abstract class OverhearListFragment extends ListFragment implements Loade
     public final Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(getActivity(),
                 getLoaderUri(),
-                null,
+                getLoaderProjection(),
                 getLoaderSelection(),
                 null,
                 getLoaderSort());
@@ -122,9 +124,9 @@ public abstract class OverhearListFragment extends ListFragment implements Loade
 
     @Override
     public final void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
-        if(data == null)
+        if (data == null)
             return;
-        if(getAdapter() != null)
+        if (getAdapter() != null)
             getAdapter().changeCursor(data);
     }
 

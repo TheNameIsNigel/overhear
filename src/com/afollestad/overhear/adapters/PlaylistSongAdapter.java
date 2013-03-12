@@ -14,18 +14,16 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.queue.QueueItem;
-import com.afollestad.overhear.utils.MusicUtils;
-import com.afollestad.overhear.R;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhear.ui.ArtistViewer;
+import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Playlist;
-import com.afollestad.overhearapi.Song;
 
 public class PlaylistSongAdapter extends CursorAdapter {
 
@@ -46,12 +44,12 @@ public class PlaylistSongAdapter extends CursorAdapter {
 		return LayoutInflater.from(context).inflate(R.layout.song_item, null);
 	}
 
-	public static View getViewForSong(final Activity context, final Song song, View view, final Playlist list) {
+	public static View getViewForSong(final Activity context, final QueueItem song, View view, final Playlist list) {
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
 		}
 
-		((TextView) view.findViewById(R.id.title)).setText(song.getTitle());
+		((TextView) view.findViewById(R.id.title)).setText(song.getTitle(context));
 
 		View options = view.findViewById(R.id.options);
 		options.setOnClickListener(new View.OnClickListener() {
@@ -69,23 +67,23 @@ public class PlaylistSongAdapter extends CursorAdapter {
 							return true;
 						}
 						case R.id.addToQueue: {
-							MusicUtils.addToQueue(context, song, QueueItem.SCOPE_SINGULAR);
+							MusicUtils.addToQueue(context, song);
 							return true;
 						}
 						case R.id.viewAlbum: {
-							Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
+							Album album = Album.getAlbum(context, song.getAlbum(context), song.getArtist(context));
 							context.startActivity(new Intent(context, AlbumViewer.class)
 							.putExtra("album", album.getJSON().toString()));
 							return true;
 						}
 						case R.id.viewArtist: {
-							Artist artist = Artist.getArtist(context, song.getArtist());
+							Artist artist = Artist.getArtist(context, song.getArtist(context));
 							context.startActivity(new Intent(context, ArtistViewer.class)
 							.putExtra("artist", artist.getJSON().toString()));
 							return true;
 						}
                         case R.id.remove: {
-                            list.removeSongByRow(context, song.getPlaylistRowId());
+                            list.removeSongByRow(context, song.getPlaylistRow());
                             return true;
                         }
 						}
@@ -107,17 +105,17 @@ public class PlaylistSongAdapter extends CursorAdapter {
 		boolean isPlaying = false; 
 		if(context instanceof OverhearActivity) {
 			if(((OverhearActivity)context).getService() != null) {
-				focused = ((OverhearActivity)context).getService().getQueue().getFocusedItem();
+				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
 				isPlaying = ((OverhearActivity)context).getService().isPlaying();
 			}
 		} else {
 			if(((OverhearListActivity)context).getService() != null) {
-				focused = ((OverhearListActivity)context).getService().getQueue().getFocusedItem();
+				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
 				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
 			}
 		}
 
-		if (focused != null && song.getId() == focused.getSongId() && song.getPlaylistId() == focused.getPlaylistId()) {
+		if (focused != null && song.getSongId() == focused.getSongId() && song.getPlaylistId() == focused.getPlaylistId()) {
 			peakOne.setVisibility(View.VISIBLE);
 			peakTwo.setVisibility(View.VISIBLE);
 			if (isPlaying) {
@@ -145,8 +143,7 @@ public class PlaylistSongAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		Song song = Song.fromCursor(cursor, true);
-		song.setPlaylistId(list.getId());
-		getViewForSong(activity, song, view, list);
+		QueueItem item = QueueItem.fromCursor(cursor, list.getId(), QueueItem.SCOPE_PLAYLIST);
+		getViewForSong(activity, item, view, list);
 	}
 }

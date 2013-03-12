@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.afollestad.overhear.R;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
-import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
 
@@ -44,7 +44,7 @@ public class SearchAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         Object item = items.get(position);
-        if(item instanceof Song) {
+        if(item instanceof QueueItem) {
             return 1;
         } else if(item instanceof Album) {
             return 2;
@@ -82,7 +82,7 @@ public class SearchAdapter extends BaseAdapter {
                 ((TextView)view).setText(items.get(i).toString());
                 break;
             case 1:
-                view = SongAdapter.getViewForSong(context, (Song)items.get(i), view, false);
+                view = SongAdapter.getViewForSong(context, (QueueItem)items.get(i), view, false);
                 break;
             case 2:
                 view = AlbumAdapter.getViewForAlbum(context, (Album)items.get(i), convertView);

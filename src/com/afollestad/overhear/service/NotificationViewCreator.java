@@ -67,10 +67,10 @@ public class NotificationViewCreator {
         else
         	views.setImageViewResource(R.id.status_bar_play, R.drawable.play);
         
-        views.setTextViewText(R.id.status_bar_track_name, nowPlaying.getTitle());
-        views.setTextViewText(R.id.status_bar_artist_name, nowPlaying.getArtist());
+        views.setTextViewText(R.id.status_bar_track_name, nowPlaying.getTitle(context));
+        views.setTextViewText(R.id.status_bar_artist_name, nowPlaying.getArtist(context));
         if(big) {
-        	views.setTextViewText(R.id.status_bar_album_name, nowPlaying.getAlbum());
+        	views.setTextViewText(R.id.status_bar_album_name, nowPlaying.getAlbum(context));
 
             si.setAction(MusicService.ACTION_TOGGLE_PLAYBACK);
             pi = PendingIntent.getService(context, 2, si, PendingIntent.FLAG_UPDATE_CURRENT);

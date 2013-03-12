@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import com.afollestad.overhearapi.Song;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -106,7 +105,7 @@ public class Queue {
 				position++;
 			}
 		}
-		return getFocusedItem();
+		return getFocused();
 	}
 
 	/**
@@ -118,31 +117,28 @@ public class Queue {
 		} else {
 			position--;
 		}
-		return getFocusedItem();
+		return getFocused();
 	}
 
 
 	/**
-	 * Adds a song to the queue. The scope indicates where the song was loaded from.
+	 * Adds an item to the queue.
 	 */
-	public void add(Song song, int scope) {
-		items.add(new QueueItem(song, scope));
+	public void add(QueueItem item) {
+		items.add(item);
 	}
 
-	/**
-	 * Adds a list of songs to the queue. The scope indicates where the songs were loaded from.
-	 */
-	public void add(ArrayList<Song> songs, int scope) {
-		for(Song s : songs)
-			add(s, scope);
-	}
+    public void add(ArrayList<QueueItem> items) {
+        for(QueueItem i : items)
+            add(i);
+    }
 
 	/**
-	 * Sets the entire queue, equivalent to clearing the queue and then using {@link #add(ArrayList, int)}.
+	 * Sets the entire queue, equivalent to clearing the queue and adding each item individually.
 	 */
-	public void set(ArrayList<Song> songs, int scope) {
-		items.clear();
-		add(songs, scope);
+	public void set(ArrayList<QueueItem> items) {
+		this.items.clear();
+		add(items);
 		shuffler.reset();
 	}
 
@@ -218,9 +214,8 @@ public class Queue {
 	 * Checks if the queue contains a song.
 	 */
 	public boolean contains(QueueItem song) {
-		if(song == null) {
+		if(song == null)
 			return false;
-		}
 		for(int index = 0; index < getItems().size(); index++) {
 			if(getItems().get(index).getSongId() == song.getSongId() &&
 					getItems().get(index).getPlaylistId() == song.getPlaylistId() &&
@@ -234,25 +229,13 @@ public class Queue {
 	/**
 	 * Gets the currently focused item in the queue (the currently playing or last paused song).
 	 */
-	public QueueItem getFocusedItem() {
+	public QueueItem getFocused() {
 		if(getPosition() == -1) {
 			return null;
 		} else if(getItems().size() == 0) {
 			return null;
 		}
 		return getItems().get(getPosition()); 
-	}
-
-	/**
-	 * Gets the currently focused song in the queue (the currently playing or last paused song).
-	 * Equivalent to using {@link #getFocusedItem()}.getSong(context).
-	 */
-	public Song getFocused() {
-		QueueItem item = getFocusedItem();
-		if(item == null) {
-			return null;
-		}
-		return item.getSong(context);
 	}
 
 

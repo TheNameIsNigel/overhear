@@ -53,8 +53,7 @@ public class NowPlayingViewer extends OverhearActivity {
 		}
 	};
 
-	private QueueItem songItem;
-	private Song song;
+	private QueueItem song;
 	private Album album;
 	private Playlist playlist;
 	private Timer timer;
@@ -131,7 +130,7 @@ public class NowPlayingViewer extends OverhearActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_now_playing, menu);
-		boolean favorited = MusicUtils.isFavorited(this, songItem);
+		boolean favorited = MusicUtils.isFavorited(this, song);
 		menu.findItem(R.id.favorite).setIcon(favorited ? R.drawable.favorited : R.drawable.unfavorited);
 		menu.findItem(R.id.favorite).setTitle(favorited ? R.string.unfavorite_str : R.string.favorite_str);
 		return true;
@@ -176,7 +175,7 @@ public class NowPlayingViewer extends OverhearActivity {
 			return true;
 		}
 		case R.id.favorite: {
-			MusicUtils.toggleFavorited(getApplicationContext(), songItem, song);
+			MusicUtils.toggleFavorited(getApplicationContext(), song);
 			this.invalidateOptionsMenu();
 			return true;
 		}
@@ -369,13 +368,12 @@ public class NowPlayingViewer extends OverhearActivity {
 	 * Loads song/album/artist info and album art
 	 */
 	public void load(boolean albumChanged) {
-		songItem = getService().getQueue().getFocusedItem();
-		if(songItem == null)
+		song = getService().getQueue().getFocused();
+		if(song == null)
 			return;
-		song = songItem.getSong(this);
 		this.invalidateOptionsMenu();
 
-		album = Album.getAlbum(this, song.getAlbum(), song.getArtist());
+		album = Album.getAlbum(this, song.getAlbum(this), song.getArtist(this));
 		if(song.getPlaylistId() > -1) {
 			playlist = Playlist.get(this, song.getPlaylistId());
 		} else {
@@ -386,9 +384,9 @@ public class NowPlayingViewer extends OverhearActivity {
 		if (albumChanged || cover.getDrawable() == null) {
 			AlbumAdapter.retrieveAlbumArt(this, album, cover);
 		}
-		((TextView) findViewById(R.id.track)).setText(song.getTitle());
+		((TextView) findViewById(R.id.track)).setText(song.getTitle(this));
 		((TextView) findViewById(R.id.artistAlbum)).setText(
-				(song != null ? song.getArtist() : getString(R.string.unknown_str)) + " - " + 
+				(song != null ? song.getArtist(this) : getString(R.string.unknown_str)) + " - " +
 						(album != null ? album.getName() : getString(R.string.unknown_str))
 				);
 
@@ -455,7 +453,7 @@ public class NowPlayingViewer extends OverhearActivity {
 			progress.setText(" 0:00");
 			String duration = "-0:00";
 			if (song != null) {
-				duration = "-" + song.getDurationString();
+				duration = "-" + song.getDurationString(this);
 			}
 			remaining.setText(duration);
 		}

@@ -50,6 +50,11 @@ public class AlbumListFragment extends OverhearListFragment {
     }
 
     @Override
+    public String[] getLoaderProjection() {
+        return null;
+    }
+
+    @Override
     public String getLoaderSort() {
         return MediaStore.Audio.Albums.DEFAULT_SORT_ORDER;
     }

@@ -25,12 +25,13 @@ public class Recents {
 	 * Adds a song's album to the recent history database.
 	 */
 	public static void add(final Context context, final QueueItem song) {
+        //TODO this method is CPU intensive and takes time to execute (could be shortened somehow)
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
+				Album album = Album.getAlbum(context, song.getAlbum(context), song.getArtist(context));
 				if(album == null) {
-					String artist = song.getArtist();
+					String artist = song.getArtist(context);
 					if(artist == null || artist.trim().isEmpty()) {
 						artist = context.getString(R.string.unknown_str);
 					}

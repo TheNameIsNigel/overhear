@@ -23,7 +23,6 @@ import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
-import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
 
@@ -93,9 +92,9 @@ public class SearchScreen extends OverhearListActivity {
         cursor.close();
 
         cursor = openCursor(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, query, MediaStore.Audio.Media.TITLE);
-        ArrayList<Song> songs = new ArrayList<Song>();
+        ArrayList<QueueItem> songs = new ArrayList<QueueItem>();
         while (cursor.moveToNext()) {
-            songs.add(Song.fromCursor(cursor, false));
+            songs.add(QueueItem.fromCursor(cursor, -1, QueueItem.SCOPE_ALBUM));
         }
         if (songs.size() > 0)
             adapter.add("Songs", songs.toArray());
@@ -122,7 +121,7 @@ public class SearchScreen extends OverhearListActivity {
         super.onListItemClick(l, v, position, id);
         switch (adapter.getItemViewType(position)) {
             case 1:
-                SongListFragment.performOnClick(this, (Song) adapter.getItem(position), null, null, 
+                SongListFragment.performOnClick(this, (QueueItem) adapter.getItem(position), null, null,
                 		null, QueueItem.SCOPE_SINGULAR, -1);
                 break;
             case 2:

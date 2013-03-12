@@ -10,28 +10,23 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.TextView;
-
+import android.widget.*;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.queue.QueueItem;
-import com.afollestad.overhear.utils.MusicUtils;
-import com.afollestad.overhear.R;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhear.ui.ArtistViewer;
+import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
-import com.afollestad.overhearapi.Song;
 
 public class SongAdapter extends CursorAdapter {
 
-	public SongAdapter(Context context, Cursor c, int flags) {
-		super(context, c, flags);
-		this.activity = (Activity)context;
-	}
+    public SongAdapter(Activity context, Cursor c, int flags) {
+        super(context, c, flags);
+        this.activity = context;
+    }
 
 	private Activity activity;
     private boolean isAlbum;
@@ -40,17 +35,12 @@ public class SongAdapter extends CursorAdapter {
         this.isAlbum = isAlbum;
     }
 
-	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		return LayoutInflater.from(context).inflate(R.layout.song_item, null);
-	}
-
-	public static View getViewForSong(final Activity context, final Song song, View view, final boolean isAlbum) {
+	public static View getViewForSong(final Activity context, final QueueItem song, View view, final boolean isAlbum) {
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
 		}
 
-		((TextView) view.findViewById(R.id.title)).setText(song.getTitle());
+		((TextView) view.findViewById(R.id.title)).setText(song.getTitle(context));
 
 		View options = view.findViewById(R.id.options);
 		options.setOnClickListener(new View.OnClickListener() {
@@ -70,17 +60,17 @@ public class SongAdapter extends CursorAdapter {
 							return true;
 						}
 						case R.id.addToQueue: {
-							MusicUtils.addToQueue(context, song, QueueItem.SCOPE_SINGULAR);
+							MusicUtils.addToQueue(context, song);
 							return true;
 						}
 						case R.id.viewAlbum: {
-							Album album = Album.getAlbum(context, song.getAlbum(), song.getArtist());
+							Album album = Album.getAlbum(context, song.getAlbum(context), song.getArtist(context));
 							context.startActivity(new Intent(context, AlbumViewer.class)
 							.putExtra("album", album.getJSON().toString()));
 							return true;
 						}
 						case R.id.viewArtist: {
-							Artist artist = Artist.getArtist(context, song.getArtist());
+							Artist artist = Artist.getArtist(context, song.getArtist(context));
 							context.startActivity(new Intent(context, ArtistViewer.class)
 							.putExtra("artist", artist.getJSON().toString()));
 							return true;
@@ -104,17 +94,17 @@ public class SongAdapter extends CursorAdapter {
 		boolean isPlaying = false; 
 		if(context instanceof OverhearActivity) {
 			if(((OverhearActivity)context).getService() != null) {
-				focused = ((OverhearActivity)context).getService().getQueue().getFocusedItem();
+				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
 				isPlaying = ((OverhearActivity)context).getService().isPlaying();
 			}
 		} else {
 			if(((OverhearListActivity)context).getService() != null) {
-				focused = ((OverhearListActivity)context).getService().getQueue().getFocusedItem();
+				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
 				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
 			}
 		}
 
-		if (focused != null && song.getId() == focused.getSongId() && song.getPlaylistId() == focused.getPlaylistId()) {
+		if (focused != null && song.getSongId() == focused.getSongId() && song.getPlaylistId() == focused.getPlaylistId()) {
 			peakOne.setVisibility(View.VISIBLE);
 			peakTwo.setVisibility(View.VISIBLE);
 			if (isPlaying) {
@@ -140,9 +130,19 @@ public class SongAdapter extends CursorAdapter {
 		return view;
 	}
 
-	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-		Song song = Song.fromCursor(cursor, false);
-		getViewForSong(activity, song, view, isAlbum);
-	}
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        getCursor().moveToPosition(position);
+        QueueItem item = QueueItem.fromCursor(getCursor(), -1, QueueItem.SCOPE_All_SONGS);
+        return getViewForSong(activity, item, convertView, isAlbum);
+    }
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(R.layout.song_item, null);
+    }
+
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+    }
 }

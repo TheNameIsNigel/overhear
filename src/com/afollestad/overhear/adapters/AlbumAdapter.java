@@ -16,7 +16,7 @@ import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.aimage.views.AImageView;
-import com.afollestad.overhear.*;
+import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
@@ -28,7 +28,6 @@ import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.ViewUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Album;
-import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
 
@@ -93,11 +92,11 @@ public class AlbumAdapter extends SimpleCursorAdapter {
                                 return true;
                             }
                             case R.id.addToQueue: {
-                                ArrayList<Song> content = Song.getAllFromScope(context, new String[]{
+                                ArrayList<QueueItem> content = QueueItem.getAll(context,
                                         MediaStore.Audio.Media.IS_MUSIC + " = 1 AND " +
                                                 MediaStore.Audio.Media.ALBUM_ID + " = " + album.getAlbumId(),
-                                        MediaStore.Audio.Media.TRACK});
-                                MusicUtils.addToQueue(context, content, QueueItem.SCOPE_ALBUM);
+                                        MediaStore.Audio.Media.TRACK, -1, QueueItem.SCOPE_ALBUM);
+                                MusicUtils.addToQueue(context, content);
                                 return true;
                             }
                             case R.id.redownloadArt: {
@@ -128,16 +127,17 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         boolean isPlaying = false; 
         if(context instanceof OverhearActivity) {
 			if(((OverhearActivity)context).getService() != null) {
-				focused = ((OverhearActivity)context).getService().getQueue().getFocusedItem();
+				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
 				isPlaying = ((OverhearActivity)context).getService().isPlaying();
 			}
 		} else {
 			if(((OverhearListActivity)context).getService() != null) {
-				focused = ((OverhearListActivity)context).getService().getQueue().getFocusedItem();
+				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
 				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
 			}
 		}        
-        if (focused != null && album.getName().equals(focused.getAlbum()) && album.getArtist().getName().equals(focused.getArtist())) {
+        if (focused != null && album.getName().equals(focused.getAlbum(context)) &&
+                album.getArtist().getName().equals(focused.getArtist(context))) {
             peakOne.setVisibility(View.VISIBLE);
             peakTwo.setVisibility(View.VISIBLE);
             if (isPlaying) {

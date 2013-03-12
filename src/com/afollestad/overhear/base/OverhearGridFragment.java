@@ -9,7 +9,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,10 +129,8 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
     public final void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
         if(data == null)
             return;
-        if(getAdapter() != null) {
-            Log.e("OVERHEAR GRID", ((CursorLoader) arg0).getUri().toString());
+        if(getAdapter() != null)
             getAdapter().changeCursor(data);
-        }
     }
 
     @Override

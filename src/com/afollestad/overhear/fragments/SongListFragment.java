@@ -17,7 +17,6 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Genre;
-import com.afollestad.overhearapi.Song;
 
 /**
  * Loads and displays a list of songs; used for displaying all songs, songs from albums, songs from artists, etc.
@@ -64,7 +63,12 @@ public class SongListFragment extends OverhearListFragment {
 		return scope[0];
 	}
 
-	@Override
+    @Override
+    public String[] getLoaderProjection() {
+        return QueueItem.getProjection();
+    }
+
+    @Override
 	public String getLoaderSort() {
 		String[] scope = null;
 		if (genre != null) {
@@ -79,7 +83,7 @@ public class SongListFragment extends OverhearListFragment {
 	public CursorAdapter getAdapter() {
 		if (adapter == null) {
 			adapter = new SongAdapter(getActivity(), null, 0);
-            adapter.setIsAlbum(true);
+            adapter.setIsAlbum(getArguments() != null && getArguments().containsKey("album"));
 		}
 		return adapter;
 	}
@@ -103,7 +107,7 @@ public class SongListFragment extends OverhearListFragment {
 
 	@Override
 	public void onItemClick(int position, Cursor cursor) {
-		Song song = Song.fromCursor(adapter.getCursor(), false);
+        QueueItem song = QueueItem.fromCursor(adapter.getCursor(), -1, getScopeInt());
 		Album album = null;
 		Artist artist = null;
 		if(getArguments() != null) {
@@ -122,10 +126,10 @@ public class SongListFragment extends OverhearListFragment {
 	}
 
 
-	public static void performOnClick(Activity context, Song song, Album album, Artist artist, Genre genre, int scope, int position) {
+	public static void performOnClick(Activity context, QueueItem song, Album album, Artist artist, Genre genre, int scope, int position) {
 		Intent intent = new Intent(context, MusicService.class)
 		.setAction(MusicService.ACTION_PLAY_ALL)
-		.putExtra("song", song.getJSON().toString())
+		.putExtra("song", song.getSongId())
 		.putExtra("scope", scope)
 		.putExtra("position", position);
 		if(album != null)
@@ -143,9 +147,8 @@ public class SongListFragment extends OverhearListFragment {
 
 		if (getArguments() != null) {
 			switch(getScopeInt()) {
-			case QueueItem.SCOPE_All_SONGS: {
-				break;
-			}
+            default:
+                break;
 			case QueueItem.SCOPE_ARTIST: {
 				Artist artist = Artist.fromJSON(getArguments().getString("artist"));
 				sort = MediaStore.Audio.Media.ALBUM;

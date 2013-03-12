@@ -184,12 +184,12 @@ public class MusicService extends Service {
     private void updateRemoteControl(final int state, QueueItem nowPlaying) {
         mRemoteControlClient
                 .editMetadata(false)
-                .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist())
-                .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, nowPlaying.getTitle())
-                .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration()).apply();
+                .putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, nowPlaying.getArtist(this))
+                .putString(MediaMetadataRetriever.METADATA_KEY_TITLE, nowPlaying.getTitle(this))
+                .putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, nowPlaying.getDuration(this)).apply();
         mRemoteControlClient.setPlaybackState(state);
 
-        Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(), nowPlaying.getArtist());
+        Album album = Album.getAlbum(getApplicationContext(), nowPlaying.getAlbum(this), nowPlaying.getArtist(this));
         LastfmGetAlbumImage task = new LastfmGetAlbumImage(this, getApplication(), null, false);
         task.execute(album);
         try {
@@ -270,7 +270,7 @@ public class MusicService extends Service {
         else
             nm.notify(100, status);
 
-        Album album = Album.getAlbum(this, nowPlaying.getAlbum(), nowPlaying.getArtist());
+        Album album = Album.getAlbum(this, nowPlaying.getAlbum(this), nowPlaying.getArtist(this));
         LastfmGetAlbumImage task = new LastfmGetAlbumImage(this, getApplication(), null, false);
         task.execute(album);
         try {
@@ -300,86 +300,71 @@ public class MusicService extends Service {
         if (moveQueue)
             queue.move(queue.find(item));
 
-        initializeMediaPlayer(item.getData());
+        initializeMediaPlayer(item.getData(this));
         initializeNotification(item);
         updateRemoteControl(RemoteControlClient.PLAYSTATE_PLAYING, item);
         sendBroadcast(new Intent(PLAYING_STATE_CHANGED)
                 .putExtra("album_changed", lastFocused == null ||
-                        (!lastFocused.getAlbum().equals(item.getAlbum()) ||
-                                !lastFocused.getArtist().equals(item.getArtist()))));
+                        (!lastFocused.getAlbum(this).equals(item.getAlbum(this)) ||
+                                !lastFocused.getArtist(this).equals(item.getArtist(this)))));
         lastFocused = item;
         Recents.add(this, item);
     }
 
-    private void playAll(Song song, int scope, int queuePos, Album album, Artist artist, Playlist list, Genre genre) {
+    private void playAll(int songId, int scope, int queuePos, Album album, Artist artist, Playlist list, Genre genre) {
         QueueItem item = null;
-        if (song != null) {
-            item = new QueueItem(song, scope);
-        }
+        if (songId > -1)
+            item = new QueueItem(songId, list != null ? list.getId() : -1, scope);
 
-        if (item == null || !queue.contains(item)) {
-            // The queue doesn't contain the song being played, load it's scope into the queue now
-            ArrayList<Song> queue = null;
+        if (!queue.contains(item)) {
+            // The queue doesn't contain the song being played, load its scope into the queue now
+            ArrayList<QueueItem> queue = null;
             switch (scope) {
-                case QueueItem.SCOPE_SINGULAR:
-                    queue = new ArrayList<Song>();
-                    queue.add(song);
+                case QueueItem.SCOPE_SINGULAR: {
+                    queue = new ArrayList<QueueItem>();
+                    queue.add(item);
                     break;
+                }
                 case QueueItem.SCOPE_All_SONGS: {
-                    queue = Song.getAllFromScope(this, new String[]{null,
-                            MediaStore.Audio.Media.TITLE});
-                    if (item == null)
-                        item = new QueueItem(queue.get(0), QueueItem.SCOPE_All_SONGS);
+                    queue = QueueItem.getAll(this, null, MediaStore.Audio.Media.TITLE, -1, QueueItem.SCOPE_All_SONGS);
                     break;
                 }
                 case QueueItem.SCOPE_ALBUM: {
-                    queue = Song.getAllFromScope(this, new String[]{
+                    queue = QueueItem.getAll(this,
                             MediaStore.Audio.Media.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
-                                    MediaStore.Audio.Media.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'",
-                            MediaStore.Audio.Media.TRACK
-                    });
-                    if (item == null)
-                        item = new QueueItem(queue.get(0), QueueItem.SCOPE_ALBUM);
+                            MediaStore.Audio.Media.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'",
+                            MediaStore.Audio.Media.TRACK, -1, QueueItem.SCOPE_ALBUM);
                     break;
                 }
                 case QueueItem.SCOPE_ARTIST: {
-                    queue = Song.getAllFromScope(this, new String[]{
-                            MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
-                            MediaStore.Audio.Media.ALBUM
-                    });
-                    if (item == null)
-                        item = new QueueItem(queue.get(0), QueueItem.SCOPE_ARTIST);
+                    queue = QueueItem.getAll(this, MediaStore.Audio.Media.ARTIST + " = '" + artist.getName().replace("'", "''") + "'",
+                            MediaStore.Audio.Media.ALBUM_KEY + ", " + MediaStore.Audio.Media.TRACK, -1, QueueItem.SCOPE_ARTIST);
                     break;
                 }
                 case QueueItem.SCOPE_PLAYLIST: {
-                    queue = list.getSongs(this, null);
-                    if (item == null)
-                        item = new QueueItem(queue.get(0), QueueItem.SCOPE_PLAYLIST);
+                    queue = QueueItem.getAllFromIds(list.getSongs(this, null), list.getId(), QueueItem.SCOPE_PLAYLIST);
                     break;
                 }
                 case QueueItem.SCOPE_GENRE: {
-                    queue = genre.getSongs(this);
-                    if (item == null)
-                        item = new QueueItem(queue.get(0), QueueItem.SCOPE_GENRE);
+                    queue = QueueItem.getAllFromIds(genre.getSongs(this), -1, QueueItem.SCOPE_GENRE);
                     break;
                 }
             }
 
-            this.queue.set(queue, scope);
-            if (queuePos > -1) {
+            this.queue.set(queue);
+            if (queuePos > -1)
                 this.queue.move(queuePos);
-            } else {
+            else
                 this.queue.move(0);
-            }
         } else {
             this.queue.move(this.queue.find(item));
         }
 
-        playTrack(this.queue.getFocusedItem(), false);
+        playTrack(this.queue.getFocused(), false);
     }
 
     private void resumeTrack() {
-        QueueItem last = queue.getFocusedItem();
+        QueueItem last = queue.getFocused();
         if (player != null && last != null && queue.getPosition() > -1 && initialized) {
             if (!initializeRemoteControl()) {
                 return;
@@ -404,7 +389,7 @@ public class MusicService extends Service {
             mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
         if (player != null && player.isPlaying()) {
             player.pause();
-            initializeNotification(queue.getFocusedItem());
+            initializeNotification(queue.getFocused());
         } else {
             stopTrack();
         }
@@ -493,7 +478,8 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         queue = new Queue(this);
-        lastFocused = queue.getFocusedItem();
+        //TODO last focused isn't saved through service destruction
+        lastFocused = queue.getFocused();
 
         IntentFilter ifilter = new IntentFilter();
         ifilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -516,7 +502,7 @@ public class MusicService extends Service {
         }
         String action = intent.getAction();
         if (action.equals(ACTION_PLAY_ALL)) {
-            Song song = Song.fromJSON(intent.getStringExtra("song"));
+            int song = intent.getIntExtra("song", -1);
             Album album = null;
             Artist artist = null;
             Playlist list = null;

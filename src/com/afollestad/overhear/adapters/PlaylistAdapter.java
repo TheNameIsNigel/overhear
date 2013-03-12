@@ -12,15 +12,13 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-
-import com.afollestad.overhear.queue.QueueItem;
-import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
 import com.afollestad.overhear.base.OverhearListActivity;
 import com.afollestad.overhear.fragments.PlaylistSongFragment;
+import com.afollestad.overhear.queue.QueueItem;
+import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhearapi.Playlist;
-import com.afollestad.overhearapi.Song;
 
 import java.util.ArrayList;
 
@@ -57,14 +55,14 @@ public class PlaylistAdapter extends CursorAdapter {
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        final ArrayList<Song> listSongs = playlist.getSongs(context, null);
+                        final ArrayList<Integer> listSongs = playlist.getSongs(context, null);
                         switch (menuItem.getItemId()) {
                             case R.id.playAll: {
                                 PlaylistSongFragment.performClick(context, listSongs.get(0), playlist, position);
                                 return true;
                             }
                             case R.id.addToQueue: {
-                            	MusicUtils.addToQueue(context, listSongs, QueueItem.SCOPE_PLAYLIST);
+                            	MusicUtils.addToQueue(context, QueueItem.getAllFromIds(listSongs, playlist.getId(), QueueItem.SCOPE_PLAYLIST));
                                 return true;
                             }
                             case R.id.rename: {
@@ -97,12 +95,12 @@ public class PlaylistAdapter extends CursorAdapter {
         boolean isPlaying = false; 
         if(context instanceof OverhearActivity) {
 			if(((OverhearActivity)context).getService() != null) {
-				focused = ((OverhearActivity)context).getService().getQueue().getFocusedItem();
+				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
 				isPlaying = ((OverhearActivity)context).getService().isPlaying();
 			}
 		} else {
 			if(((OverhearListActivity)context).getService() != null) {
-				focused = ((OverhearListActivity)context).getService().getQueue().getFocusedItem();
+				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
 				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
 			}
 		}

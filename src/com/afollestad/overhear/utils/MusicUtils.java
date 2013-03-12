@@ -70,7 +70,7 @@ public class MusicUtils {
         }
     }
 
-    public static AlertDialog createPlaylistChooseDialog(final Activity context, final Song songAdd, final Album albumAdd, final Artist artistAdd) {
+    public static AlertDialog createPlaylistChooseDialog(final Activity context, final QueueItem songAdd, final Album albumAdd, final Artist artistAdd) {
         final ArrayList<Playlist> playlists = Playlist.getAllPlaylists(context);
         ArrayList<CharSequence> items = new ArrayList<CharSequence>();
         items.add(context.getString(R.string.create_playlist_ellipsis));
@@ -101,13 +101,13 @@ public class MusicUtils {
         return builder.create();
     }
 
-    private static void addToPlaylist(Activity context, Song songAdd, Album albumAdd, Artist artistAdd, Playlist list) {
+    private static void addToPlaylist(Activity context, QueueItem songAdd, Album albumAdd, Artist artistAdd, Playlist list) {
         if (songAdd != null) {
-            list.insertSong(context, songAdd);
-            Toast.makeText(context, context.getString(R.string.added_to_playist).replace("{name}", songAdd.getTitle())
+            list.insertSong(context, songAdd.getSongId());
+            Toast.makeText(context, context.getString(R.string.added_to_playist).replace("{name}", songAdd.getTitle(context))
                     .replace("{list}", list.getName()), Toast.LENGTH_SHORT).show();
         } else if (albumAdd != null) {
-            ArrayList<Song> albumSongs = Song.getAllFromScope(context, new String[]{
+            ArrayList<Integer> albumSongs = Song.getAllFromScope(context, new String[]{
                     MediaStore.Audio.Media.ALBUM + " = '" + albumAdd.getName().replace("'", "''") + "' AND " +
                             MediaStore.Audio.Media.ARTIST + " = '" + albumAdd.getArtist().getName().replace("'", "''") + "'",
                     MediaStore.Audio.Media.TRACK
@@ -116,7 +116,7 @@ public class MusicUtils {
             Toast.makeText(context, context.getString(R.string.added_to_playist).replace("{name}", albumAdd.getName())
                     .replace("{list}", list.getName()), Toast.LENGTH_SHORT).show();
         } else if (artistAdd != null) {
-            ArrayList<Song> artistSongs = Song.getAllFromScope(context, new String[]{
+            ArrayList<Integer> artistSongs = Song.getAllFromScope(context, new String[]{
                     MediaStore.Audio.Media.ARTIST + " = '" + artistAdd.getName().replace("'", "''") + "'",
                     MediaStore.Audio.Media.ALBUM
             });
@@ -173,41 +173,33 @@ public class MusicUtils {
         return builder.create();
     }
 
-    public static ArrayList<Integer> getQueueItemArray(ArrayList<Song> songs) {
-        ArrayList<Integer> toreturn = new ArrayList<Integer>();
-        for (Song s : songs) {
-            toreturn.add(s.getId());
-        }
-        return toreturn;
-    }
-
-    public static void addToQueue(Activity context, Song song, int scope) {
+    public static void addToQueue(Activity context, QueueItem item) {
         if (context == null) {
             return;
         }
         if (context instanceof OverhearActivity) {
             if (((OverhearActivity) context).getService() == null)
                 return;
-            ((OverhearActivity) context).getService().getQueue().add(song, scope);
+            ((OverhearActivity) context).getService().getQueue().add(item);
         } else {
             if (((OverhearListActivity) context).getService() == null)
                 return;
-            ((OverhearListActivity) context).getService().getQueue().add(song, scope);
+            ((OverhearListActivity) context).getService().getQueue().add(item);
         }
     }
 
-    public static void addToQueue(Activity context, ArrayList<Song> songs, int scope) {
+    public static void addToQueue(Activity context, ArrayList<QueueItem> items) {
         if (context == null) {
             return;
         }
         if (context instanceof OverhearActivity) {
             if (((OverhearActivity) context).getService() == null)
                 return;
-            ((OverhearActivity) context).getService().getQueue().add(songs, scope);
+            ((OverhearActivity) context).getService().getQueue().add(items);
         } else {
             if (((OverhearListActivity) context).getService() == null)
                 return;
-            ((OverhearListActivity) context).getService().getQueue().add(songs, scope);
+            ((OverhearListActivity) context).getService().getQueue().add(items);
         }
     }
 
@@ -221,12 +213,12 @@ public class MusicUtils {
         return favorites.contains(context, song.getSongId());
     }
 
-    public static boolean toggleFavorited(Context context, QueueItem songItem, Song toInsert) {
+    public static boolean toggleFavorited(Context context, QueueItem songItem) {
         if (songItem == null)
             return false;
         Playlist favorites = createFavoritesIfNotExists(context);
         if (!favorites.removeSongById(context, songItem.getSongId())) {
-            favorites.insertSong(context, toInsert);
+            favorites.insertSong(context, songItem.getSongId());
             return true;
         }
         return false;

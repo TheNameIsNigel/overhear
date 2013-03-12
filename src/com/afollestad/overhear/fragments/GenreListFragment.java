@@ -35,6 +35,11 @@ public class GenreListFragment extends OverhearListFragment {
     }
 
     @Override
+    public String[] getLoaderProjection() {
+        return null;
+    }
+
+    @Override
     public String getLoaderSort() {
         return MediaStore.Audio.Genres.DEFAULT_SORT_ORDER;
     }

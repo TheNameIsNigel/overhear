@@ -49,6 +49,11 @@ public class RecentsListFragment extends OverhearListFragment {
     }
 
     @Override
+    public String[] getLoaderProjection() {
+        return null;
+    }
+
+    @Override
     public String getLoaderSort() {
         return Recents.SORT;
     }

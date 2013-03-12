@@ -9,9 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.OverhearActivity;
+import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Artist;
-import com.afollestad.overhearapi.Song;
 import twitter4j.ResponseList;
 import twitter4j.StatusUpdate;
 import twitter4j.TwitterException;
@@ -94,7 +94,7 @@ public class TweetNowPlaying extends OverhearActivity {
         }
         final TextView text = (TextView) findViewById(R.id.tweetText);
         final Button send = (Button) findViewById(R.id.tweetBtn);
-        final Song last = getService().getQueue().getFocused();
+        final QueueItem last = getService().getQueue().getFocused();
         if (last == null) {
             finish();
             return;
@@ -108,7 +108,7 @@ public class TweetNowPlaying extends OverhearActivity {
             @Override
             public void run() {
 
-                String displayArtist = last.getArtist();
+                String displayArtist = last.getArtist(getApplicationContext());
                 final long altTwit = Twitter.getSocialAccount(getApplicationContext(), new Artist(displayArtist, null));
                 if (altTwit > 0) {
                     try {
@@ -119,7 +119,7 @@ public class TweetNowPlaying extends OverhearActivity {
                     }
                 } else if (altTwit == -1) {
                     try {
-                        ResponseList<User> twitterMatches = twitter.searchUsers(last.getArtist(), 0);
+                        ResponseList<User> twitterMatches = twitter.searchUsers(last.getArtist(getApplicationContext()), 0);
                         if (twitterMatches.size() > 0) {
                             for (int i = 0; i < twitterMatches.size(); i++) {
                                 if (twitterMatches.get(i).isVerified()) {
@@ -139,7 +139,7 @@ public class TweetNowPlaying extends OverhearActivity {
                     public void run() {
                         text.setText("");
                         text.append(getString(R.string.now_playing_tweet_content)
-                                .replace("{title}", last.getTitle())
+                                .replace("{title}", last.getTitle(getApplicationContext()))
                                 .replace("{artist}", fArtist));
                         text.setEnabled(true);
                         send.setEnabled(true);
