@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/createPlaylist" android:title="@string/create_playlist" android:visible="false" />
-    <item android:id="@+id/clearRecents" android:title="@string/clear_recents" android:visible="false" />
-    <item android:id="@+id/search" android:title="@string/search_str" android:icon="@drawable/search"
-          android:showAsAction="ifRoom"/>
-    <item android:id="@+id/tweetPlaying" android:title="@string/tweet_now_playing" />
-    <item android:id="@+id/about" android:title="@string/about_str" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/search"
+        android:title="@string/search_str"
+        android:icon="@drawable/search"
+        android:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/tweetPlaying"
+        android:title="@string/tweet_now_playing" />
+    <item
+        android:id="@+id/about"
+        android:title="@string/about_str"/>
+    <item
+        android:id="@+id/createPlaylist"
+        android:title="@string/create_playlist"
+        android:visible="false"/>
+    <item
+        android:id="@+id/clearRecents"
+        android:title="@string/clear_recents"
+        android:visible="false"/>
 </menu>

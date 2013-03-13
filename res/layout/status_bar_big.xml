@@ -75,12 +75,6 @@
             android:layout_weight="1"
             android:src="@drawable/next"/>
 
-        <ImageButton
-            android:id="@+id/status_bar_post"
-            style="@style/StatusBarButton"
-            android:layout_weight="1"
-            android:src="@drawable/send"/>
-
     </LinearLayout>
 
 </RelativeLayout>

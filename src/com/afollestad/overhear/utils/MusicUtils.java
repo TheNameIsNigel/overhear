@@ -60,16 +60,6 @@ public class MusicUtils {
         return state;
     }
 
-    public static void browseArtist(Context context, String artistName) {
-        try {
-            Uri uri = Uri.parse("https://play.google.com/store/search?q=" +
-                    URLEncoder.encode(artistName, "UTF-8") + "&c=music");
-            context.startActivity(new Intent(Intent.ACTION_VIEW).setData(uri).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static AlertDialog createPlaylistChooseDialog(final Activity context, final QueueItem songAdd, final Album albumAdd, final Artist artistAdd) {
         final ArrayList<Playlist> playlists = Playlist.getAllPlaylists(context);
         ArrayList<CharSequence> items = new ArrayList<CharSequence>();

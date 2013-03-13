@@ -15,7 +15,6 @@
     <string name="no_playlists">No playlists</string>
     <string name="bio_str">Bio</string>
     <string name="updates_str">Updates</string>
-    <string name="shop_artist_str">Shop Artist</string>
     <string name="no_audio_focus">Another app currently has audio focus.</string>
 
     <string name="social_update_source">{time} via {user} on {network}</string>
@@ -95,5 +94,6 @@
     <string name="user_defined">User defined</string>
     <string name="bass_boost">Bass Boost</string>
     <string name="enable_bass_boost">Enable bass boost</string>
+    <string name="similar_artists">Similar Artists</string>
 
 </resources>

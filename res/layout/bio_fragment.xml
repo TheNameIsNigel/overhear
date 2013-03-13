@@ -42,7 +42,7 @@
                 android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bioHeaderOne"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"
                 android:textSize="18sp"
                 android:paddingRight="10dp"
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bioUpdates"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="2dp"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/darker_gray"
                 android:paddingRight="10dp"
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/bioHeaderTwo"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="10dp"
             android:paddingLeft="10dp"
             android:text="@string/loading_str"
             android:textColor="@color/white"
@@ -89,6 +89,27 @@
             android:textColorLink="@color/white"
             android:lineSpacingExtra="5dp"
             android:fontFamily="sans-serif-light"/>
+
+        <TextView
+            android:id="@+id/bioHeaderThree"
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bioAbout"
+            android:text="@string/similar_artists"
+            android:textSize="18sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textAllCaps="false"/>
+
+        <LinearLayout
+            android:id="@+id/bioSimilarArtists"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bioHeaderThree"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:orientation="vertical"/>
 
     </RelativeLayout>
 

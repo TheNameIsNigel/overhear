@@ -16,7 +16,6 @@ import com.afollestad.overhear.fragments.AlbumListFragment;
 import com.afollestad.overhear.fragments.BioListFragment;
 import com.afollestad.overhear.fragments.NowPlayingBarFragment;
 import com.afollestad.overhear.fragments.SongListFragment;
-import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Artist;
 import org.json.JSONException;
@@ -115,9 +114,6 @@ public class ArtistViewer extends OverhearActivity {
 			startActivity(new Intent(this, OverviewScreen.class)
 			.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 			finish();
-			return true;
-		case R.id.shopArtist:
-			MusicUtils.browseArtist(getApplicationContext(), artist.getName());
 			return true;
 		case R.id.tweetPlaying:
 			if (Twitter.getTwitterInstance(getApplicationContext(), true) == null)

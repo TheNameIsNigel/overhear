@@ -13,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.afollestad.overhear.R;
-import com.afollestad.overhear.utils.Twitter;
+import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.ui.ArtistViewer;
 import com.afollestad.overhear.ui.LoginHandler;
+import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
 import com.afollestad.overhearapi.LastFM.ArtistInfo;
@@ -153,6 +155,7 @@ public class BioListFragment extends Fragment {
         if(!currentBio.equals(getString(R.string.loading_str))) {
             return;
         }
+
         final Handler mHandler = new Handler();
         new Thread(new Runnable() {
             public void run() {
@@ -164,12 +167,33 @@ public class BioListFragment extends Fragment {
                                 if (info.getBioContent() == null) {
                                     ((TextView) getView().findViewById(R.id.bioAbout)).setText(R.string.no_bio_str);
                                 } else {
-                                    Spanned bio = info.getBioContent();
+                                    Spanned bio = info.getBioSummary();
                                     if(bio.charAt(0) == '\n') {
                                         bio = (Spanned)bio.subSequence(1, bio.length() - 1);
                                     }
                                     ((TextView) getView().findViewById(R.id.bioAbout)).setText(bio);
                                 }
+
+                                LinearLayout similarArtists = (LinearLayout)getView().findViewById(R.id.bioSimilarArtists);
+                                similarArtists.removeAllViews();
+                                if(info.getSimilarArtists().size() > 0) {
+                                    for(final ArtistInfo simArt : info.getSimilarArtists()) {
+                                        View v = ArtistAdapter.getViewForArtistInfo(getActivity(), simArt);
+                                        v.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Artist artist = Artist.getArtist(getActivity(), simArt.getName());
+                                                if(artist == null)
+                                                    return;
+                                                getActivity().startActivity(new Intent(getActivity(), ArtistViewer.class)
+                                                        .putExtra("artist", artist.getJSON().toString()));
+                                            }
+                                        });
+                                        similarArtists.addView(v);
+                                    }
+                                }
+                                similarArtists.requestLayout();
+                                similarArtists.invalidate();
                             }
                         }
                     });

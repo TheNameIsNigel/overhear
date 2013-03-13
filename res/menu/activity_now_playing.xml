@@ -11,13 +11,13 @@
         android:icon="@drawable/equalizer"
         android:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/tweetPlaying"
+        android:title="@string/tweet_now_playing" />
+    <item
         android:id="@+id/sleepTimer"
         android:title="@string/sleep_timer_str"
         android:icon="@drawable/sleep_timer"
         android:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/tweetPlaying"
-        android:title="@string/tweet_now_playing"/>
     <item
         android:id="@+id/addToPlaylist"
         android:title="@string/add_to_playlist"/>

@@ -26,6 +26,7 @@ import com.afollestad.overhear.tasks.LastfmGetArtistImage;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Artist;
+import com.afollestad.overhearapi.LastFM;
 
 import java.util.ArrayList;
 
@@ -84,6 +85,14 @@ public class ArtistAdapter extends SimpleCursorAdapter {
             }
         });
         menu.show();
+    }
+
+    public static View getViewForArtistInfo(final Activity context, final LastFM.ArtistInfo info) {
+        View view = LayoutInflater.from(context).inflate(R.layout.artist_item_info, null);
+        ((TextView) view.findViewById(R.id.title)).setText(info.getName());
+        final AImageView image = (AImageView) view.findViewById(R.id.image);
+        image.setManager(Overhear.get(context).getManager()).setSource(info.getBioImageURL()).setFitView(true).load();
+        return view;
     }
 
     public static View getViewForArtist(final Activity context, final Artist artist, View view, boolean grid) {

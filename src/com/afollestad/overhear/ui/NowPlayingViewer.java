@@ -390,7 +390,7 @@ public class NowPlayingViewer extends OverhearActivity {
 
 		AImageView cover = (AImageView) findViewById(R.id.cover);
 		if (albumChanged || cover.getDrawable() == null) {
-            cover.showFallback();
+            cover.setImageBitmap(null);
 			AlbumAdapter.retrieveAlbumArt(this, album, cover);
 		}
 		((TextView) findViewById(R.id.track)).setText(song.getTitle(this));
