@@ -45,9 +45,8 @@ public class OverviewScreen extends OverhearActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TWEET_PLAYING_LOGIN && resultCode == Activity.RESULT_OK) {
+        if (requestCode == TWEET_PLAYING_LOGIN && resultCode == Activity.RESULT_OK)
             startActivity(new Intent(this, TweetNowPlaying.class));
-        }
     }
 
     @Override
@@ -55,6 +54,7 @@ public class OverviewScreen extends OverhearActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Create the favorites playlist if it doesn't already exist so songs, artists, and albums can be added to it manually
         MusicUtils.createFavoritesIfNotExists(this);
         setupTabs();
 
@@ -64,6 +64,9 @@ public class OverviewScreen extends OverhearActivity {
             oldCacheDir.delete();
     }
 
+    /**
+     * Sets up the action bar tabs and the view pager.
+     */
     private void setupTabs() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -104,9 +107,8 @@ public class OverviewScreen extends OverhearActivity {
             }
         };
 
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++)
             actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(mTabListener));
-        }
         actionBar.setSelectedNavigationItem(Store.i(this, "focused_tab", 2));
     }
 
@@ -209,9 +211,8 @@ public class OverviewScreen extends OverhearActivity {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Fragment prev = fm.findFragmentByTag("dialog_about");
-        if (prev != null) {
+        if (prev != null)
             ft.remove(prev);
-        }
         ft.addToBackStack(null);
         new AboutDialog().show(ft, "dialog_about");
     }
