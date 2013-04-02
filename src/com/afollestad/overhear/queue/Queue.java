@@ -21,7 +21,6 @@ public class Queue {
 	 * Initializes the queue, and loads any persisted queue data.
 	 */
 	public Queue(Context context) {
-		this.context = context;
 		this.items = new ArrayList<QueueItem>();
 		this.shuffler = new Shuffler(context);
 
@@ -39,7 +38,6 @@ public class Queue {
 	}
 
 
-	private Context context;
 	private ArrayList<QueueItem> items;
 	private int position = -1;
 	private int repeatMode;

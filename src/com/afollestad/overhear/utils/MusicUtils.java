@@ -5,11 +5,9 @@ import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.Toast;
 import com.afollestad.overhear.R;
@@ -24,8 +22,6 @@ import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Playlist;
 import com.afollestad.overhearapi.Song;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -236,7 +232,7 @@ public class MusicUtils {
 
     public static boolean isInstalled(Context context, String pname) {
         try {
-            ApplicationInfo info = context.getPackageManager().getApplicationInfo(pname, 0);
+            context.getPackageManager().getApplicationInfo(pname, 0);
             return true;
         } catch (PackageManager.NameNotFoundException e) {
             return false;

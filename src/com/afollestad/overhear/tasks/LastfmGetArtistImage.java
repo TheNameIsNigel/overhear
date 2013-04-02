@@ -22,7 +22,8 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
     private WeakReference<Activity> context;
     private WeakReference<AImageView> view;
 
-    public LastfmGetArtistImage(Activity context, AImageView view) {
+    @SuppressWarnings("rawtypes")
+	public LastfmGetArtistImage(Activity context, AImageView view) {
         if(view != null) {
             if(view.getTag() != null)
                 ((AsyncTask)view.getTag()).cancel(true);
