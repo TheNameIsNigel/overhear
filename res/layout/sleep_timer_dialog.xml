@@ -18,14 +18,17 @@
                   android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:orientation="horizontal" android:paddingLeft="2dip"
                   android:paddingRight="2dip" android:measureWithLargestChild="true">
+
         <Button android:id="@+id/cancel" style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dip" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="@android:string/cancel"
                 android:fontFamily="sans-serif-condensed"/>
+
         <Button android:id="@+id/ok" style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dip" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="@android:string/ok"
                 android:fontFamily="sans-serif-condensed"/>
+
     </LinearLayout>
 
 </RelativeLayout>

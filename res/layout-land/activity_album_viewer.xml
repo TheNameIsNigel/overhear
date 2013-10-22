@@ -6,53 +6,53 @@
                 tools:context=".AlbumViewer">
 
     <ScrollView
-        android:id="@+id/detailsArea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/nowPlaying">
-
-        <LinearLayout
+            android:id="@+id/detailsArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_above="@+id/nowPlaying">
 
-            <com.afollestad.aimage.views.SquareAImageView
-                android:id="@+id/albumCover"
-                android:scaleType="fitXY"
-                android:paddingBottom="2dp"
-                android:layout_weight="1"
-                android:layout_width="@dimen/gridview_image"
-                android:layout_height="@dimen/gridview_image"/>
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <com.afollestad.silk.views.image.SilkSquareImageView
+                    android:id="@+id/albumCover"
+                    android:scaleType="fitXY"
+                    android:paddingBottom="2dp"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/gridview_image"
+                    android:layout_height="@dimen/gridview_image"/>
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1">
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
-                <com.afollestad.aimage.views.SquareAImageView
-                    android:id="@+id/artistCover"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:adjustViewBounds="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:scaleType="centerCrop"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"/>
+                <com.afollestad.silk.views.image.SilkSquareImageView
+                        android:id="@+id/artistCover"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:adjustViewBounds="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerCrop"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/artistName"
-                    android:layout_width="fill_parent"
-                    android:background="@color/black_transparent"
-                    android:padding="12dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/artistCover"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold"
-                    android:shadowColor="#000000"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="4"
-                    android:singleLine="true"/>
+                        android:id="@+id/artistName"
+                        android:layout_width="fill_parent"
+                        android:background="@color/black_transparent"
+                        android:padding="12dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/artistCover"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:shadowColor="#000000"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="4"
+                        android:singleLine="true"/>
 
             </RelativeLayout>
 
@@ -61,18 +61,18 @@
     </ScrollView>
 
     <FrameLayout
-        android:id="@+id/songList"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/detailsArea"
-        android:layout_above="@+id/nowPlaying"/>
+            android:id="@+id/songList"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@+id/detailsArea"
+            android:layout_above="@+id/nowPlaying"/>
 
     <fragment
-        android:id="@+id/nowPlaying"
-        android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        tools:layout="@layout/now_playing_bar"/>
+            android:id="@+id/nowPlaying"
+            android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            tools:layout="@layout/now_playing_bar"/>
 
 </RelativeLayout>

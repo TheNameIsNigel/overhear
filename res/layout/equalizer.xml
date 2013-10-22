@@ -6,68 +6,68 @@
                 tools:context=".EqualizerViewer">
 
     <ScrollView
-        android:id="@+id/scroller"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/nowPlaying"
-        android:layout_alignParentTop="true">
-
-        <RelativeLayout
+            android:id="@+id/scroller"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp">
+            android:layout_above="@+id/nowPlaying"
+            android:layout_alignParentTop="true">
+
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp">
 
             <Spinner
-                android:id="@+id/presetSpinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="15dp"/>
+                    android:id="@+id/presetSpinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="15dp"/>
 
             <LinearLayout
-                android:id="@+id/bands"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp"
-                android:layout_below="@+id/presetSpinner"/>
+                    android:id="@+id/bands"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:layout_below="@+id/presetSpinner"/>
 
             <TextView
-                android:id="@+id/bassBoostHeader"
-                style="?android:listSeparatorTextViewStyle"
-                android:textAllCaps="false"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="20sp"
-                android:text="@string/bass_boost"
-                android:textColor="@android:color/holo_blue_dark"
-                android:layout_below="@id/bands"/>
+                    android:id="@+id/bassBoostHeader"
+                    style="?android:listSeparatorTextViewStyle"
+                    android:textAllCaps="false"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:text="@string/bass_boost"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:layout_below="@id/bands"/>
 
             <SeekBar
-                android:id="@+id/bassBoostStrength"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="15dp"
-                android:layout_below="@id/bassBoostHeader"
-                android:max="1000"/>
+                    android:id="@+id/bassBoostStrength"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_below="@id/bassBoostHeader"
+                    android:max="1000"/>
 
         </RelativeLayout>
 
     </ScrollView>
 
     <fragment
-        android:id="@+id/nowPlaying"
-        android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        tools:layout="@layout/scroller"/>
+            android:id="@+id/nowPlaying"
+            android:name="com.afollestad.overhear.fragments.NowPlayingBarFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            tools:layout="@layout/scroller"/>
 
 </RelativeLayout>

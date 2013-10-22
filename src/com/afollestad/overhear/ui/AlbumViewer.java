@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.adapters.ArtistAdapter;
@@ -24,6 +23,7 @@ import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
+import com.afollestad.silk.views.image.SilkImageView;
 
 /**
  * Displays songs in an album.
@@ -32,10 +32,9 @@ import com.afollestad.overhearapi.Artist;
  */
 public class AlbumViewer extends OverhearActivity {
 
+    public final static int TWEET_PLAYING_LOGIN = 400;
     private Album album;
     private Artist artist;
-
-    public final static int TWEET_PLAYING_LOGIN = 400;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -84,7 +83,7 @@ public class AlbumViewer extends OverhearActivity {
         ((TextView) findViewById(R.id.artistName)).setText(artist.getName());
         setTitle(album.getName());
 
-        final AImageView artistCover = (AImageView) findViewById(R.id.artistCover);
+        final SilkImageView artistCover = (SilkImageView) findViewById(R.id.artistCover);
         ArtistAdapter.retrieveArtistArt(this, artist, artistCover, true);
         artistCover.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +93,7 @@ public class AlbumViewer extends OverhearActivity {
             }
         });
 
-        final AImageView albumCover = (AImageView) findViewById(R.id.albumCover);
+        final SilkImageView albumCover = (SilkImageView) findViewById(R.id.albumCover);
         AlbumAdapter.retrieveAlbumArt(this, album, albumCover);
         albumCover.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

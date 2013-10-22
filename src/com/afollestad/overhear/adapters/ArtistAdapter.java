@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.base.OverhearActivity;
@@ -27,25 +26,26 @@ import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
+import com.afollestad.silk.views.image.SilkImageView;
 
 import java.util.ArrayList;
 
 public class ArtistAdapter extends SimpleCursorAdapter {
+
+    private Activity context;
 
     public ArtistAdapter(Activity context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
         this.context = context;
     }
 
-    private Activity context;
-
-    public static void retrieveArtistArt(Activity context, Artist artist, AImageView view, boolean fitView) {
+    public static void retrieveArtistArt(Activity context, Artist artist, SilkImageView view, boolean fitView) {
         view.setImageBitmap(null);
         String url = WebArtUtils.getImageURL(context, artist);
         if (url == null) {
             new LastfmGetArtistImage(context, view).execute(artist);
         } else {
-            view.setManager(Overhear.get(context).getManager()).setSource(url).setFitView(fitView).load();
+            view.setImageURL(Overhear.get(context).getManager(), url);
         }
     }
 
@@ -77,7 +77,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
                         return true;
                     }
                     case R.id.redownloadArt: {
-                        new LastfmGetArtistImage(context, ((AImageView)view.findViewById(R.id.image))).execute(artist);
+                        new LastfmGetArtistImage(context, (SilkImageView) view.findViewById(R.id.image)).execute(artist);
                         return true;
                     }
                 }
@@ -90,8 +90,8 @@ public class ArtistAdapter extends SimpleCursorAdapter {
     public static View getViewForArtistInfo(final Activity context, final LastFM.ArtistInfo info) {
         View view = LayoutInflater.from(context).inflate(R.layout.artist_item_info, null);
         ((TextView) view.findViewById(R.id.title)).setText(info.getName());
-        final AImageView image = (AImageView) view.findViewById(R.id.image);
-        image.setManager(Overhear.get(context).getManager()).setSource(info.getBioImageURL()).setFitView(true).load();
+        final SilkImageView image = (SilkImageView) view.findViewById(R.id.image);
+        image.setFitView(true).setImageURL(Overhear.get(context).getManager(), info.getBioImageURL());
         return view;
     }
 
@@ -108,11 +108,11 @@ public class ArtistAdapter extends SimpleCursorAdapter {
                 .replace("{albums}", "" + artist.getAlbumCount())
                 .replace("{tracks}", "" + artist.getTrackCount()));
 
-        final AImageView image = (AImageView) view.findViewById(R.id.image);
+        final SilkImageView image = (SilkImageView) view.findViewById(R.id.image);
         retrieveArtistArt(context, artist, image, true);
 
         View options = view.findViewById(R.id.options);
-        if(options != null) {
+        if (options != null) {
             options.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

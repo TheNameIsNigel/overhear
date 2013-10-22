@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.base.OverhearActivity;
@@ -28,35 +27,30 @@ import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.ViewUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.silk.views.image.SilkImageView;
 
 import java.util.ArrayList;
 
 public class AlbumAdapter extends SimpleCursorAdapter {
+
+    private Activity context;
 
     public AlbumAdapter(Activity context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
         this.context = context;
     }
 
-    private Activity context;
-
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.album_item, null);
-    }
-
-    public static void retrieveAlbumArt(Activity context, Album album, AImageView view) {
+    public static void retrieveAlbumArt(Activity context, Album album, SilkImageView view) {
         view.setImageBitmap(null);
-        view.setManager(Overhear.get(context).getManager());
-        if(album == null) {
-            view.showFallback();
+        if (album == null) {
+            view.showFallback(Overhear.get(context).getManager());
             return;
         }
         String url = WebArtUtils.getImageURL(context, album);
         if (url == null) {
             new LastfmGetAlbumImage(context, context.getApplication(), view, false).execute(album);
         } else {
-            view.setSource(url).load();
+            view.setImageURL(Overhear.get(context).getManager(), url);
         }
     }
 
@@ -66,7 +60,7 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         ((TextView) view.findViewById(R.id.title)).setText(album.getName());
         ((TextView) view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 
-        final AImageView image = (AImageView) view.findViewById(R.id.image);
+        final SilkImageView image = (SilkImageView) view.findViewById(R.id.image);
         retrieveAlbumArt(context, album, image);
 
         View options = view.findViewById(R.id.options);
@@ -124,18 +118,18 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
 
         QueueItem focused = null;
-        boolean isPlaying = false; 
-        if(context instanceof OverhearActivity) {
-			if(((OverhearActivity)context).getService() != null) {
-				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
-				isPlaying = ((OverhearActivity)context).getService().isPlaying();
-			}
-		} else {
-			if(((OverhearListActivity)context).getService() != null) {
-				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
-				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
-			}
-		}        
+        boolean isPlaying = false;
+        if (context instanceof OverhearActivity) {
+            if (((OverhearActivity) context).getService() != null) {
+                focused = ((OverhearActivity) context).getService().getQueue().getFocused();
+                isPlaying = ((OverhearActivity) context).getService().isPlaying();
+            }
+        } else {
+            if (((OverhearListActivity) context).getService() != null) {
+                focused = ((OverhearListActivity) context).getService().getQueue().getFocused();
+                isPlaying = ((OverhearListActivity) context).getService().isPlaying();
+            }
+        }
         if (focused != null && album.getName().equals(focused.getAlbum(context)) &&
                 album.getArtist().getName().equals(focused.getArtist(context))) {
             peakOne.setVisibility(View.VISIBLE);
@@ -164,6 +158,11 @@ public class AlbumAdapter extends SimpleCursorAdapter {
     }
 
     @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(R.layout.album_item, null);
+    }
+
+    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
         if (view == null) {
@@ -177,14 +176,14 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
         if (position == 0) {
             if (getCount() == 1) {
-            	ViewUtils.relativeMargins(view, pad, pad);
+                ViewUtils.relativeMargins(view, pad, pad);
             } else {
-            	ViewUtils.relativeMargins(view, pad, 0);
+                ViewUtils.relativeMargins(view, pad, 0);
             }
         } else if (position == getCount() - 1) {
-        	ViewUtils.relativeMargins(view, 0, pad);
+            ViewUtils.relativeMargins(view, 0, pad);
         } else {
-        	ViewUtils.relativeMargins(view, 0, 0);
+            ViewUtils.relativeMargins(view, 0, 0);
         }
 
         return view;

@@ -6,47 +6,47 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
-import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.LastFM;
+import com.afollestad.silk.views.image.SilkImageView;
 
 import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 
 /**
- * Handles retrieving art for albums from the cache, or last.fm if not available. 
- * 
+ * Handles retrieving art for albums from the cache, or last.fm if not available.
+ *
  * @author Aidan Follestad
  */
 public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
 
     private WeakReference<Context> context;
-    private WeakReference<AImageView> view;
+    private WeakReference<SilkImageView> view;
     private WeakReference<Application> app;
     private boolean forceDownload;
 
     @SuppressWarnings("rawtypes")
-	public LastfmGetAlbumImage(Context context, Application app, AImageView view, boolean forceDownload) {
-        if(view != null) {
-            if(view.getTag() != null)
-                ((AsyncTask)view.getTag()).cancel(true);
+    public LastfmGetAlbumImage(Context context, Application app, SilkImageView view, boolean forceDownload) {
+        if (view != null) {
+            if (view.getTag() != null)
+                ((AsyncTask) view.getTag()).cancel(true);
             view.setTag(this);
         }
         this.context = new WeakReference<Context>(context);
-        this.view = new WeakReference<AImageView>(view);
+        this.view = new WeakReference<SilkImageView>(view);
         this.app = new WeakReference<Application>(app);
         this.forceDownload = forceDownload;
     }
 
     @Override
     protected String doInBackground(Album... als) {
-    	if(als.length == 0 || als[0] == null || als[0].getAlbumId() == -1 || context == null || context.get() == null) {
-    		return null;
-    	}
+        if (als.length == 0 || als[0] == null || als[0].getAlbumId() == -1 || context == null || context.get() == null) {
+            return null;
+        }
         String url = WebArtUtils.getImageURL(context.get(), als[0]);
         if (url == null && !forceDownload) {
             url = als[0].getAlbumArtUri(context.get()).toString();
@@ -77,18 +77,15 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (view == null || view.get() == null) {
-            return;
-        } else {
-            if(view.get().getTag() != this) {
-                return;
-            }
-            if(result != null && result.equals("flag:force_download")) {
-            	Toast.makeText(context.get(), R.string.download_queued, Toast.LENGTH_SHORT).show();
+        if (view == null || view.get() == null) return;
+        else {
+            if (view.get().getTag() != this) return;
+            if (result != null && result.equals("flag:force_download")) {
+                Toast.makeText(context.get(), R.string.download_queued, Toast.LENGTH_SHORT).show();
                 //Load the fallback image
-                view.get().setManager(((Overhear)app.get()).getManager()).setSource(null).load();
+                view.get().showFallback(((Overhear) app.get()).getManager());
             } else {
-            	view.get().setManager(((Overhear)app.get()).getManager()).setSource(result).load();
+                view.get().setFitView(true).setImageURL(((Overhear) app.get()).getManager(), result);
             }
         }
         super.onPostExecute(result);

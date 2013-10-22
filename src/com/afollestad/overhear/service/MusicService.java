@@ -16,7 +16,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.widget.Toast;
-import com.afollestad.aimage.ImageListener;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhear.queue.Queue;
@@ -25,13 +24,30 @@ import com.afollestad.overhear.tasks.LastfmGetAlbumImage;
 import com.afollestad.overhear.utils.Recents;
 import com.afollestad.overhear.utils.SleepTimer;
 import com.afollestad.overhear.utils.Store;
-import com.afollestad.overhearapi.*;
+import com.afollestad.overhearapi.Album;
+import com.afollestad.overhearapi.Artist;
+import com.afollestad.overhearapi.Genre;
+import com.afollestad.overhearapi.Playlist;
+import com.afollestad.silk.images.SilkImageManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MusicService extends Service {
 
+    public final static String PLAYING_STATE_CHANGED = "com.afollestad.overhear.PLAY_STATE_CHANGED";
+    public final static String RECENTS_UPDATED = "com.afollestad.overhear.RECENTS_UPDATED";
+    public final static String PLAYLIST_UPDATED = "com.afollestad.overhear.PLAYLIST_UPDATED";
+    public static final String ACTION_SLEEP_TIMER = "com.afollestad.overhear.action.SLEEP_TIMER";
+    public static final String ACTION_TOGGLE_PLAYBACK = "com.afollestad.overhear.action.TOGGLE_PLAYBACK";
+    public static final String ACTION_PLAY_ALL = "com.afollestad.overhear.action.PLAY_ALL";
+    public static final String ACTION_PAUSE = "com.afollestad.overhear.action.PAUSE";
+    public static final String ACTION_STOP = "com.afollestad.overhear.action.STOP";
+    public static final String ACTION_SKIP = "com.afollestad.overhear.action.SKIP";
+    public static final String ACTION_REWIND = "com.afollestad.overhear.action.REWIND";
+    public static final String ACTION_CLEAR_NOTIFICATION = "com.afollestad.overhear.action.CLEAR_NOTIFICATION";
+    private static MediaPlayer player;
+    private final IBinder mBinder = new MusicBinder();
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -43,30 +59,49 @@ public class MusicService extends Service {
             }
         }
     };
-
-
-    public MusicService() {
-    }
-
-    private final IBinder mBinder = new MusicBinder();
     private boolean hasAudioFocus;
     private boolean wasPlayingBeforeLoss;
     private Toast toast;
     private boolean initialized;
     private Queue queue;
     private QueueItem lastFocused;
+    private Equalizer equalizer;
+    private BassBoost bassBoost;
+    private AudioManager audioManager;
+    private RemoteControlClient mRemoteControlClient;
+    private AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    hasAudioFocus = false;
+                    getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
+                    getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
+                    wasPlayingBeforeLoss = isPlaying();
+                    pauseTrack();
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    hasAudioFocus = false;
+                    player.setVolume(0.2f, 0.2f);
+                    break;
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    hasAudioFocus = true;
+                    player.setVolume(1.0f, 1.0f);
+                    if (wasPlayingBeforeLoss)
+                        resumeTrack();
+                    break;
+            }
+        }
+    };
+
+    public MusicService() {
+    }
 
     public Queue getQueue() {
         if (queue == null)
             queue = new Queue(this);
         return queue;
     }
-
-    private static MediaPlayer player;
-    private Equalizer equalizer;
-    private BassBoost bassBoost;
-    private AudioManager audioManager;
-    private RemoteControlClient mRemoteControlClient;
 
     public AudioManager getAudioManager() {
         if (audioManager == null) {
@@ -116,45 +151,6 @@ public class MusicService extends Service {
         return player;
     }
 
-    private AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-            switch (focusChange) {
-                case AudioManager.AUDIOFOCUS_LOSS:
-                    hasAudioFocus = false;
-                    getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
-                    getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
-                    wasPlayingBeforeLoss = isPlaying();
-                    pauseTrack();
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    hasAudioFocus = false;
-                    player.setVolume(0.2f, 0.2f);
-                    break;
-                case AudioManager.AUDIOFOCUS_GAIN:
-                    hasAudioFocus = true;
-                    player.setVolume(1.0f, 1.0f);
-                    if (wasPlayingBeforeLoss)
-                        resumeTrack();
-                    break;
-            }
-        }
-    };
-
-    public final static String PLAYING_STATE_CHANGED = "com.afollestad.overhear.PLAY_STATE_CHANGED";
-    public final static String RECENTS_UPDATED = "com.afollestad.overhear.RECENTS_UPDATED";
-    public final static String PLAYLIST_UPDATED = "com.afollestad.overhear.PLAYLIST_UPDATED";
-
-    public static final String ACTION_SLEEP_TIMER = "com.afollestad.overhear.action.SLEEP_TIMER";
-    public static final String ACTION_TOGGLE_PLAYBACK = "com.afollestad.overhear.action.TOGGLE_PLAYBACK";
-    public static final String ACTION_PLAY_ALL = "com.afollestad.overhear.action.PLAY_ALL";
-    public static final String ACTION_PAUSE = "com.afollestad.overhear.action.PAUSE";
-    public static final String ACTION_STOP = "com.afollestad.overhear.action.STOP";
-    public static final String ACTION_SKIP = "com.afollestad.overhear.action.SKIP";
-    public static final String ACTION_REWIND = "com.afollestad.overhear.action.REWIND";
-    public static final String ACTION_CLEAR_NOTIFICATION = "com.afollestad.overhear.action.CLEAR_NOTIFICATION";
-
-
     private boolean requestAudioFocus() {
         if (hasAudioFocus) {
             return true;
@@ -194,11 +190,10 @@ public class MusicService extends Service {
         task.execute(album);
         try {
             String url = task.get();
-            Overhear.get(this).getManager().get(url, new ImageListener() {
+            Overhear.get(this).getManager().get(url, new SilkImageManager.ImageListener() {
                 @Override
-                public void onImageReceived(final String source, final Bitmap bitmap) {
-                    mRemoteControlClient
-                            .editMetadata(false)
+                public void onImageReceived(String source, Bitmap bitmap) {
+                    mRemoteControlClient.editMetadata(false)
                             .putBitmap(RemoteControlClient.MetadataEditor.BITMAP_KEY_ARTWORK, bitmap)
                             .apply();
                 }
@@ -226,15 +221,15 @@ public class MusicService extends Service {
         if (equalizer == null) {
             equalizer = new Equalizer(0, getMediaPlayer().getAudioSessionId());
             equalizer.setEnabled(true);
-            short lastPreset = (short)Store.i(getApplicationContext(), "equalization_preset", -1);
-            if(lastPreset > -1)
+            short lastPreset = (short) Store.i(getApplicationContext(), "equalization_preset", -1);
+            if (lastPreset > -1)
                 equalizer.usePreset(lastPreset);
         }
         if (bassBoost == null) {
             bassBoost = new BassBoost(0, getMediaPlayer().getAudioSessionId());
             bassBoost.setEnabled(true);
-            short lastStrength = (short)Store.i(getApplicationContext(), "bass_boost_strength", -1);
-            if(lastStrength > -1)
+            short lastStrength = (short) Store.i(getApplicationContext(), "bass_boost_strength", -1);
+            if (lastStrength > -1)
                 bassBoost.setStrength(lastStrength);
         }
     }
@@ -243,8 +238,8 @@ public class MusicService extends Service {
         //TODO
         if (equalizer != null) {
             try {
-                Store.put(getApplicationContext(), "equalization_preset", (int)equalizer.getCurrentPreset());
-            } catch(Exception e) {
+                Store.put(getApplicationContext(), "equalization_preset", (int) equalizer.getCurrentPreset());
+            } catch (Exception e) {
                 Store.put(getApplicationContext(), "equalization_preset", -1);
             }
             equalizer.release();
@@ -252,8 +247,8 @@ public class MusicService extends Service {
         }
         if (bassBoost != null) {
             try {
-                Store.put(getApplicationContext(), "bass_boost_strength", (int)bassBoost.getRoundedStrength());
-            } catch(Exception e) {
+                Store.put(getApplicationContext(), "bass_boost_strength", (int) bassBoost.getRoundedStrength());
+            } catch (Exception e) {
                 Store.put(getApplicationContext(), "bass_boost_strength", -1);
             }
             bassBoost.release();
@@ -261,11 +256,10 @@ public class MusicService extends Service {
         }
     }
 
-
     private void initializeNotification(final QueueItem nowPlaying) {
         final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Notification status = NotificationViewCreator.createNotification(getApplicationContext(), nowPlaying, null, isPlaying());
-        if(!isPlaying())
+        if (!isPlaying())
             startForeground(100, status);
         else
             nm.notify(100, status);
@@ -275,9 +269,9 @@ public class MusicService extends Service {
         task.execute(album);
         try {
             String url = task.get();
-            Overhear.get(this).getManager().get(url, new ImageListener() {
+            Overhear.get(this).getManager().get(url, new SilkImageManager.ImageListener() {
                 @Override
-                public void onImageReceived(final String source, final Bitmap bitmap) {
+                public void onImageReceived(String source, Bitmap bitmap) {
                     Notification update = NotificationViewCreator.createNotification(
                             getApplicationContext(), nowPlaying, bitmap, isPlaying());
                     nm.notify(100, update);
@@ -332,7 +326,7 @@ public class MusicService extends Service {
                 case QueueItem.SCOPE_ALBUM: {
                     queue = QueueItem.getAll(this,
                             MediaStore.Audio.Media.ALBUM + " = '" + album.getName().replace("'", "''") + "' AND " +
-                            MediaStore.Audio.Media.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'",
+                                    MediaStore.Audio.Media.ARTIST + " = '" + album.getArtist().getName().replace("'", "''") + "'",
                             MediaStore.Audio.Media.TRACK, -1, QueueItem.SCOPE_ALBUM);
                     break;
                 }
@@ -440,7 +434,6 @@ public class MusicService extends Service {
                 playTrack(previous, true);
             } else {
                 stopTrack();
-                return;
             }
         }
     }
@@ -465,13 +458,6 @@ public class MusicService extends Service {
 
     public boolean isPlayerInitialized() {
         return initialized;
-    }
-
-
-    public class MusicBinder extends Binder {
-        public MusicService getService() {
-            return MusicService.this;
-        }
     }
 
     @Override
@@ -555,5 +541,11 @@ public class MusicService extends Service {
         getAudioManager().unregisterRemoteControlClient(mRemoteControlClient);
         getAudioManager().unregisterMediaButtonEventReceiver(new ComponentName(getApplicationContext(), MediaButtonIntentReceiver.class));
         super.onDestroy();
+    }
+
+    public class MusicBinder extends Binder {
+        public MusicService getService() {
+            return MusicService.this;
+        }
     }
 }

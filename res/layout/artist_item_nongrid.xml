@@ -4,76 +4,76 @@
                 android:layout_height="match_parent"
                 android:descendantFocusability="blocksDescendants">
 
-    <com.afollestad.aimage.views.AImageView
-        android:id="@+id/image"
-        android:layout_width="@dimen/album_list_cover"
-        android:layout_height="@dimen/album_list_cover"
-        android:scaleType="fitXY"/>
+    <com.afollestad.silk.views.image.SilkAspectImageView
+            android:id="@+id/image"
+            android:layout_width="@dimen/album_list_cover"
+            android:layout_height="@dimen/album_list_cover"
+            android:scaleType="fitXY"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/image"
-        android:layout_alignTop="@+id/image"
-        android:layout_marginLeft="10dp"
-        android:layout_toLeftOf="@+id/peak_one"
-        android:layout_toRightOf="@+id/image"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:layout_alignBottom="@+id/image"
+            android:layout_alignTop="@+id/image"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/peak_one"
+            android:layout_toRightOf="@+id/image"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
         <TextView
-            android:id="@+id/stats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:fontFamily="sans-serif-light"/>
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        <TextView
+                android:id="@+id/stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:fontFamily="sans-serif-light"/>
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/peak_one"
-        android:layout_width="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/peak_two"/>
+            android:id="@+id/peak_one"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/peak_two"/>
 
     <ImageView
-        android:id="@+id/peak_two"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/options"/>
+            android:id="@+id/peak_two"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/options"/>
 
     <RelativeLayout
-        android:id="@+id/options"
-        android:layout_width="@dimen/triangle_options_width"
-        android:layout_height="match_parent"
-        android:background="?android:attr/listChoiceBackgroundIndicator"
-        android:layout_alignParentRight="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="false"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="10dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp">
+            android:id="@+id/options"
+            android:layout_width="@dimen/triangle_options_width"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listChoiceBackgroundIndicator"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
 
         <ImageView
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/triangle"/>
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/triangle"/>
 
     </RelativeLayout>
 

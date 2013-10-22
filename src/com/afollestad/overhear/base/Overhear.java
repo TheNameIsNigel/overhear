@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
-import com.afollestad.aimage.ImageManager;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.service.MusicService;
+import com.afollestad.silk.images.SilkImageManager;
 
 import java.io.File;
 
@@ -17,23 +17,30 @@ import java.io.File;
  */
 public class Overhear extends Application {
 
+    public final static int DATABASE_VERSION = 3;
+    private SilkImageManager manager;
+    private int boundActivities;
+    private Object LOCK = new Object();
+
     /**
      * This isn't used directly by any code in the app.
      */
     public Overhear() {
     }
 
-    public final static int DATABASE_VERSION = 3;
+    public static Overhear get(Activity context) {
+        return (Overhear) context.getApplication();
+    }
 
-    private ImageManager manager;
-    private int boundActivities;
-    private Object LOCK = new Object();
+    public static Overhear get(Service context) {
+        return (Overhear) context.getApplication();
+    }
 
-    public ImageManager getManager() {
+    public SilkImageManager getManager() {
         if (manager == null) {
             File cacheDir = getExternalCacheDir();
             cacheDir.mkdirs();
-            manager = new ImageManager(this)
+            manager = new SilkImageManager(this)
                     .setCacheDirectory(cacheDir)
                     .setFallbackImage(R.drawable.default_song_album);
         }
@@ -53,13 +60,5 @@ public class Overhear extends Application {
                 sendBroadcast(new Intent(MusicService.ACTION_CLEAR_NOTIFICATION));
             }
         }
-    }
-
-    public static Overhear get(Activity context) {
-        return (Overhear) context.getApplication();
-    }
-
-    public static Overhear get(Service context) {
-        return (Overhear) context.getApplication();
     }
 }

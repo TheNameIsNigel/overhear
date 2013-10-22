@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.afollestad.aimage.views.AImageView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.base.OverhearActivity;
@@ -23,6 +22,7 @@ import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhear.ui.PlaylistViewer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Playlist;
+import com.afollestad.silk.views.image.SilkImageView;
 
 import java.lang.ref.WeakReference;
 
@@ -39,21 +39,19 @@ public class NowPlayingBarFragment extends Fragment {
             update();
         }
     };
-
-    public NowPlayingBarFragment() {
-    }
-
     private Album album;
     private Playlist playlist;
     private QueueItem focused;
-
-    private WeakReference<AImageView> playing;
+    private WeakReference<SilkImageView> playing;
     private WeakReference<ImageView> playPause;
     private WeakReference<ImageView> previous;
     private WeakReference<ImageView> next;
     private WeakReference<TextView> track;
     private WeakReference<TextView> artist;
     private WeakReference<QueueItem> lastPlayed;
+
+    public NowPlayingBarFragment() {
+    }
 
     @Override
     public void onCreate(Bundle sis) {
@@ -89,7 +87,7 @@ public class NowPlayingBarFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        playing = new WeakReference<AImageView>((AImageView) view.findViewById(R.id.playing));
+        playing = new WeakReference<SilkImageView>((SilkImageView) view.findViewById(R.id.playing));
         playPause = new WeakReference<ImageView>((ImageView) view.findViewById(R.id.play));
         previous = new WeakReference<ImageView>((ImageView) view.findViewById(R.id.previous));
         next = new WeakReference<ImageView>((ImageView) view.findViewById(R.id.next));
@@ -194,7 +192,7 @@ public class NowPlayingBarFragment extends Fragment {
                 playlist = Playlist.get(getActivity(), focused.getPlaylistId());
 
             boolean albumChanged = true;
-            if(lastPlayed != null && lastPlayed.get() != null &&
+            if (lastPlayed != null && lastPlayed.get() != null &&
                     lastPlayed.get().getAlbum(getActivity()).equals(focused.getAlbum(getActivity())) &&
                     lastPlayed.get().getArtist(getActivity()).equals(focused.getArtist(getActivity()))) {
                 albumChanged = false;

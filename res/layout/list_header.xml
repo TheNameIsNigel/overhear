@@ -8,4 +8,4 @@
           android:paddingLeft="@dimen/list_header_side_padding" android:paddingRight="10dp"
           android:paddingTop="5dp" android:paddingBottom="6dp"
           android:layout_marginTop="5dp" android:layout_marginBottom="5dp"
-          android:singleLine="true" android:fontFamily="sans-serif-condensed" />
+          android:singleLine="true" android:fontFamily="sans-serif-condensed"/>
