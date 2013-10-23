@@ -152,12 +152,9 @@ public class MusicService extends Service {
     }
 
     private boolean requestAudioFocus() {
-        if (hasAudioFocus) {
-            return true;
-        }
+        if (hasAudioFocus) return true;
         int result = getAudioManager().requestAudioFocus(afl, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        boolean hasFocus = (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
-        return hasFocus;
+        return (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
     }
 
     private boolean initializeRemoteControl() {
@@ -307,9 +304,7 @@ public class MusicService extends Service {
 
     private void playAll(int songId, int scope, int queuePos, Album album, Artist artist, Playlist list, Genre genre) {
         QueueItem item = null;
-        if (songId > -1)
-            item = new QueueItem(songId, list != null ? list.getId() : -1, scope);
-
+        if (songId > -1) item = new QueueItem(songId, list != null ? list.getId() : -1, scope);
         if (!queue.contains(item)) {
             // The queue doesn't contain the song being played, load its scope into the queue now
             ArrayList<QueueItem> queue = null;
