@@ -65,7 +65,8 @@ public class BioListFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString("artist", artist.getJSON().toString());
+        if (artist != null)
+            outState.putString("artist", artist.getJSON().toString());
         outState.putString("lastfm_bio", ((TextView) getView().findViewById(R.id.bioAbout)).getText().toString());
         super.onSaveInstanceState(outState);
     }
