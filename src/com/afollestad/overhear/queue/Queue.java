@@ -17,6 +17,15 @@ import java.util.Random;
  */
 public class Queue {
 
+    public final static int REPEAT_MODE_ONCE = 1;
+    public final static int REPEAT_MODE_ALL = 2;
+    private final static int REPEAT_MODE_OFF = 0;
+    private final ArrayList<QueueItem> items;
+    private final Shuffler shuffler;
+    private int position = -1;
+    private int repeatMode;
+    private boolean shuffle;
+
     /**
      * Initializes the queue, and loads any persisted queue data.
      */
@@ -37,25 +46,12 @@ public class Queue {
         this.repeatMode = prefs.getInt("repeat_mode", REPEAT_MODE_OFF);
     }
 
-
-    private final ArrayList<QueueItem> items;
-    private int position = -1;
-    private int repeatMode;
-    private boolean shuffle;
-    private final Shuffler shuffler;
-
-    private final static int REPEAT_MODE_OFF = 0;
-    public final static int REPEAT_MODE_ONCE = 1;
-    public final static int REPEAT_MODE_ALL = 2;
-
-
     /**
      * Gets the items (songs) in the queue.
      */
     ArrayList<QueueItem> getItems() {
         return items;
     }
-
 
     /**
      * Gets the current queue position of the focused song (the item that is currently playing or paused).
@@ -80,10 +76,7 @@ public class Queue {
      */
     public boolean canDecrement() {
         boolean repeat = getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL;
-        if (getItems().size() > 0 && repeat) {
-            return true;
-        } else
-            return isShuffleOn() || (position - 1) >= 0 || getItems().size() == 0;
+        return getItems().size() > 0 && repeat || isShuffleOn() || (position - 1) >= 0 || getItems().size() == 0;
     }
 
     /**
@@ -118,7 +111,6 @@ public class Queue {
         return getFocused();
     }
 
-
     /**
      * Adds an item to the queue.
      */
@@ -127,8 +119,7 @@ public class Queue {
     }
 
     public void add(ArrayList<QueueItem> items) {
-        for (QueueItem i : items)
-            add(i);
+        for (QueueItem i : items) add(i);
     }
 
     /**
@@ -167,7 +158,6 @@ public class Queue {
         return true;
     }
 
-
     public boolean isShuffleOn() {
         return this.shuffle;
     }
@@ -181,13 +171,12 @@ public class Queue {
         return this.shuffle;
     }
 
+    public int getRepeatMode() {
+        return repeatMode;
+    }
 
     void setRepeatMode(int mode) {
         this.repeatMode = mode;
-    }
-
-    public int getRepeatMode() {
-        return repeatMode;
     }
 
     /**
@@ -206,7 +195,6 @@ public class Queue {
                 break;
         }
     }
-
 
     /**
      * Checks if the queue contains a song.
@@ -236,7 +224,6 @@ public class Queue {
         return getItems().get(getPosition());
     }
 
-
     /**
      * Persists the queue in the local application preferences so it can be reloaded the next time the queue is initialized.
      */
@@ -255,16 +242,15 @@ public class Queue {
         Log.i("Queue", "Persisted " + getItems().size() + " queue items, position " + position);
     }
 
-
     private static class Shuffler {
+
+        private final Random mRandom = new Random();
+        private int mPrevious = -1;
 
         public Shuffler(Context context) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             mPrevious = prefs.getInt("shuffle_previous", -1);
         }
-
-        private int mPrevious = -1;
-        private final Random mRandom = new Random();
 
         public int nextInt(Queue queue) {
             if (queue.getItems().size() == 0) {

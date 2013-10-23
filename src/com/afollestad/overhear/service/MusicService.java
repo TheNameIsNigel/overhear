@@ -59,16 +59,6 @@ public class MusicService extends Service {
             }
         }
     };
-    private boolean hasAudioFocus;
-    private boolean wasPlayingBeforeLoss;
-    private Toast toast;
-    private boolean initialized;
-    private Queue queue;
-    private QueueItem lastFocused;
-    private Equalizer equalizer;
-    private BassBoost bassBoost;
-    private AudioManager audioManager;
-    private RemoteControlClient mRemoteControlClient;
     private final AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
@@ -93,6 +83,16 @@ public class MusicService extends Service {
             }
         }
     };
+    private boolean hasAudioFocus;
+    private boolean wasPlayingBeforeLoss;
+    private Toast toast;
+    private boolean initialized;
+    private Queue queue;
+    private QueueItem lastFocused;
+    private Equalizer equalizer;
+    private BassBoost bassBoost;
+    private AudioManager audioManager;
+    private RemoteControlClient mRemoteControlClient;
 
     public MusicService() {
     }
