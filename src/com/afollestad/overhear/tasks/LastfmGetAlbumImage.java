@@ -49,7 +49,7 @@ public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
         }
         String url = WebArtUtils.getImageURL(context.get(), als[0]);
         if (url == null && !forceDownload) {
-            url = als[0].getAlbumArtUri(context.get()).toString();
+            url = als[0].getAlbumArtUri().toString();
             try {
                 context.get().getContentResolver().openInputStream(Uri.parse(url));
             } catch (FileNotFoundException e) {
