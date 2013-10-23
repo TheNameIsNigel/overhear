@@ -126,7 +126,7 @@ public class NowPlayingViewer extends OverhearActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_now_playing, menu);
         boolean favorited = MusicUtils.isFavorited(this, song);
-        menu.findItem(R.id.favorite).setIcon(favorited ? R.drawable.favorited : R.drawable.unfavorited);
+        menu.findItem(R.id.favorite).setIcon(favorited ? R.drawable.ic_favorited : R.drawable.ic_unfavorited);
         menu.findItem(R.id.favorite).setTitle(favorited ? R.string.unfavorite_str : R.string.favorite_str);
         return true;
     }
@@ -429,7 +429,7 @@ public class NowPlayingViewer extends OverhearActivity {
     }
 
     /**
-     * Updates the play button, seek bar, and position indicators.
+     * Updates the ic_play button, seek bar, and position indicators.
      */
     void update() {
         if (getService() == null) {
@@ -443,9 +443,9 @@ public class NowPlayingViewer extends OverhearActivity {
 
         if (player != null && getService().isPlayerInitialized()) {
             if (player.isPlaying()) {
-                ((ImageButton) findViewById(R.id.play)).setImageResource(R.drawable.pause);
+                ((ImageButton) findViewById(R.id.play)).setImageResource(R.drawable.ic_pause);
             } else {
-                ((ImageButton) findViewById(R.id.play)).setImageResource(R.drawable.play);
+                ((ImageButton) findViewById(R.id.play)).setImageResource(R.drawable.ic_play);
             }
             int max = player.getDuration();
             int current = player.getCurrentPosition();
@@ -454,7 +454,7 @@ public class NowPlayingViewer extends OverhearActivity {
             progress.setText(" " + Song.getDurationString(current));
             remaining.setText("-" + Song.getDurationString(max - current));
         } else {
-            ((ImageButton) findViewById(R.id.play)).setImageResource(R.drawable.play);
+            ((ImageButton) findViewById(R.id.play)).setImageResource(R.drawable.ic_play);
             seek.setProgress(0);
             seek.setMax(100);
             progress.setText(" 0:00");
@@ -471,17 +471,17 @@ public class NowPlayingViewer extends OverhearActivity {
             return;
         ImageButton shuffle = (ImageButton) findViewById(R.id.shuffle);
         shuffle.setImageResource(getService().getQueue().isShuffleOn() ?
-                R.drawable.shuffle_all : R.drawable.shuffle);
+                R.drawable.ic_shuffle_all : R.drawable.ic_shuffle_off);
         ImageButton repeat = (ImageButton) findViewById(R.id.repeat);
         switch (getService().getQueue().getRepeatMode()) {
             default:
-                repeat.setImageResource(R.drawable.repeat);
+                repeat.setImageResource(R.drawable.ic_repeat_off);
                 break;
             case Queue.REPEAT_MODE_ONCE:
-                repeat.setImageResource(R.drawable.repeat_one);
+                repeat.setImageResource(R.drawable.ic_repeat_one);
                 break;
             case Queue.REPEAT_MODE_ALL:
-                repeat.setImageResource(R.drawable.repeat_all);
+                repeat.setImageResource(R.drawable.ic_repeat_all);
                 break;
         }
     }

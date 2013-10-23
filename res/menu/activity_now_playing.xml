@@ -3,12 +3,12 @@
     <item
         android:id="@+id/favorite"
         android:title="@string/favorite_str"
-        android:icon="@drawable/unfavorited"
+        android:icon="@drawable/ic_unfavorited"
         android:showAsAction="ifRoom"/>
     <item
         android:id="@+id/equalizer"
         android:title="@string/equalizer_str"
-        android:icon="@drawable/equalizer"
+        android:icon="@drawable/ic_equalizer"
         android:showAsAction="ifRoom"/>
     <item
         android:id="@+id/tweetPlaying"
@@ -16,7 +16,7 @@
     <item
         android:id="@+id/sleepTimer"
         android:title="@string/sleep_timer_str"
-        android:icon="@drawable/sleep_timer"
+        android:icon="@drawable/ic_sleep_timer"
         android:showAsAction="ifRoom"/>
     <item
         android:id="@+id/addToPlaylist"

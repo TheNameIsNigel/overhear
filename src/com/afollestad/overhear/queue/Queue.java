@@ -80,13 +80,13 @@ public class Queue {
     }
 
     /**
-     * Increments to the next position in the queue (you must use canIncrement() before calling this method).
+     * Increments to the ic_skip position in the queue (you must use canIncrement() before calling this method).
      */
     public QueueItem increment() {
         if (getRepeatMode() == REPEAT_MODE_ONCE || getRepeatMode() == REPEAT_MODE_ALL) {
             if (position == -1)
                 position = 0;
-            // The position is maintained, and it's turned off if only need to repeat once.
+            // The position is maintained, and it's turned off if only need to ic_repeat_off once.
             if (getRepeatMode() == REPEAT_MODE_ONCE)
                 setRepeatMode(REPEAT_MODE_OFF);
         } else {
@@ -180,7 +180,7 @@ public class Queue {
     }
 
     /**
-     * Goes to the next queue mode based on the current (off to once, once to always, always to off).
+     * Goes to the ic_skip queue mode based on the current (off to once, once to always, always to off).
      */
     public void nextRepeatMode() {
         switch (getRepeatMode()) {
@@ -225,7 +225,7 @@ public class Queue {
     }
 
     /**
-     * Persists the queue in the local application preferences so it can be reloaded the next time the queue is initialized.
+     * Persists the queue in the local application preferences so it can be reloaded the ic_skip time the queue is initialized.
      */
     public void persist(Context context) {
         SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();

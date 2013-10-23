@@ -27,7 +27,7 @@ import com.afollestad.overhearapi.Artist;
 import java.util.ArrayList;
 
 /**
- * Allows you to search for songs, albums, artists, etc.
+ * Allows you to ic_search for songs, albums, artists, etc.
  *
  * @author Aidan Follestad
  */

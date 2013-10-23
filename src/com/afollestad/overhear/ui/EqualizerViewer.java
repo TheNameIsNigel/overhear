@@ -15,7 +15,7 @@ import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.views.VerticalSeekBar;
 
 /**
- * The equalizer interface.
+ * The ic_equalizer interface.
  *
  * @author Aidan Follestad
  */

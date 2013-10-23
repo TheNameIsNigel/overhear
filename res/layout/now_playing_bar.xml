@@ -50,15 +50,15 @@
 
             <ImageButton android:id="@+id/previous"
                          style="@style/StatusBarButton"
-                         android:src="@drawable/previous"/>
+                         android:src="@drawable/ic_previous"/>
 
             <ImageButton android:id="@+id/play"
                          style="@style/StatusBarButton"
-                         android:src="@drawable/play"/>
+                         android:src="@drawable/ic_play"/>
 
             <ImageButton android:id="@+id/next"
                          style="@style/StatusBarButton"
-                         android:src="@drawable/next"/>
+                         android:src="@drawable/ic_skip"/>
 
         </LinearLayout>
 

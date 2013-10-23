@@ -54,18 +54,18 @@
                 android:id="@+id/status_bar_previous"
                 style="@style/StatusBarButton"
                 android:layout_weight="1"
-                android:src="@drawable/previous"/>
+                android:src="@drawable/ic_previous"/>
 
         <ImageButton
                 android:id="@+id/status_bar_play"
                 style="@style/StatusBarButton"
                 android:layout_weight="1"
-                android:src="@drawable/play"/>
+                android:src="@drawable/ic_play"/>
 
         <ImageButton android:id="@+id/status_bar_next"
                      style="@style/StatusBarButton"
                      android:layout_weight="1"
-                     android:src="@drawable/next"/>
+                     android:src="@drawable/ic_skip"/>
 
     </LinearLayout>
 

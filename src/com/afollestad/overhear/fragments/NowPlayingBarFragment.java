@@ -182,9 +182,9 @@ public class NowPlayingBarFragment extends Fragment {
 
         if (focused != null) {
             if (isPlaying)
-                playPause.get().setImageResource(R.drawable.pause);
+                playPause.get().setImageResource(R.drawable.ic_pause);
             else
-                playPause.get().setImageResource(R.drawable.play);
+                playPause.get().setImageResource(R.drawable.ic_play);
             previous.get().setEnabled(true);
             next.get().setEnabled(true);
 
@@ -209,7 +209,7 @@ public class NowPlayingBarFragment extends Fragment {
             return;
         }
 
-        playPause.get().setImageResource(R.drawable.play);
+        playPause.get().setImageResource(R.drawable.ic_play);
         lastPlayed = null;
         previous.get().setEnabled(false);
         next.get().setEnabled(false);

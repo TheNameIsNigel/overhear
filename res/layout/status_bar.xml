@@ -23,10 +23,10 @@
     </LinearLayout>
 
     <ImageButton android:id="@+id/status_bar_play" style="@style/StatusBarButton"
-                 android:src="@drawable/play"/>
+                 android:src="@drawable/ic_play"/>
 
     <ImageButton android:id="@+id/status_bar_next" style="@style/StatusBarButton"
-                 android:src="@drawable/next"/>
+                 android:src="@drawable/ic_skip"/>
 
     <ImageButton android:id="@+id/status_bar_collapse" style="@style/StatusBarButton"
                  android:src="@drawable/collapse"/>

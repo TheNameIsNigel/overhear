@@ -20,7 +20,7 @@ class NotificationViewCreator {
         Notification.Builder builder = new Notification.Builder(context);
         builder.setContent(createView(context, false, nowPlaying, art, playing));
         builder.setOngoing(true);
-        builder.setSmallIcon(R.drawable.stat_notify_music);
+        builder.setSmallIcon(R.drawable.ic_notify);
 
         Intent nowPlayingIntent = new Intent(context, NowPlayingViewer.class).
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -62,9 +62,9 @@ class NotificationViewCreator {
         views.setOnClickPendingIntent(R.id.status_bar_collapse, pi);
 
         if (playing)
-            views.setImageViewResource(R.id.status_bar_play, R.drawable.pause);
+            views.setImageViewResource(R.id.status_bar_play, R.drawable.ic_pause);
         else
-            views.setImageViewResource(R.id.status_bar_play, R.drawable.play);
+            views.setImageViewResource(R.id.status_bar_play, R.drawable.ic_play);
 
         views.setTextViewText(R.id.status_bar_track_name, nowPlaying.getTitle(context));
         views.setTextViewText(R.id.status_bar_artist_name, nowPlaying.getArtist(context));

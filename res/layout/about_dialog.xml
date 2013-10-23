@@ -7,7 +7,7 @@
     <com.afollestad.silk.views.text.SilkCondensedTextView android:id="@+id/app_name_and_version"
                                                           android:layout_width="wrap_content"
                                                           android:layout_height="wrap_content"
-                                                          android:drawableLeft="@drawable/launcher"
+                                                          android:drawableLeft="@drawable/ic_launcher"
                                                           android:drawablePadding="8dp"
                                                           android:gravity="center_vertical"
                                                           android:textSize="24sp" android:layout_marginLeft="16dp"
