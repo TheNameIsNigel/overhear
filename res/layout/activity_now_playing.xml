@@ -43,24 +43,27 @@
                             android:paddingLeft="15dp" android:paddingRight="15dp"
                             android:paddingTop="5dp">
 
-                <TextView android:id="@+id/progress" android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentLeft="true"
-                          android:layout_centerVertical="true"
-                          android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:textColor="@color/white" android:fontFamily="sans-serif-light"/>
+                <com.afollestad.silk.views.text.SilkTextView android:id="@+id/progress"
+                                                             android:layout_width="wrap_content"
+                                                             android:layout_height="wrap_content"
+                                                             android:layout_alignParentLeft="true"
+                                                             android:layout_centerVertical="true"
+                                                             android:textAppearance="?android:attr/textAppearanceSmall"
+                                                             android:textColor="@color/white"/>
 
                 <SeekBar android:id="@+id/seek" android:layout_width="match_parent"
                          android:layout_centerVertical="true" android:layout_height="wrap_content"
                          android:layout_marginLeft="4dp" android:layout_marginRight="4dp"
                          android:layout_toLeftOf="@+id/remaining" android:layout_toRightOf="@+id/progress"/>
 
-                <TextView android:id="@+id/remaining" android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentRight="true"
-                          android:layout_centerVertical="true"
-                          android:textAppearance="?android:attr/textAppearanceSmall"
-                          android:textColor="@color/white" android:fontFamily="sans-serif-light"/>
+                <com.afollestad.silk.views.text.SilkTextView android:id="@+id/remaining"
+                                                             android:layout_width="wrap_content"
+                                                             android:layout_height="wrap_content"
+                                                             android:layout_alignParentRight="true"
+                                                             android:layout_centerVertical="true"
+                                                             android:textAppearance="?android:attr/textAppearanceSmall"
+                                                             android:textColor="@color/white"/>
+
             </RelativeLayout>
 
         </LinearLayout>

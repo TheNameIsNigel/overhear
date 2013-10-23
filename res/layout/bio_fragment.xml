@@ -36,7 +36,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/loading_str"/>
 
-            <TextView
+            <com.afollestad.silk.views.text.SilkTextView
                     android:id="@+id/bioUpdates"
                     android:layout_width="wrap_content"
                     android:visibility="gone"
@@ -47,10 +47,9 @@
                     android:textSize="18sp"
                     android:paddingRight="10dp"
                     android:textColor="@color/white"
-                    android:lineSpacingExtra="5dp"
-                    android:fontFamily="sans-serif-light"/>
+                    android:lineSpacingExtra="5dp"/>
 
-            <TextView
+            <com.afollestad.silk.views.text.SilkTextView
                     android:id="@+id/bioUpdateSource"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -59,8 +58,7 @@
                     android:paddingLeft="10dp"
                     android:textColor="@android:color/darker_gray"
                     android:paddingRight="10dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:fontFamily="sans-serif-light"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         </RelativeLayout>
 
@@ -75,7 +73,7 @@
                 android:textColor="@android:color/holo_blue_dark"
                 android:textAllCaps="false"/>
 
-        <TextView
+        <com.afollestad.silk.views.text.SilkTextView
                 android:id="@+id/bioAbout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,8 +85,7 @@
                 android:paddingRight="10dp"
                 android:textSize="18sp"
                 android:textColorLink="@color/white"
-                android:lineSpacingExtra="5dp"
-                android:fontFamily="sans-serif-light"/>
+                android:lineSpacingExtra="5dp"/>
 
         <TextView
                 android:id="@+id/bioHeaderThree"

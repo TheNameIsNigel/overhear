@@ -2,11 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView android:id="@+id/text" android:layout_margin="20dp"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:layout_centerHorizontal="true"
-              android:text="@string/sleep_in_x" android:textAppearance="?android:attr/textAppearanceMedium"
-              android:fontFamily="sans-serif-light"/>
+    <com.afollestad.silk.views.text.SilkTextView android:id="@+id/text" android:layout_margin="20dp"
+                                                 android:layout_width="wrap_content"
+                                                 android:layout_height="wrap_content"
+                                                 android:layout_centerHorizontal="true"
+                                                 android:text="@string/sleep_in_x"
+                                                 android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <SeekBar android:id="@+id/seek" android:layout_width="match_parent"
              android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
@@ -21,13 +22,11 @@
 
         <Button android:id="@+id/cancel" style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dip" android:layout_height="wrap_content"
-                android:layout_weight="1" android:text="@android:string/cancel"
-                android:fontFamily="sans-serif-condensed"/>
+                android:layout_weight="1" android:text="@android:string/cancel"/>
 
         <Button android:id="@+id/ok" style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dip" android:layout_height="wrap_content"
-                android:layout_weight="1" android:text="@android:string/ok"
-                android:fontFamily="sans-serif-condensed"/>
+                android:layout_weight="1" android:text="@android:string/ok"/>
 
     </LinearLayout>
 

@@ -18,10 +18,10 @@
                   android:layout_height="wrap_content" android:singleLine="true"
                   android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-        <TextView android:id="@+id/artist" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" android:singleLine="true"
-                  android:textAppearance="?android:attr/textAppearanceSmall"
-                  android:fontFamily="sans-serif-light"/>
+        <com.afollestad.silk.views.text.SilkTextView android:id="@+id/artist" android:layout_width="wrap_content"
+                                                     android:layout_height="wrap_content" android:singleLine="true"
+                                                     android:textAppearance="?android:attr/textAppearanceSmall"/>
+
     </LinearLayout>
 
     <ImageView android:id="@+id/peak_one" android:layout_width="wrap_content"
