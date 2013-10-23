@@ -24,15 +24,13 @@
                   android:textColor="@color/white"
                   android:textSize="18sp"/>
 
-        <com.afollestad.silk.views.text.SilkTextView
-                android:id="@+id/status_bar_artist_name"
-                style="@style/StatusBarText"
-                android:paddingTop="2dp"/>
+        <TextView android:id="@+id/status_bar_artist_name"
+                  style="@style/StatusBarText"
+                  android:paddingTop="2dp"/>
 
-        <com.afollestad.silk.views.text.SilkTextView
-                android:id="@+id/status_bar_album_name"
-                style="@style/StatusBarText"
-                android:paddingTop="2dp"/>
+        <TextView android:id="@+id/status_bar_album_name"
+                  style="@style/StatusBarText"
+                  android:paddingTop="2dp"/>
 
     </LinearLayout>
 
