@@ -32,9 +32,10 @@
                           android:gravity="center_horizontal"
                           android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-                <TextView android:id="@+id/artistAlbum" style="@style/StatusBarText"
-                          android:layout_width="fill_parent" android:layout_height="wrap_content"
-                          android:gravity="center_horizontal" android:fontFamily="sans-serif-light"/>
+                <com.afollestad.silk.views.text.SilkTextView android:id="@+id/artistAlbum" style="@style/StatusBarText"
+                                                             android:layout_width="fill_parent"
+                                                             android:layout_height="wrap_content"
+                                                             android:gravity="center_horizontal"/>
 
             </LinearLayout>
 
