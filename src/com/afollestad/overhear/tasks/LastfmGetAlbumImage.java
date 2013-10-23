@@ -24,10 +24,10 @@ import java.lang.ref.WeakReference;
  */
 public class LastfmGetAlbumImage extends AsyncTask<Album, Integer, String> {
 
-    private WeakReference<Context> context;
-    private WeakReference<SilkImageView> view;
-    private WeakReference<Application> app;
-    private boolean forceDownload;
+    private final WeakReference<Context> context;
+    private final WeakReference<SilkImageView> view;
+    private final WeakReference<Application> app;
+    private final boolean forceDownload;
 
     @SuppressWarnings("rawtypes")
     public LastfmGetAlbumImage(Context context, Application app, SilkImageView view, boolean forceDownload) {

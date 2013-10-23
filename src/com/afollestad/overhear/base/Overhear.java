@@ -18,9 +18,9 @@ import java.io.File;
 public class Overhear extends Application {
 
     public final static int DATABASE_VERSION = 3;
+    private final Object LOCK = new Object();
     private SilkImageManager manager;
     private int boundActivities;
-    private Object LOCK = new Object();
 
     /**
      * This isn't used directly by any code in the app.

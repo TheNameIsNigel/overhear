@@ -32,25 +32,25 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
         this.onInitialize();
     }
 
-    public abstract Uri getLoaderUri();
+    protected abstract Uri getLoaderUri();
 
-    public abstract String getLoaderSelection();
+    protected abstract String getLoaderSelection();
 
-    public abstract String getLoaderSort();
+    protected abstract String getLoaderSort();
 
-    public abstract CursorAdapter getAdapter();
+    protected abstract CursorAdapter getAdapter();
 
-    public abstract BroadcastReceiver getReceiver();
+    protected abstract BroadcastReceiver getReceiver();
 
-    public abstract IntentFilter getFilter();
+    protected abstract IntentFilter getFilter();
 
     public abstract String getEmptyText();
 
-    public abstract void onItemClick(int position, Cursor cursor);
+    protected abstract void onItemClick(int position, Cursor cursor);
 
-    public abstract void onItemLongClick(int position, Cursor cursor, View view);
+    protected abstract void onItemLongClick(int position, Cursor cursor, View view);
 
-    public abstract void onInitialize();
+    protected abstract void onInitialize();
 
     /**
      * Life cycle methods

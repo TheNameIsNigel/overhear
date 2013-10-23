@@ -15,7 +15,7 @@ import twitter4j.TwitterFactory;
  */
 public class Twitter {
 
-    public final static Uri ALTERNATE_TWITTER_URI = Uri.parse("content://com.afollestad.overhear.artistsocialaccounts");
+    private final static Uri ALTERNATE_TWITTER_URI = Uri.parse("content://com.afollestad.overhear.artistsocialaccounts");
 
     public static twitter4j.Twitter getTwitterInstance(Context context, boolean nullIfNotAuthenticated) {
         twitter4j.Twitter client = new TwitterFactory().getInstance();

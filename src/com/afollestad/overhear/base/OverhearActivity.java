@@ -20,13 +20,25 @@ public abstract class OverhearActivity extends Activity {
 
     private boolean mChangedConfig;
     private MusicService mService;
+    private final ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            MusicBinder binder = (MusicBinder) service;
+            mService = binder.getService();
+            onBound();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mService = null;
+        }
+    };
 
     public MusicService getService() {
         return mService;
     }
 
-    public abstract void onBound();
-
+    protected abstract void onBound();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,19 +81,4 @@ public abstract class OverhearActivity extends Activity {
         if (mService != null)
             unbindService(mConnection);
     }
-
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            MusicBinder binder = (MusicBinder) service;
-            mService = binder.getService();
-            onBound();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mService = null;
-        }
-    };
 }

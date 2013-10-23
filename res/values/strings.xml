@@ -85,15 +85,11 @@
     <string name="unfavorite_str">Unfavorite</string>
     <string name="clear_str">Clear</string>
 
-    <string name="repeat_off">Repeat Off</string>
-    <string name="repeat_once">Repeat Once</string>
-    <string name="repeat">Repeat</string>
     <string name="remove_str">Remove</string>
 
     <string name="equalizer_str">Equalizer</string>
     <string name="user_defined">User defined</string>
     <string name="bass_boost">Bass Boost</string>
-    <string name="enable_bass_boost">Enable bass boost</string>
     <string name="similar_artists">Similar Artists</string>
 
 </resources>

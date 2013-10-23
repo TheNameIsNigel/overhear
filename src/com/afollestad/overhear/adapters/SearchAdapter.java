@@ -12,22 +12,21 @@ import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SearchAdapter extends BaseAdapter {
+
+    private final Activity context;
+    private final ArrayList<Object> items;
 
     public SearchAdapter(Activity context) {
         this.context = context;
         this.items = new ArrayList<Object>();
     }
 
-    private Activity context;
-    private ArrayList<Object> items;
-
     public void add(String header, Object[] toadd) {
         items.add(header);
-        for (Object i : toadd) {
-            items.add(i);
-        }
+        Collections.addAll(items, toadd);
         notifyDataSetChanged();
     }
 

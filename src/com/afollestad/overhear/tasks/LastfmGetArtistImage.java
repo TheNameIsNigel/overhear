@@ -19,8 +19,8 @@ import java.lang.ref.WeakReference;
  */
 public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
 
-    private WeakReference<Activity> context;
-    private WeakReference<SilkImageView> view;
+    private final WeakReference<Activity> context;
+    private final WeakReference<SilkImageView> view;
 
     @SuppressWarnings("rawtypes")
     public LastfmGetArtistImage(Activity context, SilkImageView view) {
@@ -57,7 +57,7 @@ public class LastfmGetArtistImage extends AsyncTask<Artist, Integer, String> {
         if (view == null || view.get() == null) return;
         else {
             if (view.get().getTag() != this) return;
-            view.get().setFitView(true).setImageURL(Overhear.get(context.get()).getManager(), result);
+            view.get().setImageURL(Overhear.get(context.get()).getManager(), result);
         }
         super.onPostExecute(result);
     }

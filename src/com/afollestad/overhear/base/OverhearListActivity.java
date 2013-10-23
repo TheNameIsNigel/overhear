@@ -20,7 +20,7 @@ public abstract class OverhearListActivity extends ListActivity {
 
     private boolean mChangedConfig;
     private MusicService mService;
-    private ServiceConnection mConnection = new ServiceConnection() {
+    private final ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             MusicBinder binder = (MusicBinder) service;
@@ -38,7 +38,7 @@ public abstract class OverhearListActivity extends ListActivity {
         return mService;
     }
 
-    public abstract void onBound();
+    protected abstract void onBound();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

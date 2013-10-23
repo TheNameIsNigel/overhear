@@ -37,10 +37,19 @@ import java.util.Locale;
  */
 public class OverviewScreen extends OverhearActivity {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private final static int TWEET_PLAYING_LOGIN = 400;
     private ViewPager mViewPager;
 
-    public final static int TWEET_PLAYING_LOGIN = 400;
+    @SuppressLint("CommitTransaction")
+    private static void showAboutDialog(Activity activity) {
+        FragmentManager fm = activity.getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment prev = fm.findFragmentByTag("dialog_about");
+        if (prev != null)
+            ft.remove(prev);
+        ft.addToBackStack(null);
+        new AboutDialog().show(ft, "dialog_about");
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -70,7 +79,7 @@ public class OverviewScreen extends OverhearActivity {
     private void setupTabs() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(5);
@@ -154,67 +163,9 @@ public class OverviewScreen extends OverhearActivity {
         return false;
     }
 
-
-    public class SectionsPagerAdapter extends TaggedFragmentAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new PlayListFragment();
-                case 1:
-                    return new RecentsListFragment();
-                case 2:
-                    return new ArtistListFragment();
-                case 3:
-                    return new AlbumListFragment();
-                case 4:
-                    return new SongListFragment();
-                case 5:
-                    return new GenreListFragment();
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return 6;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getString(R.string.playlists_str).toUpperCase(Locale.getDefault());
-                case 1:
-                    return getString(R.string.recent_str).toUpperCase(Locale.getDefault());
-                case 2:
-                    return getString(R.string.artists_str).toUpperCase(Locale.getDefault());
-                case 3:
-                    return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
-                case 4:
-                    return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
-                case 5:
-                    return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
-            }
-            return null;
-        }
-    }
-
-
-    @SuppressLint("CommitTransaction")
-    public static void showAboutDialog(Activity activity) {
-        FragmentManager fm = activity.getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        Fragment prev = fm.findFragmentByTag("dialog_about");
-        if (prev != null)
-            ft.remove(prev);
-        ft.addToBackStack(null);
-        new AboutDialog().show(ft, "dialog_about");
+    @Override
+    public void onBound() {
+        ((NowPlayingBarFragment) getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
     }
 
     public static class AboutDialog extends DialogFragment {
@@ -269,8 +220,53 @@ public class OverviewScreen extends OverhearActivity {
         }
     }
 
-    @Override
-    public void onBound() {
-        ((NowPlayingBarFragment) getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
+    public class SectionsPagerAdapter extends TaggedFragmentAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new PlayListFragment();
+                case 1:
+                    return new RecentsListFragment();
+                case 2:
+                    return new ArtistListFragment();
+                case 3:
+                    return new AlbumListFragment();
+                case 4:
+                    return new SongListFragment();
+                case 5:
+                    return new GenreListFragment();
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 6;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getString(R.string.playlists_str).toUpperCase(Locale.getDefault());
+                case 1:
+                    return getString(R.string.recent_str).toUpperCase(Locale.getDefault());
+                case 2:
+                    return getString(R.string.artists_str).toUpperCase(Locale.getDefault());
+                case 3:
+                    return getString(R.string.albums_str).toUpperCase(Locale.getDefault());
+                case 4:
+                    return getString(R.string.songs_str).toUpperCase(Locale.getDefault());
+                case 5:
+                    return getString(R.string.genres_str).toUpperCase(Locale.getDefault());
+            }
+            return null;
+        }
     }
 }

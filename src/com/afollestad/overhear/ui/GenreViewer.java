@@ -21,7 +21,7 @@ import com.afollestad.overhearapi.Genre;
  */
 public class GenreViewer extends OverhearActivity {
 
-    public final static int TWEET_PLAYING_LOGIN = 400;
+    private final static int TWEET_PLAYING_LOGIN = 400;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

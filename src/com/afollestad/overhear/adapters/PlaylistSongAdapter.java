@@ -32,7 +32,7 @@ public class PlaylistSongAdapter extends CursorAdapter {
         this.activity = (Activity) context;
     }
 
-    private Activity activity;
+    private final Activity activity;
     private Playlist list;
 
     public void setPlaylist(Playlist list) {
@@ -44,7 +44,7 @@ public class PlaylistSongAdapter extends CursorAdapter {
         return LayoutInflater.from(context).inflate(R.layout.song_item, null);
     }
 
-    public static View getViewForSong(final Activity context, final QueueItem song, View view, final Playlist list) {
+    private static View getViewForSong(final Activity context, final QueueItem song, View view, final Playlist list) {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }

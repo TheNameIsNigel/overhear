@@ -46,7 +46,7 @@ import java.util.TimerTask;
  */
 public class NowPlayingViewer extends OverhearActivity {
 
-    public final static int TWEET_PLAYING_LOGIN = 400;
+    private final static int TWEET_PLAYING_LOGIN = 400;
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -58,8 +58,8 @@ public class NowPlayingViewer extends OverhearActivity {
     private Playlist playlist;
     private Timer timer;
     private AnimationDrawable seekThumb;
-    private Handler mHandler = new Handler();
-    private View.OnTouchListener disappearListener = new View.OnTouchListener() {
+    private final Handler mHandler = new Handler();
+    private final View.OnTouchListener disappearListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             fadeIn(findViewById(R.id.progress), true);
@@ -70,7 +70,7 @@ public class NowPlayingViewer extends OverhearActivity {
             return false;
         }
     };
-    private Runnable disappearRunner = new Runnable() {
+    private final Runnable disappearRunner = new Runnable() {
         @Override
         public void run() {
             fadeOut(findViewById(R.id.progress));
@@ -245,7 +245,7 @@ public class NowPlayingViewer extends OverhearActivity {
     /**
      * Hooks UI elements to the music service media player.
      */
-    public void hookToPlayer() {
+    void hookToPlayer() {
         if (getService() == null) {
             return;
         }
@@ -360,7 +360,7 @@ public class NowPlayingViewer extends OverhearActivity {
     /**
      * Loads song/album/artist info and album art
      */
-    public void load() {
+    void load() {
         QueueItem last = song;
         song = getService().getQueue().getFocused();
         if (song == null)
@@ -431,7 +431,7 @@ public class NowPlayingViewer extends OverhearActivity {
     /**
      * Updates the play button, seek bar, and position indicators.
      */
-    public void update() {
+    void update() {
         if (getService() == null) {
             return;
         }
@@ -466,7 +466,7 @@ public class NowPlayingViewer extends OverhearActivity {
         }
     }
 
-    public void updateShuffleRepeat() {
+    void updateShuffleRepeat() {
         if (getService() == null)
             return;
         ImageButton shuffle = (ImageButton) findViewById(R.id.shuffle);
@@ -486,7 +486,7 @@ public class NowPlayingViewer extends OverhearActivity {
         }
     }
 
-    public void showSleepTimerDialog() {
+    void showSleepTimerDialog() {
         if (SleepTimer.isScheduled(this)) {
             startActivity(new Intent(this, SleepTimerViewer.class));
             return;

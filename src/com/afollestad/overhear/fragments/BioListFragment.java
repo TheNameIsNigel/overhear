@@ -39,13 +39,13 @@ import java.util.ArrayList;
  */
 public class BioListFragment extends Fragment {
 
-    public BioListFragment() {
-    }
-
+    private final static int LOGIN_HANDER_RESULT = 600;
     private Artist artist;
     private ResponseList<User> possibleUsers;
     private User twitterUser;
-    public final static int LOGIN_HANDER_RESULT = 600;
+
+    public BioListFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -247,9 +247,9 @@ public class BioListFragment extends Fragment {
                     } else if (altTwit == -1) {
                         possibleUsers = getPossibleUsers();
                         if (possibleUsers.size() > 0) {
-                            for (int i = 0; i < possibleUsers.size(); i++) {
-                                if (possibleUsers.get(i).isVerified()) {
-                                    twitterUser = possibleUsers.get(i);
+                            for (User possibleUser : possibleUsers) {
+                                if (possibleUser.isVerified()) {
+                                    twitterUser = possibleUser;
                                     Twitter.setSocialAccount(getActivity(), artist, twitterUser.getId());
                                 }
                                 break;
@@ -321,7 +321,7 @@ public class BioListFragment extends Fragment {
         loadTwitter();
     }
 
-    public void update() {
+    void update() {
         if (getActivity() != null && getView() != null) {
             loadTwitter();
         } else {

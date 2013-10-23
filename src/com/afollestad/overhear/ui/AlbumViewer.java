@@ -32,7 +32,7 @@ import com.afollestad.silk.views.image.SilkImageView;
  */
 public class AlbumViewer extends OverhearActivity {
 
-    public final static int TWEET_PLAYING_LOGIN = 400;
+    private final static int TWEET_PLAYING_LOGIN = 400;
     private Album album;
     private Artist artist;
 

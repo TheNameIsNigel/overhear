@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 public class ArtistAdapter extends SimpleCursorAdapter {
 
-    private Activity context;
+    private final Activity context;
 
     public ArtistAdapter(Activity context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);

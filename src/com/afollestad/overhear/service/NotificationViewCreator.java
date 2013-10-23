@@ -13,7 +13,7 @@ import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhear.ui.OverviewScreen;
 
-public class NotificationViewCreator {
+class NotificationViewCreator {
 
     @SuppressWarnings("deprecation")
     public static Notification createNotification(Context context, QueueItem nowPlaying, Bitmap art, boolean playing) {
@@ -39,7 +39,7 @@ public class NotificationViewCreator {
         return noti;
     }
 
-    protected static RemoteViews createView(Context context, boolean big, QueueItem nowPlaying, Bitmap art, boolean playing) {
+    static RemoteViews createView(Context context, boolean big, QueueItem nowPlaying, Bitmap art, boolean playing) {
         RemoteViews views;
         if (big)
             views = new RemoteViews(context.getPackageName(), R.layout.status_bar_big);

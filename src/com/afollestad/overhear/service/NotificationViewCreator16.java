@@ -8,7 +8,7 @@ import android.os.Build;
 import com.afollestad.overhear.queue.QueueItem;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class NotificationViewCreator16 {
+class NotificationViewCreator16 {
 
     public static Notification createNotification(Context context, Notification.Builder builder, QueueItem nowPlaying, Bitmap art, boolean playing) {
         builder.setPriority(Notification.PRIORITY_HIGH);

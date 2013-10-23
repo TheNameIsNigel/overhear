@@ -17,7 +17,6 @@ import com.afollestad.overhearapi.Album;
  */
 public class RecentsProvider extends ContentProvider {
 
-    private SQLiteOpenHelper mOpenHelper;
     private static final String DBNAME = "overhear";
     private static final String TABLE_RECENTS_OLD = "recents";
     private static final String TABLE_RECENTS = "recently_played";
@@ -26,7 +25,7 @@ public class RecentsProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
+        SQLiteOpenHelper mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
             @Override
             public void onCreate(SQLiteDatabase db) {
             }

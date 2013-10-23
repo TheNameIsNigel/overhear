@@ -30,9 +30,8 @@ import java.util.Locale;
  */
 public class ArtistViewer extends OverhearActivity {
 
-    public final static int TWEET_PLAYING_LOGIN = 400;
+    private final static int TWEET_PLAYING_LOGIN = 400;
     public Artist artist;
-    private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
     @Override
@@ -65,7 +64,7 @@ public class ArtistViewer extends OverhearActivity {
     private void setupTabs() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(3);

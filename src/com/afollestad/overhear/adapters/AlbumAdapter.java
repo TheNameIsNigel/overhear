@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class AlbumAdapter extends SimpleCursorAdapter {
 
-    private Activity context;
+    private final Activity context;
 
     public AlbumAdapter(Activity context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);

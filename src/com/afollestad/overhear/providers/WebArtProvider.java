@@ -19,13 +19,10 @@ import com.afollestad.overhearapi.WebArt;
  */
 public class WebArtProvider extends ContentProvider {
 
-    private SQLiteOpenHelper mOpenHelper;
     private static final String DBNAME = "overhear";
     private static final String ALBUM_ART = "album_art";
     private static final String ARTIST_ART = "artist_art";
-    private SQLiteDatabase db;
-
-    private static UriMatcher sUriMatcher;
+    private static final UriMatcher sUriMatcher;
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -33,9 +30,11 @@ public class WebArtProvider extends ContentProvider {
         sUriMatcher.addURI("com.afollestad.overhear.webartprovider", "artists", 2);
     }
 
+    private SQLiteDatabase db;
+
     @Override
     public boolean onCreate() {
-        mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
+        SQLiteOpenHelper mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
             @Override
             public void onCreate(SQLiteDatabase db) {
             }

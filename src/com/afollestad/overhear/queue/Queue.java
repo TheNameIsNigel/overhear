@@ -38,13 +38,13 @@ public class Queue {
     }
 
 
-    private ArrayList<QueueItem> items;
+    private final ArrayList<QueueItem> items;
     private int position = -1;
     private int repeatMode;
     private boolean shuffle;
-    private Shuffler shuffler;
+    private final Shuffler shuffler;
 
-    public final static int REPEAT_MODE_OFF = 0;
+    private final static int REPEAT_MODE_OFF = 0;
     public final static int REPEAT_MODE_ONCE = 1;
     public final static int REPEAT_MODE_ALL = 2;
 
@@ -52,7 +52,7 @@ public class Queue {
     /**
      * Gets the items (songs) in the queue.
      */
-    public ArrayList<QueueItem> getItems() {
+    ArrayList<QueueItem> getItems() {
         return items;
     }
 
@@ -182,7 +182,7 @@ public class Queue {
     }
 
 
-    public void setRepeatMode(int mode) {
+    void setRepeatMode(int mode) {
         this.repeatMode = mode;
     }
 
@@ -264,7 +264,7 @@ public class Queue {
         }
 
         private int mPrevious = -1;
-        private Random mRandom = new Random();
+        private final Random mRandom = new Random();
 
         public int nextInt(Queue queue) {
             if (queue.getItems().size() == 0) {

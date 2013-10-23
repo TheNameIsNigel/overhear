@@ -17,14 +17,13 @@ import com.afollestad.overhear.base.Overhear;
  */
 public class ArtistSocialAccountProvider extends ContentProvider {
 
-    private SQLiteOpenHelper mOpenHelper;
     private static final String DBNAME = "overhear";
     private static final String TABLE_NAME = "artist_social_accounts";
     private SQLiteDatabase db;
 
     @Override
     public boolean onCreate() {
-        mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
+        SQLiteOpenHelper mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
             @Override
             public void onCreate(SQLiteDatabase db) {
             }
@@ -46,7 +45,7 @@ public class ArtistSocialAccountProvider extends ContentProvider {
         return true;
     }
 
-    public static String getCreateTableStatement() {
+    private static String getCreateTableStatement() {
         return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" +
                 "artist_name TEXT PRIMARY KEY," +
                 "twitter_id INTEGER" +

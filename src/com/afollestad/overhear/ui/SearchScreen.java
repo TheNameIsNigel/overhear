@@ -42,10 +42,10 @@ public class SearchScreen extends OverhearListActivity {
     };
 
 
-    protected SearchAdapter adapter;
-    private Handler mHandler = new Handler();
+    private SearchAdapter adapter;
+    private final Handler mHandler = new Handler();
     private String lastQuery;
-    private Runnable searchRunner = new Runnable() {
+    private final Runnable searchRunner = new Runnable() {
         @Override
         public void run() {
             runOnUiThread(new Runnable() {
@@ -67,7 +67,7 @@ public class SearchScreen extends OverhearListActivity {
                 column + " LIMIT 5");
     }
 
-    public void search(String query) {
+    void search(String query) {
         adapter.clear();
         if (query == null || query.trim().isEmpty()) {
             return;

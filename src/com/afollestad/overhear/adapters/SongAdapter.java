@@ -26,16 +26,12 @@ import com.afollestad.overhearapi.Artist;
 
 public class SongAdapter extends CursorAdapter {
 
+    private final Activity activity;
+    private boolean isAlbum;
+
     public SongAdapter(Activity context, Cursor c, int flags) {
         super(context, c, flags);
         this.activity = context;
-    }
-
-    private Activity activity;
-    private boolean isAlbum;
-
-    public void setIsAlbum(boolean isAlbum) {
-        this.isAlbum = isAlbum;
     }
 
     public static View getViewForSong(final Activity context, final QueueItem song, View view, final boolean isAlbum) {
@@ -131,6 +127,10 @@ public class SongAdapter extends CursorAdapter {
         }
 
         return view;
+    }
+
+    public void setIsAlbum(boolean isAlbum) {
+        this.isAlbum = isAlbum;
     }
 
     @Override

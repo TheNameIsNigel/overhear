@@ -21,7 +21,7 @@ import com.afollestad.overhear.views.VerticalSeekBar;
  */
 public class EqualizerViewer extends OverhearActivity {
 
-    public final static int TWEET_PLAYING_LOGIN = 400;
+    private final static int TWEET_PLAYING_LOGIN = 400;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

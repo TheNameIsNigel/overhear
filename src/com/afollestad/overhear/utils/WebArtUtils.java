@@ -15,8 +15,8 @@ import com.afollestad.overhearapi.WebArt;
  */
 public class WebArtUtils {
 
-    public final static Uri ALBUMS_URI = Uri.parse("content://com.afollestad.overhear.webartprovider/albums");
-    public final static Uri ARTISTS_URI = Uri.parse("content://com.afollestad.overhear.webartprovider/artists");
+    private final static Uri ALBUMS_URI = Uri.parse("content://com.afollestad.overhear.webartprovider/albums");
+    private final static Uri ARTISTS_URI = Uri.parse("content://com.afollestad.overhear.webartprovider/artists");
 
     public static void setImageURL(Context context, Album album, String url) {
         WebArt art = WebArt.fromAlbum(album, url);

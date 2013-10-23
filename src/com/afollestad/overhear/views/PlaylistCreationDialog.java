@@ -15,6 +15,11 @@ import com.afollestad.overhearapi.Playlist;
 
 public class PlaylistCreationDialog extends Dialog {
 
+    private final Handler mHandler = new Handler();
+    private Playlist toRename;
+    private Playlist newList;
+    private Runnable mHandlerRunner = null;
+
     public PlaylistCreationDialog(Context context) {
         super(context);
     }
@@ -27,11 +32,6 @@ public class PlaylistCreationDialog extends Dialog {
                                   OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
     }
-
-    private Playlist toRename;
-    private Playlist newList;
-    private Handler mHandler = new Handler();
-    private Runnable mHandlerRunner = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,6 @@ public class PlaylistCreationDialog extends Dialog {
             }
         });
     }
-
 
     public PlaylistCreationDialog setRenamePlaylist(Playlist list) {
         toRename = list;

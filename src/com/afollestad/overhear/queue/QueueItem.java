@@ -23,9 +23,9 @@ public class QueueItem {
     }
 
     private int playlistRow = -1;
-    private int songId;
-    private long playlistId;
-    private int scope;
+    private final int songId;
+    private final long playlistId;
+    private final int scope;
     private String album;
     private String artist;
     private String title;
@@ -93,32 +93,32 @@ public class QueueItem {
         return playlistRow;
     }
 
-    public QueueItem setAlbum(String album) {
+    QueueItem setAlbum(String album) {
         this.album = album;
         return this;
     }
 
-    public QueueItem setArtist(String artist) {
+    QueueItem setArtist(String artist) {
         this.artist = artist;
         return this;
     }
 
-    public QueueItem setTitle(String title) {
+    QueueItem setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public QueueItem setDuration(long duration) {
+    QueueItem setDuration(long duration) {
         this.duration = duration;
         return this;
     }
 
-    public QueueItem setData(String data) {
+    QueueItem setData(String data) {
         this.data = data;
         return this;
     }
 
-    public QueueItem setPlaylistRow(int playlistRow) {
+    QueueItem setPlaylistRow(int playlistRow) {
         this.playlistRow = playlistRow;
         return this;
     }

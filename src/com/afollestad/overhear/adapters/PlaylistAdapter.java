@@ -24,19 +24,14 @@ import java.util.ArrayList;
 
 public class PlaylistAdapter extends CursorAdapter {
 
+    private final Activity activity;
+
     public PlaylistAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
         this.activity = (Activity) context;
     }
 
-    private Activity activity;
-
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.song_item, null);
-    }
-
-    public static View getViewForPlaylist(final Activity context, final Playlist playlist, View view, final int position) {
+    private static View getViewForPlaylist(final Activity context, final Playlist playlist, View view, final int position) {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }
@@ -129,6 +124,11 @@ public class PlaylistAdapter extends CursorAdapter {
         }
 
         return view;
+    }
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(R.layout.song_item, null);
     }
 
     @Override

@@ -104,7 +104,6 @@ public class LoginHandler extends Activity {
                 } catch (TwitterException e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    return;
                 }
             }
         }).start();

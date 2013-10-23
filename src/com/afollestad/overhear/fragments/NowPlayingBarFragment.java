@@ -48,7 +48,6 @@ public class NowPlayingBarFragment extends Fragment {
     private WeakReference<ImageView> next;
     private WeakReference<TextView> track;
     private WeakReference<TextView> artist;
-    private WeakReference<QueueItem> lastPlayed;
 
     public NowPlayingBarFragment() {
     }
@@ -74,6 +73,7 @@ public class NowPlayingBarFragment extends Fragment {
             try {
                 getActivity().unregisterReceiver(mStatusReceiver);
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -165,7 +165,7 @@ public class NowPlayingBarFragment extends Fragment {
         if (getActivity() == null)
             return;
         boolean isPlaying = false;
-        lastPlayed = new WeakReference<QueueItem>(focused);
+        WeakReference<QueueItem> lastPlayed = new WeakReference<QueueItem>(focused);
         focused = null;
 
         if (getActivity() instanceof OverhearActivity) {

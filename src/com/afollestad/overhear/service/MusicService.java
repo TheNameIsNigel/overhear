@@ -48,7 +48,7 @@ public class MusicService extends Service {
     public static final String ACTION_CLEAR_NOTIFICATION = "com.afollestad.overhear.action.CLEAR_NOTIFICATION";
     private static MediaPlayer player;
     private final IBinder mBinder = new MusicBinder();
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
@@ -69,7 +69,7 @@ public class MusicService extends Service {
     private BassBoost bassBoost;
     private AudioManager audioManager;
     private RemoteControlClient mRemoteControlClient;
-    private AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {
+    private final AudioManager.OnAudioFocusChangeListener afl = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
             switch (focusChange) {
@@ -103,7 +103,7 @@ public class MusicService extends Service {
         return queue;
     }
 
-    public AudioManager getAudioManager() {
+    AudioManager getAudioManager() {
         if (audioManager == null) {
             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         }
@@ -438,7 +438,7 @@ public class MusicService extends Service {
         }
     }
 
-    public MediaPlayer getMediaPlayer() {
+    MediaPlayer getMediaPlayer() {
         return player;
     }
 

@@ -61,7 +61,7 @@ public class Recents {
         context.sendBroadcast(new Intent(MusicService.RECENTS_UPDATED));
     }
 
-    public static long getBiggestId(Context context) {
+    private static long getBiggestId(Context context) {
         Cursor cursor = context.getContentResolver().query(PROVIDER_URI, null, null, null, Song.QUEUE_ID + " DESC");
         if (!cursor.moveToFirst()) {
             return -1;
