@@ -20,7 +20,7 @@ import com.afollestad.overhear.R;
 /**
  * The base of all grid fragments, used for convenience (handles common functions that every
  * fragment uses, reducing the amount of code and complexity among activity Java files).
- * 
+ *
  * @author Aidan Follestad
  */
 public abstract class OverhearGridFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -59,7 +59,7 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
     @Override
     public final void onResume() {
         super.onResume();
-        if(getAdapter() != null)
+        if (getAdapter() != null)
             getAdapter().notifyDataSetChanged();
     }
 
@@ -72,20 +72,20 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
     @Override
     public final void onStart() {
         super.onStart();
-        if(getReceiver() != null)
+        if (getReceiver() != null)
             getActivity().registerReceiver(getReceiver(), getFilter());
     }
 
     @Override
     public final void onStop() {
         super.onStop();
-        if(getReceiver() != null)
+        if (getReceiver() != null)
             getActivity().unregisterReceiver(getReceiver());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        GridView view = (GridView)inflater.inflate(R.layout.grid_fragment, null);
+        GridView view = (GridView) inflater.inflate(R.layout.grid_fragment, null);
         view.setSmoothScrollbarEnabled(true);
         view.setFastScrollEnabled(true);
         view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -108,7 +108,7 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
     }
 
     public GridView getGridView() {
-        return (GridView)getView();
+        return (GridView) getView();
     }
 
     /**
@@ -127,9 +127,9 @@ public abstract class OverhearGridFragment extends Fragment implements LoaderMan
 
     @Override
     public final void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
-        if(data == null)
+        if (data == null)
             return;
-        if(getAdapter() != null)
+        if (getAdapter() != null)
             getAdapter().changeCursor(data);
     }
 

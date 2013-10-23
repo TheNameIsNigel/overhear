@@ -25,7 +25,7 @@ public class SearchAdapter extends BaseAdapter {
 
     public void add(String header, Object[] toadd) {
         items.add(header);
-        for(Object i : toadd) {
+        for (Object i : toadd) {
             items.add(i);
         }
         notifyDataSetChanged();
@@ -44,11 +44,11 @@ public class SearchAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         Object item = items.get(position);
-        if(item instanceof QueueItem) {
+        if (item instanceof QueueItem) {
             return 1;
-        } else if(item instanceof Album) {
+        } else if (item instanceof Album) {
             return 2;
-        } else if(item instanceof Artist) {
+        } else if (item instanceof Artist) {
             return 3;
         } else {
             return 0;
@@ -75,25 +75,25 @@ public class SearchAdapter extends BaseAdapter {
         View view = convertView;
         int viewType = getItemViewType(i);
 
-        switch(viewType) {
+        switch (viewType) {
             default:
-                if(view == null)
+                if (view == null)
                     view = LayoutInflater.from(context).inflate(R.layout.list_header, null);
-                ((TextView)view).setText(items.get(i).toString());
+                ((TextView) view).setText(items.get(i).toString());
                 break;
             case 1:
-                view = SongAdapter.getViewForSong(context, (QueueItem)items.get(i), view, false);
+                view = SongAdapter.getViewForSong(context, (QueueItem) items.get(i), view, false);
                 break;
             case 2:
-                view = AlbumAdapter.getViewForAlbum(context, (Album)items.get(i), convertView);
+                view = AlbumAdapter.getViewForAlbum(context, (Album) items.get(i), convertView);
                 break;
             case 3:
-                view = ArtistAdapter.getViewForArtist(context, (Artist)items.get(i), convertView, false);
+                view = ArtistAdapter.getViewForArtist(context, (Artist) items.get(i), convertView, false);
                 break;
         }
 
         int leftRightPad = 0;
-        if(viewType == 0) {
+        if (viewType == 0) {
             leftRightPad = context.getResources().getDimensionPixelSize(R.dimen.list_header_side_padding);
         } else {
             leftRightPad = context.getResources().getDimensionPixelSize(R.dimen.list_side_padding);

@@ -7,7 +7,7 @@ import android.view.View;
 
 /**
  * Used in the now playing viewer for gestures on the album art view.
- * 
+ *
  * @author Aidan Follestad
  */
 public abstract class OnSwipeTouchListener implements View.OnTouchListener {
@@ -15,7 +15,7 @@ public abstract class OnSwipeTouchListener implements View.OnTouchListener {
     public OnSwipeTouchListener(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
         final float scale = context.getResources().getDisplayMetrics().density;
-        SWIPE_THRESHOLD = (int)(GESTURE_THRESHOLD_DP * scale + 0.5f);
+        SWIPE_THRESHOLD = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
     }
 
     private final GestureDetector gestureDetector;
@@ -34,11 +34,11 @@ public abstract class OnSwipeTouchListener implements View.OnTouchListener {
 
         @Override
         public boolean onDown(MotionEvent e) {
-        	long now = System.currentTimeMillis();
-        	if((now - LAST_DOWN) <= 300) {
-        		OnSwipeTouchListener.this.onDoubleTap();
-        	}
-        	LAST_DOWN = now;
+            long now = System.currentTimeMillis();
+            if ((now - LAST_DOWN) <= 300) {
+                OnSwipeTouchListener.this.onDoubleTap();
+            }
+            LAST_DOWN = now;
             return true;
         }
 
@@ -81,6 +81,6 @@ public abstract class OnSwipeTouchListener implements View.OnTouchListener {
     public abstract void onSwipeTop();
 
     public abstract void onSwipeBottom();
-    
+
     public abstract void onDoubleTap();
 }

@@ -232,7 +232,7 @@ public class QueueItem {
 
     public static QueueItem fromCursor(Cursor cursor, long playlist, int scope) {
         String idCol = "_id";
-        if(playlist > -1)
+        if (playlist > -1)
             idCol = MediaStore.Audio.Playlists.Members.AUDIO_ID;
         return new QueueItem(
                 cursor.getInt(cursor.getColumnIndex(idCol)),

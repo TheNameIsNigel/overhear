@@ -43,44 +43,45 @@ public class EqualizerViewer extends OverhearActivity {
         ArrayAdapter<String> presetAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         presetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         presetAdapter.add(getString(R.string.user_defined));
-        for(int k = 0; k < m; k++)
+        for (int k = 0; k < m; k++)
             presetAdapter.add(getService().getEqualizer().getPresetName((short) k));
-        Spinner spinner = (Spinner)findViewById(R.id.presetSpinner);
+        Spinner spinner = (Spinner) findViewById(R.id.presetSpinner);
         spinner.setAdapter(presetAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int index, long id) {
-                if(index == 0)
+                if (index == 0)
                     return;
-                getService().getEqualizer().usePreset((short)(index - 1));
+                getService().getEqualizer().usePreset((short) (index - 1));
                 loadBands();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        if(getService().getEqualizer().getCurrentPreset() > -1)
+        if (getService().getEqualizer().getCurrentPreset() > -1)
             spinner.setSelection(getService().getEqualizer().getCurrentPreset() + 1);
     }
 
     private void loadBands() {
         short bands = getService().getEqualizer().getNumberOfBands();
-        final Spinner presetSpinner = (Spinner)findViewById(R.id.presetSpinner);
+        final Spinner presetSpinner = (Spinner) findViewById(R.id.presetSpinner);
         final short minEQLevel = getService().getEqualizer().getBandLevelRange()[0];
         final short maxEQLevel = getService().getEqualizer().getBandLevelRange()[1];
-        final LinearLayout mBandsView = (LinearLayout)findViewById(R.id.bands);
+        final LinearLayout mBandsView = (LinearLayout) findViewById(R.id.bands);
         mBandsView.removeAllViews();
 
         for (short i = 0; i < bands; i++) {
             final short band = i;
-            LinearLayout bandView = (LinearLayout)getLayoutInflater().inflate(R.layout.equalizer_band, null);
+            LinearLayout bandView = (LinearLayout) getLayoutInflater().inflate(R.layout.equalizer_band, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.weight = 1;
             bandView.setLayoutParams(layoutParams);
 
-            VerticalSeekBar bar = (VerticalSeekBar)bandView.findViewById(R.id.bar);
+            VerticalSeekBar bar = (VerticalSeekBar) bandView.findViewById(R.id.bar);
             bar.setMax(maxEQLevel - minEQLevel);
             bar.setProgress(getService().getEqualizer().getBandLevel(band));
             bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -96,7 +97,7 @@ public class EqualizerViewer extends OverhearActivity {
                 }
             });
 
-            TextView frequency = (TextView)bandView.findViewById(R.id.frequency);
+            TextView frequency = (TextView) bandView.findViewById(R.id.frequency);
             frequency.setText((getService().getEqualizer().getCenterFreq(band) / 1000) + "");
             mBandsView.addView(bandView);
         }
@@ -106,8 +107,8 @@ public class EqualizerViewer extends OverhearActivity {
     }
 
     private void loadBassBoost() {
-        SeekBar strengthBar = (SeekBar)findViewById(R.id.bassBoostStrength);
-        if(!getService().getBassBoost().getStrengthSupported()) {
+        SeekBar strengthBar = (SeekBar) findViewById(R.id.bassBoostStrength);
+        if (!getService().getBassBoost().getStrengthSupported()) {
             strengthBar.setEnabled(false);
             return;
         }
@@ -115,13 +116,15 @@ public class EqualizerViewer extends OverhearActivity {
         strengthBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean isUser) {
-                if(isUser) {
+                if (isUser) {
                     getService().getBassBoost().setStrength((short) progress);
                 }
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }

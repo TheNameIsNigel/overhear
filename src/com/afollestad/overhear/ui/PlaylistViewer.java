@@ -16,68 +16,69 @@ import com.afollestad.overhearapi.Playlist;
 
 /**
  * Displays songs within a playlist.
- * 
+ *
  * @author Aidan Follestad
  */
 public class PlaylistViewer extends OverhearActivity {
 
-	public final static int TWEET_PLAYING_LOGIN = 400;
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == TWEET_PLAYING_LOGIN && resultCode == Activity.RESULT_OK) {
-			startActivity(new Intent(this, TweetNowPlaying.class));
-		}
-	}
+    public final static int TWEET_PLAYING_LOGIN = 400;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		setContentView(R.layout.activity_genre_viewer);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TWEET_PLAYING_LOGIN && resultCode == Activity.RESULT_OK) {
+            startActivity(new Intent(this, TweetNowPlaying.class));
+        }
+    }
 
-		if(savedInstanceState == null) {
-			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			Fragment newFragment = new PlaylistSongFragment();
-			Bundle args = new Bundle();
-			args.putString("playlist", getIntent().getStringExtra("playlist"));
-			newFragment.setArguments(args);
-			ft.add(R.id.songList, newFragment);
-			ft.commit();
-		}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_genre_viewer);
 
-		setTitle(Playlist.fromJSON(getIntent().getStringExtra("playlist")).getName());
-	}
+        if (savedInstanceState == null) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            Fragment newFragment = new PlaylistSongFragment();
+            Bundle args = new Bundle();
+            args.putString("playlist", getIntent().getStringExtra("playlist"));
+            newFragment.setArguments(args);
+            ft.add(R.id.songList, newFragment);
+            ft.commit();
+        }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.genre_viewer, menu);
-		return true;
-	}
+        setTitle(Playlist.fromJSON(getIntent().getStringExtra("playlist")).getName());
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()) {
-		case android.R.id.home:
-			startActivity(new Intent(this, OverviewScreen.class)
-			.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-			finish();
-			return true;
-		case R.id.tweetPlaying:
-			if(Twitter.getTwitterInstance(getApplicationContext(), true) == null)
-				startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
-			else
-				startActivity(new Intent(this, TweetNowPlaying.class));
-			return true;
-		case R.id.search:
-			startActivity(new Intent(this, SearchScreen.class));
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.genre_viewer, menu);
+        return true;
+    }
 
-	@Override
-	public void onBound() {
-		((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                startActivity(new Intent(this, OverviewScreen.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+                return true;
+            case R.id.tweetPlaying:
+                if (Twitter.getTwitterInstance(getApplicationContext(), true) == null)
+                    startActivityForResult(new Intent(this, LoginHandler.class), TWEET_PLAYING_LOGIN);
+                else
+                    startActivity(new Intent(this, TweetNowPlaying.class));
+                return true;
+            case R.id.search:
+                startActivity(new Intent(this, SearchScreen.class));
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onBound() {
+        ((NowPlayingBarFragment) getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
+    }
 }

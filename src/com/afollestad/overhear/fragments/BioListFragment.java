@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 /**
  * Loads and displays bio information about an artist (e.g. tweets, last.fm information, etc.).
- * 
+ *
  * @author Aidan Follestad
  */
 public class BioListFragment extends Fragment {
@@ -50,7 +50,7 @@ public class BioListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null && getView() != null) {
+        if (savedInstanceState != null && getView() != null) {
             ((TextView) getView().findViewById(R.id.bioAbout)).setText(savedInstanceState.getString("lastfm_bio"));
             try {
                 artist = Artist.fromJSON(new JSONObject(savedInstanceState.getString("artist")));
@@ -87,10 +87,10 @@ public class BioListFragment extends Fragment {
         view.findViewById(R.id.socialUpdates).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-            	twitter4j.Twitter twitter = Twitter.getTwitterInstance(getActivity(), true);
-            	if(twitter == null) {
-            		return false;
-            	}
+                twitter4j.Twitter twitter = Twitter.getTwitterInstance(getActivity(), true);
+                if (twitter == null) {
+                    return false;
+                }
                 if (possibleUsers == null) {
                     new Thread(new Runnable() {
                         @Override
@@ -149,10 +149,10 @@ public class BioListFragment extends Fragment {
     }
 
     private void loadLastFm() {
-        if(artist == null)
+        if (artist == null)
             return;
         String currentBio = ((TextView) getView().findViewById(R.id.bioAbout)).getText().toString();
-        if(!currentBio.equals(getString(R.string.loading_str))) {
+        if (!currentBio.equals(getString(R.string.loading_str))) {
             return;
         }
 
@@ -168,22 +168,22 @@ public class BioListFragment extends Fragment {
                                     ((TextView) getView().findViewById(R.id.bioAbout)).setText(R.string.no_bio_str);
                                 } else {
                                     Spanned bio = info.getBioSummary();
-                                    if(bio.charAt(0) == '\n') {
-                                        bio = (Spanned)bio.subSequence(1, bio.length() - 1);
+                                    if (bio.charAt(0) == '\n') {
+                                        bio = (Spanned) bio.subSequence(1, bio.length() - 1);
                                     }
                                     ((TextView) getView().findViewById(R.id.bioAbout)).setText(bio);
                                 }
 
-                                LinearLayout similarArtists = (LinearLayout)getView().findViewById(R.id.bioSimilarArtists);
+                                LinearLayout similarArtists = (LinearLayout) getView().findViewById(R.id.bioSimilarArtists);
                                 similarArtists.removeAllViews();
-                                if(info.getSimilarArtists().size() > 0) {
-                                    for(final ArtistInfo simArt : info.getSimilarArtists()) {
+                                if (info.getSimilarArtists().size() > 0) {
+                                    for (final ArtistInfo simArt : info.getSimilarArtists()) {
                                         View v = ArtistAdapter.getViewForArtistInfo(getActivity(), simArt);
                                         v.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
                                                 Artist artist = Artist.getArtist(getActivity(), simArt.getName());
-                                                if(artist == null)
+                                                if (artist == null)
                                                     return;
                                                 getActivity().startActivity(new Intent(getActivity(), ArtistViewer.class)
                                                         .putExtra("artist", artist.getJSON().toString()));
@@ -211,12 +211,12 @@ public class BioListFragment extends Fragment {
     }
 
     private void loadTwitter() {
-        if(artist == null)
+        if (artist == null)
             return;
         final Handler mHandler = new Handler();
         new Thread(new Runnable() {
             @SuppressWarnings("unused")
-			public void run() {
+            public void run() {
                 try {
                     twitter4j.Twitter twitter = Twitter.getTwitterInstance(getActivity(), true);
                     if (twitter == null) {
@@ -281,7 +281,7 @@ public class BioListFragment extends Fragment {
                         mHandler.post(new Runnable() {
                             public void run() {
                                 TextView updates = (TextView) getView().findViewById(R.id.bioUpdates);
-                                if(altTwit == 0) {
+                                if (altTwit == 0) {
                                     updates.setText(R.string.social_profile_none);
                                 } else {
                                     updates.setText(R.string.no_social_profile);

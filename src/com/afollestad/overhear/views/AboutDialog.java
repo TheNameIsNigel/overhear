@@ -14,7 +14,6 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import com.afollestad.overhear.R;
 
 public class AboutDialog extends DialogFragment {

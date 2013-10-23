@@ -8,14 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
-
 import com.afollestad.overhear.base.Overhear;
 import com.afollestad.overhearapi.WebArt;
 
 /**
- * The provider used to store the URLs to album and artist art from last.fm. Basically a method of caching, it 
+ * The provider used to store the URLs to album and artist art from last.fm. Basically a method of caching, it
  * prevents future lookups for artist/album info.
- * 
+ *
  * @author Aidan Follestad
  */
 public class WebArtProvider extends ContentProvider {
@@ -35,33 +34,35 @@ public class WebArtProvider extends ContentProvider {
     }
 
     @Override
-	public boolean onCreate() {
-    	mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
-			@Override
-			public void onCreate(SQLiteDatabase db) { }
-			@Override
-			public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-				if(newVersion <= oldVersion) {
-					return;
-				}
-				Log.i("OVERHEAR WebArtProvider", "Upgrading database from version " + oldVersion +
-						" to " + newVersion + ", which will destroy all old data");
-				db.execSQL("DROP TABLE IF EXISTS " + ALBUM_ART);
+    public boolean onCreate() {
+        mOpenHelper = new SQLiteOpenHelper(getContext(), DBNAME, null, Overhear.DATABASE_VERSION) {
+            @Override
+            public void onCreate(SQLiteDatabase db) {
+            }
+
+            @Override
+            public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+                if (newVersion <= oldVersion) {
+                    return;
+                }
+                Log.i("OVERHEAR WebArtProvider", "Upgrading database from version " + oldVersion +
+                        " to " + newVersion + ", which will destroy all old data");
+                db.execSQL("DROP TABLE IF EXISTS " + ALBUM_ART);
                 db.execSQL("DROP TABLE IF EXISTS " + ARTIST_ART);
-				onCreate(db);
-			}
-    	};
+                onCreate(db);
+            }
+        };
 
-    	db = mOpenHelper.getWritableDatabase();
-    	db.execSQL(WebArt.getCreateTableStatement(ALBUM_ART));
+        db = mOpenHelper.getWritableDatabase();
+        db.execSQL(WebArt.getCreateTableStatement(ALBUM_ART));
         db.execSQL(WebArt.getCreateTableStatement(ARTIST_ART));
-    	return true;
-	}
+        return true;
+    }
 
-	@Override
-	public String getType(Uri uri) {
-		return null;
-	}
+    @Override
+    public String getType(Uri uri) {
+        return null;
+    }
 
     private String chooseTable(Uri uri) {
         switch (sUriMatcher.match(uri)) {
@@ -74,24 +75,24 @@ public class WebArtProvider extends ContentProvider {
         }
     }
 
-	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-		return db.query(chooseTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
-	}
-	
-	@Override
-	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		return db.update(chooseTable(uri), values, selection, selectionArgs);
-	}
-	
-	@Override
-	public Uri insert(Uri uri, ContentValues values) {
-		db.insert(chooseTable(uri), null, values);
-		return null;
-	}
-	
-	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		return db.delete(chooseTable(uri), selection, selectionArgs);
-	}
+    @Override
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        return db.query(chooseTable(uri), projection, selection, selectionArgs, null, null, sortOrder);
+    }
+
+    @Override
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        return db.update(chooseTable(uri), values, selection, selectionArgs);
+    }
+
+    @Override
+    public Uri insert(Uri uri, ContentValues values) {
+        db.insert(chooseTable(uri), null, values);
+        return null;
+    }
+
+    @Override
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        return db.delete(chooseTable(uri), selection, selectionArgs);
+    }
 }

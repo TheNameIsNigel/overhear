@@ -19,7 +19,7 @@ import twitter4j.User;
 
 /**
  * A dialog used to tweet the currently playing song.
- * 
+ *
  * @author Aidan Follestad
  */
 public class TweetNowPlaying extends OverhearActivity {
@@ -41,7 +41,7 @@ public class TweetNowPlaying extends OverhearActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_tweet_now_playing);
         twitter = com.afollestad.overhear.utils.Twitter.getTwitterInstance(getApplicationContext(), true);
-        if(twitter == null) {
+        if (twitter == null) {
             startActivityForResult(new Intent(getApplicationContext(), LoginHandler.class), TWEET_PLAYING_LOGIN);
         }
         findViewById(R.id.tweetBtn).setOnClickListener(new View.OnClickListener() {
@@ -89,8 +89,8 @@ public class TweetNowPlaying extends OverhearActivity {
     }
 
     private void loadInitialText() {
-    	if(getService() == null || getService().getQueue() == null) {
-        	return;
+        if (getService() == null || getService().getQueue() == null) {
+            return;
         }
         final TextView text = (TextView) findViewById(R.id.tweetText);
         final Button send = (Button) findViewById(R.id.tweetBtn);
@@ -150,8 +150,8 @@ public class TweetNowPlaying extends OverhearActivity {
         }).start();
     }
 
-	@Override
-	public void onBound() {
-		loadInitialText();
-	}
+    @Override
+    public void onBound() {
+        loadInitialText();
+    }
 }

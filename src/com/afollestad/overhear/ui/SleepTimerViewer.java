@@ -20,7 +20,7 @@ import java.util.TimerTask;
 
 /**
  * Displays how much time is left until the sleep timer activates.
- * 
+ *
  * @author Aidan Follestad
  */
 public class SleepTimerViewer extends OverhearActivity {
@@ -28,17 +28,17 @@ public class SleepTimerViewer extends OverhearActivity {
     Calendar sleepTime;
     Timer timer;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		setContentView(R.layout.sleep_timer_viewer);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.sleep_timer_viewer);
         sleepTime = SleepTimer.getScheduledTime(this);
-	}
+    }
 
     @Override
-	public void onResume() {
-		super.onResume();
+    public void onResume() {
+        super.onResume();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -50,17 +50,17 @@ public class SleepTimerViewer extends OverhearActivity {
                 });
             }
         }, 250, 250);
-	}
+    }
 
     @Override
-	public void onPause() {
-		super.onPause();
-        if(timer != null) {
+    public void onPause() {
+        super.onPause();
+        if (timer != null) {
             timer.cancel();
             timer.purge();
             timer = null;
         }
-	}
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,7 +70,7 @@ public class SleepTimerViewer extends OverhearActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 startActivity(new Intent(this, OverviewScreen.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -88,15 +88,15 @@ public class SleepTimerViewer extends OverhearActivity {
     public void update() {
         Calendar now = Calendar.getInstance();
         long diff = -1;
-        if(sleepTime != null) {
+        if (sleepTime != null) {
             diff = sleepTime.getTimeInMillis() - now.getTimeInMillis();
         }
-        TextView sleptAt = (TextView)findViewById(R.id.sleepAt);
-        if(diff < 0) {
+        TextView sleptAt = (TextView) findViewById(R.id.sleepAt);
+        if (diff < 0) {
             sleptAt.setVisibility(View.VISIBLE);
             sleptAt.setText(getString(R.string.slept_at_str).replace("{time}", Utils.getFriendlyTime(now)));
-            ((TextView)findViewById(R.id.text)).setText("0:00");
-            if(timer != null) {
+            ((TextView) findViewById(R.id.text)).setText("0:00");
+            if (timer != null) {
                 timer.cancel();
                 timer.purge();
                 timer = null;
@@ -104,11 +104,11 @@ public class SleepTimerViewer extends OverhearActivity {
             return;
         }
         sleptAt.setVisibility(View.GONE);
-        ((TextView)findViewById(R.id.text)).setText(Song.getDurationString(diff));
+        ((TextView) findViewById(R.id.text)).setText(Song.getDurationString(diff));
     }
-    
+
     @Override
-	public void onBound() {
-    	((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
-	}
+    public void onBound() {
+        ((NowPlayingBarFragment) getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
+    }
 }

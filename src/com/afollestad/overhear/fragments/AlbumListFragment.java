@@ -18,21 +18,22 @@ import com.afollestad.overhearapi.Artist;
 
 /**
  * Loads and displays a list of albums based on all songs on the device.
- * 
+ *
  * @author Aidan Follestad
  */
 public class AlbumListFragment extends OverhearListFragment {
 
-	private AlbumAdapter adapter;
-	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
+    private AlbumAdapter adapter;
+    private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-        	if(adapter != null)
-    			adapter.notifyDataSetChanged();
+            if (adapter != null)
+                adapter.notifyDataSetChanged();
         }
     };
 
-	public AlbumListFragment() { }
+    public AlbumListFragment() {
+    }
 
 
     @Override
@@ -42,7 +43,7 @@ public class AlbumListFragment extends OverhearListFragment {
 
     @Override
     public String getLoaderSelection() {
-        if(getArguments() != null && getArguments().containsKey("artist")) {
+        if (getArguments() != null && getArguments().containsKey("artist")) {
             Artist artist = Artist.fromJSON(getArguments().getString("artist"));
             return MediaStore.Audio.AlbumColumns.ARTIST + " = '" + artist.getName().replace("'", "''") + "'";
         }
@@ -61,8 +62,8 @@ public class AlbumListFragment extends OverhearListFragment {
 
     @Override
     public SimpleCursorAdapter getAdapter() {
-        if(adapter == null)
-            adapter = new AlbumAdapter(getActivity(), 0, null, new String[] { }, new int[] { }, 0);
+        if (adapter == null)
+            adapter = new AlbumAdapter(getActivity(), 0, null, new String[]{}, new int[]{}, 0);
         return adapter;
     }
 
@@ -91,5 +92,6 @@ public class AlbumListFragment extends OverhearListFragment {
     }
 
     @Override
-    public void onInitialize() { }
+    public void onInitialize() {
+    }
 }

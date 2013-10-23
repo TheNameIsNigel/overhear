@@ -18,7 +18,7 @@ import com.afollestad.overhearapi.Playlist;
 
 /**
  * Loads and displays a list of songs from a playlist.
- * 
+ *
  * @author Aidan Follestad
  */
 public class PlaylistSongFragment extends OverhearListFragment {
@@ -63,7 +63,7 @@ public class PlaylistSongFragment extends OverhearListFragment {
 
     @Override
     public CursorAdapter getAdapter() {
-        if(adapter == null) {
+        if (adapter == null) {
             adapter = new PlaylistSongAdapter(getActivity(), null, 0);
             adapter.setPlaylist(playlist);
         }

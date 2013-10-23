@@ -17,7 +17,7 @@ import com.afollestad.overhearapi.Playlist;
 
 /**
  * Loads and displays a list of playlists on the device.
- * 
+ *
  * @author Aidan Follestad
  */
 public class PlayListFragment extends OverhearListFragment {
@@ -61,7 +61,7 @@ public class PlayListFragment extends OverhearListFragment {
 
     @Override
     public CursorAdapter getAdapter() {
-        if(adapter == null)
+        if (adapter == null)
             adapter = new PlaylistAdapter(getActivity(), null, 0);
         return adapter;
     }

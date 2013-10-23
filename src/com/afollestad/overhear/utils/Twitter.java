@@ -9,8 +9,8 @@ import com.afollestad.overhearapi.Artist;
 import twitter4j.TwitterFactory;
 
 /**
- * Convenience methods for getting Twitter account related functionality.  
- * 
+ * Convenience methods for getting Twitter account related functionality.
+ *
  * @author Aidan Follestad
  */
 public class Twitter {
@@ -23,8 +23,8 @@ public class Twitter {
         SharedPreferences prefs = context.getSharedPreferences("twitter_account", 0);
         String token = prefs.getString("token", null);
         String secret = prefs.getString("secret", null);
-        if(token == null || secret == null) {
-            if(nullIfNotAuthenticated)
+        if (token == null || secret == null) {
+            if (nullIfNotAuthenticated)
                 return null;
             else
                 client.setOAuthAccessToken(null);
@@ -36,13 +36,13 @@ public class Twitter {
     }
 
     public static void setSocialAccount(Context context, Artist artist, long userId) {
-        if(artist == null)
+        if (artist == null)
             return;
         ContentValues values = new ContentValues();
         values.put("twitter_id", userId);
         int updated = context.getContentResolver().update(ALTERNATE_TWITTER_URI, values,
                 "artist_name = '" + artist.getName().replace("'", "''") + "'", null);
-        if(updated == 0) {
+        if (updated == 0) {
             values.put("artist_name", artist.getName());
             context.getContentResolver().insert(ALTERNATE_TWITTER_URI, values);
         }
@@ -52,7 +52,7 @@ public class Twitter {
         Cursor cursor = context.getContentResolver().query(ALTERNATE_TWITTER_URI, null,
                 "artist_name = '" + artist.getName().replace("'", "''") + "'", null, null);
         long toreturn = -1l;
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             toreturn = cursor.getLong(cursor.getColumnIndex("twitter_id"));
         }
         cursor.close();

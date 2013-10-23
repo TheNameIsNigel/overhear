@@ -24,8 +24,8 @@ import com.afollestad.overhear.base.TaggedFragmentAdapter;
 import com.afollestad.overhear.fragments.*;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.Recents;
-import com.afollestad.overhear.utils.Twitter;
 import com.afollestad.overhear.utils.Store;
+import com.afollestad.overhear.utils.Twitter;
 
 import java.io.File;
 import java.util.Locale;
@@ -60,7 +60,7 @@ public class OverviewScreen extends OverhearActivity {
 
         //TODO remove when no longer needed
         File oldCacheDir = new File(Environment.getExternalStorageDirectory(), "Overhear");
-        if(oldCacheDir.exists())
+        if (oldCacheDir.exists())
             oldCacheDir.delete();
     }
 
@@ -98,11 +98,11 @@ public class OverviewScreen extends OverhearActivity {
             public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
                 Fragment frag = getFragmentManager().findFragmentByTag("page:" + tab.getPosition());
                 if (frag instanceof ListFragment) {
-                    if(frag.getView() != null)
+                    if (frag.getView() != null)
                         ((ListFragment) frag).getListView().setSelection(0);
-                } else if(frag instanceof OverhearGridFragment) {
-                    if(frag.getView() != null)
-                        ((OverhearGridFragment)frag).getGridView().setSelection(0);
+                } else if (frag instanceof OverhearGridFragment) {
+                    if (frag.getView() != null)
+                        ((OverhearGridFragment) frag).getGridView().setSelection(0);
                 }
             }
         };

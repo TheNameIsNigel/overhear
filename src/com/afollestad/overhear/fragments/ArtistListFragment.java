@@ -18,24 +18,25 @@ import com.afollestad.overhearapi.Artist;
 
 /**
  * Loads and displays a list of artists based on all songs on the device.
- * 
+ *
  * @author Aidan Follestad
  */
 public class ArtistListFragment extends OverhearGridFragment {
 
-	private ArtistAdapter adapter;
-	private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
+    private ArtistAdapter adapter;
+    private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-        	if(adapter != null)
-    			adapter.notifyDataSetChanged();
+            if (adapter != null)
+                adapter.notifyDataSetChanged();
         }
     };
 
-	public ArtistListFragment() { }
+    public ArtistListFragment() {
+    }
 
 
-	@Override
+    @Override
     public Uri getLoaderUri() {
         return MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
     }
@@ -52,7 +53,7 @@ public class ArtistListFragment extends OverhearGridFragment {
 
     @Override
     public CursorAdapter getAdapter() {
-        if(adapter == null)
+        if (adapter == null)
             adapter = new ArtistAdapter(getActivity(), 0, null, new String[]{}, new int[]{}, 0);
         return adapter;
     }

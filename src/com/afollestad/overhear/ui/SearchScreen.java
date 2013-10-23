@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 /**
  * Allows you to search for songs, albums, artists, etc.
- * 
+ *
  * @author Aidan Follestad
  */
 public class SearchScreen extends OverhearListActivity {
@@ -122,7 +122,7 @@ public class SearchScreen extends OverhearListActivity {
         switch (adapter.getItemViewType(position)) {
             case 1:
                 SongListFragment.performOnClick(this, (QueueItem) adapter.getItem(position), null, null,
-                		null, QueueItem.SCOPE_SINGULAR, -1);
+                        null, QueueItem.SCOPE_SINGULAR, -1);
                 break;
             case 2:
                 startActivity(new Intent(this, AlbumViewer.class).putExtra("album",
@@ -136,13 +136,14 @@ public class SearchScreen extends OverhearListActivity {
     }
 
     private SearchView getSearchView(MenuItem item) {
-        SearchView searchView = (SearchView)item.getActionView();
+        SearchView searchView = (SearchView) item.getActionView();
         searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
                 lastQuery = s;
@@ -183,9 +184,9 @@ public class SearchScreen extends OverhearListActivity {
         super.onDestroy();
         unregisterReceiver(mStatusReceiver);
     }
-    
+
     @Override
-	public void onBound() {
-        ((NowPlayingBarFragment)getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
-	}
+    public void onBound() {
+        ((NowPlayingBarFragment) getFragmentManager().findFragmentById(R.id.nowPlaying)).update();
+    }
 }

@@ -15,12 +15,12 @@ import com.afollestad.overhear.ui.OverviewScreen;
 
 public class NotificationViewCreator {
 
-	@SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
     public static Notification createNotification(Context context, QueueItem nowPlaying, Bitmap art, boolean playing) {
-		Notification.Builder builder = new Notification.Builder(context);
-		builder.setContent(createView(context, false, nowPlaying, art, playing));
-		builder.setOngoing(true);
-		builder.setSmallIcon(R.drawable.stat_notify_music);
+        Notification.Builder builder = new Notification.Builder(context);
+        builder.setContent(createView(context, false, nowPlaying, art, playing));
+        builder.setOngoing(true);
+        builder.setSmallIcon(R.drawable.stat_notify_music);
 
         Intent nowPlayingIntent = new Intent(context, NowPlayingViewer.class).
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -28,26 +28,26 @@ public class NotificationViewCreator {
         stackBuilder.addParentStack(OverviewScreen.class);
         stackBuilder.addNextIntent(new Intent(context, OverviewScreen.class));
         stackBuilder.addNextIntent(nowPlayingIntent);
-		builder.setContentIntent(stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT));
+        builder.setContentIntent(stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT));
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			return NotificationViewCreator16.createNotification(context, builder, nowPlaying, art, playing);
-		}
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            return NotificationViewCreator16.createNotification(context, builder, nowPlaying, art, playing);
+        }
 
         Notification noti = builder.getNotification();
         noti.flags = Notification.FLAG_HIGH_PRIORITY;
         return noti;
-	}
-	
-	protected static RemoteViews createView(Context context, boolean big, QueueItem nowPlaying, Bitmap art, boolean playing) {
-		RemoteViews views;
-		if(big)
+    }
+
+    protected static RemoteViews createView(Context context, boolean big, QueueItem nowPlaying, Bitmap art, boolean playing) {
+        RemoteViews views;
+        if (big)
             views = new RemoteViews(context.getPackageName(), R.layout.status_bar_big);
-		else
-			views = new RemoteViews(context.getPackageName(), R.layout.status_bar);
+        else
+            views = new RemoteViews(context.getPackageName(), R.layout.status_bar);
         if (art != null)
             views.setImageViewBitmap(R.id.status_bar_album_art, art);
-        
+
         Intent si = new Intent(context, MusicService.class);
         si.setAction(MusicService.ACTION_SKIP);
         PendingIntent pi = PendingIntent.getService(context, 3, si, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -60,21 +60,21 @@ public class NotificationViewCreator {
         si.setAction(MusicService.ACTION_STOP);
         pi = PendingIntent.getService(context, 4, si, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.status_bar_collapse, pi);
-        
-        if(playing)
-        	views.setImageViewResource(R.id.status_bar_play, R.drawable.pause);
+
+        if (playing)
+            views.setImageViewResource(R.id.status_bar_play, R.drawable.pause);
         else
-        	views.setImageViewResource(R.id.status_bar_play, R.drawable.play);
-        
+            views.setImageViewResource(R.id.status_bar_play, R.drawable.play);
+
         views.setTextViewText(R.id.status_bar_track_name, nowPlaying.getTitle(context));
         views.setTextViewText(R.id.status_bar_artist_name, nowPlaying.getArtist(context));
-        if(big) {
-        	views.setTextViewText(R.id.status_bar_album_name, nowPlaying.getAlbum(context));
+        if (big) {
+            views.setTextViewText(R.id.status_bar_album_name, nowPlaying.getAlbum(context));
             si.setAction(MusicService.ACTION_REWIND);
             pi = PendingIntent.getService(context, 1, si, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setOnClickPendingIntent(R.id.status_bar_previous, pi);
         }
-        
+
         return views;
-	}
+    }
 }

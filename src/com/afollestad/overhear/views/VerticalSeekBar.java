@@ -1,11 +1,10 @@
 package com.afollestad.overhear.views;
 
-import android.widget.SeekBar;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.SeekBar;
 
 /**
  * A {@link SeekBar} that is vertical, instead of horizontal like the default SeekBar.

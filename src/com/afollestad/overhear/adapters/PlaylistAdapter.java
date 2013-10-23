@@ -26,7 +26,7 @@ public class PlaylistAdapter extends CursorAdapter {
 
     public PlaylistAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
-        this.activity = (Activity)context;
+        this.activity = (Activity) context;
     }
 
     private Activity activity;
@@ -49,9 +49,9 @@ public class PlaylistAdapter extends CursorAdapter {
             public void onClick(View view) {
                 PopupMenu menu = new PopupMenu(context, view);
                 menu.inflate(R.menu.playlist_item_popup);
-                final boolean isFavorites = playlist.getName().equals(context.getString(R.string.favorites_str)); 
-                if(isFavorites)
-                	menu.getMenu().findItem(R.id.delete).setTitle(R.string.clear_str);
+                final boolean isFavorites = playlist.getName().equals(context.getString(R.string.favorites_str));
+                if (isFavorites)
+                    menu.getMenu().findItem(R.id.delete).setTitle(R.string.clear_str);
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
@@ -62,7 +62,7 @@ public class PlaylistAdapter extends CursorAdapter {
                                 return true;
                             }
                             case R.id.addToQueue: {
-                            	MusicUtils.addToQueue(context, QueueItem.getAllFromIds(listSongs, playlist.getId(), QueueItem.SCOPE_PLAYLIST));
+                                MusicUtils.addToQueue(context, QueueItem.getAllFromIds(listSongs, playlist.getId(), QueueItem.SCOPE_PLAYLIST));
                                 return true;
                             }
                             case R.id.rename: {
@@ -70,10 +70,10 @@ public class PlaylistAdapter extends CursorAdapter {
                                 return true;
                             }
                             case R.id.delete: {
-                            	if(isFavorites)
-                            		MusicUtils.createPlaylistClearDialog(context, playlist).show();
-                            	else
-                            		MusicUtils.createPlaylistDeleteDialog(context, playlist).show();
+                                if (isFavorites)
+                                    MusicUtils.createPlaylistClearDialog(context, playlist).show();
+                                else
+                                    MusicUtils.createPlaylistDeleteDialog(context, playlist).show();
                                 return true;
                             }
                         }
@@ -92,19 +92,19 @@ public class PlaylistAdapter extends CursorAdapter {
         AnimationDrawable mPeakTwoAnimation = (AnimationDrawable) peakTwo.getDrawable();
 
         QueueItem focused = null;
-        boolean isPlaying = false; 
-        if(context instanceof OverhearActivity) {
-			if(((OverhearActivity)context).getService() != null) {
-				focused = ((OverhearActivity)context).getService().getQueue().getFocused();
-				isPlaying = ((OverhearActivity)context).getService().isPlaying();
-			}
-		} else {
-			if(((OverhearListActivity)context).getService() != null) {
-				focused = ((OverhearListActivity)context).getService().getQueue().getFocused();
-				isPlaying = ((OverhearListActivity)context).getService().isPlaying();
-			}
-		}
-        
+        boolean isPlaying = false;
+        if (context instanceof OverhearActivity) {
+            if (((OverhearActivity) context).getService() != null) {
+                focused = ((OverhearActivity) context).getService().getQueue().getFocused();
+                isPlaying = ((OverhearActivity) context).getService().isPlaying();
+            }
+        } else {
+            if (((OverhearListActivity) context).getService() != null) {
+                focused = ((OverhearListActivity) context).getService().getQueue().getFocused();
+                isPlaying = ((OverhearListActivity) context).getService().isPlaying();
+            }
+        }
+
         if (focused != null && playlist.getId() == focused.getPlaylistId()) {
             peakOne.setVisibility(View.VISIBLE);
             peakTwo.setVisibility(View.VISIBLE);

@@ -10,8 +10,8 @@ import com.afollestad.overhear.service.MusicService;
 import java.util.Calendar;
 
 /**
- * Convenience methods for the sleep timer. 
- * 
+ * Convenience methods for the sleep timer.
+ *
  * @author Aidan Follestad
  */
 public class SleepTimer {
@@ -29,7 +29,7 @@ public class SleepTimer {
 
     public static Calendar getScheduledTime(Context context) {
         long time = PreferenceManager.getDefaultSharedPreferences(context).getLong("sleep_timer_schedule", -1l);
-        if(time == -1) {
+        if (time == -1) {
             return null;
         }
         Calendar calendar = Calendar.getInstance();

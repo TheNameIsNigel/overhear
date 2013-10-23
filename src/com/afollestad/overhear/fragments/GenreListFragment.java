@@ -15,14 +15,15 @@ import com.afollestad.overhearapi.Genre;
 
 /**
  * Loads and displays a list of genres based on all songs on the device.
- * 
+ *
  * @author Aidan Follestad
  */
 public class GenreListFragment extends OverhearListFragment {
 
-	private GenreAdapter adapter;	
-	
-	public GenreListFragment() { }
+    private GenreAdapter adapter;
+
+    public GenreListFragment() {
+    }
 
     @Override
     public Uri getLoaderUri() {
@@ -46,7 +47,7 @@ public class GenreListFragment extends OverhearListFragment {
 
     @Override
     public CursorAdapter getAdapter() {
-        if(adapter == null)
+        if (adapter == null)
             adapter = new GenreAdapter(getActivity(), null, 0);
         return adapter;
     }
@@ -74,5 +75,6 @@ public class GenreListFragment extends OverhearListFragment {
     }
 
     @Override
-    public void onInitialize() { }
+    public void onInitialize() {
+    }
 }

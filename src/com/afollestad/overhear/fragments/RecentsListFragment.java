@@ -17,7 +17,7 @@ import com.afollestad.overhearapi.Album;
 
 /**
  * Loads and displays your recently played music from the recents content provider.
- * 
+ *
  * @author Aidan Follestad
  */
 public class RecentsListFragment extends OverhearListFragment {
@@ -60,7 +60,7 @@ public class RecentsListFragment extends OverhearListFragment {
 
     @Override
     public CursorAdapter getAdapter() {
-        if(adapter == null)
+        if (adapter == null)
             adapter = new AlbumAdapter(getActivity(), 0, null, new String[]{}, new int[]{}, 0);
         return adapter;
     }
