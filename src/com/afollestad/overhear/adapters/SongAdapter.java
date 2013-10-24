@@ -2,15 +2,12 @@ package com.afollestad.overhear.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -23,24 +20,26 @@ import com.afollestad.overhear.ui.ArtistViewer;
 import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
+import com.afollestad.silk.adapters.SilkCursorAdapter;
 
-public class SongAdapter extends CursorAdapter {
+public class SongAdapter extends SilkCursorAdapter<QueueItem> {
 
-    private final Activity activity;
     private boolean isAlbum;
 
-    public SongAdapter(Activity context, Cursor c, int flags) {
-        super(context, c, flags);
-        this.activity = context;
+    public SongAdapter(Activity context, Cursor c) {
+        super(context, R.layout.song_item, c, new CursorConverter<QueueItem>() {
+            @Override
+            public QueueItem convert(Cursor cursor) {
+                return QueueItem.fromCursor(cursor, -1, QueueItem.SCOPE_All_SONGS);
+            }
+        });
     }
 
     public static View getViewForSong(final Activity context, final QueueItem song, View view, final boolean isAlbum) {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }
-
         ((TextView) view.findViewById(R.id.title)).setText(song.getTitle(context));
-
         View options = view.findViewById(R.id.options);
         options.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,18 +133,7 @@ public class SongAdapter extends CursorAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        getCursor().moveToPosition(position);
-        QueueItem item = QueueItem.fromCursor(getCursor(), -1, QueueItem.SCOPE_All_SONGS);
-        return getViewForSong(activity, item, convertView, isAlbum);
-    }
-
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.song_item, null);
-    }
-
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public View onViewCreated(int index, View recycled, QueueItem item) {
+        return getViewForSong((Activity) getContext(), item, recycled, isAlbum);
     }
 }

@@ -4,10 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.widget.SimpleCursorAdapter;
+import android.view.View;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.AlbumAdapter;
 import com.afollestad.overhear.base.OverhearListFragment;
@@ -15,26 +14,25 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.AlbumViewer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
+import com.afollestad.silk.adapters.SilkCursorAdapter;
 
 /**
  * Loads and displays a list of albums based on all songs on the device.
  *
  * @author Aidan Follestad
  */
-public class AlbumListFragment extends OverhearListFragment {
+public class AlbumListFragment extends OverhearListFragment<Album> {
 
-    private AlbumAdapter adapter;
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (adapter != null)
-                adapter.notifyDataSetChanged();
+            if (getAdapter() != null)
+                getAdapter().notifyDataSetChanged();
         }
     };
 
     public AlbumListFragment() {
     }
-
 
     @Override
     public Uri getLoaderUri() {
@@ -61,10 +59,19 @@ public class AlbumListFragment extends OverhearListFragment {
     }
 
     @Override
-    public SimpleCursorAdapter getAdapter() {
-        if (adapter == null)
-            adapter = new AlbumAdapter(getActivity(), 0, null, new String[]{}, new int[]{}, 0);
-        return adapter;
+    protected SilkCursorAdapter<Album> initializeAdapter() {
+        return new AlbumAdapter(getActivity(), null);
+    }
+
+    @Override
+    protected void onItemTapped(int index, Album item, View view) {
+        startActivity(new Intent(getActivity(), AlbumViewer.class)
+                .putExtra("album", item.getJSON().toString()));
+    }
+
+    @Override
+    protected boolean onItemLongTapped(int index, Album item, View view) {
+        return false;
     }
 
     @Override
@@ -80,18 +87,7 @@ public class AlbumListFragment extends OverhearListFragment {
     }
 
     @Override
-    public String getEmptyText() {
-        return getString(R.string.no_albums);
-    }
-
-    @Override
-    public void onItemClick(int position, Cursor cursor) {
-        Album album = Album.fromCursor(adapter.getCursor());
-        startActivity(new Intent(getActivity(), AlbumViewer.class)
-                .putExtra("album", album.getJSON().toString()));
-    }
-
-    @Override
-    public void onInitialize() {
+    public int getEmptyText() {
+        return R.string.no_albums;
     }
 }

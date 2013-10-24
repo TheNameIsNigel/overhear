@@ -4,37 +4,34 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.CursorAdapter;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.ArtistAdapter;
 import com.afollestad.overhear.base.OverhearGridFragment;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.ArtistViewer;
 import com.afollestad.overhearapi.Artist;
+import com.afollestad.silk.adapters.SilkCursorAdapter;
 
 /**
  * Loads and displays a list of artists based on all songs on the device.
  *
  * @author Aidan Follestad
  */
-public class ArtistListFragment extends OverhearGridFragment {
+public class ArtistListFragment extends OverhearGridFragment<Artist> {
 
-    private ArtistAdapter adapter;
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (adapter != null)
-                adapter.notifyDataSetChanged();
+            if (getAdapter() != null)
+                getAdapter().notifyDataSetChanged();
         }
     };
 
     public ArtistListFragment() {
     }
-
 
     @Override
     public Uri getLoaderUri() {
@@ -47,15 +44,13 @@ public class ArtistListFragment extends OverhearGridFragment {
     }
 
     @Override
-    public String getLoaderSort() {
-        return MediaStore.Audio.Artists.DEFAULT_SORT_ORDER;
+    protected String[] getLoaderProjection() {
+        return new String[0];
     }
 
     @Override
-    public CursorAdapter getAdapter() {
-        if (adapter == null)
-            adapter = new ArtistAdapter(getActivity(), 0, null, new String[]{}, new int[]{}, 0);
-        return adapter;
+    public String getLoaderSort() {
+        return MediaStore.Audio.Artists.DEFAULT_SORT_ORDER;
     }
 
     @Override
@@ -71,24 +66,24 @@ public class ArtistListFragment extends OverhearGridFragment {
     }
 
     @Override
-    public String getEmptyText() {
-        return getString(R.string.no_artists);
+    public int getEmptyText() {
+        return R.string.no_artists;
     }
 
     @Override
-    public void onItemClick(int position, Cursor cursor) {
-        Artist artist = Artist.fromCursor(getAdapter().getCursor());
+    protected SilkCursorAdapter<Artist> initializeAdapter() {
+        return new ArtistAdapter(getActivity(), null);
+    }
+
+    @Override
+    protected void onItemTapped(int index, Artist item, View view) {
         startActivity(new Intent(getActivity(), ArtistViewer.class)
-                .putExtra("artist", artist.getJSON().toString()));
+                .putExtra("artist", item.getJSON().toString()));
     }
 
     @Override
-    public void onItemLongClick(int position, Cursor cursor, View view) {
-        Artist artist = Artist.fromCursor(getAdapter().getCursor());
-        ArtistAdapter.showPopup(getActivity(), artist, view);
-    }
-
-    @Override
-    public void onInitialize() {
+    protected boolean onItemLongTapped(int index, Artist item, View view) {
+        ArtistAdapter.showPopup(getActivity(), item, view);
+        return false;
     }
 }

@@ -111,7 +111,7 @@ public class OverviewScreen extends OverhearActivity {
                         ((ListFragment) frag).getListView().setSelection(0);
                 } else if (frag instanceof OverhearGridFragment) {
                     if (frag.getView() != null)
-                        ((OverhearGridFragment) frag).getGridView().setSelection(0);
+                        ((OverhearGridFragment) frag).getListView().setSelection(0);
                 }
             }
         };

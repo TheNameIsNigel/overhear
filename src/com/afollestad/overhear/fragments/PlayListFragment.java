@@ -4,33 +4,31 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.widget.CursorAdapter;
+import android.view.View;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.PlaylistAdapter;
 import com.afollestad.overhear.base.OverhearListFragment;
 import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhear.ui.PlaylistViewer;
 import com.afollestad.overhearapi.Playlist;
+import com.afollestad.silk.adapters.SilkCursorAdapter;
 
 /**
  * Loads and displays a list of playlists on the device.
  *
  * @author Aidan Follestad
  */
-public class PlayListFragment extends OverhearListFragment {
-
-    private PlaylistAdapter adapter;
+public class PlayListFragment extends OverhearListFragment<Playlist> {
 
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(MusicService.RECENTS_UPDATED)) {
                 getLoaderManager().restartLoader(0, null, PlayListFragment.this);
-            } else if (intent.getAction().equals(MusicService.PLAYING_STATE_CHANGED) && adapter != null) {
-                adapter.notifyDataSetChanged();
+            } else if (intent.getAction().equals(MusicService.PLAYING_STATE_CHANGED) && getAdapter() != null) {
+                getAdapter().notifyDataSetChanged();
             }
         }
     };
@@ -60,13 +58,6 @@ public class PlayListFragment extends OverhearListFragment {
     }
 
     @Override
-    public CursorAdapter getAdapter() {
-        if (adapter == null)
-            adapter = new PlaylistAdapter(getActivity(), null, 0);
-        return adapter;
-    }
-
-    @Override
     public BroadcastReceiver getReceiver() {
         return mStatusReceiver;
     }
@@ -80,18 +71,23 @@ public class PlayListFragment extends OverhearListFragment {
     }
 
     @Override
-    public String getEmptyText() {
-        return getString(R.string.no_playlists);
+    public int getEmptyText() {
+        return R.string.no_playlists;
     }
 
     @Override
-    public void onItemClick(int position, Cursor cursor) {
-        Playlist list = Playlist.fromCursor(adapter.getCursor());
+    protected SilkCursorAdapter<Playlist> initializeAdapter() {
+        return new PlaylistAdapter(getActivity(), null);
+    }
+
+    @Override
+    protected void onItemTapped(int index, Playlist item, View view) {
         startActivity(new Intent(getActivity(), PlaylistViewer.class)
-                .putExtra("playlist", list.getJSON().toString()));
+                .putExtra("playlist", item.getJSON().toString()));
     }
 
     @Override
-    public void onInitialize() {
+    protected boolean onItemLongTapped(int index, Playlist item, View view) {
+        return false;
     }
 }

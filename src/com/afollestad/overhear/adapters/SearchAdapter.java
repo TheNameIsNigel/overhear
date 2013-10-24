@@ -1,38 +1,59 @@
 package com.afollestad.overhear.adapters;
 
 import android.app.Activity;
-import android.view.LayoutInflater;
+import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.queue.QueueItem;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
+import com.afollestad.silk.adapters.SilkAdapter;
+import com.afollestad.silk.caching.SilkComparable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-public class SearchAdapter extends BaseAdapter {
-
-    private final Activity context;
-    private final ArrayList<Object> items;
+public class SearchAdapter extends SilkAdapter<SilkComparable> {
 
     public SearchAdapter(Activity context) {
-        this.context = context;
-        this.items = new ArrayList<Object>();
+        super(context);
     }
 
-    public void add(String header, Object[] toadd) {
-        items.add(header);
-        Collections.addAll(items, toadd);
-        notifyDataSetChanged();
+    @Override
+    protected int getLayout(int index, int type) {
+        switch (type) {
+            default:
+                return R.layout.list_header;
+            case 1:
+                return R.layout.song_item;
+            case 2:
+                return R.layout.album_item;
+            case 3:
+                return R.layout.artist_item;
+        }
     }
 
-    public void clear() {
-        items.clear();
-        notifyDataSetChanged();
+    @Override
+    public View onViewCreated(int index, View recycled, SilkComparable item) {
+        int viewType = getItemViewType(index);
+        switch (viewType) {
+            default:
+                ((TextView) recycled).setText(item.toString());
+                break;
+            case 1:
+                recycled = SongAdapter.getViewForSong((Activity) getContext(), (QueueItem) item, recycled, false);
+                break;
+            case 2:
+                recycled = AlbumAdapter.getViewForAlbum((Activity) getContext(), (Album) item, recycled, getScrollState());
+                break;
+            case 3:
+                recycled = ArtistAdapter.getViewForArtist((Activity) getContext(), (Artist) item, recycled, false, getScrollState());
+                break;
+        }
+        int leftRightPad;
+        if (viewType == 0) {
+            leftRightPad = getContext().getResources().getDimensionPixelSize(R.dimen.list_header_side_padding);
+        } else leftRightPad = getContext().getResources().getDimensionPixelSize(R.dimen.list_side_padding);
+        recycled.setPadding(leftRightPad, recycled.getPaddingTop(), leftRightPad, recycled.getPaddingBottom());
+        return recycled;
     }
 
     @Override
@@ -42,63 +63,43 @@ public class SearchAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        Object item = items.get(position);
+        SilkComparable item = getItems().get(position);
         if (item instanceof QueueItem) {
             return 1;
         } else if (item instanceof Album) {
             return 2;
         } else if (item instanceof Artist) {
             return 3;
-        } else {
-            return 0;
-        }
+        } else return 0;
     }
 
     @Override
-    public int getCount() {
-        return items.size();
+    protected long getItemId(SilkComparable item) {
+        if (item.getSilkId() instanceof Long)
+            return (Long) item.getSilkId();
+        else return -1;
     }
 
-    @Override
-    public Object getItem(int i) {
-        return items.get(i);
-    }
+    public static class Header implements SilkComparable<Header> {
+        private final String mName;
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
-        View view = convertView;
-        int viewType = getItemViewType(i);
-
-        switch (viewType) {
-            default:
-                if (view == null)
-                    view = LayoutInflater.from(context).inflate(R.layout.list_header, null);
-                ((TextView) view).setText(items.get(i).toString());
-                break;
-            case 1:
-                view = SongAdapter.getViewForSong(context, (QueueItem) items.get(i), view, false);
-                break;
-            case 2:
-                view = AlbumAdapter.getViewForAlbum(context, (Album) items.get(i), convertView);
-                break;
-            case 3:
-                view = ArtistAdapter.getViewForArtist(context, (Artist) items.get(i), convertView, false);
-                break;
+        public Header(Context context, int name) {
+            mName = context.getString(name);
         }
 
-        int leftRightPad = 0;
-        if (viewType == 0) {
-            leftRightPad = context.getResources().getDimensionPixelSize(R.dimen.list_header_side_padding);
-        } else {
-            leftRightPad = context.getResources().getDimensionPixelSize(R.dimen.list_side_padding);
+        @Override
+        public String toString() {
+            return mName;
         }
-        view.setPadding(leftRightPad, view.getPaddingTop(), leftRightPad, view.getPaddingBottom());
 
-        return view;
+        @Override
+        public Object getSilkId() {
+            return mName;
+        }
+
+        @Override
+        public boolean equalTo(Header other) {
+            return mName.equals(other.mName);
+        }
     }
 }

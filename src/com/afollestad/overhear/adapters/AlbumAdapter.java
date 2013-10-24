@@ -2,7 +2,6 @@ package com.afollestad.overhear.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
@@ -10,10 +9,9 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.Overhear;
@@ -27,17 +25,20 @@ import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.ViewUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Album;
+import com.afollestad.silk.adapters.SilkCursorAdapter;
 import com.afollestad.silk.views.image.SilkImageView;
 
 import java.util.ArrayList;
 
-public class AlbumAdapter extends SimpleCursorAdapter {
+public class AlbumAdapter extends SilkCursorAdapter<Album> {
 
-    private final Activity context;
-
-    public AlbumAdapter(Activity context, int layout, Cursor c, String[] from, int[] to, int flags) {
-        super(context, layout, c, from, to, flags);
-        this.context = context;
+    public AlbumAdapter(Activity context, Cursor c) {
+        super(context, R.layout.album_item, c, new CursorConverter<Album>() {
+            @Override
+            public Album convert(Cursor cursor) {
+                return Album.fromCursor(cursor);
+            }
+        });
     }
 
     public static void retrieveAlbumArt(Activity context, Album album, SilkImageView view) {
@@ -54,14 +55,16 @@ public class AlbumAdapter extends SimpleCursorAdapter {
         }
     }
 
-    public static View getViewForAlbum(final Activity context, final Album album, View view) {
+    public static View getViewForAlbum(final Activity context, final Album album, View view, int scrollState) {
         if (view == null)
             view = LayoutInflater.from(context).inflate(R.layout.album_item, null);
         ((TextView) view.findViewById(R.id.title)).setText(album.getName());
         ((TextView) view.findViewById(R.id.artist)).setText(album.getArtist().getName());
 
         final SilkImageView image = (SilkImageView) view.findViewById(R.id.image);
-        retrieveAlbumArt(context, album, image);
+        if (scrollState > -1 && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
+            retrieveAlbumArt(context, album, image);
+        else image.setImageBitmap(null);
 
         View options = view.findViewById(R.id.options);
         options.setOnClickListener(new View.OnClickListener() {
@@ -158,34 +161,20 @@ public class AlbumAdapter extends SimpleCursorAdapter {
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.album_item, null);
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View view = super.getView(position, convertView, parent);
-        if (view == null) {
-            view = convertView;
-        }
-
-        getCursor().moveToPosition(position);
-        Album album = Album.fromCursor(getCursor());
-        view = getViewForAlbum(context, album, view);
-
-        int pad = context.getResources().getDimensionPixelSize(R.dimen.list_top_padding);
-        if (position == 0) {
+    public View onViewCreated(int index, View recycled, Album item) {
+        recycled = getViewForAlbum((Activity) getContext(), item, recycled, getScrollState());
+        int pad = getContext().getResources().getDimensionPixelSize(R.dimen.list_top_padding);
+        if (index == 0) {
             if (getCount() == 1) {
-                ViewUtils.relativeMargins(view, pad, pad);
+                ViewUtils.relativeMargins(recycled, pad, pad);
             } else {
-                ViewUtils.relativeMargins(view, pad, 0);
+                ViewUtils.relativeMargins(recycled, pad, 0);
             }
-        } else if (position == getCount() - 1) {
-            ViewUtils.relativeMargins(view, 0, pad);
+        } else if (index == getCount() - 1) {
+            ViewUtils.relativeMargins(recycled, 0, pad);
         } else {
-            ViewUtils.relativeMargins(view, 0, 0);
+            ViewUtils.relativeMargins(recycled, 0, 0);
         }
-
-        return view;
+        return recycled;
     }
 }

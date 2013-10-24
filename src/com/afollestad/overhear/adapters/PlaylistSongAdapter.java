@@ -2,15 +2,12 @@ package com.afollestad.overhear.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -24,33 +21,28 @@ import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Playlist;
+import com.afollestad.silk.adapters.SilkCursorAdapter;
 
-public class PlaylistSongAdapter extends CursorAdapter {
+public class PlaylistSongAdapter extends SilkCursorAdapter<QueueItem> {
 
-    public PlaylistSongAdapter(Context context, Cursor c, int flags) {
-        super(context, c, flags);
-        this.activity = (Activity) context;
+    private Playlist list = null;
+
+    public PlaylistSongAdapter(Activity context, Cursor c, Playlist playlist) {
+        super(context, R.layout.song_item, c, null);
+        this.list = playlist;
+        setConverter(new CursorConverter<QueueItem>() {
+            @Override
+            public QueueItem convert(Cursor cursor) {
+                return QueueItem.fromCursor(cursor, list.getId(), QueueItem.SCOPE_PLAYLIST);
+            }
+        });
     }
 
-    private final Activity activity;
-    private Playlist list;
-
-    public void setPlaylist(Playlist list) {
-        this.list = list;
-    }
-
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.song_item, null);
-    }
-
-    private static View getViewForSong(final Activity context, final QueueItem song, View view, final Playlist list) {
+    private static View getViewForSong(final Activity context, View view, final QueueItem song, final Playlist list) {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.song_item, null);
         }
-
         ((TextView) view.findViewById(R.id.title)).setText(song.getTitle(context));
-
         View options = view.findViewById(R.id.options);
         options.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,9 +133,12 @@ public class PlaylistSongAdapter extends CursorAdapter {
         return view;
     }
 
+    public void setPlaylist(Playlist list) {
+        this.list = list;
+    }
+
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        QueueItem item = QueueItem.fromCursor(cursor, list.getId(), QueueItem.SCOPE_PLAYLIST);
-        getViewForSong(activity, item, view, list);
+    public View onViewCreated(int index, View recycled, QueueItem item) {
+        return getViewForSong((Activity) getContext(), recycled, item, list);
     }
 }

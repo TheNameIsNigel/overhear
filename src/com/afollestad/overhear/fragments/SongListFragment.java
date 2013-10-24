@@ -5,10 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
-import android.widget.CursorAdapter;
+import android.view.View;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.SongAdapter;
 import com.afollestad.overhear.base.OverhearListFragment;
@@ -17,32 +17,52 @@ import com.afollestad.overhear.service.MusicService;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.Genre;
+import com.afollestad.silk.adapters.SilkCursorAdapter;
 
 /**
  * Loads and displays a list of songs; used for displaying all songs, songs from albums, songs from artists, etc.
  *
  * @author Aidan Follestad
  */
-public class SongListFragment extends OverhearListFragment {
-
-    private SongAdapter adapter;
-    private Genre genre;
+public class SongListFragment extends OverhearListFragment<QueueItem> {
 
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (adapter != null)
-                adapter.notifyDataSetChanged();
+            if (getAdapter() != null)
+                getAdapter().notifyDataSetChanged();
         }
     };
-
+    private Genre genre;
 
     public SongListFragment() {
     }
 
+    public static void performOnClick(Activity context, QueueItem song, Album album, Artist artist, Genre genre, int scope, int position) {
+        Intent intent = new Intent(context, MusicService.class)
+                .setAction(MusicService.ACTION_PLAY_ALL)
+                .putExtra("song", song.getSongId())
+                .putExtra("scope", scope)
+                .putExtra("position", position);
+        if (album != null)
+            intent.putExtra("album", album.getJSON().toString());
+        if (artist != null)
+            intent.putExtra("artist", artist.getJSON().toString());
+        if (genre != null)
+            intent.putExtra("genre", genre.getJSON().toString());
+        context.startService(intent);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null && getArguments().containsKey("genre"))
+            genre = Genre.fromJSON(getArguments().getString("genre"));
+    }
+
     @Override
     public Uri getLoaderUri() {
-        Uri uri = null;
+        Uri uri;
         if (getArguments() != null && getArguments().containsKey("genre")) {
             genre = Genre.fromJSON(getArguments().getString("genre"));
             uri = MediaStore.Audio.Genres.Members.getContentUri("external", genre.getId());
@@ -54,7 +74,7 @@ public class SongListFragment extends OverhearListFragment {
 
     @Override
     public String getLoaderSelection() {
-        String[] scope = null;
+        String[] scope;
         if (genre != null) {
             scope = new String[]{null, null};
         } else {
@@ -70,22 +90,13 @@ public class SongListFragment extends OverhearListFragment {
 
     @Override
     public String getLoaderSort() {
-        String[] scope = null;
+        String[] scope;
         if (genre != null) {
             scope = new String[]{null, null};
         } else {
             scope = getScope();
         }
         return scope[1];
-    }
-
-    @Override
-    public CursorAdapter getAdapter() {
-        if (adapter == null) {
-            adapter = new SongAdapter(getActivity(), null, 0);
-            adapter.setIsAlbum(getArguments() != null && getArguments().containsKey("album"));
-        }
-        return adapter;
     }
 
     @Override
@@ -101,13 +112,19 @@ public class SongListFragment extends OverhearListFragment {
     }
 
     @Override
-    public String getEmptyText() {
-        return getString(R.string.no_songs);
+    public int getEmptyText() {
+        return R.string.no_songs;
     }
 
     @Override
-    public void onItemClick(int position, Cursor cursor) {
-        QueueItem song = QueueItem.fromCursor(adapter.getCursor(), -1, getScopeInt());
+    protected SilkCursorAdapter<QueueItem> initializeAdapter() {
+        SongAdapter adapter = new SongAdapter(getActivity(), null);
+        adapter.setIsAlbum(getArguments() != null && getArguments().containsKey("album"));
+        return adapter;
+    }
+
+    @Override
+    protected void onItemTapped(int index, QueueItem item, View view) {
         Album album = null;
         Artist artist = null;
         if (getArguments() != null) {
@@ -116,29 +133,12 @@ public class SongListFragment extends OverhearListFragment {
             if (getArguments().containsKey("artist"))
                 artist = Artist.fromJSON(getArguments().getString("artist"));
         }
-        performOnClick(getActivity(), song, album, artist, genre, getScopeInt(), position);
+        performOnClick(getActivity(), item, album, artist, genre, getScopeInt(), index);
     }
 
     @Override
-    public void onInitialize() {
-        if (getArguments() != null && getArguments().containsKey("genre"))
-            genre = Genre.fromJSON(getArguments().getString("genre"));
-    }
-
-
-    public static void performOnClick(Activity context, QueueItem song, Album album, Artist artist, Genre genre, int scope, int position) {
-        Intent intent = new Intent(context, MusicService.class)
-                .setAction(MusicService.ACTION_PLAY_ALL)
-                .putExtra("song", song.getSongId())
-                .putExtra("scope", scope)
-                .putExtra("position", position);
-        if (album != null)
-            intent.putExtra("album", album.getJSON().toString());
-        if (artist != null)
-            intent.putExtra("artist", artist.getJSON().toString());
-        if (genre != null)
-            intent.putExtra("genre", genre.getJSON().toString());
-        context.startService(intent);
+    protected boolean onItemLongTapped(int index, QueueItem item, View view) {
+        return false;
     }
 
     private String[] getScope() {

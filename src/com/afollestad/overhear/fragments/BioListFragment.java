@@ -2,16 +2,13 @@ package com.afollestad.overhear.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Spanned;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +21,7 @@ import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
 import com.afollestad.overhearapi.LastFM.ArtistInfo;
 import com.afollestad.overhearapi.Utils;
+import com.afollestad.silk.fragments.SilkFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 import twitter4j.ResponseList;
@@ -37,7 +35,7 @@ import java.util.ArrayList;
  *
  * @author Aidan Follestad
  */
-public class BioListFragment extends Fragment {
+public class BioListFragment extends SilkFragment {
 
     private final static int LOGIN_HANDER_RESULT = 600;
     private Artist artist;
@@ -72,46 +70,13 @@ public class BioListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.bio_fragment, null);
-        view.findViewById(R.id.socialUpdates).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (twitterUser == null)
-                    return;
-                Uri uri = Uri.parse("https://twitter.com/" + twitterUser.getScreenName() +
-                        "/status/" + twitterUser.getStatus().getId());
-                startActivity(new Intent(Intent.ACTION_VIEW).setData(uri));
-            }
-        });
-        view.findViewById(R.id.socialUpdates).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                twitter4j.Twitter twitter = Twitter.getTwitterInstance(getActivity(), true);
-                if (twitter == null) {
-                    return false;
-                }
-                if (possibleUsers == null) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            possibleUsers = getPossibleUsers();
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showAlternateAccountPopup();
-                                }
-                            });
-                        }
-                    }).start();
-                } else {
-                    showAlternateAccountPopup();
-                }
-                return true;
-            }
-        });
-        return view;
+    protected int getLayout() {
+        return R.layout.bio_fragment;
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
     }
 
     private void showAlternateAccountPopup() {
@@ -119,8 +84,7 @@ public class BioListFragment extends Fragment {
         builder.setTitle(R.string.alternate_accounts);
         ArrayList<CharSequence> items = new ArrayList<CharSequence>();
         items.add(getString(R.string.none_str));
-        for (int i = 0; i < possibleUsers.size(); i++) {
-            User user = possibleUsers.get(i);
+        for (User user : possibleUsers) {
             items.add("@" + user.getScreenName());
         }
         builder.setItems(items.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
@@ -150,8 +114,7 @@ public class BioListFragment extends Fragment {
     }
 
     private void loadLastFm() {
-        if (artist == null)
-            return;
+        if (artist == null) return;
         String currentBio = ((TextView) getView().findViewById(R.id.bioAbout)).getText().toString();
         if (!currentBio.equals(getString(R.string.loading_str))) {
             return;
@@ -212,8 +175,7 @@ public class BioListFragment extends Fragment {
     }
 
     private void loadTwitter() {
-        if (artist == null)
-            return;
+        if (artist == null) return;
         final Handler mHandler = new Handler();
         new Thread(new Runnable() {
             @SuppressWarnings("unused")
@@ -252,14 +214,11 @@ public class BioListFragment extends Fragment {
                                 if (possibleUser.isVerified()) {
                                     twitterUser = possibleUser;
                                     Twitter.setSocialAccount(getActivity(), artist, twitterUser.getId());
+                                    break;
                                 }
-                                break;
                             }
                         }
-                    } else {
-                        twitterUser = null;
-                    }
-
+                    } else twitterUser = null;
                     if (twitterUser != null) {
                         mHandler.post(new Runnable() {
                             public void run() {
@@ -284,9 +243,7 @@ public class BioListFragment extends Fragment {
                                 TextView updates = (TextView) getView().findViewById(R.id.bioUpdates);
                                 if (altTwit == 0) {
                                     updates.setText(R.string.social_profile_none);
-                                } else {
-                                    updates.setText(R.string.no_social_profile);
-                                }
+                                } else updates.setText(R.string.no_social_profile);
                                 updates.setVisibility(View.VISIBLE);
                                 getView().findViewById(R.id.bioUpdateSource).setVisibility(View.GONE);
                                 getView().findViewById(R.id.bioUpdatesAction).setVisibility(View.GONE);
@@ -310,14 +267,44 @@ public class BioListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == LOGIN_HANDER_RESULT && resultCode == Activity.RESULT_OK) {
+        if (requestCode == LOGIN_HANDER_RESULT && resultCode == Activity.RESULT_OK)
             update();
-        }
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.socialUpdates).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (twitterUser == null) return;
+                Uri uri = Uri.parse("https://twitter.com/" + twitterUser.getScreenName() +
+                        "/status/" + twitterUser.getStatus().getId());
+                startActivity(new Intent(Intent.ACTION_VIEW).setData(uri));
+            }
+        });
+        view.findViewById(R.id.socialUpdates).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                twitter4j.Twitter twitter = Twitter.getTwitterInstance(getActivity(), true);
+                if (twitter == null) return false;
+                else if (possibleUsers == null) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            possibleUsers = getPossibleUsers();
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showAlternateAccountPopup();
+                                }
+                            });
+                        }
+                    }).start();
+                } else showAlternateAccountPopup();
+                return true;
+            }
+        });
         loadLastFm();
         loadTwitter();
     }
@@ -325,8 +312,6 @@ public class BioListFragment extends Fragment {
     void update() {
         if (getActivity() != null && getView() != null) {
             loadTwitter();
-        } else {
-            twitterUser = null;
-        }
+        } else twitterUser = null;
     }
 }

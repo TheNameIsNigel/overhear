@@ -25,6 +25,7 @@ import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Artist;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Allows you to ic_search for songs, albums, artists, etc.
@@ -40,11 +41,7 @@ public class SearchScreen extends OverhearListActivity {
                 adapter.notifyDataSetChanged();
         }
     };
-
-
-    private SearchAdapter adapter;
     private final Handler mHandler = new Handler();
-    private String lastQuery;
     private final Runnable searchRunner = new Runnable() {
         @Override
         public void run() {
@@ -56,6 +53,8 @@ public class SearchScreen extends OverhearListActivity {
             });
         }
     };
+    private SearchAdapter adapter;
+    private String lastQuery;
 
     private Cursor openCursor(Uri uri, String query, String column) {
         query = query.replace("'", "\\'").replace("%", "\\%").replace("_", "\\_");
@@ -74,12 +73,14 @@ public class SearchScreen extends OverhearListActivity {
         }
 
         Cursor cursor = openCursor(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, query, MediaStore.Audio.AlbumColumns.ALBUM);
-        ArrayList<Album> albums = new ArrayList<Album>();
+        List<Album> albums = new ArrayList<Album>();
         while (cursor.moveToNext()) {
             albums.add(Album.fromCursor(cursor));
         }
-        if (albums.size() > 0)
-            adapter.add("Albums", albums.toArray());
+        if (albums.size() > 0) {
+            adapter.add(new SearchAdapter.Header(this, R.string.albums_str));
+            for (Album a : albums) adapter.add(a);
+        }
         cursor.close();
 
         cursor = openCursor(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, query, MediaStore.Audio.ArtistColumns.ARTIST);
@@ -87,8 +88,10 @@ public class SearchScreen extends OverhearListActivity {
         while (cursor.moveToNext()) {
             artists.add(Artist.fromCursor(cursor));
         }
-        if (artists.size() > 0)
-            adapter.add("Artists", artists.toArray());
+        if (artists.size() > 0) {
+            adapter.add(new SearchAdapter.Header(this, R.string.artists_str));
+            for (Artist a : artists) adapter.add(a);
+        }
         cursor.close();
 
         cursor = openCursor(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, query, MediaStore.Audio.Media.TITLE);
@@ -96,8 +99,10 @@ public class SearchScreen extends OverhearListActivity {
         while (cursor.moveToNext()) {
             songs.add(QueueItem.fromCursor(cursor, -1, QueueItem.SCOPE_ALBUM));
         }
-        if (songs.size() > 0)
-            adapter.add("Songs", songs.toArray());
+        if (songs.size() > 0) {
+            adapter.add(new SearchAdapter.Header(this, R.string.songs_str));
+            for (QueueItem s : songs) adapter.add(s);
+        }
         cursor.close();
     }
 

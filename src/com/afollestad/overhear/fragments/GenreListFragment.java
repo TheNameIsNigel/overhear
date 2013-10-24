@@ -3,24 +3,22 @@ package com.afollestad.overhear.fragments;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.widget.CursorAdapter;
+import android.view.View;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.adapters.GenreAdapter;
 import com.afollestad.overhear.base.OverhearListFragment;
 import com.afollestad.overhear.ui.GenreViewer;
 import com.afollestad.overhearapi.Genre;
+import com.afollestad.silk.adapters.SilkCursorAdapter;
 
 /**
  * Loads and displays a list of genres based on all songs on the device.
  *
  * @author Aidan Follestad
  */
-public class GenreListFragment extends OverhearListFragment {
-
-    private GenreAdapter adapter;
+public class GenreListFragment extends OverhearListFragment<Genre> {
 
     public GenreListFragment() {
     }
@@ -46,13 +44,6 @@ public class GenreListFragment extends OverhearListFragment {
     }
 
     @Override
-    public CursorAdapter getAdapter() {
-        if (adapter == null)
-            adapter = new GenreAdapter(getActivity(), null, 0);
-        return adapter;
-    }
-
-    @Override
     public BroadcastReceiver getReceiver() {
         return null;
     }
@@ -63,18 +54,23 @@ public class GenreListFragment extends OverhearListFragment {
     }
 
     @Override
-    public String getEmptyText() {
-        return getString(R.string.no_genres);
+    public int getEmptyText() {
+        return R.string.no_genres;
     }
 
     @Override
-    public void onItemClick(int position, Cursor cursor) {
-        Genre genre = Genre.fromCursor(adapter.getCursor());
+    protected SilkCursorAdapter<Genre> initializeAdapter() {
+        return new GenreAdapter(getActivity(), null);
+    }
+
+    @Override
+    protected void onItemTapped(int index, Genre item, View view) {
         startActivity(new Intent(getActivity(), GenreViewer.class)
-                .putExtra("genre", genre.getJSON().toString()));
+                .putExtra("genre", item.getJSON().toString()));
     }
 
     @Override
-    public void onInitialize() {
+    protected boolean onItemLongTapped(int index, Genre item, View view) {
+        return false;
     }
 }

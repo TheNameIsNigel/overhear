@@ -1,14 +1,11 @@
 package com.afollestad.overhear.fragments;
 
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.afollestad.overhear.R;
@@ -22,6 +19,7 @@ import com.afollestad.overhear.ui.NowPlayingViewer;
 import com.afollestad.overhear.ui.PlaylistViewer;
 import com.afollestad.overhearapi.Album;
 import com.afollestad.overhearapi.Playlist;
+import com.afollestad.silk.fragments.SilkFragment;
 import com.afollestad.silk.views.image.SilkImageView;
 
 import java.lang.ref.WeakReference;
@@ -31,7 +29,7 @@ import java.lang.ref.WeakReference;
  *
  * @author Aidan Follestad
  */
-public class NowPlayingBarFragment extends Fragment {
+public class NowPlayingBarFragment extends SilkFragment {
 
     private final BroadcastReceiver mStatusReceiver = new BroadcastReceiver() {
         @Override
@@ -79,9 +77,13 @@ public class NowPlayingBarFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        return inflater.inflate(R.layout.now_playing_bar, null);
+    protected int getLayout() {
+        return R.layout.now_playing_bar;
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
     }
 
     @Override
@@ -210,7 +212,6 @@ public class NowPlayingBarFragment extends Fragment {
         }
 
         playPause.get().setImageResource(R.drawable.ic_play);
-        lastPlayed = null;
         previous.get().setEnabled(false);
         next.get().setEnabled(false);
     }

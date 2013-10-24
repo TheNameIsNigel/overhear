@@ -2,7 +2,6 @@ package com.afollestad.overhear.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
@@ -10,10 +9,9 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import com.afollestad.overhear.R;
 import com.afollestad.overhear.base.Overhear;
@@ -26,17 +24,20 @@ import com.afollestad.overhear.utils.MusicUtils;
 import com.afollestad.overhear.utils.WebArtUtils;
 import com.afollestad.overhearapi.Artist;
 import com.afollestad.overhearapi.LastFM;
+import com.afollestad.silk.adapters.SilkCursorAdapter;
 import com.afollestad.silk.views.image.SilkImageView;
 
 import java.util.ArrayList;
 
-public class ArtistAdapter extends SimpleCursorAdapter {
+public class ArtistAdapter extends SilkCursorAdapter<Artist> {
 
-    private final Activity context;
-
-    public ArtistAdapter(Activity context, int layout, Cursor c, String[] from, int[] to, int flags) {
-        super(context, layout, c, from, to, flags);
-        this.context = context;
+    public ArtistAdapter(Activity context, Cursor c) {
+        super(context, R.layout.artist_item, c, new CursorConverter<Artist>() {
+            @Override
+            public Artist convert(Cursor cursor) {
+                return Artist.fromCursor(cursor);
+            }
+        });
     }
 
     public static void retrieveArtistArt(Activity context, Artist artist, SilkImageView view, boolean fitView) {
@@ -45,7 +46,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         if (url == null) {
             new LastfmGetArtistImage(context, view).execute(artist);
         } else {
-            view.setImageURL(Overhear.get(context).getManager(), url);
+            view.setFitView(fitView).setImageURL(Overhear.get(context).getManager(), url);
         }
     }
 
@@ -95,7 +96,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
         return view;
     }
 
-    public static View getViewForArtist(final Activity context, final Artist artist, View view, boolean grid) {
+    public static View getViewForArtist(final Activity context, final Artist artist, View view, boolean grid, int scrollState) {
         if (view == null) {
             if (grid)
                 view = LayoutInflater.from(context).inflate(R.layout.artist_item, null);
@@ -109,7 +110,9 @@ public class ArtistAdapter extends SimpleCursorAdapter {
                 .replace("{tracks}", "" + artist.getTrackCount()));
 
         final SilkImageView image = (SilkImageView) view.findViewById(R.id.image);
-        retrieveArtistArt(context, artist, image, true);
+        if (scrollState > -1 && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
+            retrieveArtistArt(context, artist, image, true);
+        else image.setImageBitmap(null);
 
         View options = view.findViewById(R.id.options);
         if (options != null) {
@@ -169,14 +172,7 @@ public class ArtistAdapter extends SimpleCursorAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        getCursor().moveToPosition(position);
-        final Artist artist = Artist.fromCursor(getCursor());
-        return getViewForArtist(context, artist, convertView, true);
-    }
-
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.artist_item, null);
+    public View onViewCreated(int index, View recycled, Artist item) {
+        return getViewForArtist((Activity) getContext(), item, recycled, true, getScrollState());
     }
 }
