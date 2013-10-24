@@ -27,7 +27,7 @@ public class SearchAdapter extends SilkAdapter<SilkComparable> {
             case 2:
                 return R.layout.album_item;
             case 3:
-                return R.layout.artist_item;
+                return R.layout.artist_item_nongrid;
         }
     }
 
