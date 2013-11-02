@@ -62,15 +62,9 @@ public class OverviewScreen extends OverhearActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Create the favorites playlist if it doesn't already exist so songs, artists, and albums can be added to it manually
         MusicUtils.createFavoritesIfNotExists(this);
         setupTabs();
-
-        //TODO remove when no longer needed
-        File oldCacheDir = new File(Environment.getExternalStorageDirectory(), "Overhear");
-        if (oldCacheDir.exists())
-            oldCacheDir.delete();
     }
 
     /**
