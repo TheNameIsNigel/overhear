@@ -87,7 +87,7 @@ public class BioListFragment extends SilkFragment {
         for (User user : possibleUsers) {
             items.add("@" + user.getScreenName());
         }
-        builder.setItems(items.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
+        builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 if (which == 0) {

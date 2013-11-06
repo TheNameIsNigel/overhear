@@ -66,7 +66,7 @@ public class MusicUtils {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setTitle(R.string.add_to_playlist)
-                .setItems(items.toArray(new CharSequence[0]), new DialogInterface.OnClickListener() {
+                .setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         if (which == 0) {

@@ -130,7 +130,7 @@ public class NowPlayingBarFragment extends SilkFragment {
                 } else if (album != null) {
                     if (getActivity() instanceof AlbumViewer &&
                             (!album.getName().equals(focused.getAlbum(getActivity())) ||
-                                    !album.getArtist().equals(focused.getArtist(getActivity())))) {
+                                    !album.getArtist().getName().equals(focused.getArtist(getActivity())))) {
                         return false;
                     }
                     startActivity(new Intent(getActivity(), AlbumViewer.class)
