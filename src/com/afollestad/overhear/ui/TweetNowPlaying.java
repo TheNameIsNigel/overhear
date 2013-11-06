@@ -24,9 +24,8 @@ import twitter4j.User;
  */
 public class TweetNowPlaying extends OverhearActivity {
 
-    private twitter4j.Twitter twitter;
     private final static int TWEET_PLAYING_LOGIN = 400;
-
+    private twitter4j.Twitter twitter;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -121,9 +120,9 @@ public class TweetNowPlaying extends OverhearActivity {
                     try {
                         ResponseList<User> twitterMatches = twitter.searchUsers(last.getArtist(getApplicationContext()), 0);
                         if (twitterMatches.size() > 0) {
-                            for (int i = 0; i < twitterMatches.size(); i++) {
-                                if (twitterMatches.get(i).isVerified()) {
-                                    displayArtist = "@" + twitterMatches.get(i).getScreenName();
+                            for (User twitterMatch : twitterMatches) {
+                                if (twitterMatch.isVerified()) {
+                                    displayArtist = "@" + twitterMatch.getScreenName();
                                     break;
                                 }
                             }
