@@ -74,7 +74,7 @@ public class SearchAdapter extends SilkAdapter<SilkComparable> {
     }
 
     @Override
-    protected long getItemId(SilkComparable item) {
+    public long getItemId(SilkComparable item) {
         if (item.getSilkId() instanceof Long)
             return (Long) item.getSilkId();
         else return -1;
